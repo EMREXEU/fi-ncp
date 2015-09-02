@@ -35,6 +35,7 @@ public class ThymeController {
     @RequestMapping("/thyme")
     String thyme(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model){
         System.out.println("thyme");
+        System.out.println("Return URL:"+context.getSession().getAttribute("returnUrl"));
         model.addAttribute("name", name);
         return "thyme";
     }
@@ -58,7 +59,7 @@ public class ThymeController {
     public String doLogin(@ModelAttribute User user, Model model) throws Exception {
         System.out.println("userName: " + user.getName());
         System.out.println("password: " + user.getPassword());
-        
+        System.out.println("Return URL:"+context.getSession().getAttribute("returnUrl"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.addAttribute("elmo", getElmo());
         
