@@ -1,10 +1,5 @@
 <h1>Elmo</h1>
 <div>
-    <p>The returnUrl is {{greeting.returnUrl}}</p>
-    <p>The sessionId is {{greeting.sessionId}}</p>
-    <p>The elmoXml is {{greeting.elmoXml}}</p>
-</div>
-<div>
     <form action={{greeting.returnUrl}}" method="POST">
         <input type="hidden" name="sessionId" value="{{greeting.sessionId}}"/>
         <input type="hidden" name="elmo" value="{{greeting.elmoXml}}"/>
