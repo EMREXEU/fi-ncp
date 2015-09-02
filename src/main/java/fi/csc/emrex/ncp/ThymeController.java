@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Base64;
+
 /**
  *
  * @author salum
@@ -49,8 +51,6 @@ public class ThymeController {
         System.out.println("Return URL: " + context.getSession().getAttribute("returnUrl"));
         System.out.println("Session ID: " + context.getSession().getAttribute("sessionId"));
 
-        // TODO redirect fiksummin
-        
         return "norex";
     }
     
@@ -58,11 +58,14 @@ public class ThymeController {
     public String doLogin(@ModelAttribute User user, Model model) throws Exception {
         System.out.println("userName: " + user.getName());
         System.out.println("password: " + user.getPassword());
-        
+
+        model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
-        model.addAttribute("elmo", getElmo());
+
+        final String encodedXml = Base64.getEncoder().encodeToString(getElmo().getBytes());
+
+        model.addAttribute("elmo", encodedXml);
         
-       
         return "doLogin";
     }
     

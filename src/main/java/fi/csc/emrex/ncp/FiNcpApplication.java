@@ -12,12 +12,10 @@ import java.nio.file.Paths;
 
 public class FiNcpApplication {
 
+    private static final String ELMO_XML = "src/main/resources/Example-elmo-Finland.xml";
 
-
-    public static String getElmo() throws Exception{
-        return StringEscapeUtils.escapeHtml(
-                new String(Files.readAllBytes(
-                        Paths.get(new File("src/main/resources/Example-elmo-Finland.xml").getAbsolutePath()))));
+    public static String getElmo() throws Exception {
+        return new String(Files.readAllBytes(Paths.get(new File(ELMO_XML).getAbsolutePath())));
     }
 
     public static void main(String[] args) {
