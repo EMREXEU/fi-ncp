@@ -1,6 +1,6 @@
-app = angular.module('hello', [ 'ngRoute' ]);
+app = angular.module('fi-ncp', [ 'ngRoute' ]);
 
-app.config(function($routeProvider, $httpProvider, $locationProvider) {
+app.config(function($routeProvider, $httpProvider) {
 
     $routeProvider.
         when('/', {
@@ -44,7 +44,7 @@ app.controller(
 
 app.controller(
     'norex',
-    function($scope, $http, $location) {
+    function($scope, $http) {
         $http.post('/norex/').success(function(data) {
             console.log("NOREX");
         })
@@ -54,7 +54,6 @@ app.controller(
     'login',
     function($scope, $http) {
         $http.get('/login/').success(function(data) {
-            $location.path('/elmo/');
             console.log(data);
             $scope.greeting = data;
         })
@@ -63,10 +62,10 @@ app.controller(
 
 app.controller(
     'doLogin',
-    function($scope, $http, $location, $window) {
+    function($scope, $http, $location) {
         $http.post('/doLogin/').success(function(data) {
             $scope.greeting = data;
-            $window.location.href= "#elmo";
+            $location.path("/elmo");
         })
     }
 );
@@ -74,6 +73,10 @@ app.controller(
 app.controller(
     'elmo',
     function($scope, $http) {
+
+
+
+
         $http.post('/elmo/').success(function(data) {
             console.log(data);
             $scope.greeting = data;
