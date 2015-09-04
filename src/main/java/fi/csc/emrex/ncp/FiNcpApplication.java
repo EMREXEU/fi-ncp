@@ -4,12 +4,17 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @SpringBootApplication
-
+@Configuration
+@ComponentScan
+@EnableAutoConfiguration
 public class FiNcpApplication {
 
     private static final String ELMO_XML = "src/main/resources/Example-elmo-Finland.xml";
