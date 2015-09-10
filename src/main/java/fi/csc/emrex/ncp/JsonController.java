@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class JsonController {
+
     @Autowired
     private HttpServletRequest context;
         
@@ -30,7 +31,6 @@ public class JsonController {
     public @ResponseBody Map<String,Object> test() {
 
         System.out.println("Login");
-System.out.println("Return URL:"+context.getSession().getAttribute("returnUrl"));
         Map<String,Object> model = new HashMap<>();
         model.put("id", "zzz");
         model.put("content", "Oh well");
@@ -41,7 +41,6 @@ System.out.println("Return URL:"+context.getSession().getAttribute("returnUrl"))
     public Map<String,Object> fetchElmoXml() throws Exception {
 
         System.out.println("elmo");
-System.out.println("Return URL:"+context.getSession().getAttribute("returnUrl"));
         Map<String,Object> model = new HashMap<>();
         model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
@@ -52,7 +51,6 @@ System.out.println("Return URL:"+context.getSession().getAttribute("returnUrl"))
     public Map<String,Object> home() {
 
         System.out.println("Here we go again");
-System.out.println("Return URL:"+context.getSession().getAttribute("returnUrl"));
         Map<String,Object> model = new HashMap<>();
         model.put("id", UUID.randomUUID().toString());
         model.put("content", "Hello World");
