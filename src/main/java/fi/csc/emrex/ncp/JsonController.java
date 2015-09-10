@@ -7,15 +7,21 @@
 package fi.csc.emrex.ncp;
 
 import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
+import java.util.Base64;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.json.JSONObject;
+import org.json.XML;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -46,6 +52,43 @@ public class JsonController {
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
         model.put("elmoXml", getElmo());
         return model;
+    }
+    @RequestMapping(value="/api/elmo", method=RequestMethod.GET)
+    @ResponseBody
+    public String getElmoJSON(
+            @RequestParam(value="courses", required=false) String[] courses) throws Exception {
+        System.out.println("/api/elmo");
+        try {
+
+            String elmo = (String) context.getSession().getAttribute("elmo");
+  
+//            System.out.println(elmo);
+            JSONObject json = XML.toJSONObject(elmo);
+
+            if (courses == null || courses.length<1) {
+                System.out.println("null courses");
+                System.out.println(json.toString());
+                return json.toString();
+
+            } else {
+                for (String courseID : courses) {
+                    System.out.println(courseID);
+                }
+                return json.toString();
+            }
+        } catch (Exception e) {
+
+            StackTraceElement elements[] = e.getStackTrace();
+            Map<String, Object> error = new HashMap<String, Object>();
+            Map<String, Object> log = new HashMap<String, Object>();
+            error.put("message", e.getMessage());
+            for (int i = 0, n = elements.length; i < n; i++) {
+                log.put(elements[i].getFileName() + " " + elements[i].getLineNumber(),
+                        elements[i].getMethodName());
+            }
+            error.put("stack", log);
+            return new JSONObject(error);
+        }
     }
     @RequestMapping("/resource")
     public Map<String,Object> home() {

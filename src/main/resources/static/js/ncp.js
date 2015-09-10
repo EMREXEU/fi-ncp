@@ -35,11 +35,14 @@ app.controller(
     'home',
     function($scope, $http) {
 
+        $http.get('/api/elmo').success(function(data) {
+            console.log("call elmo");
+            $scope.elmo = data;
+        });
         $http.get('/resource/').success(function(data) {
             console.log("HOME");
             $scope.greeting = data;
-        })
-
+        });
 });
 
 app.controller(

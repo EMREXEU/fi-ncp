@@ -90,8 +90,8 @@ public class ThymeController {
     }
 
     private String getXMLFromVirta(String user) throws Exception{
-          final String encodedXml = Base64.getEncoder().encodeToString(getElmo().getBytes());
-          return encodedXml;
+          //final String encodedXml = Base64.getEncoder().encodeToString(getElmo().getBytes());
+          return getElmo();
     }
     
 
