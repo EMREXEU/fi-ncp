@@ -51,7 +51,16 @@ public class ThymeController {
         context.getSession().setAttribute("returnUrl", request.getReturnUrl());
         System.out.println("Return URL: " + context.getSession().getAttribute("returnUrl"));
         System.out.println("Session ID: " + context.getSession().getAttribute("sessionId"));
-
+        try{
+        if ( hakaLogin()){
+            String user="";
+            String elmoXML = getXMLFromVirta(user);
+            context.getSession().setAttribute("elmo", elmoXML);
+            return "norex";
+        }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
         return "norex";
     }
     
@@ -63,11 +72,26 @@ public class ThymeController {
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
 
-        final String encodedXml = Base64.getEncoder().encodeToString(getElmo().getBytes());
-
-        model.addAttribute("elmo", encodedXml);
+      
+        //model.addAttribute("elmo", encodedXml);
         
         return "doLogin";
+        
+    }
+    @RequestMapping(value="/test", method=RequestMethod.GET)
+    public String test(){
+        return "test";
+    }
+
+    private boolean hakaLogin() {
+        //TODO
+        return true;
+  
+    }
+
+    private String getXMLFromVirta(String user) throws Exception{
+          final String encodedXml = Base64.getEncoder().encodeToString(getElmo().getBytes());
+          return encodedXml;
     }
     
 
