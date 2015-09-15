@@ -7,6 +7,7 @@
 package fi.csc.emrex.ncp;
 
 import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
+import fi.csc.emrex.ncp.elmo.ElmoParser;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
@@ -61,9 +62,9 @@ public class JsonController {
         try {
 
             String elmo = (String) context.getSession().getAttribute("elmo");
-  
+            ElmoParser parser = new ElmoParser(elmo);
 //            System.out.println(elmo);
-            JSONObject json = XML.toJSONObject(elmo);
+            JSONObject json = XML.toJSONObject(parser.getCourseData());
 
             if (courses == null || courses.length<1) {
                 System.out.println("null courses");
@@ -87,7 +88,7 @@ public class JsonController {
                         elements[i].getMethodName());
             }
             error.put("stack", log);
-            return new JSONObject(error);
+            return new JSONObject(error).toString();
         }
     }
     @RequestMapping("/resource")
