@@ -1,6 +1,5 @@
 package fi.csc.emrex.ncp;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,10 +16,11 @@ import java.nio.file.Paths;
 @EnableAutoConfiguration
 public class FiNcpApplication {
 
-    private static final String ELMO_XML = "src/main/resources/Example-elmo-Finland.xml";
+    private static final String ELMO_XML_FIN = "src/main/resources/Example-elmo-Finland.xml";
+    private static final String ELMO_XML_NOR = "src/main/resources/Example-elmo-Norway.xml";
 
     public static String getElmo() throws Exception {
-        return new String(Files.readAllBytes(Paths.get(new File(ELMO_XML).getAbsolutePath())));
+        return new String(Files.readAllBytes(Paths.get(new File(ELMO_XML_FIN).getAbsolutePath())));
     }
 
     public static void main(String[] args) {
