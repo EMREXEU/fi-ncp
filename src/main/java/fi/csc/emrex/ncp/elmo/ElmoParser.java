@@ -7,6 +7,7 @@ package fi.csc.emrex.ncp.elmo;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 //import javax.lang.model.element.Element;
@@ -51,7 +52,7 @@ public class ElmoParser {
             for (int i = 0; i < learnings.getLength(); i++) {
                 Element identifier = document.createElement("indentifier");
                 identifier.setAttribute("type", "elmo");
-                identifier.setTextContent( String.valueOf(i));
+                identifier.setTextContent(String.valueOf(i));
                 Element e = (Element) learnings.item(i);
                 e.appendChild(identifier);
             }
@@ -76,6 +77,37 @@ public class ElmoParser {
         for (int i = 0; i < learnings.getLength(); i++) {
             Node newNode = doc.importNode(learnings.item(i), true);
             rootElement.appendChild(newNode);
+        }
+
+        doc.appendChild(rootElement);
+        return getStringFromDoc(doc);
+
+    }
+
+    public String getCourseData(List<String> courses) throws ParserConfigurationException {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        Document doc = docBuilder.newDocument();
+        org.w3c.dom.Element rootElement = doc.createElement("elmo");
+        Node learner;
+        NodeList learners = document.getElementsByTagName("learner");
+        learner = doc.importNode(learners.item(0), true);
+        rootElement.appendChild(learner);
+        NodeList learnings = document.getElementsByTagName("learningOpportunitySpecification");
+        for (int i = 0; i < learnings.getLength(); i++) {
+            Element specification = (Element) learnings.item(i);
+            NodeList identifiers = specification.getElementsByTagName("identfier");
+            for (int j = 0; j < identifiers.getLength(); j++) {
+                Element id = (Element) identifiers.item(j);
+                if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
+                    if (courses.contains(id.getTextContent())) {
+                        Node newNode = doc.importNode(learnings.item(i), true);
+                        rootElement.appendChild(newNode);
+                    }
+
+                }
+            }
+
         }
 
         doc.appendChild(rootElement);

@@ -8,9 +8,12 @@ package fi.csc.emrex.ncp;
 
 import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
@@ -63,20 +66,21 @@ public class JsonController {
 
             String elmo = (String) context.getSession().getAttribute("elmo");
             ElmoParser parser = new ElmoParser(elmo);
-//            System.out.println(elmo);
-            JSONObject json = XML.toJSONObject(parser.getCourseData());
-
+            String xmlString;
             if (courses == null || courses.length<1) {
                 System.out.println("null courses");
-                System.out.println(json.toString());
-                return json.toString();
+
+                
+                xmlString= parser.getCourseData();
 
             } else {
-                for (String courseID : courses) {
-                    System.out.println(courseID);
-                }
-                return json.toString();
-            }
+                List<String> courseList = Arrays.asList(courses);
+                xmlString = parser.getCourseData(courseList);
+            }           
+            
+            JSONObject json = XML.toJSONObject(xmlString);
+            System.out.println(json.toString());
+            return json.toString();
         } catch (Exception e) {
 
             StackTraceElement elements[] = e.getStackTrace();
