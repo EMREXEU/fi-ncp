@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<script type="text/ng-template" id="learningtemplate">
+    <div>opportunity</div>
+    <div>{{report}}</div>
+    <div>{{subLearningOpportunity.title}}</div>
+    <div ng-repeat="language in report.learingOpportunity.title">
+        <div>item</div>
+        <div>{{language.__text}}</div>
+        <div ng-repeat="language in title"></div>
+    </div>
+    <div ng-repeat="subLearningOpportunity in subLearningOpportunity.hasPart">
+        <div>haspart</div>
+        <learning-opportunity opportunity="subLearningOpportunity"></learning-opportunity>
+    </div>
+</script>
 
-</body>
-</html>
+<h1>Course Selection</h1>
+<div>Learner</div>
+<div>{{report.learner.fullName}}</div>
+<div ng-repeat="subLearningOpportunity in learningOpportunities" ng-include="'learningtemplate'"/>
+

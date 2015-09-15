@@ -7,14 +7,11 @@
 package fi.csc.emrex.ncp;
 
 import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
-import java.util.Base64;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +29,7 @@ public class JsonController {
 
     @Autowired
     private HttpServletRequest context;
-        
+
     @RequestMapping(value="/login", method= RequestMethod.GET, produces ="application/json;charset=UTF-8", headers="Accept=*")
     public @ResponseBody Map<String,Object> test() {
 
@@ -61,7 +58,7 @@ public class JsonController {
         try {
 
             String elmo = (String) context.getSession().getAttribute("elmo");
-  
+
 //            System.out.println(elmo);
             JSONObject json = XML.toJSONObject(elmo);
 
@@ -87,7 +84,7 @@ public class JsonController {
                         elements[i].getMethodName());
             }
             error.put("stack", log);
-            return new JSONObject(error);
+            return new JSONObject(error).toString();
         }
     }
     @RequestMapping("/resource")
