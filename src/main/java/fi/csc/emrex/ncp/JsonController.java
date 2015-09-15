@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package fi.csc.emrex.ncp;
 
 import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
@@ -36,50 +35,55 @@ public class JsonController {
 
     @Autowired
     private HttpServletRequest context;
-        
-    @RequestMapping(value="/login", method= RequestMethod.GET, produces ="application/json;charset=UTF-8", headers="Accept=*")
-    public @ResponseBody Map<String,Object> test() {
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json;charset=UTF-8", headers = "Accept=*")
+    public @ResponseBody
+    Map<String, Object> test() {
 
         System.out.println("Login");
-        Map<String,Object> model = new HashMap<>();
+        Map<String, Object> model = new HashMap<>();
         model.put("id", "zzz");
         model.put("content", "Oh well");
         return model;
     }
-    @RequestMapping(value="/elmo", method=RequestMethod.GET)
+
+    @RequestMapping(value = "/elmo", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> fetchElmoXml() throws Exception {
+    public Map<String, Object> fetchElmoXml() throws Exception {
 
         System.out.println("elmo");
-        Map<String,Object> model = new HashMap<>();
+        Map<String, Object> model = new HashMap<>();
         model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
         model.put("elmoXml", getElmo());
         return model;
     }
-    @RequestMapping(value="/api/elmo", method=RequestMethod.GET)
+
+    @RequestMapping(value = "/api/elmo", method = RequestMethod.GET)
     @ResponseBody
     public String getElmoJSON(
-            @RequestParam(value="courses", required=false) String[] courses) throws Exception {
+            @RequestParam(value = "courses", required = false) String[] courses) throws Exception {
         System.out.println("/api/elmo");
         try {
 
             String elmo = (String) context.getSession().getAttribute("elmo");
             ElmoParser parser = new ElmoParser(elmo);
             String xmlString;
-            if (courses == null || courses.length<1) {
+            if (courses == null || courses.length < 1) {
                 System.out.println("null courses");
 
-                
-                xmlString= parser.getCourseData();
+                xmlString = parser.getCourseData();
 
             } else {
+
                 List<String> courseList = Arrays.asList(courses);
+                System.out.println("courses count: " + courseList.size());
                 xmlString = parser.getCourseData(courseList);
-            }           
-            
+              //  System.out.println(xmlString);
+            }
+
             JSONObject json = XML.toJSONObject(xmlString);
-            System.out.println(json.toString());
+            //System.out.println(json.toString());
             return json.toString();
         } catch (Exception e) {
 
@@ -95,15 +99,15 @@ public class JsonController {
             return new JSONObject(error).toString();
         }
     }
+
     @RequestMapping("/resource")
-    public Map<String,Object> home() {
+    public Map<String, Object> home() {
 
         System.out.println("Here we go again");
-        Map<String,Object> model = new HashMap<>();
+        Map<String, Object> model = new HashMap<>();
         model.put("id", UUID.randomUUID().toString());
         model.put("content", "Hello World");
         return model;
     }
-
 
 }
