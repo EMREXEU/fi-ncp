@@ -59,6 +59,12 @@ public class JsonController {
         return model;
     }
 
+    @RequestMapping(value = "/ncp/api/elmo", method = RequestMethod.GET)
+    @ResponseBody
+    public String npcGetElmoJSON(@RequestParam(value = "courses", required = false) String[] courses) throws Exception {
+            return this.getElmoJSON(courses);
+    }
+
     @RequestMapping(value = "/api/elmo", method = RequestMethod.GET)
     @ResponseBody
     public String getElmoJSON(
@@ -79,7 +85,7 @@ public class JsonController {
                 List<String> courseList = Arrays.asList(courses);
                 System.out.println("courses count: " + courseList.size());
                 xmlString = parser.getCourseData(courseList);
-              //  System.out.println(xmlString);
+                //  System.out.println(xmlString);
             }
 
             JSONObject json = XML.toJSONObject(xmlString);

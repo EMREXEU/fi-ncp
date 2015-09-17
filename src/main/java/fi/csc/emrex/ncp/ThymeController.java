@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package fi.csc.emrex.ncp;
 
 import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
@@ -24,25 +23,29 @@ import java.util.Base64;
  *
  * @author salum
  */
-
 @EnableAutoConfiguration(exclude = {
-        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
+    org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
 })
 @Controller
 public class ThymeController {
-    
+
     @Autowired
     private HttpServletRequest context;
-    
+
     @RequestMapping("/thyme")
-    String thyme(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model){
+    String thyme(@RequestParam(value = "name", required = false, defaultValue = "World") String name, Model model) {
         System.out.println("thyme");
-        System.out.println("Return URL:"+context.getSession().getAttribute("returnUrl"));
+        System.out.println("Return URL:" + context.getSession().getAttribute("returnUrl"));
         model.addAttribute("name", name);
         return "thyme";
     }
-        
-    @RequestMapping(value="/norex", method= RequestMethod.POST)
+
+    @RequestMapping(value = "/ncp/norex", method = RequestMethod.POST)
+    public String ncpGreeting(@ModelAttribute CustomRequest request) {
+        return this.greeting(request);
+    }
+
+    @RequestMapping(value = "/norex", method = RequestMethod.POST)
     public String greeting(@ModelAttribute CustomRequest request) {
 
         System.out.println("norex");
@@ -51,48 +54,46 @@ public class ThymeController {
         context.getSession().setAttribute("returnUrl", request.getReturnUrl());
         System.out.println("Return URL: " + context.getSession().getAttribute("returnUrl"));
         System.out.println("Session ID: " + context.getSession().getAttribute("sessionId"));
-        try{
-        if ( hakaLogin()){
-            String user="";
-            String elmoXML = getXMLFromVirta(user);
-            context.getSession().setAttribute("elmo", elmoXML);
-            return "norex";
-        }
-        }catch(Exception e){
+        try {
+            if (hakaLogin()) {
+                String user = "";
+                String elmoXML = getXMLFromVirta(user);
+                context.getSession().setAttribute("elmo", elmoXML);
+                return "norex";
+            }
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return "norex";
     }
-    
-    @RequestMapping(value="/doLogin", method=RequestMethod.POST)
+
+    @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
     public String doLogin(@ModelAttribute User user, Model model) throws Exception {
         System.out.println("userName: " + user.getName());
         System.out.println("password: " + user.getPassword());
-        System.out.println("Return URL:"+context.getSession().getAttribute("returnUrl"));
+        System.out.println("Return URL:" + context.getSession().getAttribute("returnUrl"));
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
 
-      
         //model.addAttribute("elmo", encodedXml);
-        
         return "doLogin";
-        
+
     }
-    @RequestMapping(value="/test", method=RequestMethod.GET)
-    public String test(){
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test() {
         return "test";
     }
 
     private boolean hakaLogin() {
         //TODO
         return true;
-  
+
     }
 
-    private String getXMLFromVirta(String user) throws Exception{
-          //final String encodedXml = Base64.getEncoder().encodeToString(getElmo().getBytes());
-          return getElmo();
+    private String getXMLFromVirta(String user) throws Exception {
+        //final String encodedXml = Base64.getEncoder().encodeToString(getElmo().getBytes());
+        return getElmo();
     }
-    
 
 }
