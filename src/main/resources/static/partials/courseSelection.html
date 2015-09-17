@@ -2,5 +2,6 @@
 <h1>Course Selection</h1>
 <div>Learner</div>
 <div>{{report.learner.fullName}}</div>
-<learning-opportunity-collection collection="learningOpportunities"></learning-opportunity-collection>
+<div>{{selectedIds}}</div>
+<learning-opportunity-collection add-id-fn="addId(id)" remove-id-fn="removeId(id)" collection="learningOpportunities"></learning-opportunity-collection>
 

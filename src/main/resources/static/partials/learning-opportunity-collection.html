@@ -1,5 +1,5 @@
 <ul>
 <div ng-repeat='member in collection'>
-    <learning-opportunity member='member.learningOpportunitySpecification'></learning-opportunity>
+    <learning-opportunity add-id-fn="addId(id)" remove-id-fn="removeId(id)" member='member.learningOpportunitySpecification'></learning-opportunity>
 </div>
 </ul>
