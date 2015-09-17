@@ -1,19 +1,50 @@
 app = angular.module('fi-ncp', ['ngRoute'])
-    .directive('learningOpportunity', function () {
+    .directive('learningOpportunityCollection', function () {
         return {
-            scope: {opportunity: '='},
-            restrict: 'E',
-            templateUrl: 'partials/learning-opportunity.html'
-        };
-    });
-;
+            restrict: "E",
+            replace: true,
+            scope: {
+                collection: '='
+            },
+            controller: function($scope) {
+                console.log('COLLECTION ' + JSON.stringify($scope.collection));
+            },
+            templateUrl: "partials/learning-opportunity-collection.html"
+        }
+    })
+    .directive('learningOpportunity', function ($compile) {
+        return {
+            restrict: "E",
+            replace: true,
+            scope: {
+                member: '='
+            },
+            controller: function($scope) {
+                console.log('MEMBER ' + JSON.stringify($scope.member));
+            },
+            templateUrl: "partials/learning-opportunity.html",
+            link: function (scope, element, attrs) {
+                if (angular.isArray(scope.member.hasPart)) {
+                    element.append("<learning-opportunity-collection collection='member.hasPart'></learning-opportunity-collection>");
+                    $compile(element.contents())(scope)
+                }
+            }
+        }
+    })
 
 app.config(function ($routeProvider, $httpProvider) {
 
     $routeProvider.
         when('/', {
-            templateUrl: 'partials/home.html',
-            controller: 'home'
+            templateUrl: 'partials/courseSelection.html',
+            controller: 'courseSelection',
+            resolve: {
+                response: function ($http) {
+                    return $http.get('/api/elmo/').success(function (response) {
+                        return response;
+                    });
+                }
+            }
         }).
         when('/login', {
             templateUrl: 'partials/login.html',
@@ -26,17 +57,6 @@ app.config(function ($routeProvider, $httpProvider) {
         when('/norex', {
             templateUrl: 'partials/login.html',
             controller: 'norex'
-        }).
-        when('/courseselection', {
-            templateUrl: 'partials/courseSelection.html',
-            controller: 'courseSelection',
-            resolve: {
-                response: function ($http) {
-                    return $http.get('/api/elmo/').success(function (response) {
-                        return response;
-                    });
-                }
-            }
         }).
         when('/elmo', {
             templateUrl: 'partials/elmo.html',
@@ -51,24 +71,11 @@ app.config(function ($routeProvider, $httpProvider) {
 })
 ;
 
-app.controller('home', function ($scope, $http) {
-    $http.get('/resource/').success(function (data) {
-        console.log("HOME");
-        $scope.greeting = data;
-    });
-});
-
-app.controller('home', function($scope, $http) {
-
-        $http.get('/resource/').success(function(data) {
-            console.log("HOME");
-            $scope.greeting = data;
-        })
-});
-
 app.controller('courseSelection', function($scope, response) {
-    $scope.report = response.data.elmo.report;
-    console.log($scope.report);
+    var report = response.data.elmo.report;
+    if (!angular.isArray(report.learningOpportunitySpecification))
+        report.learningOpportunitySpecification = [{learningOpportunitySpecification : report.learningOpportunitySpecification}];
+    $scope.learningOpportunities = report.learningOpportunitySpecification;
 });
 
 app.controller('norex', function ($scope, $http) {
