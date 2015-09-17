@@ -6,6 +6,8 @@
 package fi.csc.emrex.ncp;
 
 import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
+import fi.csc.emrex.ncp.elmo.ElmoParser;
+import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Base64;
+import java.util.List;
 
 /**
  *
@@ -38,6 +41,33 @@ public class ThymeController {
         System.out.println("Return URL:" + context.getSession().getAttribute("returnUrl"));
         model.addAttribute("name", name);
         return "thyme";
+    }
+
+    @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
+    public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
+            Model model) throws Exception {
+        return this.review(courses,model);
+    }
+
+    @RequestMapping(value = "/review", method = RequestMethod.GET)
+    public String review(@RequestParam(value = "courses", required = false) String[] courses,
+            Model model) throws Exception {
+        model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
+        model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
+        String elmo = (String) context.getSession().getAttribute("elmo");
+        ElmoParser parser = new ElmoParser(elmo);
+        String xmlString;
+
+        if (courses != null && courses.length > 0) {
+            xmlString = parser.getCourseData();
+        } else {
+            List<String> courseList = Arrays.asList(courses);
+            xmlString = parser.getCourseData(courseList);
+        }
+        final String encodedXml = Base64.getEncoder().encodeToString(xmlString.getBytes());
+        model.addAttribute("elmo", encodedXml);
+
+        return "review";
     }
 
     @RequestMapping(value = "/ncp/norex", method = RequestMethod.POST)
