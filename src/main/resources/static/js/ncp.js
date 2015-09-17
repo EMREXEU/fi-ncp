@@ -39,7 +39,7 @@ app.config(function ($routeProvider, $httpProvider) {
 })
 ;
 
-app.controller('courseSelection', function ($scope, $http, response) {
+app.controller('courseSelection', function ($scope, $http, $sce, response) {
     var report = response.data.elmo.report;
 
     // learningOpportunity must be an array for working recursion..
@@ -68,11 +68,12 @@ app.controller('courseSelection', function ($scope, $http, response) {
 
     $scope.sendIds = function () {
         $http({
-            url: 'api/review',
+            url: 'review',
             method: 'GET',
-            params: {selectedIds: $scope.selectedIds}
+            params: {courses: $scope.selectedIds}
         }).success(function (data) {
             console.log(data);
+            $scope.review = $sce.trustAsHtml(data);
         });
     };
 });
