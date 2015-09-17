@@ -39,7 +39,7 @@ app.config(function ($routeProvider, $httpProvider) {
 })
 ;
 
-app.controller('courseSelection', function ($scope, response) {
+app.controller('courseSelection', function ($scope, $http, response) {
     var report = response.data.elmo.report;
 
     // learningOpportunity must be an array for working recursion..
@@ -70,7 +70,7 @@ app.controller('courseSelection', function ($scope, response) {
         $http({
             url: 'api/review',
             method: 'GET',
-            params: selectedIds
+            params: {selectedIds: $scope.selectedIds}
         }).success(function (data) {
             console.log(data);
         });

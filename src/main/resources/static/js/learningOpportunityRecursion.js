@@ -40,7 +40,7 @@ module.directive('learningOpportunity', function ($compile) {
                         $scope.elmoIdentifier = identifier.content;
                 })
             else
-                $scope.elmoIdentifier = $scope.member.identifier;
+                $scope.elmoIdentifier = $scope.member.identifier.content;
 
             $scope.checkBoxChanged = function () {
                 if ($scope.checked)
@@ -48,8 +48,6 @@ module.directive('learningOpportunity', function ($compile) {
                 else
                     $scope.removeId({id: $scope.elmoIdentifier});
             };
-
-
         },
         templateUrl: "partials/learning-opportunity.html",
         link: function (scope, element, attrs) {
