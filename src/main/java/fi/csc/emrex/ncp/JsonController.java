@@ -6,6 +6,7 @@
 package fi.csc.emrex.ncp;
 
 import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
+import static fi.csc.emrex.ncp.FiNcpApplication.getElmoRemote;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +56,7 @@ public class JsonController {
         Map<String, Object> model = new HashMap<>();
         model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
-        model.put("elmoXml", getElmo());
+        model.put("elmoXml", getElmoRemote());
         return model;
     }
 

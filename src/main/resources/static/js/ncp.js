@@ -8,7 +8,7 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'courseSelection',
             resolve: {
                 response: function ($http) {
-                    return $http.get('/api/elmo/').success(function (response) {
+                    return $http.get('/ncp/api/elmo/').success(function (response) {
                         return response;
                     });
                 }

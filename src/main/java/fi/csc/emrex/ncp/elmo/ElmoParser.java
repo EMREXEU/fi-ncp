@@ -48,7 +48,8 @@ public class ElmoParser {
         DocumentBuilder builder;
         try {
             builder = factory.newDocumentBuilder();
-            InputSource s = new InputSource(new StringReader(elmo));
+            StringReader sr =new StringReader(elmo);
+            InputSource s = new InputSource(sr);
 
             //Load and Parse the XML document
             //document contains the complete XML as a Tree.
