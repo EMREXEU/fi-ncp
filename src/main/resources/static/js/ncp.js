@@ -1,19 +1,18 @@
-app = angular.module('fi-ncp', ['ngRoute'])
-    .directive('learningOpportunity', function () {
-        return {
-            scope: {opportunity: '='},
-            restrict: 'E',
-            templateUrl: 'partials/learning-opportunity.html'
-        };
-    });
-;
+app = angular.module('fi-ncp', ['ngRoute', 'learningOpportunityRecursion'])
 
 app.config(function ($routeProvider, $httpProvider) {
 
     $routeProvider.
         when('/', {
-            templateUrl: 'partials/home.html',
-            controller: 'home'
+            templateUrl: 'partials/courseSelection.html',
+            controller: 'courseSelection',
+            resolve: {
+                response: function ($http) {
+                    return $http.get('/api/elmo/').success(function (response) {
+                        return response;
+                    });
+                }
+            }
         }).
         when('/login', {
             templateUrl: 'partials/login.html',
@@ -26,17 +25,6 @@ app.config(function ($routeProvider, $httpProvider) {
         when('/norex', {
             templateUrl: 'partials/login.html',
             controller: 'norex'
-        }).
-        when('/courseselection', {
-            templateUrl: 'partials/courseSelection.html',
-            controller: 'courseSelection',
-            resolve: {
-                response: function ($http) {
-                    return $http.get('/api/elmo/').success(function (response) {
-                        return response;
-                    });
-                }
-            }
         }).
         when('/elmo', {
             templateUrl: 'partials/elmo.html',
@@ -51,24 +39,42 @@ app.config(function ($routeProvider, $httpProvider) {
 })
 ;
 
-app.controller('home', function ($scope, $http) {
-    $http.get('/resource/').success(function (data) {
-        console.log("HOME");
-        $scope.greeting = data;
-    });
-});
+app.controller('courseSelection', function ($scope, $http, response) {
+    var report = response.data.elmo.report;
 
-app.controller('home', function($scope, $http) {
+    // learningOpportunity must be an array for working recursion..
+    if (!angular.isArray(report.learningOpportunitySpecification))
+        report.learningOpportunitySpecification = [{learningOpportunitySpecification: report.learningOpportunitySpecification}];
+    $scope.learningOpportunities = report.learningOpportunitySpecification;
 
-        $http.get('/resource/').success(function(data) {
-            console.log("HOME");
-            $scope.greeting = data;
-        })
-});
+    console.log($scope.learningOpportunities);
 
-app.controller('courseSelection', function($scope, response) {
-    $scope.report = response.data.elmo.report;
-    console.log($scope.report);
+    $scope.selectedIds = [];
+
+    $scope.addId = function (id) {
+        console.log('add id ' + id.id);
+        if ($scope.selectedIds.indexOf(id.id) < 0)
+            $scope.selectedIds.push(id.id);
+    };
+
+    $scope.removeId = function (id) {
+        console.log('remove id ' + id.id);
+        var index = $scope.selectedIds.indexOf(id.id);
+        console.log(index)
+        if (index >= 0)
+            $scope.selectedIds.splice(index, 1);
+    };
+
+
+    $scope.sendIds = function () {
+        $http({
+            url: 'api/review',
+            method: 'GET',
+            params: {selectedIds: $scope.selectedIds}
+        }).success(function (data) {
+            console.log(data);
+        });
+    };
 });
 
 app.controller('norex', function ($scope, $http) {

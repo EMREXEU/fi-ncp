@@ -1,11 +1,1 @@
-<div>opportunity</div>
-<div>{{opportunity.title}}</div>
-<div ng-repeat="language in opportunity.title">
-    <div>item</div>
-    <div>{{language.__text}}</div>
-    <div ng-repeat="language in title"></div>
-</div>
-<div ng-repeat="subLearningOpportunity in opportunity.hasPart" ng-include="''">
-    <div>haspart</div>
-    <learningOpportunity ng-init="opportunity = subLearningOpportunity"/>
-</div>
+<li><input type="checkbox" ng-model="checked" ng-change="checkBoxChanged()"><div ng-repeat='language in member.title'><div>{{language.content}}</div></div></li>

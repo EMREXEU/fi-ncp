@@ -1,20 +1,8 @@
-<script type="text/ng-template" id="learningtemplate">
-    <div>opportunity</div>
-    <div>{{report}}</div>
-    <div>{{subLearningOpportunity.title}}</div>
-    <div ng-repeat="language in report.learingOpportunity.title">
-        <div>item</div>
-        <div>{{language.__text}}</div>
-        <div ng-repeat="language in title"></div>
-    </div>
-    <div ng-repeat="subLearningOpportunity in subLearningOpportunity.hasPart">
-        <div>haspart</div>
-        <learning-opportunity opportunity="subLearningOpportunity"></learning-opportunity>
-    </div>
-</script>
 
 <h1>Course Selection</h1>
 <div>Learner</div>
 <div>{{report.learner.fullName}}</div>
-<div ng-repeat="subLearningOpportunity in learningOpportunities" ng-include="'learningtemplate'"/>
+<div>{{selectedIds}}</div>
+<button ng-click="sendIds()">Send selected learning opportunities</button>
+<learning-opportunity-collection add-id-fn="addId(id)" remove-id-fn="removeId(id)" collection="learningOpportunities"></learning-opportunity-collection>
 
