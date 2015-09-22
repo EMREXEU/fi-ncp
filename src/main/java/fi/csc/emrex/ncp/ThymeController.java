@@ -46,8 +46,7 @@ public class ThymeController {
             Model model) throws Exception {
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
-        String elmo = (String) context.getSession().getAttribute("elmo");
-        ElmoParser parser = new ElmoParser(elmo);
+        ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
         String xmlString;
 
         if (courses != null && courses.length > 0) {
@@ -90,7 +89,8 @@ public class ThymeController {
 
             String user = "";
             String elmoXML = getXMLFromVirta(user);
-            context.getSession().setAttribute("elmo", elmoXML);
+            ElmoParser parser = new ElmoParser(elmoXML);
+            context.getSession().setAttribute("elmo", parser);
             return "norex";
 
         } catch (Exception e) {

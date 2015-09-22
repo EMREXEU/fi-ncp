@@ -73,8 +73,8 @@ public class JsonController {
         System.out.println("/api/elmo");
         try {
 
-            String elmo = (String) context.getSession().getAttribute("elmo");
-            ElmoParser parser = new ElmoParser(elmo);
+            ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
+            //ElmoParser parser = new ElmoParser(elmo);
             String xmlString;
             if (courses == null || courses.length < 1) {
                 System.out.println("null courses");
