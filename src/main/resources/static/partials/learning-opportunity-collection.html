@@ -1,5 +1,3 @@
-<ul>
-<div ng-repeat='member in collection'>
-    <learning-opportunity add-id-fn="addId(id)" remove-id-fn="removeId(id)" member='member.learningOpportunitySpecification'></learning-opportunity>
-</div>
-</ul>
+<learning-opportunity ng-repeat='member in collection' add-id-fn="addId(id)" remove-id-fn="removeId(id)" member='member.learningOpportunitySpecification'></learning-opportunity>
+
+

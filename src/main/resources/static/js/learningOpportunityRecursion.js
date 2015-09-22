@@ -35,7 +35,6 @@ module.directive('learningOpportunity', function ($compile) {
             console.log('MEMBER ' + $scope.member);
             if (angular.isArray($scope.member.identifier))
                 angular.forEach($scope.member.identifier, function (identifier) {
-                    console.log(JSON.stringify(identifier));
                     if (identifier.type == "elmo")
                         $scope.elmoIdentifier = identifier.content;
                 })

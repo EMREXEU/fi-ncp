@@ -41,6 +41,8 @@ app.config(function ($routeProvider, $httpProvider) {
 
 app.controller('courseSelection', function ($scope, $http, $sce, response) {
     var report = response.data.elmo.report;
+    console.log(JSON.stringify(report.learner));
+    $scope.learner = report.learner;
 
     // learningOpportunity must be an array for working recursion..
     if (!angular.isArray(report.learningOpportunitySpecification))

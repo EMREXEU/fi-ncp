@@ -1,8 +1,25 @@
-
-<h1>Course Selection</h1>
-<div>Learner</div>
-<div>{{report.learner.fullName}}</div>
+<h1>Find and select results to import</h1>
+<hr/>
+<h2>{{learner.fullName}} {{learner.bday.content}}</h2>
 <div>{{selectedIds}}</div>
-<button ng-click="sendIds()">Send selected learning opportunities</button>
-<learning-opportunity-collection add-id-fn="addId(id)" remove-id-fn="removeId(id)" collection="learningOpportunities"></learning-opportunity-collection>
+<h3>Filter Results</h3>
+<div class="pure-g">
+    <div class="pure-u-1-4"><h4>Education Institution</h4></div>
+    <div class="pure-u-1-4"><h4>Type</h4></div>
+    <div class="pure-u-1-4"><h4>Level</h4></div>
+    <div class="pure-u-1-4"><h4>TimePeriod</h4></div>
+</div>
+<form class="pure-form">
+    <button class="pure-button" ng-click="sendIds()">Send selected learning opportunities</button>
+        <div></div>
+        <div>Code</div>
+        <div>Title</div>
+        <div>Part of</div>
+        <div>Level</div>
+        <div>Type</div>
+        <div>Credits</div>
+        <div>Results</div>
+        <div>Date</div>
+    <learning-opportunity-collection add-id-fn="addId(id)" remove-id-fn="removeId(id)" collection="learningOpportunities"></learning-opportunity-collection>
+</form>
 <div ng-bind-html="review"/>
