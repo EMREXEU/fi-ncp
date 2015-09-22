@@ -38,7 +38,7 @@ public class ThymeController {
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
             Model model) throws Exception {
-        return this.review(courses,model);
+        return this.review(courses, model);
     }
 
     @RequestMapping(value = "/review", method = RequestMethod.GET)
@@ -51,24 +51,27 @@ public class ThymeController {
         String xmlString;
 
         if (courses != null && courses.length > 0) {
-            xmlString = parser.getCourseData();
-        } else {
             List<String> courseList = Arrays.asList(courses);
             xmlString = parser.getCourseData(courseList);
+        } else {
+            xmlString = parser.getCourseData();
         }
         final String encodedXml = Base64.getEncoder().encodeToString(xmlString.getBytes());
         model.addAttribute("elmo", encodedXml);
 
         return "review";
     }
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String ncp1(@ModelAttribute CustomRequest request) {
         return this.greeting(request);
     }
+
     @RequestMapping(value = "/ncp/", method = RequestMethod.POST)
     public String ncp2(@ModelAttribute CustomRequest request) {
         return this.greeting(request);
     }
+
     @RequestMapping(value = "/ncp/norex", method = RequestMethod.POST)
     public String ncpGreeting(@ModelAttribute CustomRequest request) {
         return this.greeting(request);
@@ -84,12 +87,12 @@ public class ThymeController {
         System.out.println("Return URL: " + context.getSession().getAttribute("returnUrl"));
         System.out.println("Session ID: " + context.getSession().getAttribute("sessionId"));
         try {
-      
-                String user = "";
-                String elmoXML = getXMLFromVirta(user);
-                context.getSession().setAttribute("elmo", elmoXML);
-                return "norex";
-            
+
+            String user = "";
+            String elmoXML = getXMLFromVirta(user);
+            context.getSession().setAttribute("elmo", elmoXML);
+            return "norex";
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
