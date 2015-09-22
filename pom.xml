@@ -6,7 +6,7 @@
     <groupId>fi.csc.emrex</groupId>
     <artifactId>ncp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>fi-ncp</name>
     <description>NCP</description>
@@ -23,6 +23,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <wro4j.version>1.7.6</wro4j.version>
+        <start-class>fi.csc.emrex.ncp.FiNcpApplication</start-class>
+        <project.build.finalName>ncp</project.build.finalName>
     </properties>
 
     <dependencies>
@@ -33,6 +35,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -152,6 +160,17 @@
                         <version>3.2.0</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <path>/ncp</path>
+                    <update>true</update>
+                    <username>admin</username>
+                    <password>admin</password>
+                </configuration>
             </plugin>
             <!--<plugin>-->
             <!--<groupId>com.github.searls</groupId>-->
