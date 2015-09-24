@@ -9,17 +9,37 @@
     <div class="pure-u-1-4"><h4>Level</h4></div>
     <div class="pure-u-1-4"><h4>TimePeriod</h4></div>
 </div>
+
 <form class="pure-form">
     <button class="pure-button" ng-click="sendIds()">Send selected learning opportunities</button>
-        <div></div>
-        <div>Code</div>
-        <div>Title</div>
-        <div>Part of</div>
-        <div>Level</div>
-        <div>Type</div>
-        <div>Credits</div>
-        <div>Results</div>
-        <div>Date</div>
-    <learning-opportunity-collection add-id-fn="addId(id)" remove-id-fn="removeId(id)" collection="learningOpportunities"></learning-opportunity-collection>
+    <table class="pure-table">
+        <thead>
+        <th></th>
+        <th>Code</th>
+        <th>Title</th>
+        <th>Part of</th>
+        <th>Level</th>
+        <th>Type</th>
+        <th>Credits</th>
+        <th>Results</th>
+        <th>Date</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="opportunity in flattenedLearningOpportunities">
+                <td><input type="checkbox" ng-model="opportunity.selected" ng-change="checkBoxChanged(opportunity)"></td>
+                <td>Code</td>
+                <td>
+                    <div ng-repeat='language in opportunity.title'>
+                        <div>{{language.content}}</div>
+                    </div>
+                </td>
+                <td>{{opportunity.partOf}}</td>
+                <td>{{opportunity.level}}</td>
+                <td>{{opportunity.type}}</td>
+                <td>{{opportunity.credit.value}} {{opportunity.credit.scheme}}</td>
+                <td>{{opportunity.specifies.learningOpportunityInstance.result.content}}</td>
+                <td>{{opportunity.specifies.learningOpportunityInstance.start}} {{opportunity.specifies.learningOpportunityInstance.end}}</td>
+            </tr>        </tbody>
+    </table>
 </form>
 <div ng-bind-html="review"/>
