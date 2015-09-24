@@ -6,6 +6,7 @@
 package fi.csc.emrex.ncp;
 
 import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
+import static fi.csc.emrex.ncp.FiNcpApplication.getElmoRemote;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
 import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Base64;
 import java.util.List;
@@ -35,18 +35,10 @@ public class ThymeController {
     @Autowired
     private HttpServletRequest context;
 
-    @RequestMapping("/thyme")
-    String thyme(@RequestParam(value = "name", required = false, defaultValue = "World") String name, Model model) {
-        System.out.println("thyme");
-        System.out.println("Return URL:" + context.getSession().getAttribute("returnUrl"));
-        model.addAttribute("name", name);
-        return "thyme";
-    }
-
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
             Model model) throws Exception {
-        return this.review(courses,model);
+        return this.review(courses, model);
     }
 
     @RequestMapping(value = "/review", method = RequestMethod.GET)
@@ -59,15 +51,25 @@ public class ThymeController {
         String xmlString;
 
         if (courses != null && courses.length > 0) {
-            xmlString = parser.getCourseData();
-        } else {
             List<String> courseList = Arrays.asList(courses);
             xmlString = parser.getCourseData(courseList);
+        } else {
+            xmlString = parser.getCourseData();
         }
         final String encodedXml = Base64.getEncoder().encodeToString(xmlString.getBytes());
         model.addAttribute("elmo", encodedXml);
 
         return "review";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String ncp1(@ModelAttribute CustomRequest request) {
+        return this.greeting(request);
+    }
+
+    @RequestMapping(value = "/ncp/", method = RequestMethod.POST)
+    public String ncp2(@ModelAttribute CustomRequest request) {
+        return this.greeting(request);
     }
 
     @RequestMapping(value = "/ncp/norex", method = RequestMethod.POST)
@@ -85,12 +87,12 @@ public class ThymeController {
         System.out.println("Return URL: " + context.getSession().getAttribute("returnUrl"));
         System.out.println("Session ID: " + context.getSession().getAttribute("sessionId"));
         try {
-            if (hakaLogin()) {
-                String user = "";
-                String elmoXML = getXMLFromVirta(user);
-                context.getSession().setAttribute("elmo", elmoXML);
-                return "norex";
-            }
+
+            String user = "";
+            String elmoXML = getXMLFromVirta(user);
+            context.getSession().setAttribute("elmo", elmoXML);
+            return "norex";
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -123,7 +125,7 @@ public class ThymeController {
 
     private String getXMLFromVirta(String user) throws Exception {
         //final String encodedXml = Base64.getEncoder().encodeToString(getElmo().getBytes());
-        return getElmo();
+        return getElmoRemote();
     }
 
 }
