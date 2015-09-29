@@ -1,8 +1,45 @@
-
-<h1>Course Selection</h1>
-<div>Learner</div>
-<div>{{report.learner.fullName}}</div>
+<h1>Find and select results to import</h1>
+<hr/>
+<h2>{{learner.fullName}} {{learner.bday.content}}</h2>
 <div>{{selectedIds}}</div>
-<button ng-click="sendIds()">Send selected learning opportunities</button>
-<learning-opportunity-collection add-id-fn="addId(id)" remove-id-fn="removeId(id)" collection="learningOpportunities"></learning-opportunity-collection>
+<h3>Filter Results</h3>
+<div class="pure-g">
+    <div class="pure-u-1-4"><h4>Education Institution</h4></div>
+    <div class="pure-u-1-4"><h4>Type</h4></div>
+    <div class="pure-u-1-4"><h4>Level</h4></div>
+    <div class="pure-u-1-4"><h4>TimePeriod</h4></div>
+</div>
+
+<form class="pure-form">
+    <button class="pure-button" ng-click="sendIds()">Send selected learning opportunities</button>
+    <table class="pure-table">
+        <thead>
+        <th></th>
+        <th>Code</th>
+        <th>Title</th>
+        <th>Part of</th>
+        <th>Level</th>
+        <th>Type</th>
+        <th>Credits</th>
+        <th>Results</th>
+        <th>Date</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="opportunity in flattenedLearningOpportunities">
+                <td><input type="checkbox" ng-model="opportunity.selected" ng-change="checkBoxChanged(opportunity)"></td>
+                <td>Code</td>
+                <td>
+                    <div ng-repeat='language in opportunity.title'>
+                        <div>{{language.content}}</div>
+                    </div>
+                </td>
+                <td>{{opportunity.partOf}}</td>
+                <td>{{opportunity.level}}</td>
+                <td>{{opportunity.type}}</td>
+                <td>{{opportunity.credit.value}} {{opportunity.credit.scheme}}</td>
+                <td>{{opportunity.specifies.learningOpportunityInstance.result.content}}</td>
+                <td>{{opportunity.specifies.learningOpportunityInstance.start}} {{opportunity.specifies.learningOpportunityInstance.end}}</td>
+            </tr>        </tbody>
+    </table>
+</form>
 <div ng-bind-html="review"/>
