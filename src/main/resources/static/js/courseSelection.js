@@ -3,14 +3,17 @@ angular.module('courseSelection', [])
 
         var flatArray = [];
         var ids = [];
+        $scope.selectedEducationInstitutions = {'Helsinki University' : true, 'Oulu AMK' : true};
+        $scope.selectedTypes = {};
+        $scope.levels = [];
 
         var recursiveOpportunityFlattening = function (learningOpportunityArray, partOf) {
             angular.forEach(learningOpportunityArray, function (opportunityWrapper) {
                 var opportunity = opportunityWrapper.learningOpportunitySpecification;
 
+                // Add properties for table
                 opportunity.selected = true;
 
-                // Find Elmo identifier
                 if (angular.isArray(opportunity.identifier))
                     angular.forEach(opportunity.identifier, function (identifier) {
                         if (identifier.type == "elmo")
@@ -23,6 +26,13 @@ angular.module('courseSelection', [])
                     opportunity.partOf = partOf.elmoIdentifier
                 else
                     opportunity.partOf = '-';
+
+                // Update filters
+                if (opportunity.type)
+                    $scope.selectedTypes[opportunity.type] = true;
+                if (opportunity.level && $scope.levels.indexOf(opportunity.level) < 1)
+                    $scope.levels.push(opportunity.level);
+
 
                 flatArray.push(opportunity);
                 ids.push(opportunity.elmoIdentifier); // all items are first selected

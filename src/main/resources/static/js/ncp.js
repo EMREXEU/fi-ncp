@@ -1,4 +1,4 @@
-app = angular.module('fi-ncp', ['ngRoute', 'courseSelection'])
+app = angular.module('fi-ncp', ['ngRoute', 'courseSelection', '720kb.datepicker'])
 
 app.config(function ($routeProvider, $httpProvider) {
 
