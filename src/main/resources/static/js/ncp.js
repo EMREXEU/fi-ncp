@@ -1,4 +1,4 @@
-app = angular.module('fi-ncp', ['ngRoute', 'courseSelection', '720kb.datepicker'])
+app = angular.module('fi-ncp', ['ngRoute', 'courseSelection','learningReport', '720kb.datepicker'])
 
 app.config(function ($routeProvider, $httpProvider) {
 
@@ -37,9 +37,6 @@ app.config(function ($routeProvider, $httpProvider) {
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 });
-
-
-
 
 app.controller('norex', function ($scope, $http) {
     $http.post('/norex/').success(function (data) {

@@ -1,80 +1,67 @@
-<h1>Find and select results to import</h1>
+<div>logohere</div><h1>Finnish Student System</h1>
+<h2>Find and select results to import</h2>
 <hr/>
-<h2>{{learner.fullName}} {{learner.bday.content}}</h2>
+<br>
+<h3>{{learner.fullName}} {{learner.bday.content}}</h3>
 <div>{{selectedIds}}</div>
+<br>
 <h3>Filter Results</h3>
 <div class="pure-g">
-    <div class="pure-u-1-4">
-        <form class="pure-form pure-form-stacked">
+    <div class="pure-u-1-4 custom-border">
+        <form class="pure-form pure-form-stacked custom-zero-margin">
             <fieldset>
+                <div class="custom-background">
                 <legend>Education Institutions</legend>
-                <div ng-repeat="(key, value) in selectedEducationInstitutions">
-                    <input type="checkbox" name="selectedEducationInstitutions[]" ng-model="selectedEducationInstitutions[key]">{{key}}</input>
+                </div>
+                <div class="custom-option-margin">
+                <div  ng-repeat="(key, value) in educationInstitutionOptions">
+                    <input type="checkbox" name="educationInstitutionOptions[]" ng-model="educationInstitutionOptions[key]">{{key}}</input>
+                </div>
                 </div>
             </fieldset>
         </form>
     </div>
-    <div class="pure-u-1-4"><form class="pure-form pure-form-stacked">
-        <fieldset>
-            <legend>Type</legend>
-            <div ng-repeat="(key, value) in selectedTypes">
-                <input type="checkbox" name="selectedTypes[]" ng-model="selectedTypes[key]">{{key}}</input>
-            </div>
-        </fieldset>
-    </form></div>
-    <div class="pure-u-1-4"><form class="pure-form pure-form-stacked">
-        <fieldset>
-            <legend>Level</legend>
-            <select ng-options="level for level in levels" ng-model="selectedLevel" ng-init="selectedLevel = levels[0]"></select>
-
-        </fieldset>
-    </form></div>
-    <div class="pure-u-1-4"><form class="pure-form pure-form-stacked">
-        <fieldset>
-            <legend>Time Period</legend>
-            <datepicker >
-                <input ng-model="startdate" type="text"/>
-            </datepicker>
-            <datepicker >
-                <input ng-model="enddate" type="text"/>
-            </datepicker>
-        </fieldset>
-    </form></div>
-</div>
-
-<form class="pure-form">
-    <button class="pure-button" ng-click="sendIds()">Send selected learning opportunities</button>
-    <table class="pure-table">
-        <thead>
-        <th></th>
-        <th>Code</th>
-        <th>Title</th>
-        <th>Part of</th>
-        <th>Level</th>
-        <th>Type</th>
-        <th>Credits</th>
-        <th>Results</th>
-        <th>Date</th>
-        </thead>
-        <tbody>
-        <tr ng-repeat="opportunity in flattenedLearningOpportunities">
-            <td><input type="checkbox" ng-model="opportunity.selected" ng-change="checkBoxChanged(opportunity)"></td>
-            <td>{{opportunity.elmoIdentifier}}</td>
-            <td>
-                <div ng-repeat='language in opportunity.title'>
-                    <div>{{language.content}}</div>
+    <div class="pure-u-1-4 custom-border">
+        <form class="pure-form pure-form-stacked">
+            <fieldset>
+                <legend>Type</legend>
+                <div class="custom-option-margin">
+                <div class="custom-option" ng-repeat="(key, value) in typeOptions">
+                    <input type="checkbox" name="typeOptions[]" ng-model="typeOptions[key]">{{key}}</input>
                 </div>
-            </td>
-            <td>{{opportunity.partOf}}</td>
-            <td>{{opportunity.level}}</td>
-            <td>{{opportunity.type}}</td>
-            <td>{{opportunity.credit.value}} {{opportunity.credit.scheme}}</td>
-            <td>{{opportunity.specifies.learningOpportunityInstance.result.content}}</td>
-            <td>{{opportunity.specifies.learningOpportunityInstance.start}}
-                {{opportunity.specifies.learningOpportunityInstance.end}}
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</form>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="pure-u-1-4 custom-border">
+        <form class="pure-form pure-form-stacked">
+            <fieldset>
+                <legend>Level</legend>
+                <div class="custom-option-margin">
+                <select ng-options="level for level in levelOptions" ng-model="selectedLevel"
+                        ng-init="selectedLevel = levelOptions[0]"></select>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+    <div class="pure-u-1-4 custom-border">
+        <form class="pure-form pure-form-stacked">
+            <fieldset>
+                <legend>Time Period</legend>
+                <div class="custom-option-margin">
+                <datepicker>
+                    <input placeholder="" ng-model="startdate" type="text"/>
+                </datepicker>
+                <datepicker>
+                    <input ng-model="enddate" type="text"/>
+                </datepicker>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<learning-report-directive ng-repeat="report in reports" ></learning-report-directive>
+
+
 <div ng-bind-html="review"/>

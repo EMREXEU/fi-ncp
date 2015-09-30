@@ -1,67 +1,72 @@
 angular.module('courseSelection', [])
     .controller('courseSelectionCtrl', function ($scope, $http, $sce, response) {
+        $scope.selectedLanguage = "fi"; //
 
-        var flatArray = [];
-        var ids = [];
-        $scope.selectedEducationInstitutions = {'Helsinki University' : true, 'Oulu AMK' : true};
-        $scope.selectedTypes = {};
-        $scope.levels = [];
+        var reports = response.data.elmo.report;
 
-        var recursiveOpportunityFlattening = function (learningOpportunityArray, partOf) {
+        // Report must be an array...
+        if (!angular.isArray(reports))
+            reports = [reports];
+
+        $scope.reports = reports;
+
+        var selectedCourseIds = [];
+        $scope.educationInstitutionOptions = {}; // {'Helsinki University' : true, 'Oulu AMK' : true};
+        $scope.typeOptions = {};
+        $scope.levelOptions = [];
+
+        var findOptionsRecursively = function (learningOpportunityArray, partOf) {
             angular.forEach(learningOpportunityArray, function (opportunityWrapper) {
                 var opportunity = opportunityWrapper.learningOpportunitySpecification;
 
-                // Add properties for table
-                opportunity.selected = true;
+                // Update filter options
+                if (!opportunity)
+                    console.log(opportunityWrapper);
 
-                if (angular.isArray(opportunity.identifier))
-                    angular.forEach(opportunity.identifier, function (identifier) {
-                        if (identifier.type == "elmo")
-                            opportunity.elmoIdentifier = identifier.content;
-                    })
-                else
-                    opportunity.elmoIdentifier = opportunity.identifier.content;
 
-                if (partOf)
-                    opportunity.partOf = partOf.elmoIdentifier
-                else
-                    opportunity.partOf = '-';
-
-                // Update filters
                 if (opportunity.type)
-                    $scope.selectedTypes[opportunity.type] = true;
-                if (opportunity.level && $scope.levels.indexOf(opportunity.level) < 1)
-                    $scope.levels.push(opportunity.level);
+                    $scope.typeOptions[opportunity.type] = true;
 
+                if (opportunity.level) {
+                    var indexOf = $scope.levelOptions.indexOf(opportunity.level)
+                    if (indexOf < 0)
+                        $scope.levelOptions.push(opportunity.level);
+                }
 
-                flatArray.push(opportunity);
-                ids.push(opportunity.elmoIdentifier); // all items are first selected
-
-                // Recursion. Nomnom
                 if (opportunity.hasPart)
-                    recursiveOpportunityFlattening(opportunity.hasPart, opportunity)
+                    findOptionsRecursively(opportunity.hasPart, opportunity)
             });
-            return flatArray;
+            return;
         };
 
-        var report = response.data.elmo.report;
-        $scope.learner = report.learner;
+        function getRightLanguage(titles) {
+            var result = "";
+            angular.forEach(titles, function (title) {
+                if (title['xml:lang'] === $scope.selectedLanguage)
+                    result = title['content'];
+            });
+            return result;
+        }
 
-        // learningOpportunity must be an array for working recursion..
-        if (!angular.isArray(report.learningOpportunitySpecification))
-            report.learningOpportunitySpecification = [{learningOpportunitySpecification: report.learningOpportunitySpecification}];
 
-        flatArray = recursiveOpportunityFlattening(report.learningOpportunitySpecification);
+        angular.forEach(reports, function (report) {
+            $scope.learner = report.learner;
+            var issuerTitle = getRightLanguage(report.issuer.title);
+            $scope.educationInstitutionOptions[issuerTitle] = true;
+            var hasPart = [];
 
-        $scope.flattenedLearningOpportunities = flatArray;
-        $scope.selectedIds = ids;
 
-        $scope.checkBoxChanged = function (opportunity) {
-            if (opportunity.selected)
-                $scope.addId(opportunity.elmoIdentifier)
+            // let's modify array to make it compatible with recursion
+            if (!angular.isArray(report.learningOpportunitySpecification))
+                hasPart.push({learningOpportunitySpecification: report.learningOpportunitySpecification})
             else
-                $scope.removeId(opportunity.elmoIdentifier);
-        };
+                angular.forEach(report.learningOpportunitySpecification, function (specification) {
+                    hasPart.push({learningOpportunitySpecification: specification});
+                });
+            findOptionsRecursively(hasPart);
+        });
+
+        $scope.selectedIds = selectedCourseIds;
 
         $scope.addId = function (id) {
             if ($scope.selectedIds.indexOf(id) < 0)
@@ -73,7 +78,6 @@ angular.module('courseSelection', [])
             if (index >= 0)
                 $scope.selectedIds.splice(index, 1);
         };
-
 
         $scope.sendIds = function () {
             $http({
