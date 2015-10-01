@@ -6,7 +6,7 @@ angular.module('learningReport', [])
             scope: {report: '=',
                     addId: '&',
                     removeId: '&',
-                    selectedLanguage: '='},
+                    getRightLanguage: '&'},
             templateUrl: 'partials/learningReport.html',
             controller: function ($scope) {
 
@@ -49,17 +49,7 @@ angular.module('learningReport', [])
                 flatArray = recursiveOpportunityFlattening($scope.report.learningOpportunitySpecification);
                 $scope.flattenedLearningOpportunities = flatArray;
 
-                // copy paste.. could be in some service
-                function getRightLanguage(titles) {
-                    var result = "";
-                    angular.forEach(titles, function (title) {
-                        if (title['xml:lang'] === $scope.selectedLanguage)
-                            result = title['content'];
-                    });
-                    return result;
-                }
-
-                $scope.issuerName = getRightLanguage($scope.report.issuer.title);
+                $scope.issuerName = $scope.getRightLanguage({titles: $scope.report.issuer.title});
 
                 $scope.checkBoxChanged = function (opportunity) {
                     if (opportunity.selected)

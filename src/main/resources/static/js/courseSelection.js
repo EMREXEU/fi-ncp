@@ -43,6 +43,10 @@ angular.module('courseSelection', [])
             return result;
         }
 
+        $scope.getRightLanguage = function(titles){
+            return getRightLanguage(titles);
+        }
+
         angular.forEach(reports, function (report) {
             $scope.learner = report.learner;
             var issuerTitle = getRightLanguage(report.issuer.title);
