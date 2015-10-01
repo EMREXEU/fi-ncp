@@ -567,7 +567,7 @@
 				<scheme>ECTS</scheme>
 				<value>0</value>
 			</credit>
-			<level>BACHELOR</level>
+			<level>MASTER</level>
 			<specifies>
 				<learningOpportunityInstance>
 					<date dtf="yyyy-MM-dd">2012-10-09</date>

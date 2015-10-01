@@ -3,16 +3,13 @@
 <hr/>
 <br>
 <h3>{{learner.fullName}} {{learner.bday.content}}</h3>
-<div>{{selectedIds}}</div>
 <br>
 <h3>Filter Results</h3>
 <div class="pure-g">
     <div class="pure-u-1-4 custom-border">
         <form class="pure-form pure-form-stacked custom-zero-margin">
             <fieldset>
-                <div class="custom-background">
                 <legend>Education Institutions</legend>
-                </div>
                 <div class="custom-option-margin">
                 <div  ng-repeat="(key, value) in educationInstitutionOptions">
                     <input type="checkbox" name="educationInstitutionOptions[]" ng-model="educationInstitutionOptions[key]">{{key}}</input>
@@ -61,7 +58,9 @@
         </form>
     </div>
 </div>
-<learning-report-directive ng-repeat="report in reports" ></learning-report-directive>
+<div ng-repeat="learningReport in reports">
+    <learning-report-directive add-id="addId(id)" remove-id="removeId(id)" report='learningReport' selected-language="selectedLanguage"></learning-report-directive>
+</div>
 
 
 <div ng-bind-html="review"/>

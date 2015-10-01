@@ -19,11 +19,6 @@ angular.module('courseSelection', [])
             angular.forEach(learningOpportunityArray, function (opportunityWrapper) {
                 var opportunity = opportunityWrapper.learningOpportunitySpecification;
 
-                // Update filter options
-                if (!opportunity)
-                    console.log(opportunityWrapper);
-
-
                 if (opportunity.type)
                     $scope.typeOptions[opportunity.type] = true;
 
@@ -48,7 +43,6 @@ angular.module('courseSelection', [])
             return result;
         }
 
-
         angular.forEach(reports, function (report) {
             $scope.learner = report.learner;
             var issuerTitle = getRightLanguage(report.issuer.title);
@@ -63,6 +57,7 @@ angular.module('courseSelection', [])
                 angular.forEach(report.learningOpportunitySpecification, function (specification) {
                     hasPart.push({learningOpportunitySpecification: specification});
                 });
+            report.learningOpportunitySpecification = hasPart;
             findOptionsRecursively(hasPart);
         });
 
