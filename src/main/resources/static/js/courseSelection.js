@@ -41,11 +41,11 @@ angular.module('courseSelection', [])
                     result = title['content'];
             });
             return result;
-        }
+        };
 
         $scope.getRightLanguage = function(titles){
             return getRightLanguage(titles);
-        }
+        };
 
         angular.forEach(reports, function (report) {
             $scope.learner = report.learner;

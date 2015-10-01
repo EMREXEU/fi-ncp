@@ -18,11 +18,7 @@
 <tr ng-repeat="opportunity in flattenedLearningOpportunities">
     <td><input type="checkbox" ng-model="opportunity.selected" ng-change="checkBoxChanged(opportunity)"></td>
     <td>{{opportunity.elmoIdentifier}}</td>
-<td>
-<div ng-repeat='language in opportunity.title'>
-    <div>{{language.content}}</div>
-</div>
-</td>
+<td>{{getRightLanguage({titles: opportunity.title})}}</td>
 <td>{{opportunity.partOf}}</td>
 <td>{{opportunity.level}}</td>
 <td>{{opportunity.type}}</td>
