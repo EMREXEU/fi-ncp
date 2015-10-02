@@ -1,6 +1,5 @@
-angular.module('courseSelection', [])
-    .controller('courseSelectionCtrl', function ($scope, $http, $sce, response) {
-        $scope.selectedLanguage = "fi"; //
+angular.module('courseSelection')
+    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, response, courseSelectionService) {
 
         var reports = response.data.elmo.report;
 
@@ -10,7 +9,6 @@ angular.module('courseSelection', [])
 
         $scope.reports = reports;
 
-        var selectedCourseIds = [];
         $scope.educationInstitutionOptions = {}; // {'Helsinki University' : true, 'Oulu AMK' : true};
         $scope.typeOptions = {};
         $scope.levelOptions = [];
@@ -34,25 +32,15 @@ angular.module('courseSelection', [])
             return;
         };
 
-        function getRightLanguage(titles) {
-            var result = "";
-            angular.forEach(titles, function (title) {
-                if (title['xml:lang'] === $scope.selectedLanguage)
-                    result = title['content'];
-            });
-            return result;
-        };
 
-        $scope.getRightLanguage = function(titles){
-            return getRightLanguage(titles);
-        };
-
+        // Collect data from reports
         angular.forEach(reports, function (report) {
             $scope.learner = report.learner;
-            var issuerTitle = getRightLanguage(report.issuer.title);
-            $scope.educationInstitutionOptions[issuerTitle] = true;
-            var hasPart = [];
 
+            var issuerTitle = courseSelectionService.getRightLanguage(report.issuer.title);
+            $scope.educationInstitutionOptions[issuerTitle] = true;
+
+            var hasPart = [];
 
             // let's modify array to make it compatible with recursion
             if (!angular.isArray(report.learningOpportunitySpecification))
@@ -65,24 +53,12 @@ angular.module('courseSelection', [])
             findOptionsRecursively(hasPart);
         });
 
-        $scope.selectedIds = selectedCourseIds;
-
-        $scope.addId = function (id) {
-            if ($scope.selectedIds.indexOf(id) < 0)
-                $scope.selectedIds.push(id);
-        };
-
-        $scope.removeId = function (id) {
-            var index = $scope.selectedIds.indexOf(id);
-            if (index >= 0)
-                $scope.selectedIds.splice(index, 1);
-        };
 
         $scope.sendIds = function () {
             $http({
                 url: 'review',
                 method: 'GET',
-                params: {courses: $scope.selectedIds}
+                params: {courses: courseSelectionService.selectedCourseIds}
             }).success(function (data) {
                 $scope.review = $sce.trustAsHtml(data);
             });

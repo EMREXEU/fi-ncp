@@ -1,12 +1,9 @@
 angular.module('learningReport', [])
-    .directive('learningReportDirective', function () {
+    .directive('learningReportDirective', function (courseSelectionService) {
         return {
             restrict: "E",
             replace: true,
-            scope: {report: '=',
-                    addId: '&',
-                    removeId: '&',
-                    getRightLanguage: '&'},
+            scope: {report: '='},
             templateUrl: 'partials/learningReport.html',
             controller: function ($scope) {
 
@@ -36,7 +33,7 @@ angular.module('learningReport', [])
                             opportunity.partOf = '-';
 
                         flatArray.push(opportunity);
-                        $scope.addId({id: opportunity.elmoIdentifier}); // all are selected at the beginning
+                        courseSelectionService.addId(opportunity.elmoIdentifier); // all are selected at the beginning
 
                         // Recursion
                         if (opportunity.hasPart)
@@ -49,13 +46,13 @@ angular.module('learningReport', [])
                 flatArray = recursiveOpportunityFlattening($scope.report.learningOpportunitySpecification);
                 $scope.flattenedLearningOpportunities = flatArray;
 
-                $scope.issuerName = $scope.getRightLanguage({titles: $scope.report.issuer.title});
+                $scope.issuerName = courseSelectionService.getRightLanguage({titles: $scope.report.issuer.title});
 
                 $scope.checkBoxChanged = function (opportunity) {
                     if (opportunity.selected)
-                        $scope.addId({id: opportunity.elmoIdentifier})
+                        courseSelectionService.addId(opportunity.elmoIdentifier)
                     else
-                        $scope.removeId({id: opportunity.elmoIdentifier});
+                        courseSelectionService.removeId(opportunity.elmoIdentifier);
                 }
             }
-        }})
+        }});
