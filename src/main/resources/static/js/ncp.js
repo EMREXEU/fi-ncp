@@ -14,6 +14,10 @@ app.config(function ($routeProvider, $httpProvider) {
                 }
             }
         }).
+        when('/preview', {
+            templateUrl: '/partials/courseSelectionPreview.html',
+            controller: 'courseSelectionPreviewCtrl'
+        }).
         when('/login', {
             templateUrl: 'partials/login.html',
             controller: 'login'

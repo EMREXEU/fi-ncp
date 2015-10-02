@@ -1,5 +1,5 @@
 angular.module('courseSelection')
-    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, response, courseSelectionService) {
+    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, $location, response, courseSelectionService) {
 
         var reports = response.data.elmo.report;
 
@@ -60,12 +60,6 @@ angular.module('courseSelection')
 
 
         $scope.sendIds = function () {
-            $http({
-                url: 'review',
-                method: 'GET',
-                params: {courses: courseSelectionService.selectedCourseIds}
-            }).success(function (data) {
-                $scope.review = $sce.trustAsHtml(data);
-            });
+            $location.path('preview');
         };
     });
