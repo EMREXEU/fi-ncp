@@ -3,12 +3,28 @@ angular.module('learningReport', [])
         return {
             restrict: "E",
             replace: true,
-            scope: {report: '='},
+            scope: {report: '=',
+                    typeFilter: '=',
+                    levelFilter: '='},
             templateUrl: 'partials/learningReport.html',
             controller: function ($scope) {
 
                 if (!angular.isArray($scope.report.learningOpportunitySpecification))
                     $scope.report.learningOpportunitySpecification = [{learningOpportunitySpecification: $scope.report.learningOpportunitySpecification}];
+
+                $scope.getRightLanguage = courseSelectionService.getRightLanguage;
+
+                $scope.selectedTypes = function(report) {
+                    return $scope.typeFilter[report.type];
+                };
+
+                $scope.selectedLevel = function(report) {
+                    if ($scope.levelFilter == "Any")
+                        return true;
+                    else
+                        return $scope.levelFilter == report.level;
+                };
+
 
                 function recursiveOpportunityFlattening(learningOpportunityArray, partOf) {
                     angular.forEach(learningOpportunityArray, function (opportunityWrapper) {
@@ -46,7 +62,8 @@ angular.module('learningReport', [])
                 flatArray = recursiveOpportunityFlattening($scope.report.learningOpportunitySpecification);
                 $scope.flattenedLearningOpportunities = flatArray;
 
-                $scope.issuerName = courseSelectionService.getRightLanguage({titles: $scope.report.issuer.title});
+                $scope.issuerName = courseSelectionService.getRightLanguage($scope.report.issuer.title);
+
 
                 $scope.checkBoxChanged = function (opportunity) {
                     if (opportunity.selected)

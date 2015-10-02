@@ -14,10 +14,10 @@
 </thead>
 <tbody>
 
-<tr ng-repeat="opportunity in flattenedLearningOpportunities">
+<tr ng-repeat="opportunity in flattenedLearningOpportunities | filter:selectedTypes | filter:selectedLevel">
     <td><input type="checkbox" ng-model="opportunity.selected" ng-change="checkBoxChanged(opportunity)"></td>
     <td>{{opportunity.elmoIdentifier}}</td>
-<td>{{getRightLanguage({titles: opportunity.title})}}</td>
+<td>{{getRightLanguage(opportunity.title)}}</td>
 <td>{{opportunity.partOf}}</td>
 <td>{{opportunity.level}}</td>
 <td>{{opportunity.type}}</td>

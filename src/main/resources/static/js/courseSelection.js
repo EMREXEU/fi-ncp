@@ -11,7 +11,12 @@ angular.module('courseSelection')
 
         $scope.educationInstitutionOptions = {}; // {'Helsinki University' : true, 'Oulu AMK' : true};
         $scope.typeOptions = {};
-        $scope.levelOptions = [];
+        $scope.levelOptions = ["Any"];
+
+        $scope.issuerFilter = function(report) {
+            var title = courseSelectionService.getRightLanguage(report.issuer.title);
+            return $scope.educationInstitutionOptions[title];
+        };
 
         var findOptionsRecursively = function (learningOpportunityArray, partOf) {
             angular.forEach(learningOpportunityArray, function (opportunityWrapper) {
