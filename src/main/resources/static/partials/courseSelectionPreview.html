@@ -2,14 +2,22 @@
 <h2>Review and approve import</h2>
 <hr/>
 <br>
-<h3></h3>
+<h3>{{learner.fullName}} {{learner.bday.content}}</h3>
+<br>
 <div class="pure-g">
     <div class="pure-u-1-2">
         <fieldset>
             <legend>Almost done!</legend>
-            You have selected to import 1 course. Please review your selection below and approve it to import the courses to your major university results.
+            <div>You have selected to import</div>
+            <div>{{numberOfCourses}}</div>
+            <div ng-show="numberOfCourses == 1"> course. </div>
+            <div ng-show="numberOfCourses != 1"> courses. </div>
+                 Please review your selection below and approve it to import the courses to your major university results.
         </fieldset>
     </div>
+</div>
+<div ng-repeat="learningReport in reports | filter:issuerFilter">
+    <learning-report-directive report='learningReport' only-viewing=true level-filter='selectedLevel' type-filter='typeOptions'></learning-report-directive>
 </div>
 
 <button>approve courses</button>

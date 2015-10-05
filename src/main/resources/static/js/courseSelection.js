@@ -1,13 +1,19 @@
 angular.module('courseSelection')
-    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, $location, response, courseSelectionService) {
+    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, $location, apiService, courseSelectionService) {
 
-        var reports = response.data.elmo.report;
+        apiService.getElmoAll().then(function (reports) {
+            // Collect data from reports
+            angular.forEach(reports, function (report) {
+                $scope.learner = report.learner;
 
-        // Report must be an array...
-        if (!angular.isArray(reports))
-            reports = [reports];
+                var issuerTitle = courseSelectionService.getRightLanguage(report.issuer.title);
+                $scope.educationInstitutionOptions[issuerTitle] = true;
 
-        $scope.reports = reports;
+                findOptionsRecursively(report.learningOpportunitySpecification);
+            });
+
+            $scope.reports = reports;
+        });
 
         $scope.educationInstitutionOptions = {}; // {'Helsinki University' : true, 'Oulu AMK' : true};
         $scope.typeOptions = {};
@@ -36,27 +42,6 @@ angular.module('courseSelection')
             });
             return;
         };
-
-
-        // Collect data from reports
-        angular.forEach(reports, function (report) {
-            $scope.learner = report.learner;
-
-            var issuerTitle = courseSelectionService.getRightLanguage(report.issuer.title);
-            $scope.educationInstitutionOptions[issuerTitle] = true;
-
-            var hasPart = [];
-
-            // let's modify array to make it compatible with recursion
-            if (!angular.isArray(report.learningOpportunitySpecification))
-                hasPart.push({learningOpportunitySpecification: report.learningOpportunitySpecification})
-            else
-                angular.forEach(report.learningOpportunitySpecification, function (specification) {
-                    hasPart.push({learningOpportunitySpecification: specification});
-                });
-            report.learningOpportunitySpecification = hasPart;
-            findOptionsRecursively(hasPart);
-        });
 
 
         $scope.sendIds = function () {

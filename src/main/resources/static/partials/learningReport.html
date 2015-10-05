@@ -2,7 +2,7 @@
 <h3>{{issuerName}}</h3>
 <table class="pure-table">
     <thead>
-    <th></th>
+    <th ng-hide="onlyViewing"></th>
     <th>Code</th>
     <th>Title</th>
     <th>Part of</th>
@@ -15,7 +15,7 @@
 <tbody>
 
 <tr ng-repeat="opportunity in flattenedLearningOpportunities | filter:selectedTypes | filter:selectedLevel">
-    <td><input type="checkbox" ng-model="opportunity.selected" ng-change="checkBoxChanged(opportunity)"></td>
+    <td ><input ng-hide="onlyViewing" type="checkbox" ng-model="opportunity.selected" ng-change="checkBoxChanged(opportunity)"></td>
     <td>{{opportunity.elmoIdentifier}}</td>
 <td>{{getRightLanguage(opportunity.title)}}</td>
 <td>{{opportunity.partOf}}</td>

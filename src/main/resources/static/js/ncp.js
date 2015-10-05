@@ -1,18 +1,12 @@
-app = angular.module('fi-ncp', ['ngRoute', 'courseSelection','learningReport', '720kb.datepicker'])
+app = angular.module('fi-ncp', ['ngRoute', 'api', 'courseSelection','learningReport', '720kb.datepicker'])
 
 app.config(function ($routeProvider, $httpProvider) {
 
     $routeProvider.
         when('/', {
             templateUrl: 'partials/courseSelection.html',
-            controller: 'courseSelectionCtrl',
-            resolve: {
-                response: function ($http) {
-                    return $http.get('/ncp/api/elmo/').success(function (response) {
-                        return response;
-                    });
-                }
-            }
+            controller: 'courseSelectionCtrl'
+
         }).
         when('/preview', {
             templateUrl: '/partials/courseSelectionPreview.html',
