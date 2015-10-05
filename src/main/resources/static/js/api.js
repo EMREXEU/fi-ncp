@@ -1,5 +1,6 @@
 angular.module('api', [])
     .service('apiService', function ($http, $q, $sce) {
+
         var fixReports = function(reports)
         {
             // Report must be an array...
@@ -9,7 +10,7 @@ angular.module('api', [])
             angular.forEach(reports, function (report) {
                 var hasPart = [];
 
-                // let's modify array to make it compatible with recursion
+                // learningOpportunitySpecification must be an array
                 if (!angular.isArray(report.learningOpportunitySpecification))
                     hasPart.push({learningOpportunitySpecification: report.learningOpportunitySpecification})
                 else

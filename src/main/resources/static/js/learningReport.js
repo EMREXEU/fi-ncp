@@ -5,7 +5,8 @@ angular.module('learningReport', [])
             replace: true,
             scope: {report: '=',
                     typeFilter: '=',
-                    levelFilter: '='},
+                    levelFilter: '=',
+                    onlyViewing: '='},
             templateUrl: 'partials/learningReport.html',
             controller: function ($scope) {
 
@@ -15,11 +16,14 @@ angular.module('learningReport', [])
                 $scope.getRightLanguage = courseSelectionService.getRightLanguage;
 
                 $scope.selectedTypes = function(report) {
-                    return $scope.typeFilter[report.type];
+                    if ($scope.onlyViewing)
+                        return true;
+                    else
+                        return $scope.typeFilter[report.type];
                 };
 
                 $scope.selectedLevel = function(report) {
-                    if ($scope.levelFilter == "Any")
+                    if ($scope.onlyViewing || $scope.levelFilter == "Any")
                         return true;
                     else
                         return $scope.levelFilter == report.level;
@@ -64,10 +68,22 @@ angular.module('learningReport', [])
 
                 $scope.issuerName = courseSelectionService.getRightLanguage($scope.report.issuer.title);
 
+                var selectParent = function(opportunity){
+                    if (opportunity.partOf != '-')
+                        angular.forEach($scope.flattenedLearningOpportunities, function(learningOpportunity) {
+                            if (learningOpportunity.elmoIdentifier == opportunity.partOf) {
+                                learningOpportunity.selected = true;
+                                $scope.checkBoxChanged(learningOpportunity);
+                            }
+                        });
+                };
 
                 $scope.checkBoxChanged = function (opportunity) {
-                    if (opportunity.selected)
+                    if (opportunity.selected) {
                         courseSelectionService.addId(opportunity.elmoIdentifier)
+                        selectParent(opportunity);
+
+                    }
                     else
                         courseSelectionService.removeId(opportunity.elmoIdentifier);
                 }
