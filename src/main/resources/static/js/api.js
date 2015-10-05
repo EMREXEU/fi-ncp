@@ -40,7 +40,7 @@ angular.module('api', [])
                 method: 'GET',
                 params: {courses: courses}
             }).success(function (response) {
-                deferred.resolve(response.elmo.report);
+                deferred.resolve(fixReports(response.elmo.report));
             }).error(function (error){
                 deferred.reject(error);
             });

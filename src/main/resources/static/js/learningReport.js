@@ -3,10 +3,12 @@ angular.module('learningReport', [])
         return {
             restrict: "E",
             replace: true,
-            scope: {report: '=',
-                    typeFilter: '=',
-                    levelFilter: '=',
-                    onlyViewing: '='},
+            scope: {
+                report: '=',
+                typeFilter: '=',
+                levelFilter: '=',
+                onlyViewing: '='
+            },
             templateUrl: 'partials/learningReport.html',
             controller: function ($scope) {
 
@@ -15,14 +17,14 @@ angular.module('learningReport', [])
 
                 $scope.getRightLanguage = courseSelectionService.getRightLanguage;
 
-                $scope.selectedTypes = function(report) {
+                $scope.selectedTypes = function (report) {
                     if ($scope.onlyViewing)
                         return true;
                     else
                         return $scope.typeFilter[report.type];
                 };
 
-                $scope.selectedLevel = function(report) {
+                $scope.selectedLevel = function (report) {
                     if ($scope.onlyViewing || $scope.levelFilter == "Any")
                         return true;
                     else
@@ -32,35 +34,37 @@ angular.module('learningReport', [])
 
                 function recursiveOpportunityFlattening(learningOpportunityArray, partOf) {
                     angular.forEach(learningOpportunityArray, function (opportunityWrapper) {
-                        if (opportunityWrapper.learningOpportunitySpecification)
-                            var opportunity = opportunityWrapper.learningOpportunitySpecification;
-                        else
-                            var opportunity = opportunityWrapper;
 
-                        // Add properties for table
-                        opportunity.selected = true;
+                            // in some cases
+                            if (opportunityWrapper.learningOpportunitySpecification)
+                                var opportunity = opportunityWrapper.learningOpportunitySpecification;
+                            else
+                                var opportunity = opportunityWrapper;
 
-                        // Add Elmo identifier
-                        if (angular.isArray(opportunity.identifier))
-                            angular.forEach(opportunity.identifier, function (identifier) {
-                                if (identifier.type == "elmo")
-                                    opportunity.elmoIdentifier = identifier.content;
-                            })
-                        else
-                            opportunity.elmoIdentifier = opportunity.identifier.content;
+                            // Add properties for table
+                            opportunity.selected = true;
 
-                        // Find parents Elmo identifier
-                        if (partOf)
-                            opportunity.partOf = partOf.elmoIdentifier
-                        else
-                            opportunity.partOf = '-';
+                            // Add Elmo identifier
+                            if (angular.isArray(opportunity.identifier))
+                                angular.forEach(opportunity.identifier, function (identifier) {
+                                    if (identifier.type == "elmo")
+                                        opportunity.elmoIdentifier = identifier.content;
+                                })
+                            else
+                                opportunity.elmoIdentifier = opportunity.identifier.content;
 
-                        flatArray.push(opportunity);
-                        courseSelectionService.addId(opportunity.elmoIdentifier); // all are selected at the beginning
+                            // Find parents Elmo identifier
+                            if (partOf)
+                                opportunity.partOf = partOf.elmoIdentifier
+                            else
+                                opportunity.partOf = '-';
 
-                        // Recursion
-                        if (opportunity.hasPart)
-                            recursiveOpportunityFlattening(opportunity.hasPart, opportunity)
+                            flatArray.push(opportunity);
+                            courseSelectionService.addId(opportunity.elmoIdentifier); // all are selected at the beginning
+
+                            // Recursion
+                            if (opportunity.hasPart)
+                                recursiveOpportunityFlattening(opportunity.hasPart, opportunity)
                     });
                     return flatArray;
                 };
@@ -71,9 +75,9 @@ angular.module('learningReport', [])
 
                 $scope.issuerName = courseSelectionService.getRightLanguage($scope.report.issuer.title);
 
-                var selectParent = function(child){
+                var selectParent = function (child) {
                     if (child.partOf != '-')
-                        angular.forEach($scope.flattenedLearningOpportunities, function(possibleParent) {
+                        angular.forEach($scope.flattenedLearningOpportunities, function (possibleParent) {
                             if (possibleParent.elmoIdentifier == child.partOf) {
                                 possibleParent.selected = true;
                                 $scope.checkBoxChanged(possibleParent);
@@ -81,7 +85,7 @@ angular.module('learningReport', [])
                         });
                 };
 
-                var deselectChilds = function(parent) {
+                var deselectChilds = function (parent) {
                     angular.forEach($scope.flattenedLearningOpportunities, function (possibleChild) {
                         if (parent.elmoIdentifier == possibleChild.partOf) {
                             possibleChild.selected = false;
@@ -103,4 +107,5 @@ angular.module('learningReport', [])
                     }
                 }
             }
-        }});
+        }
+    });

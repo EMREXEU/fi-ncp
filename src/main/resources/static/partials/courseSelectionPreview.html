@@ -8,19 +8,17 @@
     <div class="pure-u-1-2">
         <fieldset>
             <legend>Almost done!</legend>
-            <div>You have selected to import</div>
-            <div>{{numberOfCourses}}</div>
-            <div ng-show="numberOfCourses == 1"> course. </div>
-            <div ng-show="numberOfCourses != 1"> courses. </div>
+            <div class="custom-inline">You have selected to import</div>
+            <div class="custom-inline">{{numberOfCourses}}</div>
+            <div class="custom-inline" ng-show="numberOfCourses == 1"> course. </div>
+            <div class="custom-inline" ng-show="numberOfCourses != 1"> courses. </div>
                  Please review your selection below and approve it to import the courses to your major university results.
         </fieldset>
     </div>
 </div>
-<div ng-repeat="learningReport in reports | filter:issuerFilter">
+<div ng-repeat="learningReport in reports | filter:courseNumberfilter">
     <learning-report-directive report='learningReport' only-viewing=true level-filter='selectedLevel' type-filter='typeOptions'></learning-report-directive>
 </div>
 
-<button>approve courses</button>
-<a href="">Change selection</a>
-
 <div ng-bind-html="review"/>
+<a href="/norex#/">Change selection</a>
