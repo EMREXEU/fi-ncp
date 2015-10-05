@@ -5,6 +5,7 @@
  */
 package fi.csc.emrex.ncp.elmo;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * A class representing a single Elmo xml.
@@ -68,6 +70,7 @@ public class ElmoParser {
                 Element e = (Element) learnings.item(i);
                 e.appendChild(identifier);
             }
+            document.normalizeDocument();
 
         } catch (Exception ex) {
             Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,9 +90,9 @@ public class ElmoParser {
     }
 
     /**
-     * Elmo with a learning instance selection
-     * removes all learning opportunities not selected even if a learning opprtunity
-     * has a child that is among the selected courses. 
+     * Elmo with a learning instance selection removes all learning
+     * opportunities not selected even if a learning opprtunity has a child that
+     * is among the selected courses.
      *
      * @param courses
      * @return String representation of Elmo-xml with selected courses
@@ -98,39 +101,45 @@ public class ElmoParser {
     public String getCourseData(List<String> courses) throws ParserConfigurationException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-        Document doc = docBuilder.newDocument();
-        Element rootElement = document.getDocumentElement();
-        Node copiedRoot = doc.importNode(rootElement, true);
-        doc.appendChild(copiedRoot);
-        //NodeList learners = document.getElementsByTagName("learner");
-        //NodeList reports = document.getDocumentElement().getElementsByTagName("report");
+        String copyElmo = this.getStringFromDoc(document);
+        try {
 
-        NodeList learnings = doc.getElementsByTagName("learningOpportunitySpecification");
-        List<Node> removeNodes = new ArrayList<Node>();
-        for (int i = 0; i < learnings.getLength(); i++) {
-            Element specification = (Element) learnings.item(i);
-            NodeList identifiers = specification.getElementsByTagName("identifier");
-            for (int j = 0; j < identifiers.getLength(); j++) {
-                Element id = (Element) identifiers.item(j);
-                if (id.getParentNode() == specification) {
-                    if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
-                        if (!courses.contains(id.getTextContent())) {
-                            removeNodes.add(specification);
+            StringReader sr = new StringReader(copyElmo);
+            InputSource s = new InputSource(sr);
+            Document doc = docBuilder.parse(s);
+
+            NodeList learnings = doc.getElementsByTagName("learningOpportunitySpecification");
+            List<Node> removeNodes = new ArrayList<Node>();
+            for (int i = 0; i < learnings.getLength(); i++) {
+                Element specification = (Element) learnings.item(i);
+                NodeList identifiers = specification.getElementsByTagName("identifier");
+                for (int j = 0; j < identifiers.getLength(); j++) {
+                    Element id = (Element) identifiers.item(j);
+                    if (id.getParentNode() == specification) {
+                        if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
+                            if (!courses.contains(id.getTextContent())) {
+                                removeNodes.add(specification);
+
+                            }
 
                         }
-
                     }
                 }
             }
-        }
-        for (Node remove : removeNodes) {
-            Node parent = remove.getParentNode();
-            if(parent !=null){
-            parent.removeChild(remove);
+            for (Node remove : removeNodes) {
+                Node parent = remove.getParentNode();
+                if (parent != null) {
+                    parent.removeChild(remove);
+                }
             }
-        }
 
-        return getStringFromDoc(doc);
+            return getStringFromDoc(doc);
+      
+        } catch (SAXException | IOException ex) {
+            Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+
+        }
 
     }
 
