@@ -32,7 +32,10 @@ angular.module('learningReport', [])
 
                 function recursiveOpportunityFlattening(learningOpportunityArray, partOf) {
                     angular.forEach(learningOpportunityArray, function (opportunityWrapper) {
-                        var opportunity = opportunityWrapper.learningOpportunitySpecification;
+                        if (opportunityWrapper.learningOpportunitySpecification)
+                            var opportunity = opportunityWrapper.learningOpportunitySpecification;
+                        else
+                            var opportunity = opportunityWrapper;
 
                         // Add properties for table
                         opportunity.selected = true;
@@ -68,15 +71,25 @@ angular.module('learningReport', [])
 
                 $scope.issuerName = courseSelectionService.getRightLanguage($scope.report.issuer.title);
 
-                var selectParent = function(opportunity){
-                    if (opportunity.partOf != '-')
-                        angular.forEach($scope.flattenedLearningOpportunities, function(learningOpportunity) {
-                            if (learningOpportunity.elmoIdentifier == opportunity.partOf) {
-                                learningOpportunity.selected = true;
-                                $scope.checkBoxChanged(learningOpportunity);
+                var selectParent = function(child){
+                    if (child.partOf != '-')
+                        angular.forEach($scope.flattenedLearningOpportunities, function(possibleParent) {
+                            if (possibleParent.elmoIdentifier == child.partOf) {
+                                possibleParent.selected = true;
+                                $scope.checkBoxChanged(possibleParent);
                             }
                         });
                 };
+
+                var deselectChilds = function(parent) {
+                    angular.forEach($scope.flattenedLearningOpportunities, function (possibleChild) {
+                        if (parent.elmoIdentifier == possibleChild.partOf) {
+                            possibleChild.selected = false;
+                            $scope.checkBoxChanged(possibleChild);
+                        }
+                    })
+                }
+
 
                 $scope.checkBoxChanged = function (opportunity) {
                     if (opportunity.selected) {
@@ -84,8 +97,10 @@ angular.module('learningReport', [])
                         selectParent(opportunity);
 
                     }
-                    else
+                    else {
                         courseSelectionService.removeId(opportunity.elmoIdentifier);
+                        deselectChilds(opportunity);
+                    }
                 }
             }
         }});
