@@ -7,6 +7,7 @@ package fi.csc.emrex.ncp.elmo;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -29,17 +30,21 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 
 import org.xml.sax.InputSource;
+
 /**
  * A class representing a single Elmo xml.
+ *
  * @author salum
  */
 public class ElmoParser {
 
     private Document document;
-/**
- * Creates a dom model of elmo xml and adds elmo identifiers to courses
- * @param elmo 
- */
+
+    /**
+     * Creates a dom model of elmo xml and adds elmo identifiers to courses
+     *
+     * @param elmo
+     */
     public ElmoParser(String elmo) {
         //Get the DOM Builder Factory
 
@@ -48,7 +53,7 @@ public class ElmoParser {
         DocumentBuilder builder;
         try {
             builder = factory.newDocumentBuilder();
-            StringReader sr =new StringReader(elmo);
+            StringReader sr = new StringReader(elmo);
             InputSource s = new InputSource(sr);
 
             //Load and Parse the XML document
@@ -70,61 +75,60 @@ public class ElmoParser {
         }
 
     }
+
     /**
      * Complete XML of found Elmo
+     *
      * @return String representation of Elmo-xml
-     * @throws ParserConfigurationException 
+     * @throws ParserConfigurationException
      */
     public String getCourseData() throws ParserConfigurationException {
         return getStringFromDoc(document);
     }
-/**
- * Elmo with a learning instance selection
- * @param courses
- * @return String representation of Elmo-xml with selected courses
- * @throws ParserConfigurationException 
- */
+
+    /**
+     * Elmo with a learning instance selection
+     * removes all learning opportunities not selected even if a learning opprtunity
+     * has a child that is among the selected courses. 
+     *
+     * @param courses
+     * @return String representation of Elmo-xml with selected courses
+     * @throws ParserConfigurationException
+     */
     public String getCourseData(List<String> courses) throws ParserConfigurationException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         Document doc = docBuilder.newDocument();
-        Element rootElement = doc.createElement("elmo");
+        Element rootElement = document.getDocumentElement();
+        doc.createElement("elmo");
+        Node copiedRoot = doc.importNode(rootElement, true);
+        doc.appendChild(copiedRoot);
         //NodeList learners = document.getElementsByTagName("learner");
         NodeList reports = document.getDocumentElement().getElementsByTagName("report");
-        for (int k = 0; k < reports.getLength(); k++) {
-            Element report = doc.createElement("report");
-            NodeList children = reports.item(k).getChildNodes();
-     
-            for (int i = 0; i < children.getLength(); i++) {
-                Node item = children.item(i);
-                if (item.getNodeType() == Node.ELEMENT_NODE) {
-                    if (item.getNodeName() != "learningOpportunitySpecification") {
-                        Node newNode = doc.importNode(children.item(i), true);
-                        report.appendChild(newNode);
-                    }
-                }
-            }
-            
-            NodeList learnings = document.getElementsByTagName("learningOpportunitySpecification");
-            for (int i = 0; i < learnings.getLength(); i++) {
-                Element specification = (Element) learnings.item(i);
-                NodeList identifiers = specification.getElementsByTagName("identifier");
-                for (int j = 0; j < identifiers.getLength(); j++) {
-                    Element id = (Element) identifiers.item(j);
-                    if (id.getParentNode() == specification) {
-                        if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
-                            if (courses.contains(id.getTextContent())) {
-                                Node newNode = doc.importNode(learnings.item(i), true);
-                                report.appendChild(newNode);
-                            }
+
+        NodeList learnings = document.getElementsByTagName("learningOpportunitySpecification");
+        List<Node> removeNodes = new ArrayList<Node>();
+        for (int i = 0; i < learnings.getLength(); i++) {
+            Element specification = (Element) learnings.item(i);
+            NodeList identifiers = specification.getElementsByTagName("identifier");
+            for (int j = 0; j < identifiers.getLength(); j++) {
+                Element id = (Element) identifiers.item(j);
+                if (id.getParentNode() == specification) {
+                    if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
+                        if (!courses.contains(id.getTextContent())) {
+                            removeNodes.add(learnings.item(i));
 
                         }
+
                     }
                 }
             }
-            rootElement.appendChild(report);
         }
-        doc.appendChild(rootElement);
+        for (Node remove : removeNodes) {
+            Node parent = remove.getParentNode();
+            parent.removeChild(remove);
+        }
+
         return getStringFromDoc(doc);
 
     }
@@ -134,7 +138,7 @@ public class ElmoParser {
         LSSerializer lsSerializer = domImplementation.createLSSerializer();
         return lsSerializer.writeToString(doc);
     }
-    
+
     // just for testing
     private String getNodeString(Node node) {
         StringWriter writer = new StringWriter();
