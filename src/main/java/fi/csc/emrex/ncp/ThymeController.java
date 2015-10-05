@@ -38,12 +38,27 @@ public class ThymeController {
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
             Model model) throws Exception {
+        System.out.println("/ncp/review");
+        if (courses != null) {
+            for (int i = 0; i < courses.length; i++) {
+                System.out.print(courses[i] + ", ");
+
+            }System.out.println("");
+        }
         return this.review(courses, model);
     }
 
     @RequestMapping(value = "/review", method = RequestMethod.GET)
     public String review(@RequestParam(value = "courses", required = false) String[] courses,
             Model model) throws Exception {
+        System.out.println("/review");
+        if (courses != null) {
+            for (int i = 0; i < courses.length; i++) {
+                System.out.print(courses[i] + ", ");
+
+            }System.out.println("");
+        }
+        
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
         ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");

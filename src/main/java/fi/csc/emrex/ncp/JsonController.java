@@ -63,7 +63,15 @@ public class JsonController {
     @RequestMapping(value = "/ncp/api/elmo", method = RequestMethod.GET)
     @ResponseBody
     public String npcGetElmoJSON(@RequestParam(value = "courses", required = false) String[] courses) throws Exception {
-            return this.getElmoJSON(courses);
+        System.out.println("/ncp/api/elmo");
+                if (courses != null) {
+                    System.out.println("courses.length="+courses.length);
+            for (int i = 0; i < courses.length; i++) {
+                System.out.print(courses[i] + ", ");
+
+            }System.out.println("");
+        }
+        return this.getElmoJSON(courses);
     }
 
     @RequestMapping(value = "/api/elmo", method = RequestMethod.GET)
@@ -71,26 +79,28 @@ public class JsonController {
     public String getElmoJSON(
             @RequestParam(value = "courses", required = false) String[] courses) throws Exception {
         System.out.println("/api/elmo");
+        if (courses != null) {
+            for (int i = 0; i < courses.length; i++) {
+                System.out.print(courses[i] + ", ");
+
+            }System.out.println("");
+        }
         try {
 
             ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
             //ElmoParser parser = new ElmoParser(elmo);
             String xmlString;
-            if (courses == null || courses.length < 1) {
-                System.out.println("null courses");
-
-                xmlString = parser.getCourseData();
-
-            } else {
-
+            if (courses != null && courses.length > 0) {
+                System.out.println("courses count: " + courses.length);
                 List<String> courseList = Arrays.asList(courses);
-                System.out.println("courses count: " + courseList.size());
                 xmlString = parser.getCourseData(courseList);
-                //  System.out.println(xmlString);
+            } else {
+                System.out.println("null courses");
+                xmlString = parser.getCourseData();
             }
 
             JSONObject json = XML.toJSONObject(xmlString);
-            //System.out.println(json.toString());
+            System.out.println(json.toString());
             return json.toString();
         } catch (Exception e) {
 
