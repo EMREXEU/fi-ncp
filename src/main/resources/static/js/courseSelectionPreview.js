@@ -1,11 +1,13 @@
 angular.module('courseSelection')
-    .controller('courseSelectionPreviewCtrl',  function ($scope, $sce, $http, courseSelectionService) {
-        $http({
-            url: 'review',
-            method: 'GET',
-            params: {courses: courseSelectionService.selectedCourseIds}
-        }).success(function (data) {
-            $scope.review = $sce.trustAsHtml(data);
+    .controller('courseSelectionPreviewCtrl',  function ($scope, $sce, $http, courseSelectionService, apiService) {
+        apiService.getSubmitHtml(courseSelectionService.selectedCourseIds).then(function(html) {
+            $scope.review = html;
+        }); // we could also handle errors...
+
+        apiService.getElmoSelected(courseSelectionService.selectedCourseIds).then(function(reports){
+            angular.forEach(reports, function (report) {
+                $scope.learner = report.learner;
+            });
         });
 
 
