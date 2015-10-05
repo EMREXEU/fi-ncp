@@ -100,13 +100,12 @@ public class ElmoParser {
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         Document doc = docBuilder.newDocument();
         Element rootElement = document.getDocumentElement();
-        doc.createElement("elmo");
         Node copiedRoot = doc.importNode(rootElement, true);
         doc.appendChild(copiedRoot);
         //NodeList learners = document.getElementsByTagName("learner");
-        NodeList reports = document.getDocumentElement().getElementsByTagName("report");
+        //NodeList reports = document.getDocumentElement().getElementsByTagName("report");
 
-        NodeList learnings = document.getElementsByTagName("learningOpportunitySpecification");
+        NodeList learnings = doc.getElementsByTagName("learningOpportunitySpecification");
         List<Node> removeNodes = new ArrayList<Node>();
         for (int i = 0; i < learnings.getLength(); i++) {
             Element specification = (Element) learnings.item(i);
@@ -116,7 +115,7 @@ public class ElmoParser {
                 if (id.getParentNode() == specification) {
                     if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
                         if (!courses.contains(id.getTextContent())) {
-                            removeNodes.add(learnings.item(i));
+                            removeNodes.add(specification);
 
                         }
 
@@ -126,7 +125,9 @@ public class ElmoParser {
         }
         for (Node remove : removeNodes) {
             Node parent = remove.getParentNode();
+            if(parent !=null){
             parent.removeChild(remove);
+            }
         }
 
         return getStringFromDoc(doc);
