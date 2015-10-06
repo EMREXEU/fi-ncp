@@ -35,16 +35,11 @@ public class ThymeController {
     @Autowired
     private HttpServletRequest context;
 
+
+    // function for local testing
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
             Model model) throws Exception {
-        System.out.println("/ncp/review");
-        if (courses != null) {
-            for (int i = 0; i < courses.length; i++) {
-                System.out.print(courses[i] + ", ");
-
-            }System.out.println("");
-        }
         return this.review(courses, model);
     }
 
@@ -52,13 +47,7 @@ public class ThymeController {
     public String review(@RequestParam(value = "courses", required = false) String[] courses,
             Model model) throws Exception {
         System.out.println("/review");
-        if (courses != null) {
-            for (int i = 0; i < courses.length; i++) {
-                System.out.print(courses[i] + ", ");
 
-            }System.out.println("");
-        }
-        
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
         ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
@@ -82,19 +71,9 @@ public class ThymeController {
     }
 
     @RequestMapping(value = "/ncp/", method = RequestMethod.POST)
-    public String ncp2(@ModelAttribute CustomRequest request) {
-        return this.greeting(request);
-    }
-
-    @RequestMapping(value = "/ncp/norex", method = RequestMethod.POST)
-    public String ncpGreeting(@ModelAttribute CustomRequest request) {
-        return this.greeting(request);
-    }
-
-    @RequestMapping(value = "/norex", method = RequestMethod.POST)
     public String greeting(@ModelAttribute CustomRequest request) {
 
-        System.out.println("norex");
+        System.out.println("/ncp/");
 
         context.getSession().setAttribute("sessionId", request.getSessionId());
         context.getSession().setAttribute("returnUrl", request.getReturnUrl());
@@ -114,32 +93,13 @@ public class ThymeController {
         return "norex";
     }
 
-    @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
-    public String doLogin(@ModelAttribute User user, Model model) throws Exception {
-        System.out.println("userName: " + user.getName());
-        System.out.println("password: " + user.getPassword());
-        System.out.println("Return URL:" + context.getSession().getAttribute("returnUrl"));
-        model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
-        model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
-
-        //model.addAttribute("elmo", encodedXml);
-        return "doLogin";
-
-    }
-
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() {
         return "test";
     }
 
-    private boolean hakaLogin() {
-        //TODO
-        return true;
-
-    }
-
     private String getXMLFromVirta(String user) throws Exception {
-        //final String encodedXml = Base64.getEncoder().encodeToString(getElmo().getBytes());
+        //PLACEHOLDER FOR VIRTA REQUEST
         return getElmoRemote();
     }
 

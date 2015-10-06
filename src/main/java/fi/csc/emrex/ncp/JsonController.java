@@ -88,7 +88,6 @@ public class JsonController {
         try {
 
             ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
-            //ElmoParser parser = new ElmoParser(elmo);
             String xmlString;
             if (courses != null && courses.length > 0) {
                 System.out.println("courses count: " + courses.length);
