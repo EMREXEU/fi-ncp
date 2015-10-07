@@ -6,6 +6,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -51,5 +52,10 @@ public final class DateConverter {
 
     public static String convertCurrentDateToString(String formatStr) {
         return convertDateToString(new Date(), formatStr);
+    }
+
+    public static XMLGregorianCalendar convertLocalDateToXmlGregorianCalendar(LocalDate date) throws DatatypeConfigurationException {
+        return DatatypeFactory.newInstance().newXMLGregorianCalendarDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), DatatypeConstants.FIELD_UNDEFINED);
+
     }
 }
