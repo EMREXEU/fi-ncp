@@ -6,6 +6,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.bind.DatatypeConverter;
+
 /**
  * Created by marko.hollanti on 06/10/15.
  */
@@ -27,7 +29,15 @@ public class DataSignTest extends TestCase {
 
         final String result = instance.sign(cert, key, data);
 
-        assertTrue(result.contains("<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\"><SignedInfo><CanonicalizationMethod Algorithm=\"http://www.w3.org/TR/2001/REC-xml-c14n-20010315\"/>"));
-        assertTrue(result.endsWith("</X509Certificate></X509Data></KeyInfo></Signature></elmo>"));
+        final byte[] decoded = DatatypeConverter.parseBase64Binary(result);
+        assertNotNull(decoded);
+
+        final byte[] decompressed = GzipUtil.gzipDecompressBytes(decoded);
+        assertNotNull(decompressed);
+
+        final String s = new String(decompressed);
+
+        assertTrue(s.contains("<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\"><SignedInfo><CanonicalizationMethod Algorithm=\"http://www.w3.org/TR/2001/REC-xml-c14n-20010315\"/>"));
+        assertTrue(s.endsWith("</X509Certificate></X509Data></KeyInfo></Signature></elmo>"));
     }
 }

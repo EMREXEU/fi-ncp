@@ -86,7 +86,11 @@ public class DataSign {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer trans = tf.newTransformer();
         trans.transform(new DOMSource(doc), new StreamResult(os));
-        return os.toString();
+
+        final String signedXml = os.toString();
+        final byte[] compressedXml = GzipUtil.compress(signedXml);
+
+        return DatatypeConverter.printBase64Binary(compressedXml);
     }
 
     private static X509Certificate getCertificate(String certString) throws IOException, GeneralSecurityException {

@@ -1,10 +1,12 @@
 package fi.csc.emrex.ncp;
 
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -43,7 +45,8 @@ public final class DateConverter {
     private static XMLGregorianCalendar createXmlGregorianCalendar(Date date) throws DatatypeConfigurationException {
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(date);
-        return DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+        return DatatypeFactory.newInstance().newXMLGregorianCalendarDate(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH), DatatypeConstants.FIELD_UNDEFINED);
+//        return DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
     }
 
     public static String convertCurrentDateToString(String formatStr) {
