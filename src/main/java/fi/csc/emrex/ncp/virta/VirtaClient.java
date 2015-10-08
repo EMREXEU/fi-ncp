@@ -2,6 +2,7 @@ package fi.csc.emrex.ncp.virta;
 
 import fi.csc.emrex.ncp.DateConverter;
 import fi.csc.tietovaranto.emrex.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,26 +17,32 @@ import java.time.LocalDate;
 /**
  * Created by marko.hollanti on 28/09/15.
  */
+@Slf4j
 public class VirtaClient {
+
+    public static final String AVAIN = "salaisuus";
+    public static final String JARJESTELMA = "Emrex";
+    public static final String TUNNUS = "Test";
 
     @WebServiceRef
     private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
 
-    public static void main(String[] args) throws MalformedURLException, JAXBException {
-        VirtaClient v = new VirtaClient();
-        System.out.println(v.fetchStudies(new VirtaUser("Kaisa", "Keränen", VirtaUser.Gender.FEMALE, LocalDate.of(1966, 7, 18))));
-    }
+    public String fetchStudies(VirtaUser virtaUser) {
+        try {
+            return marshal(sendRequest(virtaUser));
+        } catch (Exception e) {
+            log.error("fetchStudies failed", e);
+            return null;
+        }
 
-    public String fetchStudies(VirtaUser virtaUser) throws MalformedURLException, JAXBException {
-        return marshal(sendRequest(virtaUser));
     }
 
     private ELMOOpiskelijavaihtoResponse sendRequest(VirtaUser virtaUser) throws MalformedURLException {
         ELMOOpiskelijavaihtoService service = new ELMOOpiskelijavaihtoService();
-        return service.getELMOOpiskelijavaihtoSoap11().elmoOpiskelijavaihto(luoRequest(virtaUser));
+        return service.getELMOOpiskelijavaihtoSoap11().elmoOpiskelijavaihto(createRequest(virtaUser));
     }
 
-    private ELMOOpiskelijavaihtoRequest luoRequest(VirtaUser virtaUser) {
+    private ELMOOpiskelijavaihtoRequest createRequest(VirtaUser virtaUser) {
         ELMOOpiskelijavaihtoRequest request = new ELMOOpiskelijavaihtoRequest();
         request.setKutsuja(luoKutsuja());
         request.setHakuehdot(luoHakuehdot(virtaUser));
@@ -61,13 +68,13 @@ public class VirtaClient {
 
     private Kutsuja luoKutsuja() {
         Kutsuja kutsuja = new Kutsuja();
-        kutsuja.setAvain("salaisuus");
-        kutsuja.setJarjestelma("Emrex");
-        kutsuja.setTunnus("Test");
+        kutsuja.setAvain(AVAIN);
+        kutsuja.setJarjestelma(JARJESTELMA);
+        kutsuja.setTunnus(TUNNUS);
         return kutsuja;
     }
 
-    public String marshal(ELMOOpiskelijavaihtoResponse response) throws JAXBException {
+    private String marshal(ELMOOpiskelijavaihtoResponse response) throws JAXBException {
         final Marshaller m = JAXBContext.newInstance(ELMOOpiskelijavaihtoResponse.class).createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         final StringWriter sw = new StringWriter();
