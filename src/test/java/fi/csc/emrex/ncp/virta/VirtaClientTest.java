@@ -1,6 +1,7 @@
 package fi.csc.emrex.ncp.virta;
 
 import junit.framework.TestCase;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ public class VirtaClientTest extends TestCase {
         instance = new VirtaClient();
     }
 
+    @Ignore
     @Test
     public void testFetchStudies() throws Exception {
 
@@ -27,9 +29,12 @@ public class VirtaClientTest extends TestCase {
 
         final String result = instance.fetchStudies(createVirtaUser());
 
+        System.out.println(result);
+
         assertTrue(result.startsWith(xmlPrefix));
     }
 
+    @Ignore
     @Test
     public void testFetchStudiesWithInvalidVirtaUser() throws Exception {
 
