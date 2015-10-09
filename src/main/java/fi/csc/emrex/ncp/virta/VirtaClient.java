@@ -2,6 +2,7 @@ package fi.csc.emrex.ncp.virta;
 
 import fi.csc.emrex.ncp.DateConverter;
 import fi.csc.tietovaranto.emrex.*;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.xml.bind.JAXBContext;
@@ -18,13 +19,13 @@ import java.time.LocalDate;
  * Created by marko.hollanti on 28/09/15.
  */
 @Slf4j
+@Setter
 public class VirtaClient {
 
     public static final String AVAIN = "salaisuus";
     public static final String JARJESTELMA = "Emrex";
     public static final String TUNNUS = "Test";
 
-    @WebServiceRef
     private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
 
     public String fetchStudies(VirtaUser virtaUser) {
@@ -34,12 +35,17 @@ public class VirtaClient {
             log.error("fetchStudies failed", e);
             return null;
         }
-
     }
 
     private ELMOOpiskelijavaihtoResponse sendRequest(VirtaUser virtaUser) throws MalformedURLException {
-        ELMOOpiskelijavaihtoService service = new ELMOOpiskelijavaihtoService();
-        return service.getELMOOpiskelijavaihtoSoap11().elmoOpiskelijavaihto(createRequest(virtaUser));
+        return getService().getELMOOpiskelijavaihtoSoap11().elmoOpiskelijavaihto(createRequest(virtaUser));
+    }
+
+    private ELMOOpiskelijavaihtoService getService() {
+        if (elmoOpiskelijavaihtoService == null) {
+            elmoOpiskelijavaihtoService = new ELMOOpiskelijavaihtoService();
+        }
+        return elmoOpiskelijavaihtoService;
     }
 
     private ELMOOpiskelijavaihtoRequest createRequest(VirtaUser virtaUser) {
