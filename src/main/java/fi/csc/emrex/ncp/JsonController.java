@@ -99,7 +99,7 @@ public class JsonController {
             }
 
             JSONObject json = XML.toJSONObject(xmlString);
-            System.out.println(json.toString());
+            //System.out.println(json.toString());
             return json.toString();
         } catch (Exception e) {
 

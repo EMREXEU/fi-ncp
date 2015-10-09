@@ -38,7 +38,7 @@ public class FiNcpApplication {
         } finally {
             IOUtils.closeQuietly(stream);
         }
-        System.out.println(elmo);
+        //System.out.println(elmo);
         return elmo;
     }
 

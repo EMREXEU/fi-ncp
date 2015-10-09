@@ -109,7 +109,7 @@ public class ElmoParser {
             Document doc = docBuilder.parse(s);
 
             NodeList learnings = doc.getElementsByTagName("learningOpportunitySpecification");
-            List<Node> removeNodes = new ArrayList<Node>();
+            List<Node> removeNodes = new ArrayList<>();
             for (int i = 0; i < learnings.getLength(); i++) {
                 Element specification = (Element) learnings.item(i);
                 NodeList identifiers = specification.getElementsByTagName("identifier");
@@ -134,7 +134,7 @@ public class ElmoParser {
             }
 
             return getStringFromDoc(doc);
-      
+
         } catch (SAXException | IOException ex) {
             Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
             return null;
