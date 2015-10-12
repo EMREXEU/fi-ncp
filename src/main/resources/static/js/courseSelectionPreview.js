@@ -7,17 +7,12 @@ angular.module('courseSelection')
         $scope.numberOfCourses = 0;
 
         apiService.getElmoSelected(courseSelectionService.selectedCourseIds).then(function (reports) {
-            angular.forEach(reports, function (report) {
 
-                if (report.learningOpportunitySpecification) {
-                    $scope.learner = report.learner;
-                    report.numberOfCourses = helperService.calculateCourses(report.learningOpportunitySpecification);
-                    $scope.numberOfCourses = $scope.numberOfCourses + report.numberOfCourses;
-                }
+            var reports = helperService.calculateAndFilter(reports);
+            angular.forEach(reports, function(report){
+                $scope.numberOfCourses += report.numberOfCourses;
             });
-
-            //we want only reports with courses
-            $scope.reports = helperService.filterProperReports(reports);
+            $scope.reports = reports;
         });
 
         // there are learning opportunitites in report
