@@ -1,12 +1,12 @@
 angular.module('courseSelection')
-    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, $location, apiService, courseSelectionService) {
+    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, $location, apiService, courseSelectionService, helperService) {
 
         apiService.getElmoAll().then(function (reports) {
             // Collect data from reports
             angular.forEach(reports, function (report) {
                 $scope.learner = report.learner;
 
-                var issuerTitle = courseSelectionService.getRightLanguage(report.issuer.title);
+                var issuerTitle = helperService.getRightLanguage(report.issuer.title);
                 $scope.educationInstitutionOptions[issuerTitle] = true;
 
                 findOptionsRecursively(report.learningOpportunitySpecification);
@@ -20,7 +20,7 @@ angular.module('courseSelection')
         $scope.levelOptions = ["Any"];
 
         $scope.issuerFilter = function(report) {
-            var title = courseSelectionService.getRightLanguage(report.issuer.title);
+            var title = helperService.getRightLanguage(report.issuer.title);
             return $scope.educationInstitutionOptions[title];
         };
 

@@ -12,17 +12,9 @@ app.config(function ($routeProvider, $httpProvider) {
             templateUrl: 'partials/courseSelectionPreview.html',
             controller: 'courseSelectionPreviewCtrl'
         }).
-        when('/login', {
-            templateUrl: 'partials/login.html',
-            controller: 'login'
-        }).
         when('/norex', {
             templateUrl: 'partials/login.html',
             controller: 'norex'
-        }).
-        when('/elmo', {
-            templateUrl: 'partials/elmo.html',
-            controller: 'elmo'
         }).
         otherwise({
             redirectTo: '/'

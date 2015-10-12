@@ -1,16 +1,7 @@
 angular.module('courseSelection', [])
     .service('courseSelectionService', function () {
         var selectedCourseIds = [];
-        var selectedLanguage = "fi";
 
-        function getRightLanguage(titles) {
-            var result = "";
-            angular.forEach(titles, function (title) {
-                if (title['xml:lang'] === selectedLanguage)
-                    result = title['content'];
-            });
-            return result;
-        };
 
         var addId = function (id) {
             if (selectedCourseIds.indexOf(id) < 0)
@@ -25,6 +16,5 @@ angular.module('courseSelection', [])
 
         return {selectedCourseIds: selectedCourseIds,
                 addId : addId,
-                removeId :removeId,
-                getRightLanguage : getRightLanguage
+                removeId :removeId
     }});
