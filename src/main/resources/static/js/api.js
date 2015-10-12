@@ -1,31 +1,10 @@
 angular.module('api', [])
-    .service('apiService', function ($http, $q, $sce) {
-
-        var fixReports = function(reports)
-        {
-            // Report must be an array...
-            if (!angular.isArray(reports))
-                reports = [reports];
-
-            angular.forEach(reports, function (report) {
-                var hasPart = [];
-
-                // learningOpportunitySpecification must be an array
-                if (!angular.isArray(report.learningOpportunitySpecification))
-                    hasPart.push({learningOpportunitySpecification: report.learningOpportunitySpecification})
-                else
-                    angular.forEach(report.learningOpportunitySpecification, function (specification) {
-                        hasPart.push({learningOpportunitySpecification: specification});
-                    });
-                report.learningOpportunitySpecification = hasPart;
-            });
-            return reports;
-        };
+    .service('apiService', function ($http, $q, $sce, helperService) {
 
         var getElmoAll = function() {
             var deferred = $q.defer();
             $http.get('/ncp/api/elmo/').success(function (response) {
-                var reports = fixReports(response.elmo.report);
+                var reports = helperService.fixReports(response.elmo.report);
                 deferred.resolve(reports);
             }).error(function (error) {
                 deferred.reject(error);
@@ -40,7 +19,7 @@ angular.module('api', [])
                 method: 'GET',
                 params: {courses: courses}
             }).success(function (response) {
-                deferred.resolve(fixReports(response.elmo.report));
+                deferred.resolve(helperService.fixReports(response.elmo.report));
             }).error(function (error){
                 deferred.reject(error);
             });
