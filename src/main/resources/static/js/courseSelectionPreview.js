@@ -1,12 +1,12 @@
 angular.module('courseSelection')
-    .controller('courseSelectionPreviewCtrl', function ($scope, $sce, $http, courseSelectionService, apiService, helperService) {
-        apiService.getSubmitHtml(courseSelectionService.selectedCourseIds).then(function (html) {
+    .controller('courseSelectionPreviewCtrl', function ($scope, $sce, $http, selectedCoursesService, apiService, helperService) {
+        apiService.getSubmitHtml(selectedCoursesService.selectedCourseIds).then(function (html) {
             $scope.review = html;
         }); // we could also handle errors...
 
         $scope.numberOfCourses = 0;
 
-        apiService.getElmoSelected(courseSelectionService.selectedCourseIds).then(function (reports) {
+        apiService.getElmoSelected(selectedCoursesService.selectedCourseIds).then(function (reports) {
 
             var reports = helperService.calculateAndFilter(reports);
             angular.forEach(reports, function(report){

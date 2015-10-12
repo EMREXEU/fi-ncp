@@ -1,5 +1,5 @@
-angular.module('courseSelection')
-    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, $location, apiService, courseSelectionService, helperService) {
+angular.module('courseSelection', [])
+    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, $location, apiService, selectedCoursesService, helperService) {
 
         apiService.getElmoAll().then(function (reports) {
             // Collect data from reports
