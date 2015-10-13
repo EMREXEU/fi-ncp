@@ -35,7 +35,6 @@ public class ThymeController {
     @Autowired
     private HttpServletRequest context;
 
-
     // function for local testing
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
@@ -61,7 +60,22 @@ public class ThymeController {
         }
         final String encodedXml = Base64.getEncoder().encodeToString(xmlString.getBytes());
         model.addAttribute("elmo", encodedXml);
+        model.addAttribute("buttonValue", "Approve courses");
+        return "review";
+    }
 
+    @RequestMapping(value = "/ncp/abort", method = RequestMethod.GET)
+    public String smpabort(Model model) {
+        return abort(model);
+
+    }
+
+    @RequestMapping(value = "/abort", method = RequestMethod.GET)
+    public String abort(Model model) {
+        model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
+        model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
+        model.addAttribute("elmo", "");
+        model.addAttribute("buttonValue", "Stop course transfer");
         return "review";
     }
 
