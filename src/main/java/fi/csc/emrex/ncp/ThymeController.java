@@ -43,13 +43,9 @@ public class ThymeController {
     @Autowired
     private HttpServletRequest context;
 
-<<<<<<< Updated upstream
-=======
     @Autowired
     private VirtaClient virtaClient;
 
-
->>>>>>> Stashed changes
     // function for local testing
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
@@ -131,9 +127,9 @@ public class ThymeController {
     }
 
     private String getXMLFromVirta(String user) throws Exception {
-//        return virtaClient.fetchStudies(createVirtaUser());
+       return virtaClient.fetchStudies(createVirtaUser());
         //PLACEHOLDER FOR VIRTA REQUEST
-        return getElmoRemote();
+        //return getElmoRemote();
     }
 
 

@@ -132,7 +132,14 @@ public class ElmoParser {
                     parent.removeChild(remove);
                 }
             }
-
+            NodeList reports =doc.getElementsByTagName("report"); 
+            for (int i = 0; i < reports.getLength(); i++) {
+                Element report = (Element) reports.item(i);
+                NodeList learnList =report.getElementsByTagName("learningOpportunitySpecification");
+                if(learnList.getLength()<1){
+                    report.getParentNode().removeChild(report); 
+                }
+            }
             return getStringFromDoc(doc);
 
         } catch (SAXException | IOException ex) {

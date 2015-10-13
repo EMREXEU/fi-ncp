@@ -97,6 +97,7 @@ public class JsonController {
                 System.out.println("null courses");
                 xmlString = parser.getCourseData();
             }
+            
 
             JSONObject json = XML.toJSONObject(xmlString);
             //System.out.println(json.toString());
