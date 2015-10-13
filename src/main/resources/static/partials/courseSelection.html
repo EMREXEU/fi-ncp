@@ -68,6 +68,8 @@
             </div>
         </div>
         <button class="pure-button custom-go-button" ng-click="sendIds()">Import selected</button>
+        <div class="custom-inline" ng-bind-html="abort"/>
+
         <div ng-repeat="learningReport in reports | filter:issuerFilter">
             <learning-report-directive report='learningReport' level-filter='selectedLevel'
                                        type-filter='typeOptions'></learning-report-directive>

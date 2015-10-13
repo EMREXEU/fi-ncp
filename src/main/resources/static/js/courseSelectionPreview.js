@@ -2,7 +2,11 @@ angular.module('courseSelection')
     .controller('courseSelectionPreviewCtrl', function ($scope, $sce, $http, selectedCoursesService, apiService, helperService) {
         apiService.getSubmitHtml(selectedCoursesService.selectedCourseIds).then(function (html) {
             $scope.review = html;
-        }); // we could also handle errors...
+        });
+
+        apiService.getAbortHtml().then(function (html) {
+            $scope.abort = html;
+        });
 
         $scope.numberOfCourses = 0;
 

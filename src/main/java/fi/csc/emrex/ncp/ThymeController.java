@@ -71,7 +71,8 @@ public class ThymeController {
         }
         final String encodedXml = Base64.getEncoder().encodeToString(xmlString.getBytes());
         model.addAttribute("elmo", encodedXml);
-        model.addAttribute("buttonText", "Approve courses");
+        model.addAttribute("buttonText", "Confirm selection");
+        model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
         return "review";
     }
 
@@ -85,8 +86,8 @@ public class ThymeController {
     public String abort(Model model) {
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
-        model.addAttribute("elmo", "");
-        model.addAttribute("buttonText", "Stop course transfer");
+        model.addAttribute("buttonText", "Cancel");
+        model.addAttribute("buttonClass", "pure-button custom-panic-button custom-inline");
         return "review";
     }
 
