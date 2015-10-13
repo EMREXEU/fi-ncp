@@ -30,6 +30,10 @@ public class VirtaClient {
     @Value("${ncp.virta.url}")
     private String virtaUrl;
 
+    public String fetchStudies(String fn, String ln, Gender gender, LocalDate birthDate) {
+        return fetchStudies(new VirtaUser(fn, ln, gender, birthDate));
+    }
+
     public String fetchStudies(VirtaUser virtaUser) {
         try {
             return VirtaMarshaller.marshal(sendRequest(virtaUser));

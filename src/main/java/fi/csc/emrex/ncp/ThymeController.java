@@ -5,17 +5,9 @@
  */
 package fi.csc.emrex.ncp;
 
-import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
-import static fi.csc.emrex.ncp.FiNcpApplication.getElmoRemote;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import javax.servlet.http.HttpServletRequest;
-
 import fi.csc.emrex.ncp.virta.Gender;
 import fi.csc.emrex.ncp.virta.VirtaClient;
-import fi.csc.emrex.ncp.virta.VirtaUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -26,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -125,15 +120,10 @@ public class ThymeController {
     }
 
     private String getXMLFromVirta(String user) throws Exception {
-        final String xml = virtaClient.fetchStudies(createVirtaUser());
+        // TODO tänne oikeat hakuehdot
+        final String xml = virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18));
         log.info("Elmo XML: {}", xml);
         return xml;
-    }
-
-
-    private VirtaUser createVirtaUser() {
-        // TODO tänne oikeat hakuehdot
-        return new VirtaUser("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18));
     }
 
 }
