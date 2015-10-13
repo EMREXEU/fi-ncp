@@ -125,12 +125,9 @@ public class ThymeController {
     }
 
     private String getXMLFromVirta(String user) throws Exception {
-
         final String xml = virtaClient.fetchStudies(createVirtaUser());
         log.info("Elmo XML: {}", xml);
-
-        //PLACEHOLDER FOR VIRTA REQUEST
-        return getElmoRemote();
+        return xml;
     }
 
 
