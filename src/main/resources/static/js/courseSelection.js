@@ -1,28 +1,9 @@
 angular.module('courseSelection', [])
-    .controller('courseSelectionCtrl',  function ($scope, $http, $sce, $location, apiService, selectedCoursesService, helperService) {
-
-        apiService.getElmoAll().then(function (reports) {
-            // Collect data from reports
-            angular.forEach(reports, function (report) {
-                $scope.learner = report.learner;
-
-                var issuerTitle = helperService.getRightLanguage(report.issuer.title);
-                $scope.educationInstitutionOptions[issuerTitle] = true;
-
-                findOptionsRecursively(report.learningOpportunitySpecification);
-            });
-
-            $scope.reports = reports;
-        });
+    .controller('courseSelectionCtrl', function ($scope, $http, $sce, $location, apiService, selectedCoursesService, helperService) {
 
         $scope.educationInstitutionOptions = {}; // {'Helsinki University' : true, 'Oulu AMK' : true};
         $scope.typeOptions = {};
         $scope.levelOptions = ["Any"];
-
-        $scope.issuerFilter = function(report) {
-            var title = helperService.getRightLanguage(report.issuer.title);
-            return $scope.educationInstitutionOptions[title];
-        };
 
         var findOptionsRecursively = function (learningOpportunityArray, partOf) {
             angular.forEach(learningOpportunityArray, function (opportunityWrapper) {
@@ -42,6 +23,35 @@ angular.module('courseSelection', [])
             });
             return;
         };
+
+        var collectDataFromReports = function(reports){
+            angular.forEach(reports, function (report) {
+                $scope.learner = report.learner;
+
+                var issuerTitle = helperService.getRightLanguage(report.issuer.title);
+                $scope.educationInstitutionOptions[issuerTitle] = true;
+
+                findOptionsRecursively(report.learningOpportunitySpecification);
+            });
+        };
+
+        if (!selectedCoursesService.reports)
+            apiService.getElmoAll().then(function (reports) {
+                collectDataFromReports(reports);
+                $scope.reports = reports;
+                selectedCoursesService.reports = reports;
+            })
+        else {
+            collectDataFromReports(selectedCoursesService.reports)
+            $scope.reports = selectedCoursesService.reports;
+        }
+
+        $scope.issuerFilter = function (report) {
+            var title = helperService.getRightLanguage(report.issuer.title);
+            return $scope.educationInstitutionOptions[title];
+        };
+
+
 
 
         $scope.sendIds = function () {
