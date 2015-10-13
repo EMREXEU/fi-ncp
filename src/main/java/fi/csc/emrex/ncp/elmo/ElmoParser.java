@@ -135,8 +135,10 @@ public class ElmoParser {
             NodeList reports =doc.getElementsByTagName("report"); 
             for (int i = 0; i < reports.getLength(); i++) {
                 Element report = (Element) reports.item(i);
+                System.out.println("report "+i);
                 NodeList learnList =report.getElementsByTagName("learningOpportunitySpecification");
                 if(learnList.getLength()<1){
+                    System.out.println("report empty");
                     report.getParentNode().removeChild(report); 
                 }
             }
