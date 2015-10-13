@@ -60,7 +60,7 @@ public class ThymeController {
         }
         final String encodedXml = Base64.getEncoder().encodeToString(xmlString.getBytes());
         model.addAttribute("elmo", encodedXml);
-        model.addAttribute("buttonValue", "Approve courses");
+        model.addAttribute("buttonText", "Approve courses");
         return "review";
     }
 
@@ -75,7 +75,7 @@ public class ThymeController {
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.addAttribute("elmo", "");
-        model.addAttribute("buttonValue", "Stop course transfer");
+        model.addAttribute("buttonText", "Stop course transfer");
         return "review";
     }
 

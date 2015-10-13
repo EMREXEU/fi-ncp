@@ -1,5 +1,5 @@
 <form action="#" th:action="${returnUrl}" method="POST">
     <input class="form-control" type="hidden" th:value="${sessionId}" id="sessionId" name="sessionId" />
     <input class="form-control" type="hidden" th:value="${elmo}" id="elmo" name="elmo" />
-    <input class="pure-button custom-go-button custom-inline" type="submit" th:attr="value=#{buttonText}" />
+    <input class="pure-button custom-go-button custom-inline" type="submit" th:attr="value=${buttonText}" />
 </form>
