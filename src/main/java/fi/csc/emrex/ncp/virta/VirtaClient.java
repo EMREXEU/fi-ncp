@@ -7,13 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.ws.WebServiceRef;
-import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -35,9 +30,13 @@ public class VirtaClient {
     @Value("${ncp.virta.url}")
     private String virtaUrl;
 
+    public String fetchStudies(String fn, String ln, Gender gender, LocalDate birthDate) {
+        return fetchStudies(new VirtaUser(fn, ln, gender, birthDate));
+    }
+
     public String fetchStudies(VirtaUser virtaUser) {
         try {
-            return marshal(sendRequest(virtaUser));
+            return VirtaMarshaller.marshal(sendRequest(virtaUser));
         } catch (Exception e) {
             log.error("fetchStudies failed", e);
             return null;
@@ -85,14 +84,6 @@ public class VirtaClient {
         kutsuja.setJarjestelma(JARJESTELMA);
         kutsuja.setTunnus(TUNNUS);
         return kutsuja;
-    }
-
-    private String marshal(ELMOOpiskelijavaihtoResponse response) throws JAXBException {
-        final Marshaller m = JAXBContext.newInstance(ELMOOpiskelijavaihtoResponse.class).createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        final StringWriter sw = new StringWriter();
-        m.marshal(response, sw);
-        return sw.toString();
     }
 
 }

@@ -5,27 +5,17 @@
  */
 package fi.csc.emrex.ncp;
 
-import static fi.csc.emrex.ncp.FiNcpApplication.getElmo;
-import static fi.csc.emrex.ncp.FiNcpApplication.getElmoRemote;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import fi.csc.emrex.ncp.virta.Gender;
+import fi.csc.emrex.ncp.virta.VirtaClient;
 import org.json.JSONObject;
 import org.json.XML;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  *
@@ -36,6 +26,9 @@ public class JsonController {
 
     @Autowired
     private HttpServletRequest context;
+
+    @Autowired
+    private VirtaClient virtaClient;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json;charset=UTF-8", headers = "Accept=*")
     public @ResponseBody
@@ -56,7 +49,8 @@ public class JsonController {
         Map<String, Object> model = new HashMap<>();
         model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
-        model.put("elmoXml", getElmoRemote());
+        // TODO oikeat hakuehdot
+        model.put("elmoXml", virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18)));
         return model;
     }
 
