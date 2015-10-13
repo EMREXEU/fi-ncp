@@ -43,13 +43,9 @@ public class ThymeController {
     @Autowired
     private HttpServletRequest context;
 
-<<<<<<< Updated upstream
-=======
     @Autowired
     private VirtaClient virtaClient;
 
-
->>>>>>> Stashed changes
     // function for local testing
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
@@ -113,8 +109,6 @@ public class ThymeController {
             String user = "";
             String elmoXML = getXMLFromVirta(user);
 
-            log.info("Elmo XML: {}", elmoXML);
-
             ElmoParser parser = new ElmoParser(elmoXML);
             context.getSession().setAttribute("elmo", parser);
             return "norex";
@@ -131,7 +125,10 @@ public class ThymeController {
     }
 
     private String getXMLFromVirta(String user) throws Exception {
-//        return virtaClient.fetchStudies(createVirtaUser());
+
+        final String xml = virtaClient.fetchStudies(createVirtaUser());
+        log.info("Elmo XML: {}", xml);
+
         //PLACEHOLDER FOR VIRTA REQUEST
         return getElmoRemote();
     }
