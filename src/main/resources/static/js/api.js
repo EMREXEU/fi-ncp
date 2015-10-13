@@ -40,11 +40,25 @@ angular.module('api', [])
             return deferred.promise;
         };
 
+        var getAbortHtml = function(courses) {
+            var deferred = $q.defer();
+            $http({
+                url: 'abort',
+                method: 'GET'
+            }).success(function (data) {
+                deferred.resolve($sce.trustAsHtml(data));
+            }).error(function (error){
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        };
+
 
 
         return {getElmoAll: getElmoAll,
                 getElmoSelected: getElmoSelected,
-                getSubmitHtml : getSubmitHtml};
+                getSubmitHtml : getSubmitHtml,
+                getAbortHtml : getAbortHtml};
 
     }
 );

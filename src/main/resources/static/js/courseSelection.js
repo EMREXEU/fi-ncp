@@ -46,13 +46,14 @@ angular.module('courseSelection', [])
             $scope.reports = selectedCoursesService.reports;
         }
 
+        apiService.getAbortHtml().then(function (html) {
+            $scope.abort = html;
+        });
+
         $scope.issuerFilter = function (report) {
             var title = helperService.getRightLanguage(report.issuer.title);
             return $scope.educationInstitutionOptions[title];
         };
-
-
-
 
         $scope.sendIds = function () {
             $location.path('preview');
