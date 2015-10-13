@@ -4,6 +4,8 @@ import fi.csc.emrex.ncp.DateConverter;
 import fi.csc.tietovaranto.emrex.*;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -13,6 +15,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceRef;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 
 /**
@@ -20,6 +23,7 @@ import java.time.LocalDate;
  */
 @Slf4j
 @Setter
+@Component
 public class VirtaClient {
 
     public static final String AVAIN = "salaisuus";
@@ -27,6 +31,9 @@ public class VirtaClient {
     public static final String TUNNUS = "Test";
 
     private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
+
+    @Value("${ncp.virta.url}")
+    private String virtaUrl;
 
     public String fetchStudies(VirtaUser virtaUser) {
         try {
@@ -41,9 +48,9 @@ public class VirtaClient {
         return getService().getELMOOpiskelijavaihtoSoap11().elmoOpiskelijavaihto(createRequest(virtaUser));
     }
 
-    private ELMOOpiskelijavaihtoService getService() {
+    private ELMOOpiskelijavaihtoService getService() throws MalformedURLException {
         if (elmoOpiskelijavaihtoService == null) {
-            elmoOpiskelijavaihtoService = new ELMOOpiskelijavaihtoService();
+            elmoOpiskelijavaihtoService = new ELMOOpiskelijavaihtoService(new URL(virtaUrl));
         }
         return elmoOpiskelijavaihtoService;
     }
