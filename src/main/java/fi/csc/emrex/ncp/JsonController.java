@@ -49,6 +49,7 @@ public class JsonController {
         Map<String, Object> model = new HashMap<>();
         model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
+        // TODO oikeat hakuehdot
         model.put("elmoXml", virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18)));
         return model;
     }
