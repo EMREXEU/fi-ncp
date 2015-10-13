@@ -1,14 +1,18 @@
 package fi.csc.emrex.ncp;
 
+import fi.csc.emrex.ncp.virta.Gender;
+import fi.csc.emrex.ncp.virta.VirtaClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -25,6 +29,7 @@ public class JsonControllerTest {
     public static final String ELMO_XML = "elmoXml";
 
     @Mock private HttpServletRequest mockHttpServletRequest;
+    @Mock private VirtaClient mockVirtaClient;
     @InjectMocks private JsonController instance;
 
     @Test
@@ -39,6 +44,8 @@ public class JsonControllerTest {
         final String sessionId = SESSION_ID;
         Mockito.when(mockHttpSession.getAttribute(SESSION_ID)).thenReturn(sessionId);
 
+        Mockito.when(mockVirtaClient.fetchStudies(Matchers.anyString(), Matchers.anyString(), Matchers.any(Gender.class), Matchers.any(LocalDate.class))).thenReturn(ELMO_XML);
+
         final Map<String, Object> result = instance.fetchElmoXml();
         assertEquals(RETURN_URL, result.get(RETURN_URL));
         assertEquals(SESSION_ID, result.get(SESSION_ID));
@@ -47,6 +54,7 @@ public class JsonControllerTest {
         Mockito.verify(mockHttpServletRequest, Mockito.times(2)).getSession();
         Mockito.verify(mockHttpSession).getAttribute(RETURN_URL);
         Mockito.verify(mockHttpSession).getAttribute(SESSION_ID);
+        Mockito.verify(mockVirtaClient).fetchStudies(Matchers.anyString(), Matchers.anyString(), Matchers.any(Gender.class), Matchers.any(LocalDate.class));
 
     }
 }
