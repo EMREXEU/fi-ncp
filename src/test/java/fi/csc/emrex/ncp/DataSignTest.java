@@ -5,29 +5,35 @@ import junit.framework.TestCase;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 
 import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by marko.hollanti on 06/10/15.
  */
+@SpringApplicationConfiguration
 public class DataSignTest extends TestCase {
 
     private DataSign instance;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         instance = new DataSign();
+        instance.setCertificatePath("csc-cert.crt");
+        instance.setEncryptionKeyPath("csc-privkey-pkcs8.key");
+        instance.setEnvironment("dev");
     }
 
     @Test
     public void testSign() throws Exception {
 
-        final String cert = TestUtil.getFileContent("csc-cert.crt");
-        final String key = TestUtil.getFileContent("csc-privkey-pkcs8.key");
         final String data = TestUtil.getFileContent("Example-elmo-Finland.xml");
 
-        final String result = instance.sign(cert, key, data);
+        System.out.println(data);
+
+        final String result = instance.sign(data, StandardCharsets.UTF_8);
 
         final byte[] decoded = DatatypeConverter.parseBase64Binary(result);
         assertNotNull(decoded);

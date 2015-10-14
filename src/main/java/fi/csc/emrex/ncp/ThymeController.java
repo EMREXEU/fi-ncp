@@ -8,7 +8,6 @@ package fi.csc.emrex.ncp;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
 import fi.csc.emrex.ncp.virta.Gender;
 import fi.csc.emrex.ncp.virta.VirtaClient;
-import fi.csc.emrex.ncp.virta.VirtaUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -20,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 
 /**
@@ -41,6 +40,9 @@ public class ThymeController {
 
     @Autowired
     private VirtaClient virtaClient;
+
+    @Autowired
+    private DataSign dataSign;
 
     // function for local testing
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
@@ -65,8 +67,11 @@ public class ThymeController {
         } else {
             xmlString = parser.getCourseData();
         }
-        final String encodedXml = Base64.getEncoder().encodeToString(xmlString.getBytes());
-        model.addAttribute("elmo", encodedXml);
+
+        xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_16);
+        log.info("Signed XML: {}", xmlString);
+
+        model.addAttribute("elmo", xmlString);
         model.addAttribute("buttonText", "Confirm selection");
         model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
         return "review";
@@ -126,6 +131,7 @@ public class ThymeController {
         // TODO tänne oikeat hakuehdot
         final String xml = virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18));
         log.info("Elmo XML: {}", xml);
+
         return xml;
     }
 

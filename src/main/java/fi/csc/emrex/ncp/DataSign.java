@@ -1,6 +1,9 @@
 package fi.csc.emrex.ncp;
 
-import org.springframework.util.Base64Utils;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import javax.xml.bind.DatatypeConverter;
@@ -17,6 +20,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.cert.CertificateFactory;
@@ -24,16 +31,34 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by marko.hollanti on 06/10/15.
  */
+@Setter
+@Slf4j
+@Component
 public class DataSign {
 
-    public String sign(String certificate, String encKey, String data) throws Exception {
+    private String certificate;
+    private String encryptionKey;
+
+    @Value("${path.certificate}")
+    private String certificatePath;
+
+    @Value("${ncp.path.encryption.key}")
+    private String encryptionKeyPath;
+
+    @Value("${environment}")
+    private String environment;
+
+    public String sign(String data, Charset charset) throws Exception {
+
+        log.info("Data to be signed: {}", data);
+
+        assertCertificateAndEncryptionKeyAvailable();
 
         // Create a DOM XMLSignatureFactory that will be used to generate the enveloped signature.
         XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
@@ -53,13 +78,13 @@ public class DataSign {
         // Instantiate the document to be signed.
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
-        InputStream is = new ByteArrayInputStream(data.getBytes()); // StandardCharsets.ISO_8859_1
+        InputStream is = new ByteArrayInputStream(data.getBytes(charset)); // StandardCharsets.ISO_8859_1
         Document doc = dbf.newDocumentBuilder().parse(is);
 
         // Extract the private key from string
-        encKey = encKey.replaceAll("(-----.*?-----)", "");
+        encryptionKey = encryptionKey.replaceAll("(-----.*?-----)", "");
 
-        byte[] decoded = DatatypeConverter.parseBase64Binary(encKey);
+        byte[] decoded = DatatypeConverter.parseBase64Binary(encryptionKey);
 
         PKCS8EncodedKeySpec rsaPrivKeySpec = new PKCS8EncodedKeySpec(decoded);
         KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -91,6 +116,20 @@ public class DataSign {
         final byte[] compressedXml = GzipUtil.compress(signedXml);
 
         return DatatypeConverter.printBase64Binary(compressedXml);
+    }
+
+    private void assertCertificateAndEncryptionKeyAvailable() throws Exception {
+        if (certificate == null) {
+            certificate = readFileContent(certificatePath);
+        }
+        if (encryptionKey == null) {
+            encryptionKey = readFileContent(encryptionKeyPath);
+        }
+    }
+
+    private String readFileContent(String path) throws Exception {
+        return environment.equalsIgnoreCase("dev") ? FileReader.getFileContent(path) :
+                new String(Files.readAllBytes(Paths.get(path)));
     }
 
     private static X509Certificate getCertificate(String certString) throws IOException, GeneralSecurityException {
