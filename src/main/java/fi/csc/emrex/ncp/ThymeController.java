@@ -101,18 +101,22 @@ public class ThymeController {
     public String greeting(@ModelAttribute CustomRequest request) {
 
         System.out.println("/ncp/");
-
-        context.getSession().setAttribute("sessionId", request.getSessionId());
-        context.getSession().setAttribute("returnUrl", request.getReturnUrl());
+        if (context.getSession().getAttribute("sessionId") == null) {
+            context.getSession().setAttribute("sessionId", request.getSessionId());
+        }
+        if (context.getSession().getAttribute("returnUrl") == null) {
+            context.getSession().setAttribute("returnUrl", request.getReturnUrl());
+        }
         System.out.println("Return URL: " + context.getSession().getAttribute("returnUrl"));
         System.out.println("Session ID: " + context.getSession().getAttribute("sessionId"));
         try {
+            if (context.getSession().getAttribute("elmo") == null) {
+                String user = "";
+                String elmoXML = getXMLFromVirta(user);
 
-            String user = "";
-            String elmoXML = getXMLFromVirta(user);
-
-            ElmoParser parser = new ElmoParser(elmoXML);
-            context.getSession().setAttribute("elmo", parser);
+                ElmoParser parser = new ElmoParser(elmoXML);
+                context.getSession().setAttribute("elmo", parser);
+            }
             return "norex";
 
         } catch (Exception e) {
