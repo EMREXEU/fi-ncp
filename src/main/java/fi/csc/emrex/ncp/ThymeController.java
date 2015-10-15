@@ -68,7 +68,7 @@ public class ThymeController {
             xmlString = parser.getCourseData();
         }
 
-        xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_16);
+        xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
         log.info("Signed XML: {}", xmlString);
 
         model.addAttribute("elmo", xmlString);
@@ -132,11 +132,13 @@ public class ThymeController {
 
     private String getXMLFromVirta(String user) throws Exception {
 
-        // TODO tänne oikeat hakuehdot
-        final String xml = virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18));
-        log.info("Elmo XML: {}", xml);
+        return FileReader.getFileContent("Example-elmo-Finland.xml");
 
-        return xml;
+        // TODO tänne oikeat hakuehdot
+//        final String xml = virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18));
+//        log.info("Elmo XML: {}", xml);
+//
+//        return xml;
     }
 
 }

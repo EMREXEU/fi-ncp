@@ -8,6 +8,8 @@ package fi.csc.emrex.ncp.elmo;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -28,6 +30,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
 
 import org.xml.sax.InputSource;
@@ -155,7 +158,15 @@ public class ElmoParser {
     private String getStringFromDoc(org.w3c.dom.Document doc) {
         DOMImplementationLS domImplementation = (DOMImplementationLS) doc.getImplementation();
         LSSerializer lsSerializer = domImplementation.createLSSerializer();
-        return lsSerializer.writeToString(doc);
+
+        LSOutput lsOutput =  domImplementation.createLSOutput();
+        lsOutput.setEncoding(StandardCharsets.UTF_8.name());
+        Writer stringWriter = new StringWriter();
+        lsOutput.setCharacterStream(stringWriter);
+        lsSerializer.write(doc, lsOutput);
+        return stringWriter.toString();
+
+//        return lsSerializer.writeToString(doc);
     }
 
     // just for testing
