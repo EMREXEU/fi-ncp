@@ -6,7 +6,6 @@
 package fi.csc.emrex.ncp;
 
 import fi.csc.emrex.ncp.elmo.ElmoParser;
-import fi.csc.emrex.ncp.virta.Gender;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import org.json.JSONObject;
 import org.json.XML;
@@ -50,7 +49,7 @@ public class JsonController {
         model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
         // TODO oikeat hakuehdot
-        model.put("elmoXml", virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18)));
+        model.put("elmoXml", virtaClient.fetchStudies("17488477125", null));
         return model;
     }
 

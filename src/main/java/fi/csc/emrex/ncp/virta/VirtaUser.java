@@ -14,16 +14,12 @@ import java.util.Enumeration;
 @Setter
 public class VirtaUser {
 
-    public VirtaUser(String firstName, String lastName, Gender gender, LocalDate birthday) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.birthday = birthday;
+    public VirtaUser(String oid, String ssn) {
+        this.oid = oid;
+        this.ssn = ssn;
     }
 
-    private String firstName;
-    private String lastName;
-    private Gender gender;
-    private LocalDate birthday;
+    private String oid;
+    private String ssn;
 
 }

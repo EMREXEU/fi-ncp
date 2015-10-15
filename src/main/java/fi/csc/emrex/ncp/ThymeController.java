@@ -6,7 +6,6 @@
 package fi.csc.emrex.ncp;
 
 import fi.csc.emrex.ncp.elmo.ElmoParser;
-import fi.csc.emrex.ncp.virta.Gender;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,7 +134,7 @@ public class ThymeController {
 //        return FileReader.getFileContent("Example-elmo-Finland.xml");
 
         // TODO tänne oikeat hakuehdot
-        final String xml = virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18));
+        final String xml = virtaClient.fetchStudies("17488477125", null);
         log.info("Elmo XML: {}", xml);
 
         return xml;

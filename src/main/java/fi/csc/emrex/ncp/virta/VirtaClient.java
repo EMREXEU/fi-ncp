@@ -26,15 +26,14 @@ public class VirtaClient {
     public static final String AVAIN = "salaisuus";
     public static final String JARJESTELMA = "Emrex";
     public static final String TUNNUS = "Test";
-    public static final String OID = "17488477125";
 
     private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
 
     @Value("${ncp.virta.url}")
     private String virtaUrl;
 
-    public String fetchStudies(String fn, String ln, Gender gender, LocalDate birthDate) {
-        return fetchStudies(new VirtaUser(fn, ln, gender, birthDate));
+    public String fetchStudies(String oid, String ssn) {
+        return fetchStudies(new VirtaUser(oid, ssn));
     }
 
     public String fetchStudies(VirtaUser virtaUser) {
@@ -66,8 +65,8 @@ public class VirtaClient {
 
     private Hakuehdot luoHakuehdot(VirtaUser virtaUser) {
         Hakuehdot hakuehdot = new Hakuehdot();
-        new ObjectFactory().createOID(OID);
-        hakuehdot.getContent().add(0, new ObjectFactory().createOID("17488477125"));
+        // TODO use OID or SSN
+        hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));
         return hakuehdot;
     }
 

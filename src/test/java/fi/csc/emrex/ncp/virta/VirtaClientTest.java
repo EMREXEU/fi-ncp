@@ -42,7 +42,7 @@ public class VirtaClientTest extends TestCase {
     }
 
     private VirtaUser createVirtaUser() {
-        return new VirtaUser("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18));
+        return new VirtaUser("17488477125", null);
     }
 
 }
