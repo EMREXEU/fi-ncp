@@ -7,7 +7,8 @@
 					<xs:element name="jarjestelma">
 						<xs:annotation>
 							<xs:documentation xml:lang="fi">
-								Lukurajapintaa käyttävän eli kutsuvan järjestelmän nimi (esim. TIPTOP).
+								Lukurajapintaa
+								käyttävän eli kutsuvan järjestelmän nimi (esim. TIPTOP).
 							</xs:documentation>
 							<xs:documentation xml:lang="en">
 								Name of the system
@@ -23,11 +24,12 @@
 					<xs:element name="tunnus">
 						<xs:annotation>
 							<xs:documentation xml:lang="fi">
-								Kutsuja/käyttäjä eli kutsuvan järjestelmän käyttäjän käyttäjätunnus.
+								Kutsuja/käyttäjä eli
+								kutsuvan järjestelmän käyttäjän käyttäjätunnus.
 							</xs:documentation>
 							<xs:documentation xml:lang="en">
-								Username of the user
-								in the system using the interface.
+								Username of the user in
+								the system using the interface.
 							</xs:documentation>
 						</xs:annotation>
 						<xs:simpleType>
@@ -39,7 +41,8 @@
 					<xs:element name="avain">
 						<xs:annotation>
 							<xs:documentation xml:lang="fi">
-								Lukurajapinnan salasana.
+								Lukurajapinnan
+								salasana.
 							</xs:documentation>
 							<xs:documentation xml:lang="en">
 								Interface password.
@@ -61,41 +64,31 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="OID">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="200"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="HeTu">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="200"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
 			<xs:complexType name="Hakuehdot">
 				<xs:sequence>
-					<xs:element name="etunimi">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:minLength value="1"/>
-								<xs:maxLength value="200"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:element>
-					<xs:element name="sukunimi">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:minLength value="1"/>
-								<xs:maxLength value="500"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:element>
-					<xs:element name="sukupuoli">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:minLength value="1"/>
-								<xs:maxLength value="6"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:element>
-					<xs:element name="syntymaaika">
-						<xs:simpleType>
-							<xs:restriction base="xs:date">
-								<xs:minInclusive value="1800-01-01"/>
-								<xs:maxInclusive value="9999-12-31"/>
-								<xs:pattern value=".{10}"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:element>
+					<xs:choice>
+						<xs:sequence>
+							<xs:element ref="emrex:OID"/>
+							<xs:element minOccurs="0" ref="emrex:HeTu"/>
+						</xs:sequence>
+						<xs:element ref="emrex:HeTu"/>
+					</xs:choice>
 				</xs:sequence>
 			</xs:complexType>
 			<xs:element name="ELMOOpiskelijavaihtoResponse">

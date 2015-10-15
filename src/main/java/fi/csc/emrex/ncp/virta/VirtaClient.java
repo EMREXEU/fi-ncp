@@ -7,8 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -24,6 +26,7 @@ public class VirtaClient {
     public static final String AVAIN = "salaisuus";
     public static final String JARJESTELMA = "Emrex";
     public static final String TUNNUS = "Test";
+    public static final String OID = "17488477125";
 
     private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
 
@@ -63,10 +66,8 @@ public class VirtaClient {
 
     private Hakuehdot luoHakuehdot(VirtaUser virtaUser) {
         Hakuehdot hakuehdot = new Hakuehdot();
-        hakuehdot.setEtunimi(virtaUser.getFirstName());
-        hakuehdot.setSukunimi(virtaUser.getLastName());
-        hakuehdot.setSukupuoli(virtaUser.getGender().getValue());
-        hakuehdot.setSyntymaaika(convert(virtaUser.getBirthday()));
+        new ObjectFactory().createOID(OID);
+        hakuehdot.getContent().add(0, new ObjectFactory().createOID("17488477125"));
         return hakuehdot;
     }
 

@@ -132,13 +132,13 @@ public class ThymeController {
 
     private String getXMLFromVirta(String user) throws Exception {
 
-        return FileReader.getFileContent("Example-elmo-Finland.xml");
+//        return FileReader.getFileContent("Example-elmo-Finland.xml");
 
         // TODO tänne oikeat hakuehdot
-//        final String xml = virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18));
-//        log.info("Elmo XML: {}", xml);
-//
-//        return xml;
+        final String xml = virtaClient.fetchStudies("Kaisa", "Keränen", Gender.FEMALE, LocalDate.of(1966, 7, 18));
+        log.info("Elmo XML: {}", xml);
+
+        return xml;
     }
 
 }
