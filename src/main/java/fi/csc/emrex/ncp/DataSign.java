@@ -56,8 +56,6 @@ public class DataSign {
 
     public String sign(String data, Charset charset) throws Exception {
 
-        log.info("Data to be signed: {}", data);
-
         assertCertificateAndEncryptionKeyAvailable();
 
         // Create a DOM XMLSignatureFactory that will be used to generate the enveloped signature.
