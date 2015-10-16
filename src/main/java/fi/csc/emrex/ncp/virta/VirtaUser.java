@@ -2,6 +2,7 @@ package fi.csc.emrex.ncp.virta;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang.StringUtils;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -22,4 +23,7 @@ public class VirtaUser {
     private String oid;
     private String ssn;
 
+    public boolean isOidSet() {
+        return !StringUtils.isBlank(oid);
+    }
 }

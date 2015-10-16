@@ -7,10 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.namespace.QName;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -58,15 +56,19 @@ public class VirtaClient {
 
     private ELMOOpiskelijavaihtoRequest createRequest(VirtaUser virtaUser) {
         ELMOOpiskelijavaihtoRequest request = new ELMOOpiskelijavaihtoRequest();
-        request.setKutsuja(luoKutsuja());
-        request.setHakuehdot(luoHakuehdot(virtaUser));
+        request.setKutsuja(getKutsuja());
+        request.setHakuehdot(getHakuehdot(virtaUser));
         return request;
     }
 
-    private Hakuehdot luoHakuehdot(VirtaUser virtaUser) {
+    private Hakuehdot getHakuehdot(VirtaUser virtaUser) {
         Hakuehdot hakuehdot = new Hakuehdot();
-        // TODO use OID or SSN
-        hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));
+        if (virtaUser.isOidSet()) {
+            hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));
+        } else {
+            hakuehdot.getContent().add(0, new ObjectFactory().createHeTu(virtaUser.getSsn()));
+        }
+
         return hakuehdot;
     }
 
@@ -78,7 +80,7 @@ public class VirtaClient {
         }
     }
 
-    private Kutsuja luoKutsuja() {
+    private Kutsuja getKutsuja() {
         Kutsuja kutsuja = new Kutsuja();
         kutsuja.setAvain(AVAIN);
         kutsuja.setJarjestelma(JARJESTELMA);
