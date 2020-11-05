@@ -42,8 +42,8 @@ public class VirtaClientTest extends TestCase {
     assertEquals(expected, result);
   }
 
-  private VirtaUser createVirtaUser() {
-    return new VirtaUser("17488477125", null);
+  private VirtaUserDto createVirtaUser() {
+    return new VirtaUserDto("17488477125", null);
   }
 
 }

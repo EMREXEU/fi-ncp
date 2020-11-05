@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fi.csc.emrex.ncp;
+package fi.csc.emrex.ncp.controller;
 
+import fi.csc.emrex.ncp.service.DataSign;
+import fi.csc.emrex.ncp.dto.CustomRequestDto;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import java.nio.charset.StandardCharsets;
@@ -88,12 +90,12 @@ public class ThymeController {
   }
 
   @RequestMapping(value = "/", method = RequestMethod.POST)
-  public String ncp1(@ModelAttribute CustomRequest request) {
+  public String ncp1(@ModelAttribute CustomRequestDto request) {
     return this.greeting(request);
   }
 
   @RequestMapping(value = "/ncp/", method = RequestMethod.POST)
-  public String greeting(@ModelAttribute CustomRequest request) {
+  public String greeting(@ModelAttribute CustomRequestDto request) {
 
     System.out.println("/ncp/");
     if (context.getSession().getAttribute("sessionId") == null) {

@@ -1,4 +1,4 @@
-package fi.csc.emrex.ncp;
+package fi.csc.emrex.ncp.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

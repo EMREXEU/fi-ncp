@@ -1,5 +1,7 @@
-package fi.csc.emrex.ncp;
+package fi.csc.emrex.ncp.service;
 
+import fi.csc.emrex.ncp.util.FileReader;
+import fi.csc.emrex.ncp.util.GzipUtil;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

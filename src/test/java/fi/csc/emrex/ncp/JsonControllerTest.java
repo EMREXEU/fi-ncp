@@ -3,6 +3,7 @@ package fi.csc.emrex.ncp;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import fi.csc.emrex.ncp.controller.JsonController;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;

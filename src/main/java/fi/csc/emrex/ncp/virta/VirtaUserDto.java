@@ -1,7 +1,10 @@
 package fi.csc.emrex.ncp.virta;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -9,12 +12,10 @@ import org.apache.commons.lang.StringUtils;
  */
 @Getter
 @Setter
-public class VirtaUser {
-
-  public VirtaUser(String oid, String ssn) {
-    this.oid = oid;
-    this.ssn = ssn;
-  }
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class VirtaUserDto {
 
   private String oid;
   private String ssn;

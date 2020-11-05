@@ -1,5 +1,7 @@
 package fi.csc.emrex.ncp;
 
+import fi.csc.emrex.ncp.service.DataSign;
+import fi.csc.emrex.ncp.util.GzipUtil;
 import fi.csc.emrex.ncp.util.TestUtil;
 import java.nio.charset.StandardCharsets;
 import javax.xml.bind.DatatypeConverter;

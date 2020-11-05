@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fi.csc.emrex.ncp;
+package fi.csc.emrex.ncp.controller;
 
 import fi.csc.emrex.ncp.elmo.ElmoParser;
 import fi.csc.emrex.ncp.virta.VirtaClient;

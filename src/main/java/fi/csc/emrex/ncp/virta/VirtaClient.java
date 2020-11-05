@@ -1,6 +1,6 @@
 package fi.csc.emrex.ncp.virta;
 
-import fi.csc.emrex.ncp.DateConverter;
+import fi.csc.emrex.ncp.util.DateConverter;
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoRequest;
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoResponse;
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoService;
@@ -35,10 +35,10 @@ public class VirtaClient {
   private String virtaUrl;
 
   public String fetchStudies(String oid, String ssn) {
-    return fetchStudies(new VirtaUser(oid, ssn));
+    return fetchStudies(new VirtaUserDto(oid, ssn));
   }
 
-  public String fetchStudies(VirtaUser virtaUser) {
+  public String fetchStudies(VirtaUserDto virtaUser) {
     try {
       return VirtaMarshaller.marshal(sendRequest(virtaUser));
     } catch (Exception e) {
@@ -47,7 +47,7 @@ public class VirtaClient {
     }
   }
 
-  private ELMOOpiskelijavaihtoResponse sendRequest(VirtaUser virtaUser)
+  private ELMOOpiskelijavaihtoResponse sendRequest(VirtaUserDto virtaUser)
       throws MalformedURLException {
     return getService().getELMOOpiskelijavaihtoSoap11()
         .elmoOpiskelijavaihto(createRequest(virtaUser));
@@ -60,14 +60,14 @@ public class VirtaClient {
     return elmoOpiskelijavaihtoService;
   }
 
-  private ELMOOpiskelijavaihtoRequest createRequest(VirtaUser virtaUser) {
+  private ELMOOpiskelijavaihtoRequest createRequest(VirtaUserDto virtaUser) {
     ELMOOpiskelijavaihtoRequest request = new ELMOOpiskelijavaihtoRequest();
     request.setKutsuja(getKutsuja());
     request.setHakuehdot(getHakuehdot(virtaUser));
     return request;
   }
 
-  private Hakuehdot getHakuehdot(VirtaUser virtaUser) {
+  private Hakuehdot getHakuehdot(VirtaUserDto virtaUser) {
     Hakuehdot hakuehdot = new Hakuehdot();
     if (virtaUser.isOidSet()) {
       hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));

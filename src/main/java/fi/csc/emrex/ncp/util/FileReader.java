@@ -1,4 +1,4 @@
-package fi.csc.emrex.ncp;
+package fi.csc.emrex.ncp.util;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
