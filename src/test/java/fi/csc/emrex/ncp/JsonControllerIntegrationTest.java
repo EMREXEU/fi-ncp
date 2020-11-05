@@ -21,20 +21,20 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration
 public class JsonControllerIntegrationTest {
 
-    @Autowired
-    private WebApplicationContext wac;
+  @Autowired
+  private WebApplicationContext wac;
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @Before
-    public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-    }
+  @Before
+  public void setUp() throws Exception {
+    mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+  }
 
-    @Test
-    public void testFetchElmoXml() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/elmo"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().encoding("UTF-8"));
-    }
+  @Test
+  public void testFetchElmoXml() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/elmo"))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().encoding("UTF-8"));
+  }
 }

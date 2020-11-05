@@ -8,8 +8,8 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
  */
 public class WebInitializer extends SpringBootServletInitializer {
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(FiNcpApplication.class);
-    }
+  @Override
+  protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    return application.sources(FiNcpApplication.class);
+  }
 }

@@ -7,117 +7,124 @@ package fi.csc.emrex.ncp;
 
 import fi.csc.emrex.ncp.elmo.ElmoParser;
 import fi.csc.emrex.ncp.virta.VirtaClient;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
-import java.util.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
  * @author salum
  */
 @RestController
 public class JsonController {
 
-    @Autowired
-    private HttpServletRequest context;
+  @Autowired
+  private HttpServletRequest context;
 
-    @Autowired
-    private VirtaClient virtaClient;
+  @Autowired
+  private VirtaClient virtaClient;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json;charset=UTF-8", headers = "Accept=*")
-    public @ResponseBody
-    Map<String, Object> test() {
+  @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json;charset=UTF-8", headers = "Accept=*")
+  public @ResponseBody
+  Map<String, Object> test() {
 
-        System.out.println("Login");
-        Map<String, Object> model = new HashMap<>();
-        model.put("id", "zzz");
-        model.put("content", "Oh well");
-        return model;
+    System.out.println("Login");
+    Map<String, Object> model = new HashMap<>();
+    model.put("id", "zzz");
+    model.put("content", "Oh well");
+    return model;
+  }
+
+  @RequestMapping(value = "/elmo", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> fetchElmoXml() throws Exception {
+
+    System.out.println("elmo");
+    Map<String, Object> model = new HashMap<>();
+    model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
+    model.put("sessionId", context.getSession().getAttribute("sessionId"));
+    // TODO oikeat hakuehdot
+    model.put("elmoXml", virtaClient.fetchStudies("17488477125", null));
+    return model;
+  }
+
+  @RequestMapping(value = "/ncp/api/elmo", method = RequestMethod.GET)
+  @ResponseBody
+  public String npcGetElmoJSON(@RequestParam(value = "courses", required = false) String[] courses)
+      throws Exception {
+    System.out.println("/ncp/api/elmo");
+    if (courses != null) {
+      System.out.println("courses.length=" + courses.length);
+      for (int i = 0; i < courses.length; i++) {
+        System.out.print(courses[i] + ", ");
+
+      }
+      System.out.println("");
     }
+    return this.getElmoJSON(courses);
+  }
 
-    @RequestMapping(value = "/elmo", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> fetchElmoXml() throws Exception {
+  @RequestMapping(value = "/api/elmo", method = RequestMethod.GET)
+  @ResponseBody
+  public String getElmoJSON(
+      @RequestParam(value = "courses", required = false) String[] courses) throws Exception {
+    System.out.println("/api/elmo");
+    if (courses != null) {
+      for (int i = 0; i < courses.length; i++) {
+        System.out.print(courses[i] + ", ");
 
-        System.out.println("elmo");
-        Map<String, Object> model = new HashMap<>();
-        model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
-        model.put("sessionId", context.getSession().getAttribute("sessionId"));
-        // TODO oikeat hakuehdot
-        model.put("elmoXml", virtaClient.fetchStudies("17488477125", null));
-        return model;
+      }
+      System.out.println("");
     }
+    try {
 
-    @RequestMapping(value = "/ncp/api/elmo", method = RequestMethod.GET)
-    @ResponseBody
-    public String npcGetElmoJSON(@RequestParam(value = "courses", required = false) String[] courses) throws Exception {
-        System.out.println("/ncp/api/elmo");
-                if (courses != null) {
-                    System.out.println("courses.length="+courses.length);
-            for (int i = 0; i < courses.length; i++) {
-                System.out.print(courses[i] + ", ");
+      ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
+      String xmlString;
+      if (courses != null && courses.length > 0) {
+        System.out.println("courses count: " + courses.length);
+        List<String> courseList = Arrays.asList(courses);
+        xmlString = parser.getCourseData(courseList);
+      } else {
+        System.out.println("null courses");
+        xmlString = parser.getCourseData();
+      }
 
-            }System.out.println("");
-        }
-        return this.getElmoJSON(courses);
+      JSONObject json = XML.toJSONObject(xmlString);
+      //System.out.println(json.toString());
+      return json.toString();
+    } catch (Exception e) {
+
+      StackTraceElement elements[] = e.getStackTrace();
+      Map<String, Object> error = new HashMap<String, Object>();
+      Map<String, Object> log = new HashMap<String, Object>();
+      error.put("message", e.getMessage());
+      for (int i = 0, n = elements.length; i < n; i++) {
+        log.put(elements[i].getFileName() + " " + elements[i].getLineNumber(),
+            elements[i].getMethodName());
+      }
+      error.put("stack", log);
+      return new JSONObject(error).toString();
     }
+  }
 
-    @RequestMapping(value = "/api/elmo", method = RequestMethod.GET)
-    @ResponseBody
-    public String getElmoJSON(
-            @RequestParam(value = "courses", required = false) String[] courses) throws Exception {
-        System.out.println("/api/elmo");
-        if (courses != null) {
-            for (int i = 0; i < courses.length; i++) {
-                System.out.print(courses[i] + ", ");
+  @RequestMapping("/resource")
+  public Map<String, Object> home() {
 
-            }System.out.println("");
-        }
-        try {
-
-            ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
-            String xmlString;
-            if (courses != null && courses.length > 0) {
-                System.out.println("courses count: " + courses.length);
-                List<String> courseList = Arrays.asList(courses);
-                xmlString = parser.getCourseData(courseList);
-            } else {
-                System.out.println("null courses");
-                xmlString = parser.getCourseData();
-            }
-            
-
-            JSONObject json = XML.toJSONObject(xmlString);
-            //System.out.println(json.toString());
-            return json.toString();
-        } catch (Exception e) {
-
-            StackTraceElement elements[] = e.getStackTrace();
-            Map<String, Object> error = new HashMap<String, Object>();
-            Map<String, Object> log = new HashMap<String, Object>();
-            error.put("message", e.getMessage());
-            for (int i = 0, n = elements.length; i < n; i++) {
-                log.put(elements[i].getFileName() + " " + elements[i].getLineNumber(),
-                        elements[i].getMethodName());
-            }
-            error.put("stack", log);
-            return new JSONObject(error).toString();
-        }
-    }
-
-    @RequestMapping("/resource")
-    public Map<String, Object> home() {
-
-        System.out.println("Here we go again");
-        Map<String, Object> model = new HashMap<>();
-        model.put("id", UUID.randomUUID().toString());
-        model.put("content", "Hello World");
-        return model;
-    }
+    System.out.println("Here we go again");
+    Map<String, Object> model = new HashMap<>();
+    model.put("id", UUID.randomUUID().toString());
+    model.put("content", "Hello World");
+    return model;
+  }
 
 }

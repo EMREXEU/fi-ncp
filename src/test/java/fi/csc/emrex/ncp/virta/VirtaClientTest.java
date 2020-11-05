@@ -9,40 +9,41 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
-import java.time.LocalDate;
-
 /**
  * Created by marko.hollanti on 08/10/15.
  */
 public class VirtaClientTest extends TestCase {
 
-    private VirtaClient instance;
-    private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
+  private VirtaClient instance;
+  private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
 
-    public void setUp() throws Exception {
-        elmoOpiskelijavaihtoService = Mockito.mock(ELMOOpiskelijavaihtoService.class);
-        instance = new VirtaClient();
-        instance.setElmoOpiskelijavaihtoService(elmoOpiskelijavaihtoService);
-    }
+  public void setUp() throws Exception {
+    elmoOpiskelijavaihtoService = Mockito.mock(ELMOOpiskelijavaihtoService.class);
+    instance = new VirtaClient();
+    instance.setElmoOpiskelijavaihtoService(elmoOpiskelijavaihtoService);
+  }
 
-    @Test
-    public void testFetchStudies() throws Exception {
+  @Test
+  public void testFetchStudies() throws Exception {
 
-        final String expected = "<elmo xsi:nil=\"true\" xmlns=\"http://purl.org/net/elmo\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>";
+    final String expected = "<elmo xsi:nil=\"true\" xmlns=\"http://purl.org/net/elmo\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>";
 
-        ELMOOpiskelijavaihto elmoOpiskelijavaihto = Mockito.mock(ELMOOpiskelijavaihto.class);
-        Mockito.when(elmoOpiskelijavaihtoService.getELMOOpiskelijavaihtoSoap11()).thenReturn(elmoOpiskelijavaihto);
+    ELMOOpiskelijavaihto elmoOpiskelijavaihto = Mockito.mock(ELMOOpiskelijavaihto.class);
+    Mockito.when(elmoOpiskelijavaihtoService.getELMOOpiskelijavaihtoSoap11())
+        .thenReturn(elmoOpiskelijavaihto);
 
-        ELMOOpiskelijavaihtoResponse elmoOpiskelijavaihtoResponse = new ELMOOpiskelijavaihtoResponse();
-        Mockito.when(elmoOpiskelijavaihto.elmoOpiskelijavaihto(Matchers.any(ELMOOpiskelijavaihtoRequest.class))).thenReturn(elmoOpiskelijavaihtoResponse);
+    ELMOOpiskelijavaihtoResponse elmoOpiskelijavaihtoResponse = new ELMOOpiskelijavaihtoResponse();
+    Mockito.when(
+        elmoOpiskelijavaihto.elmoOpiskelijavaihto(Matchers.any(ELMOOpiskelijavaihtoRequest.class)))
+        .thenReturn(elmoOpiskelijavaihtoResponse);
 
-        final String result = instance.fetchStudies(createVirtaUser());
+    final String result = instance.fetchStudies(createVirtaUser());
 
-        assertEquals(expected, result);
-    }
+    assertEquals(expected, result);
+  }
 
-    private VirtaUser createVirtaUser() {
-        return new VirtaUser("17488477125", null);
-    }
+  private VirtaUser createVirtaUser() {
+    return new VirtaUser("17488477125", null);
+  }
 
 }

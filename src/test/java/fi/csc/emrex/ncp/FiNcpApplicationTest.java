@@ -7,10 +7,10 @@ import junit.framework.TestCase;
  */
 public class FiNcpApplicationTest extends TestCase {
 
-    public void testGetElmo() throws Exception {
+  public void testGetElmo() throws Exception {
 
-        final String elmoXml = FiNcpApplication.getElmo();
-        assertNotNull(elmoXml);
-        assertTrue(elmoXml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
-    }
+    final String elmoXml = FiNcpApplication.getElmo();
+    assertNotNull(elmoXml);
+    assertTrue(elmoXml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
+  }
 }

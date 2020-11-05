@@ -2,7 +2,6 @@ package fi.csc.emrex.ncp.virta;
 
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoResponse;
 import junit.framework.TestCase;
-import org.junit.Before;
 import org.purl.net.elmo.ElmoBase;
 
 /**
@@ -10,15 +9,15 @@ import org.purl.net.elmo.ElmoBase;
  */
 public class VirtaMarshallerTest extends TestCase {
 
-    public void testMarshal() throws Exception {
+  public void testMarshal() throws Exception {
 
-        final String result = VirtaMarshaller.marshal(createResponse());
-        assertEquals("<elmo xmlns=\"http://purl.org/net/elmo\"/>", result);
-    }
+    final String result = VirtaMarshaller.marshal(createResponse());
+    assertEquals("<elmo xmlns=\"http://purl.org/net/elmo\"/>", result);
+  }
 
-    private ELMOOpiskelijavaihtoResponse createResponse() {
-        final ELMOOpiskelijavaihtoResponse response = new ELMOOpiskelijavaihtoResponse();
-        response.setElmo(new ElmoBase());
-        return response;
-    }
+  private ELMOOpiskelijavaihtoResponse createResponse() {
+    final ELMOOpiskelijavaihtoResponse response = new ELMOOpiskelijavaihtoResponse();
+    response.setElmo(new ElmoBase());
+    return response;
+  }
 }
