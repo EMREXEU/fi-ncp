@@ -8,12 +8,14 @@ import javax.xml.bind.DatatypeConverter;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.SpringApplicationConfiguration;
 
 /**
  * Created by marko.hollanti on 06/10/15.
  */
-@SpringApplicationConfiguration
+//@SpringApplicationConfiguration
+@SpringBootTest
 public class DataSignTest extends TestCase {
 
   private DataSign instance;

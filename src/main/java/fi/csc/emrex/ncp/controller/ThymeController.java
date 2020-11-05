@@ -27,7 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author salum
  */
 @EnableAutoConfiguration(exclude = {
-    org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
+    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
+    //org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
 })
 @Controller
 @Slf4j
