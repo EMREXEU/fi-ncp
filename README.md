@@ -23,3 +23,6 @@ https://emrex.eu/technical/
 
 ##Coding conventions
 - Google style (https://google.github.io/styleguide/)
+
+## Sequence
+[PlantUML model](./sequence.puml)

@@ -1,0 +1,10 @@
+@startuml
+"User" -> "EMREX Client" : login
+"EMREX Client" -> "fi-ncp" : HTTP POST (student info)
+"fi-ncp" -> "VIRTA" : SOAP request
+"VIRTA" -> "fi-ncp" : Course information in VIRTA-SOAP
+"fi-ncp" -> "fi-ncp" : transform
+"fi-ncp" -> "EMREX Client" : Course information in ELMO-XML
+"User" -> "EMREX Client" : review courses
+"EMREX Client" -> "Local SIS" : store selected course information
+@enduml
