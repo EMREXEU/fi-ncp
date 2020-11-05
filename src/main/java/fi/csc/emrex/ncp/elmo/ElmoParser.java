@@ -21,6 +21,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -36,6 +37,7 @@ import org.xml.sax.SAXException;
  *
  * @author salum
  */
+@Slf4j
 public class ElmoParser {
 
   private Document document;
@@ -70,7 +72,7 @@ public class ElmoParser {
 
     } catch (Exception ex) {
       Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
-      System.out.println(ex.getMessage());
+      log.info(ex.getMessage());
     }
 
   }
@@ -127,10 +129,10 @@ public class ElmoParser {
       NodeList reports = doc.getElementsByTagName("report");
       for (int i = 0; i < reports.getLength(); i++) {
         Element report = (Element) reports.item(i);
-        System.out.println("report " + i);
+        log.info("report " + i);
         NodeList learnList = report.getElementsByTagName("learningOpportunitySpecification");
         if (learnList.getLength() < 1) {
-          System.out.println("report empty");
+          log.info("report empty");
           report.getParentNode().removeChild(report);
         }
       }
@@ -167,7 +169,7 @@ public class ElmoParser {
       String xml = writer.toString();
       return xml;
     } catch (Exception e) {
-      System.out.println(e);
+      log.error("Parsing note to String failed.", e);
     }
     return "No Node";
   }

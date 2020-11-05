@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salum
  */
 @RestController
+@Slf4j
 public class JsonController {
 
   @Autowired
@@ -38,7 +40,7 @@ public class JsonController {
   public @ResponseBody
   Map<String, Object> test() {
 
-    System.out.println("Login");
+    log.info("Login");
     Map<String, Object> model = new HashMap<>();
     model.put("id", "zzz");
     model.put("content", "Oh well");
@@ -49,7 +51,7 @@ public class JsonController {
   @ResponseBody
   public Map<String, Object> fetchElmoXml() throws Exception {
 
-    System.out.println("elmo");
+    log.info("elmo");
     Map<String, Object> model = new HashMap<>();
     model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
     model.put("sessionId", context.getSession().getAttribute("sessionId"));
@@ -62,14 +64,14 @@ public class JsonController {
   @ResponseBody
   public String npcGetElmoJSON(@RequestParam(value = "courses", required = false) String[] courses)
       throws Exception {
-    System.out.println("/ncp/api/elmo");
+    log.info("/ncp/api/elmo");
     if (courses != null) {
-      System.out.println("courses.length=" + courses.length);
+      log.info("courses.length=" + courses.length);
       for (int i = 0; i < courses.length; i++) {
         System.out.print(courses[i] + ", ");
 
       }
-      System.out.println("");
+      log.info("");
     }
     return this.getElmoJSON(courses);
   }
@@ -78,29 +80,29 @@ public class JsonController {
   @ResponseBody
   public String getElmoJSON(
       @RequestParam(value = "courses", required = false) String[] courses) throws Exception {
-    System.out.println("/api/elmo");
+    log.info("/api/elmo");
     if (courses != null) {
       for (int i = 0; i < courses.length; i++) {
         System.out.print(courses[i] + ", ");
 
       }
-      System.out.println("");
+      log.info("");
     }
     try {
 
       ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
       String xmlString;
       if (courses != null && courses.length > 0) {
-        System.out.println("courses count: " + courses.length);
+        log.info("courses count: " + courses.length);
         List<String> courseList = Arrays.asList(courses);
         xmlString = parser.getCourseData(courseList);
       } else {
-        System.out.println("null courses");
+        log.info("null courses");
         xmlString = parser.getCourseData();
       }
 
       JSONObject json = XML.toJSONObject(xmlString);
-      //System.out.println(json.toString());
+      //log.info(json.toString());
       return json.toString();
     } catch (Exception e) {
 
@@ -120,7 +122,7 @@ public class JsonController {
   @RequestMapping("/resource")
   public Map<String, Object> home() {
 
-    System.out.println("Here we go again");
+    log.info("Here we go again");
     Map<String, Object> model = new HashMap<>();
     model.put("id", UUID.randomUUID().toString());
     model.put("content", "Hello World");

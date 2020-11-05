@@ -5,9 +5,9 @@
  */
 package fi.csc.emrex.ncp.controller;
 
-import fi.csc.emrex.ncp.service.DataSign;
 import fi.csc.emrex.ncp.dto.CustomRequestDto;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
+import fi.csc.emrex.ncp.service.DataSign;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -52,7 +52,7 @@ public class ThymeController {
   @RequestMapping(value = "/review", method = RequestMethod.GET)
   public String review(@RequestParam(value = "courses", required = false) String[] courses,
       Model model) throws Exception {
-    System.out.println("/review");
+    log.info("/review");
 
     model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
     model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
@@ -97,15 +97,15 @@ public class ThymeController {
   @RequestMapping(value = "/ncp/", method = RequestMethod.POST)
   public String greeting(@ModelAttribute CustomRequestDto request) {
 
-    System.out.println("/ncp/");
+    log.info("/ncp/");
     if (context.getSession().getAttribute("sessionId") == null) {
       context.getSession().setAttribute("sessionId", request.getSessionId());
     }
     if (context.getSession().getAttribute("returnUrl") == null) {
       context.getSession().setAttribute("returnUrl", request.getReturnUrl());
     }
-    System.out.println("Return URL: " + context.getSession().getAttribute("returnUrl"));
-    System.out.println("Session ID: " + context.getSession().getAttribute("sessionId"));
+    log.info("Return URL: " + context.getSession().getAttribute("returnUrl"));
+    log.info("Session ID: " + context.getSession().getAttribute("sessionId"));
     try {
       if (context.getSession().getAttribute("elmo") == null) {
         String user = "";
@@ -117,7 +117,7 @@ public class ThymeController {
       return "norex";
 
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      log.info(e.getMessage());
     }
     return "norex";
   }
