@@ -1,27 +1,27 @@
 # fi-ncp
 CSC National Contact Point application (NCP) for EMREX.
 
-##Requirements
+## Requirements
 - maven 3+ 
 - java version 8
 
-##Compiling
+## Compiling
 `mvn clean install`
 
-##Running
+## Running
 `java -jar ./target/ncp-0.0.1-SNAPSHOT.war`
 
-##Requirements
+## Requirements
 
-##Authentication
+## Authentication
 See: `./src/main/resources/application.yml`
 
-##Configuration
+## Configuration
 
 ## Documentation
 https://emrex.eu/technical/
 
-##Coding conventions
+## Coding conventions
 - Google style (https://google.github.io/styleguide/)
 
 ## Sequence
