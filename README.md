@@ -22,7 +22,9 @@ See: `./src/main/resources/application.yml`
 https://emrex.eu/technical/
 
 ## Coding conventions
-- Google style (https://google.github.io/styleguide/)
+- Google style 
+- https://google.github.io/styleguide/
 
 ## Sequence
-[PlantUML model](./sequence.puml)
+Plant UML can be viewed in  http://www.plantuml.com/plantuml/uml/
+- [PlantUML model](./sequence.puml)
