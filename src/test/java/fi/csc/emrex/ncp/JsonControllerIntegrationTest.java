@@ -1,5 +1,7 @@
 package fi.csc.emrex.ncp;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +37,7 @@ public class JsonControllerIntegrationTest {
   @Test
   public void testFetchElmoXml() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/elmo"))
+        .andDo(print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().encoding("UTF-8"));
   }

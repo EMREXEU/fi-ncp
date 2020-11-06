@@ -1,6 +1,7 @@
 package fi.csc.emrex.ncp.virta;
 
 import fi.csc.emrex.ncp.util.DateConverter;
+import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihto;
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoRequest;
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoResponse;
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoService;
@@ -40,17 +41,22 @@ public class VirtaClient {
 
   public String fetchStudies(VirtaUserDto virtaUser) {
     try {
-      return VirtaMarshaller.marshal(sendRequest(virtaUser));
+      ELMOOpiskelijavaihtoResponse response = sendRequest(virtaUser);
+      return VirtaMarshaller.marshal(response);
     } catch (Exception e) {
-      log.error("fetchStudies failed", e);
+      log.error("Fetching studies from VIRTA failed, virta URL:{}", virtaUrl, e);
       return null;
     }
   }
 
   private ELMOOpiskelijavaihtoResponse sendRequest(VirtaUserDto virtaUser)
       throws MalformedURLException {
-    return getService().getELMOOpiskelijavaihtoSoap11()
-        .elmoOpiskelijavaihto(createRequest(virtaUser));
+    ELMOOpiskelijavaihtoRequest request = createRequest(virtaUser);
+    ELMOOpiskelijavaihtoService wsClient = getService();
+    ELMOOpiskelijavaihto ws = wsClient.getELMOOpiskelijavaihtoSoap11();
+    // TODO: throws  com.sun.xml.ws.fault.ServerSOAPFaultException: Client received SOAP Fault from server: Access denied!
+    ELMOOpiskelijavaihtoResponse res = ws.elmoOpiskelijavaihto(request);
+    return res;
   }
 
   private ELMOOpiskelijavaihtoService getService() throws MalformedURLException {
