@@ -19,8 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
  * Created by marko.hollanti on 04/09/15.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-//@SpringApplicationConfiguration(classes = FiNcpApplication.class)
-@SpringBootTest
+@SpringBootTest(classes = FiNcpApplication.class)
 @WebAppConfiguration
 public class JsonControllerIntegrationTest {
 
@@ -34,6 +33,7 @@ public class JsonControllerIntegrationTest {
     mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
+  //@Ignore("Calling webservice fails after migration to springboot 2.3")
   @Test
   public void testFetchElmoXml() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/elmo"))

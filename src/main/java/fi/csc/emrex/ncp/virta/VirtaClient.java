@@ -54,7 +54,8 @@ public class VirtaClient {
     ELMOOpiskelijavaihtoRequest request = createRequest(virtaUser);
     ELMOOpiskelijavaihtoService wsClient = getService();
     ELMOOpiskelijavaihto ws = wsClient.getELMOOpiskelijavaihtoSoap11();
-    // TODO: throws  com.sun.xml.ws.fault.ServerSOAPFaultException: Client received SOAP Fault from server: Access denied!
+
+    // TODO: this throws com.sun.xml.ws.fault.ServerSOAPFaultException: Client received SOAP Fault from server: Access denied!
     ELMOOpiskelijavaihtoResponse res = ws.elmoOpiskelijavaihto(request);
     return res;
   }
