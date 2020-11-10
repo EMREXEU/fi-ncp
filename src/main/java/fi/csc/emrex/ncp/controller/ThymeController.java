@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author salum
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
     org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
     //org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
 })
-@Controller
+@RestController
 @Slf4j
 public class ThymeController {
 
