@@ -28,3 +28,9 @@ https://emrex.eu/technical/
 ## Sequence
 Plant UML can be viewed in  http://www.plantuml.com/plantuml/uml/
 - [PlantUML model](./sequence.puml)
+
+## Running 
+- fi-ncp is running on `localhost:9001` on default
+- fi-smp demo application is running on `localhost:9002` on default
+- fi-smp provides example SMP-web client on URL: `http://localhost:9002/#/`
+- fi-smp will contact running fi-ncp when selecting Finland as contact country
