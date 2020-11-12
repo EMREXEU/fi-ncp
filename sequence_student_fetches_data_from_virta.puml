@@ -1,0 +1,12 @@
+@startuml
+"User"                  -> "Local EMREX Client" : login to local client
+"Local EMREX Client"    -> "fi-ncp" : forward for NCP login
+"User"                  -> "fi-ncp" : login to NCP
+"fi-ncp"                -> "fi-ncp" : Authenticate using IDP related to VIRTA
+"fi-ncp"                -> "VIRTA SIS" : SOAP request
+"VIRTA SIS"             -> "fi-ncp" : Course information in VIRTA-SOAP
+"fi-ncp"                -> "fi-ncp" : transform
+"fi-ncp"                -> "Local EMREX Client" : Course information in ELMO-XML
+"User"                  -> "Local EMREX Client" : review courses
+"Local EMREX Client"    -> "Local SIS" : export reviewed and selected course information
+@enduml

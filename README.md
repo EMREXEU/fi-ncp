@@ -27,7 +27,7 @@ https://emrex.eu/technical/
 - packages by layers
 ## Sequence
 Plant UML can be viewed in  http://www.plantuml.com/plantuml/uml/
-- [PlantUML model](./sequence.puml)
+- [PlantUML model](./sequence_student_fetches_data_from_virta.puml)
 
 ## Running 
 - fi-ncp is running on `localhost:9001` on default
