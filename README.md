@@ -27,7 +27,12 @@ https://emrex.eu/technical/
 - packages by layers
 ## Sequence
 Plant UML can be viewed in  http://www.plantuml.com/plantuml/uml/
-- [PlantUML model](./sequence_student_fetches_data_from_virta.puml)
+
+- Use case: External student fetches courses from VIRTA via fi-ncp .
+ [PlantUML model](./sequence_student_fetches_courses_from_virta.puml)
+- Use case: Internal student imports external courses to VIRTA via fi-ncp.
+ [PlantUML model](./sequence_student_imports_external_courses_to_virta.puml)
+- internal/external is from fi-ncp point of view
 
 ## Running 
 - fi-ncp is running on `localhost:9001` on default

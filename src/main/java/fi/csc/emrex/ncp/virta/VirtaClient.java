@@ -22,14 +22,15 @@ import org.springframework.stereotype.Component;
  * Created by marko.hollanti on 28/09/15.
  */
 @Slf4j
-@Setter
 @Component
 public class VirtaClient {
 
-  public static final String AVAIN = "salaisuus";
-  public static final String JARJESTELMA = "Emrex";
-  public static final String TUNNUS = "Test";
+  private static final String AVAIN = "salaisuus";
+  private static final String JARJESTELMA = "Emrex";
+  private static final String TUNNUS = "Test";
 
+  // Setter only for test purposes: mock this member
+  @Setter
   private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
 
   @Value("${ncp.virta.url}")

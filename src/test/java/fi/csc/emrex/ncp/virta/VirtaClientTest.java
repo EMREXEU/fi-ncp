@@ -43,6 +43,7 @@ public class VirtaClientTest extends TestCase {
   }
 
   private VirtaUserDto createVirtaUser() {
+
     return new VirtaUserDto("17488477125", null);
   }
 

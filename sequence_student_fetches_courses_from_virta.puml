@@ -1,0 +1,13 @@
+@startuml
+"User"                  -> "Local EMREX Client" : login to local client
+"Local EMREX Client"    -> "fi-ncp" : forward for NCP login
+"User"                  -> "fi-ncp" : login via NCP
+"fi-ncp"                -> "fi-ncp" : Authenticate using HAKA (IDP for VIRTA)
+"fi-ncp"                -> "VIRTA SIS" : VIRTA SOAP request
+"VIRTA SIS"             -> "fi-ncp" : course information in VIRTA-SOAP
+"User"                  -> "fi-ncp" : choose and review courses to fetch
+"fi-ncp"                -> "fi-ncp" : transform course information to ELMO XML
+"fi-ncp"                -> "Local EMREX Client" : Course information in ELMO XML
+"User"                  -> "Local EMREX Client" : choose courses to save
+"Local EMREX Client"    -> "Local SIS" : export reviewed and selected course information
+@enduml
