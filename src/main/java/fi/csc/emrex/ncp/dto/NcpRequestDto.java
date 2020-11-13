@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CustomRequestDto {
+public class NcpRequestDto {
 
   private String sessionId;
   private String returnUrl;

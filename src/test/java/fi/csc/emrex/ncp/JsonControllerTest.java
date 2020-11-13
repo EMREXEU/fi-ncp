@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import fi.csc.emrex.ncp.controller.JsonController;
 import fi.csc.emrex.ncp.virta.VirtaClient;
+import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,7 +46,7 @@ public class JsonControllerTest {
     final String sessionId = SESSION_ID;
     Mockito.when(mockHttpSession.getAttribute(SESSION_ID)).thenReturn(sessionId);
 
-    Mockito.when(mockVirtaClient.fetchStudies(Matchers.anyString(), Matchers.anyString()))
+    Mockito.when(mockVirtaClient.fetchStudies(Matchers.any(VirtaUserDto.class)))
         .thenReturn(ELMO_XML);
 
     final Map<String, Object> result = instance.fetchElmoXml();
@@ -56,7 +57,7 @@ public class JsonControllerTest {
     Mockito.verify(mockHttpServletRequest, Mockito.times(2)).getSession();
     Mockito.verify(mockHttpSession).getAttribute(RETURN_URL);
     Mockito.verify(mockHttpSession).getAttribute(SESSION_ID);
-    Mockito.verify(mockVirtaClient).fetchStudies(Matchers.anyString(), Matchers.anyString());
+    Mockito.verify(mockVirtaClient).fetchStudies(Matchers.any(VirtaUserDto.class));
 
   }
 }

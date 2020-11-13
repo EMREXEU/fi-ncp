@@ -1,5 +1,6 @@
 package fi.csc.emrex.ncp.virta;
 
+import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.emrex.ncp.util.DateConverter;
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihto;
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoRequest;
@@ -36,17 +37,12 @@ public class VirtaClient {
   @Value("${ncp.virta.url}")
   private String virtaUrl;
 
-  public String fetchStudies(String oid, String ssn) {
-    return fetchStudies(new VirtaUserDto(oid, ssn));
-  }
-
-  public String fetchStudies(VirtaUserDto virtaUser) {
+  public String fetchStudies(VirtaUserDto virtaUser) throws NpcException {
     try {
       ELMOOpiskelijavaihtoResponse response = sendRequest(virtaUser);
       return VirtaMarshaller.marshal(response);
     } catch (Exception e) {
-      log.error("Fetching studies from VIRTA failed, virta URL:{}", virtaUrl, e);
-      return null;
+      throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
 

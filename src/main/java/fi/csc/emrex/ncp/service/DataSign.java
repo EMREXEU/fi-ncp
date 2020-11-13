@@ -1,5 +1,6 @@
 package fi.csc.emrex.ncp.service;
 
+import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.emrex.ncp.util.FileReader;
 import fi.csc.emrex.ncp.util.GzipUtil;
 import java.io.ByteArrayInputStream;
@@ -65,67 +66,70 @@ public class DataSign {
   @Value("${environment}")
   private String environment;
 
-  public String sign(String data, Charset charset) throws Exception {
+  public String sign(String data, Charset charset) throws NpcException {
+    try {
+      assertCertificateAndEncryptionKeyAvailable();
 
-    assertCertificateAndEncryptionKeyAvailable();
+      // Create a DOM XMLSignatureFactory that will be used to generate the enveloped signature.
+      XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
 
-    // Create a DOM XMLSignatureFactory that will be used to generate the enveloped signature.
-    XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+      // Create a Reference to the enveloped document (in this case, you are signing the whole
+      // document, so a URI of "" signifies that, and also specify the SHA1 digest algorithm
+      // and the ENVELOPED Transform.
+      Reference ref = fac.newReference("", fac.newDigestMethod(DigestMethod.SHA1, null),
+          Collections.singletonList(
+              fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null)), null, null);
 
-    // Create a Reference to the enveloped document (in this case, you are signing the whole
-    // document, so a URI of "" signifies that, and also specify the SHA1 digest algorithm
-    // and the ENVELOPED Transform.
-    Reference ref = fac.newReference("", fac.newDigestMethod(DigestMethod.SHA1, null),
-        Collections.singletonList(
-            fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null)), null, null);
+      // Create the SignedInfo.
+      SignedInfo si = fac.newSignedInfo(fac.newCanonicalizationMethod
+              (CanonicalizationMethod.INCLUSIVE, (C14NMethodParameterSpec) null),
+          fac.newSignatureMethod(SignatureMethod.RSA_SHA1, null), Collections.singletonList(ref));
 
-    // Create the SignedInfo.
-    SignedInfo si = fac.newSignedInfo(fac.newCanonicalizationMethod
-            (CanonicalizationMethod.INCLUSIVE, (C14NMethodParameterSpec) null),
-        fac.newSignatureMethod(SignatureMethod.RSA_SHA1, null), Collections.singletonList(ref));
+      // Instantiate the document to be signed.
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      dbf.setNamespaceAware(true);
+      InputStream is = new ByteArrayInputStream(
+          data.getBytes(charset)); // StandardCharsets.ISO_8859_1
+      Document doc = dbf.newDocumentBuilder().parse(is);
 
-    // Instantiate the document to be signed.
-    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    dbf.setNamespaceAware(true);
-    InputStream is = new ByteArrayInputStream(
-        data.getBytes(charset)); // StandardCharsets.ISO_8859_1
-    Document doc = dbf.newDocumentBuilder().parse(is);
+      // Extract the private key from string
+      encryptionKey = encryptionKey.replaceAll("(-----.*?-----)", "");
 
-    // Extract the private key from string
-    encryptionKey = encryptionKey.replaceAll("(-----.*?-----)", "");
+      byte[] decoded = DatatypeConverter.parseBase64Binary(encryptionKey);
 
-    byte[] decoded = DatatypeConverter.parseBase64Binary(encryptionKey);
+      PKCS8EncodedKeySpec rsaPrivKeySpec = new PKCS8EncodedKeySpec(decoded);
+      KeyFactory kf = KeyFactory.getInstance("RSA");
+      RSAPrivateKey pk = (RSAPrivateKey) kf.generatePrivate(rsaPrivKeySpec);
 
-    PKCS8EncodedKeySpec rsaPrivKeySpec = new PKCS8EncodedKeySpec(decoded);
-    KeyFactory kf = KeyFactory.getInstance("RSA");
-    RSAPrivateKey pk = (RSAPrivateKey) kf.generatePrivate(rsaPrivKeySpec);
+      // Create a DOMSignContext and specify the RSA PrivateKey and
+      // location of the resulting XMLSignature's parent element.
+      DOMSignContext dsc = new DOMSignContext(pk, doc.getDocumentElement());
 
-    // Create a DOMSignContext and specify the RSA PrivateKey and
-    // location of the resulting XMLSignature's parent element.
-    DOMSignContext dsc = new DOMSignContext(pk, doc.getDocumentElement());
+      // Create the XMLSignature, but don't sign it yet.
+      KeyInfoFactory kif = fac.getKeyInfoFactory();
+      X509Certificate cert = getCertificate(certificate);
+      List<Object> x509Content = new ArrayList<Object>();
+      x509Content.add(cert.getSubjectX500Principal().getName());
+      x509Content.add(cert);
+      X509Data xd = kif.newX509Data(x509Content);
+      KeyInfo ki = kif.newKeyInfo(Collections.singletonList(xd));
+      XMLSignature signature = fac.newXMLSignature(si, ki);
 
-    // Create the XMLSignature, but don't sign it yet.
-    KeyInfoFactory kif = fac.getKeyInfoFactory();
-    X509Certificate cert = getCertificate(certificate);
-    List<Object> x509Content = new ArrayList<Object>();
-    x509Content.add(cert.getSubjectX500Principal().getName());
-    x509Content.add(cert);
-    X509Data xd = kif.newX509Data(x509Content);
-    KeyInfo ki = kif.newKeyInfo(Collections.singletonList(xd));
-    XMLSignature signature = fac.newXMLSignature(si, ki);
+      // Marshal, generate, and sign the enveloped signature.
+      signature.sign(dsc);
 
-    // Marshal, generate, and sign the enveloped signature.
-    signature.sign(dsc);
+      OutputStream os = new ByteArrayOutputStream();
+      TransformerFactory tf = TransformerFactory.newInstance();
+      Transformer trans = tf.newTransformer();
+      trans.transform(new DOMSource(doc), new StreamResult(os));
 
-    OutputStream os = new ByteArrayOutputStream();
-    TransformerFactory tf = TransformerFactory.newInstance();
-    Transformer trans = tf.newTransformer();
-    trans.transform(new DOMSource(doc), new StreamResult(os));
+      final String signedXml = os.toString();
+      final byte[] compressedXml = GzipUtil.compress(signedXml);
 
-    final String signedXml = os.toString();
-    final byte[] compressedXml = GzipUtil.compress(signedXml);
-
-    return DatatypeConverter.printBase64Binary(compressedXml);
+      return DatatypeConverter.printBase64Binary(compressedXml);
+    } catch (Exception e) {
+      throw new NpcException("Signing failed.", e);
+    }
   }
 
   private void assertCertificateAndEncryptionKeyAvailable() throws Exception {

@@ -5,6 +5,7 @@
  */
 package fi.csc.emrex.ncp.elmo;
 
+import fi.csc.emrex.ncp.execption.NpcException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -82,7 +83,7 @@ public class ElmoParser {
    *
    * @return String representation of Elmo-xml
    */
-  public String getCourseData() throws ParserConfigurationException {
+  public String getCourseData() {
     return getStringFromDoc(document);
   }
 
@@ -92,11 +93,11 @@ public class ElmoParser {
    *
    * @return String representation of Elmo-xml with selected courses
    */
-  public String getCourseData(List<String> courses) throws ParserConfigurationException {
-    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-    String copyElmo = this.getStringFromDoc(document);
+  public String getCourseData(List<String> courses) throws NpcException {
     try {
+      DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+      String copyElmo = this.getStringFromDoc(document);
 
       StringReader sr = new StringReader(copyElmo);
       InputSource s = new InputSource(sr);
@@ -113,9 +114,7 @@ public class ElmoParser {
             if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
               if (!courses.contains(id.getTextContent())) {
                 removeNodes.add(specification);
-
               }
-
             }
           }
         }
@@ -138,12 +137,9 @@ public class ElmoParser {
       }
       return getStringFromDoc(doc);
 
-    } catch (SAXException | IOException ex) {
-      Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
-      return null;
-
+    } catch (SAXException | IOException | ParserConfigurationException ex) {
+      throw new NpcException("Parsing course data failed", ex);
     }
-
   }
 
   private String getStringFromDoc(org.w3c.dom.Document doc) {

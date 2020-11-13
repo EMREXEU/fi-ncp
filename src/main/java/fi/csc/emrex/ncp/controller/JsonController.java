@@ -7,6 +7,7 @@ package fi.csc.emrex.ncp.controller;
 
 import fi.csc.emrex.ncp.elmo.ElmoParser;
 import fi.csc.emrex.ncp.virta.VirtaClient;
+import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,8 @@ public class JsonController {
     model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
     model.put("sessionId", context.getSession().getAttribute("sessionId"));
     // TODO oikeat hakuehdot
-    model.put("elmoXml", virtaClient.fetchStudies("17488477125", null));
+    VirtaUserDto virtaUserDto = new VirtaUserDto("17488477125", null);
+    model.put("elmoXml", virtaClient.fetchStudies(virtaUserDto));
     return model;
   }
 

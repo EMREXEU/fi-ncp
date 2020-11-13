@@ -1,13 +1,29 @@
 @startuml
 "User"                  -> "Local EMREX Client" : login to local client
-"Local EMREX Client"    -> "fi-ncp" : forward for NCP login
+"Local EMREX Client"    -> "fi-ncp" : request student data (browser redirect)
 "User"                  -> "fi-ncp" : login via NCP
-"fi-ncp"                -> "fi-ncp" : Authenticate using HAKA (IDP for VIRTA)
+"fi-ncp"                -> "fi-ncp" : authenticate using HAKA (IDP for VIRTA)
 "fi-ncp"                -> "VIRTA SIS" : VIRTA SOAP request
 "VIRTA SIS"             -> "fi-ncp" : course information in VIRTA-SOAP
 "User"                  -> "fi-ncp" : choose and review courses to fetch
 "fi-ncp"                -> "fi-ncp" : transform course information to ELMO XML
-"fi-ncp"                -> "Local EMREX Client" : Course information in ELMO XML
+"fi-ncp"                -> "fi-ncp" : sign data
+"fi-ncp"                -> "Local EMREX Client" : course information in ELMO XML
+"Local EMREX Client"    -> "Local EMREX Client" : SMP verifies data using public key from EMREG
 "User"                  -> "Local EMREX Client" : choose courses to save
-"Local EMREX Client"    -> "Local SIS" : export reviewed and selected course information
+"Local EMREX Client"    -> "User's local SIS" : export reviewed and selected course information
 @enduml
+
+User: External student who has completed courses in Finnish HEI SIS (VIRTA)
+and wants to import this course data to her own local SIS outside Finnish
+HEI SIS.
+
+SMP sends the browser to Finnish NCP (URL from EMREG) with a request to
+retrieve student data. The student has to log in at the NCP and consent
+to having the data delivered back to the client.
+
+NCP must
+    - not accept a callback URL that is not HTTPS
+    - display result data and where it will be delivered and ask for the
+    user's consent before data is transferred
+

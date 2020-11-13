@@ -2,7 +2,6 @@ package fi.csc.emrex.ncp;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import fi.csc.emrex.ncp.dto.CustomRequestDto;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -59,22 +58,15 @@ public class JsonControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.content().string("test"));
   }
 
-  @Ignore("TODO: still failing as implementation not connected to VIRTA WS")
   @Test
   public void getCourses() throws Exception {
 
     mockMvc.perform(MockMvcRequestBuilders
         .post("/ncp")
-        .content(new CustomRequestDto(null, null).toString()))
+        .param("sessionId", "TODO")
+        .param("returnUrl", "TODO"))
         .andDo(print())
         .andExpect(MockMvcResultMatchers.status().isOk());
-
-    mockMvc.perform(MockMvcRequestBuilders
-        .get("/api/elmo")
-        .param("courses", "1234"))
-        .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().encoding("UTF-8"));
   }
 
 }

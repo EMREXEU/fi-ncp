@@ -5,10 +5,12 @@
  */
 package fi.csc.emrex.ncp.controller;
 
-import fi.csc.emrex.ncp.dto.CustomRequestDto;
+import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
+import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.emrex.ncp.service.DataSign;
 import fi.csc.emrex.ncp.virta.VirtaClient;
+import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,13 +49,13 @@ public class ThymeController {
   // function for local testing
   @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
   public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
-      Model model) throws Exception {
+      Model model) throws NpcException {
     return this.review(courses, model);
   }
 
   @RequestMapping(value = "/review", method = RequestMethod.GET)
   public String review(@RequestParam(value = "courses", required = false) String[] courses,
-      Model model) throws Exception {
+      Model model) throws NpcException {
     log.info("/review");
 
     model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
@@ -91,34 +94,34 @@ public class ThymeController {
   }
 
   @RequestMapping(value = "/", method = RequestMethod.POST)
-  public String ncp1(@ModelAttribute CustomRequestDto request) {
+  public String ncp1(@ModelAttribute NcpRequestDto request) throws Exception {
     return this.greeting(request);
   }
 
-  @RequestMapping(value = "/ncp/", method = RequestMethod.POST)
-  public String greeting(@ModelAttribute CustomRequestDto request) {
+  /**
+   * TODO: Is this the main entry point for NCP?
+   *
+   * @param request NCP request as defined for NCP service.
+   * @return View name resolved by $routeProvider in ncp.js. Response data stored in session.
+   */
+  @RequestMapping(value = "/ncp", method = RequestMethod.POST)
+  public String greeting(@ModelAttribute NcpRequestDto request) throws NpcException {
 
-    log.info("/ncp/");
+    log.info("URL: /ncp: " + request.toString());
+
     if (context.getSession().getAttribute("sessionId") == null) {
       context.getSession().setAttribute("sessionId", request.getSessionId());
     }
     if (context.getSession().getAttribute("returnUrl") == null) {
       context.getSession().setAttribute("returnUrl", request.getReturnUrl());
     }
-    log.info("Return URL: " + context.getSession().getAttribute("returnUrl"));
-    log.info("Session ID: " + context.getSession().getAttribute("sessionId"));
-    try {
-      if (context.getSession().getAttribute("elmo") == null) {
-        String user = "";
-        String elmoXML = getXMLFromVirta(user);
 
-        ElmoParser parser = new ElmoParser(elmoXML);
-        context.getSession().setAttribute("elmo", parser);
-      }
-      return "norex";
-
-    } catch (Exception e) {
-      log.info(e.getMessage());
+    if (context.getSession().getAttribute("elmo") == null) {
+      // TODO: real ids
+      VirtaUserDto virtaUserDto = new VirtaUserDto("17488477125", null);
+      String elmoXml = virtaClient.fetchStudies(virtaUserDto);
+      ElmoParser parser = new ElmoParser(elmoXml);
+      context.getSession().setAttribute("elmo", parser);
     }
     return "norex";
   }
@@ -128,9 +131,20 @@ public class ThymeController {
     return "test";
   }
 
-  private String getXMLFromVirta(String user) throws Exception {
-    // TODO tänne oikeat hakuehdot
-    return virtaClient.fetchStudies("17488477125", null);
+  // TODO: move to base class if required
+  // TODO: return error in format required by NPC specification
+  @ExceptionHandler(NpcException.class)
+  public String handleException(HttpServletRequest req, NpcException e) {
+    // TODO: return proper HTTP code and message.
+    log.error(e.getMessage(), e);
+    return e.getMessage();
   }
 
+  // TODO: move to base class if required
+  // TODO: return error in format required by NPC specification
+  @ExceptionHandler(RuntimeException.class)
+  public String handleRuntimeException(HttpServletRequest req, RuntimeException e) {
+    log.error(e.getMessage(), e);
+    return e.getMessage();
+  }
 }
