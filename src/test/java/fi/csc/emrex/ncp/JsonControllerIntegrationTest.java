@@ -47,18 +47,6 @@ public class JsonControllerIntegrationTest {
   }
 
   @Test
-  public void getTest() throws Exception {
-
-    // Just ensuring basic GET works in this controller
-    mockMvc.perform(MockMvcRequestBuilders
-        .get("/test"))
-        .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().encoding("UTF-8"))
-        .andExpect(MockMvcResultMatchers.content().string("test"));
-  }
-
-  @Test
   public void getCourses() throws Exception {
 
     mockMvc.perform(MockMvcRequestBuilders

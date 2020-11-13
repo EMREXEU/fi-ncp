@@ -29,11 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
-public class JsonController {
+public class JsonController extends NcpControllerBase {
 
   @Autowired
   private HttpServletRequest context;
-
   @Autowired
   private VirtaClient virtaClient;
 
@@ -121,6 +120,8 @@ public class JsonController {
     }
   }
 
+  // TODO: is this really needed?
+  @Deprecated
   @RequestMapping("/resource")
   public Map<String, Object> home() {
 

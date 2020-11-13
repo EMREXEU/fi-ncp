@@ -8,7 +8,7 @@ import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Created by marko.hollanti on 07/10/15.
+ * VIRTA user. Identified either by oid or ssn;
  */
 @Getter
 @Setter
