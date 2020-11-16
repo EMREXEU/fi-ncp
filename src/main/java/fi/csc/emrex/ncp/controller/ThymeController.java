@@ -71,6 +71,9 @@ public class ThymeController extends NcpControllerBase {
       String elmoXml = virtaClient.fetchStudies(virtaUserDto);
       ElmoParser parser = new ElmoParser(elmoXml);
       session.setAttribute(NcpSessionAttributes.ELMO, parser);
+
+      // TODO: remove
+      log.debug("{VIRTA XML:}\n", elmoXml);
     }
 
     return NcpPages.NOREX;

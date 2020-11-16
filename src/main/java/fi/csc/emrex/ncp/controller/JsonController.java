@@ -33,6 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class JsonController extends NcpControllerBase {
 
+  // TODO: remove
+  private final static String SSN = "010280-123A";
+
   @Autowired
   private HttpServletRequest context;
   @Autowired
@@ -55,7 +58,10 @@ public class JsonController extends NcpControllerBase {
         session.getAttribute(NcpSessionAttributes.SESSION_ID));
 
     // TODO oikeat hakuehdot
-    VirtaUserDto virtaUserDto = new VirtaUserDto("17488477125", null);
+    VirtaUserDto virtaUserDto = new VirtaUserDto(
+        //"17488477125",
+        null,
+        SSN);
     model.put("elmoXml", virtaClient.fetchStudies(virtaUserDto));
     return model;
   }

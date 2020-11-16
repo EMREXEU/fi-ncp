@@ -21,7 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = FiNcpApplication.class)
 @WebAppConfiguration
-public class JsonControllerIntegrationTest {
+public class ThymeControllerIntegrationTest {
 
   @Autowired
   private WebApplicationContext wac;
@@ -34,13 +34,22 @@ public class JsonControllerIntegrationTest {
   }
 
   @Test
-  public void testFetchElmoXml() throws Exception {
+  public void getCourses() throws Exception {
 
     mockMvc.perform(MockMvcRequestBuilders
-        .get("/elmo"))
+        .post("/ncp")
+        .param("sessionId", "TODO")
+        .param("returnUrl", "TODO"))
         .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
-    //    .andExpect(MockMvcResultMatchers.content().encoding("UTF-8"))
-    ;
+        .andExpect(MockMvcResultMatchers.status().isOk());
+
+    mockMvc.perform(MockMvcRequestBuilders
+        .get("/review")
+        .param("sessionId", "TODO")
+        .param("returnUrl", "TODO"))
+        .andDo(print())
+        .andExpect(MockMvcResultMatchers.status().isOk());
+
   }
+
 }
