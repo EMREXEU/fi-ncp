@@ -1,0 +1,19 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:luku="http://tietovaranto.csc.fi/luku">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <luku:OpintosuorituksetRequest>
+      <luku:Kutsuja>
+        <luku:jarjestelma>emrextesti</luku:jarjestelma>
+        <luku:tunnus>emrextesti</luku:tunnus>
+        <luku:avain>salaisuus</luku:avain>
+      </luku:Kutsuja>
+      <luku:Hakuehdot>
+        <!--You have a CHOICE of the next 2 items at this level-->
+        <luku:henkilotunnus>010283-9123</luku:henkilotunnus>
+        <!-- <luku:kansallinenOppijanumero>?</luku:kansallinenOppijanumero> -->
+        <!--Optional:-->
+        <!--<luku:organisaatio>?</luku:organisaatio>-->
+      </luku:Hakuehdot>
+    </luku:OpintosuorituksetRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
