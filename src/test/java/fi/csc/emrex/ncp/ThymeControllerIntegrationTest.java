@@ -7,9 +7,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -36,15 +38,18 @@ public class ThymeControllerIntegrationTest {
   @Test
   public void getCourses() throws Exception {
 
-    mockMvc.perform(MockMvcRequestBuilders
+    // First request will store data into session so must use same session in following request
+    MvcResult res = mockMvc.perform(MockMvcRequestBuilders
         .post("/ncp")
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO"))
         .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk());
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andReturn();
 
     mockMvc.perform(MockMvcRequestBuilders
         .get("/review")
+        .session((MockHttpSession) res.getRequest().getSession())
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO"))
         .andDo(print())
