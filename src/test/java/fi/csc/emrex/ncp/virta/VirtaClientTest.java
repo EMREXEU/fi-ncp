@@ -1,9 +1,9 @@
 package fi.csc.emrex.ncp.virta;
 
-import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihto;
-import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoRequest;
-import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoResponse;
-import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoService;
+import fi.csc.tietovaranto.luku.OpintosuorituksetRequest;
+import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanTiedot;
+import fi.csc.tietovaranto.luku.OpiskelijanTiedotService;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -15,35 +15,34 @@ import org.mockito.Mockito;
 public class VirtaClientTest extends TestCase {
 
   private VirtaClient instance;
-  private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
+  private OpiskelijanTiedotService service;
 
   public void setUp() throws Exception {
-    elmoOpiskelijavaihtoService = Mockito.mock(ELMOOpiskelijavaihtoService.class);
+    service = Mockito.mock(OpiskelijanTiedotService.class);
     instance = new VirtaClient();
-    instance.setElmoOpiskelijavaihtoService(elmoOpiskelijavaihtoService);
+    instance.setOpiskelijanTiedotService(service);
   }
 
   @Test
   public void testFetchStudies() throws Exception {
 
-    final String expected = "<elmo xsi:nil=\"true\" xmlns=\"http://purl.org/net/elmo\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>";
+    final String expected = "<ns3:elmo xmlns=\"urn:mace:funet.fi:virta/2015/09/01\" xmlns:ns2=\"http://tietovaranto.csc.fi/luku\" xmlns:ns3=\"http://purl.org/net/elmo\"/>";
 
-    ELMOOpiskelijavaihto elmoOpiskelijavaihto = Mockito.mock(ELMOOpiskelijavaihto.class);
-    Mockito.when(elmoOpiskelijavaihtoService.getELMOOpiskelijavaihtoSoap11())
-        .thenReturn(elmoOpiskelijavaihto);
+    OpiskelijanTiedot ws = Mockito.mock(OpiskelijanTiedot.class);
+    Mockito.when(service.getOpiskelijanTiedotSoap11()).thenReturn(ws);
 
-    ELMOOpiskelijavaihtoResponse elmoOpiskelijavaihtoResponse = new ELMOOpiskelijavaihtoResponse();
+    OpintosuorituksetResponse response = new OpintosuorituksetResponse();
     Mockito.when(
-        elmoOpiskelijavaihto.elmoOpiskelijavaihto(Matchers.any(ELMOOpiskelijavaihtoRequest.class)))
-        .thenReturn(elmoOpiskelijavaihtoResponse);
+        ws.opintosuoritukset(Matchers.any(OpintosuorituksetRequest.class)))
+        .thenReturn(response);
 
     final String result = instance.fetchStudies(createVirtaUser());
 
+    // TODO: first figure out the required namespace and content before asserting
     assertEquals(expected, result);
   }
 
   private VirtaUserDto createVirtaUser() {
-
     return new VirtaUserDto("17488477125", null);
   }
 

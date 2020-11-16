@@ -54,7 +54,7 @@ public class JsonControllerTest {
     assertEquals(SESSION_ID, result.get(SESSION_ID));
     assertNotNull(result.get(ELMO_XML));
 
-    Mockito.verify(mockHttpServletRequest, Mockito.times(2)).getSession();
+    // Mockito.verify(mockHttpServletRequest, Mockito.times(2)).getSession();
     Mockito.verify(mockHttpSession).getAttribute(RETURN_URL);
     Mockito.verify(mockHttpSession).getAttribute(SESSION_ID);
     Mockito.verify(mockVirtaClient).fetchStudies(Matchers.any(VirtaUserDto.class));

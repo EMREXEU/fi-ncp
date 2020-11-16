@@ -1,19 +1,14 @@
 package fi.csc.emrex.ncp.virta;
 
 import fi.csc.emrex.ncp.execption.NpcException;
-import fi.csc.emrex.ncp.util.DateConverter;
-import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihto;
-import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoRequest;
-import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoResponse;
-import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoService;
-import fi.csc.tietovaranto.emrex.Hakuehdot;
-import fi.csc.tietovaranto.emrex.Kutsuja;
-import fi.csc.tietovaranto.emrex.ObjectFactory;
+import fi.csc.tietovaranto.luku.HakuEhdotOrganisaatioVapaa;
+import fi.csc.tietovaranto.luku.Kutsuja;
+import fi.csc.tietovaranto.luku.OpintosuorituksetRequest;
+import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanTiedot;
+import fi.csc.tietovaranto.luku.OpiskelijanTiedotService;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDate;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.XMLGregorianCalendar;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,65 +27,59 @@ public class VirtaClient {
 
   // Setter only for test purposes: mock this member
   @Setter
-  private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
+  private OpiskelijanTiedotService opiskelijanTiedotService;
 
   @Value("${ncp.virta.url}")
   private String virtaUrl;
 
   public String fetchStudies(VirtaUserDto virtaUser) throws NpcException {
     try {
-      ELMOOpiskelijavaihtoResponse response = sendRequest(virtaUser);
+      OpintosuorituksetResponse response = sendRequest(virtaUser);
       return VirtaMarshaller.marshal(response);
     } catch (Exception e) {
       throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
 
-  private ELMOOpiskelijavaihtoResponse sendRequest(VirtaUserDto virtaUser)
+  private OpintosuorituksetResponse sendRequest(VirtaUserDto virtaUser)
       throws MalformedURLException {
-    ELMOOpiskelijavaihtoRequest request = createRequest(virtaUser);
-    ELMOOpiskelijavaihtoService wsClient = getService();
-    ELMOOpiskelijavaihto ws = wsClient.getELMOOpiskelijavaihtoSoap11();
+    OpiskelijanTiedotService wsClient = getService();
+    OpiskelijanTiedot ws = wsClient.getOpiskelijanTiedotSoap11();
+    OpintosuorituksetRequest request = createRequest(virtaUser);
 
     // TODO: this throws com.sun.xml.ws.fault.ServerSOAPFaultException: Client received SOAP Fault from server: Access denied!
-    ELMOOpiskelijavaihtoResponse res = ws.elmoOpiskelijavaihto(request);
+    OpintosuorituksetResponse res = ws.opintosuoritukset(request);
     return res;
   }
 
-  private ELMOOpiskelijavaihtoService getService() throws MalformedURLException {
-    if (elmoOpiskelijavaihtoService == null) {
-      elmoOpiskelijavaihtoService = new ELMOOpiskelijavaihtoService(new URL(virtaUrl));
+  private OpiskelijanTiedotService getService() throws MalformedURLException {
+    if (opiskelijanTiedotService == null) {
+      opiskelijanTiedotService = new OpiskelijanTiedotService(new URL(virtaUrl));
     }
-    return elmoOpiskelijavaihtoService;
+    return opiskelijanTiedotService;
   }
 
-  private ELMOOpiskelijavaihtoRequest createRequest(VirtaUserDto virtaUser) {
-    ELMOOpiskelijavaihtoRequest request = new ELMOOpiskelijavaihtoRequest();
-    request.setKutsuja(getKutsuja());
-    request.setHakuehdot(getHakuehdot(virtaUser));
+  private OpintosuorituksetRequest createRequest(VirtaUserDto virtaUser) {
+    OpintosuorituksetRequest request = new OpintosuorituksetRequest();
+    request.setKutsuja(createKutsuja());
+    request.setHakuehdot(createHakuehdot(virtaUser));
     return request;
   }
 
-  private Hakuehdot getHakuehdot(VirtaUserDto virtaUser) {
-    Hakuehdot hakuehdot = new Hakuehdot();
+  private HakuEhdotOrganisaatioVapaa createHakuehdot(VirtaUserDto virtaUser) {
+    HakuEhdotOrganisaatioVapaa hakuehdot = new HakuEhdotOrganisaatioVapaa();
     if (virtaUser.isOidSet()) {
-      hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));
+      hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
+      //hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));
     } else {
-      hakuehdot.getContent().add(0, new ObjectFactory().createHeTu(virtaUser.getSsn()));
+      hakuehdot.setHenkilotunnus(virtaUser.getSsn());
+      //hakuehdot.getContent().add(0, new ObjectFactory().createHeTu(virtaUser.getSsn()));
     }
 
     return hakuehdot;
   }
 
-  private XMLGregorianCalendar convert(LocalDate date) {
-    try {
-      return DateConverter.convertLocalDateToXmlGregorianCalendar(date);
-    } catch (DatatypeConfigurationException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private Kutsuja getKutsuja() {
+  private Kutsuja createKutsuja() {
     Kutsuja kutsuja = new Kutsuja();
     kutsuja.setAvain(AVAIN);
     kutsuja.setJarjestelma(JARJESTELMA);
