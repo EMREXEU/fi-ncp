@@ -6,6 +6,7 @@
 package fi.csc.emrex.ncp.controller;
 
 import fi.csc.emrex.ncp.elmo.ElmoParser;
+import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.json.XML;
@@ -36,25 +38,22 @@ public class JsonController extends NcpControllerBase {
   @Autowired
   private VirtaClient virtaClient;
 
-  @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json;charset=UTF-8", headers = "Accept=*")
-  public @ResponseBody
-  Map<String, Object> test() {
-
-    log.info("Login");
-    Map<String, Object> model = new HashMap<>();
-    model.put("id", "zzz");
-    model.put("content", "Oh well");
-    return model;
-  }
 
   @RequestMapping(value = "/elmo", method = RequestMethod.GET)
   @ResponseBody
-  public Map<String, Object> fetchElmoXml() throws Exception {
+  public Map<String, Object> fetchElmoXml() throws NpcException {
 
     log.info("elmo");
+    HttpSession session = context.getSession();
+
     Map<String, Object> model = new HashMap<>();
-    model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
-    model.put("sessionId", context.getSession().getAttribute("sessionId"));
+    model.put(
+        NcpSessionAttributes.RETURN_URL,
+        session.getAttribute(NcpSessionAttributes.RETURN_URL));
+    model.put(
+        NcpSessionAttributes.SESSION_ID,
+        session.getAttribute(NcpSessionAttributes.SESSION_ID));
+
     // TODO oikeat hakuehdot
     VirtaUserDto virtaUserDto = new VirtaUserDto("17488477125", null);
     model.put("elmoXml", virtaClient.fetchStudies(virtaUserDto));
@@ -80,44 +79,26 @@ public class JsonController extends NcpControllerBase {
   @RequestMapping(value = "/api/elmo", method = RequestMethod.GET)
   @ResponseBody
   public String getElmoJSON(
-      @RequestParam(value = "courses", required = false) String[] courses) throws Exception {
+      @RequestParam(value = "courses", required = false) String[] courses) throws NpcException {
+
     log.info("/api/elmo");
-    if (courses != null) {
-      for (int i = 0; i < courses.length; i++) {
-        System.out.print(courses[i] + ", ");
+    HttpSession session = context.getSession();
 
-      }
-      log.info("");
+    ElmoParser parser = (ElmoParser) session.getAttribute(NcpSessionAttributes.ELMO);
+    String xmlString;
+    if (courses != null && courses.length > 0) {
+      log.info("courses count: " + courses.length);
+      List<String> courseList = Arrays.asList(courses);
+      xmlString = parser.getCourseData(courseList);
+    } else {
+      log.info("null courses");
+      xmlString = parser.getAllCourseData();
     }
-    try {
 
-      ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
-      String xmlString;
-      if (courses != null && courses.length > 0) {
-        log.info("courses count: " + courses.length);
-        List<String> courseList = Arrays.asList(courses);
-        xmlString = parser.getCourseData(courseList);
-      } else {
-        log.info("null courses");
-        xmlString = parser.getCourseData();
-      }
+    JSONObject json = XML.toJSONObject(xmlString);
+    //log.info(json.toString());
+    return json.toString();
 
-      JSONObject json = XML.toJSONObject(xmlString);
-      //log.info(json.toString());
-      return json.toString();
-    } catch (Exception e) {
-
-      StackTraceElement elements[] = e.getStackTrace();
-      Map<String, Object> error = new HashMap<String, Object>();
-      Map<String, Object> log = new HashMap<String, Object>();
-      error.put("message", e.getMessage());
-      for (int i = 0, n = elements.length; i < n; i++) {
-        log.put(elements[i].getFileName() + " " + elements[i].getLineNumber(),
-            elements[i].getMethodName());
-      }
-      error.put("stack", log);
-      return new JSONObject(error).toString();
-    }
   }
 
   // TODO: is this really needed?
@@ -132,4 +113,15 @@ public class JsonController extends NcpControllerBase {
     return model;
   }
 
+  @Deprecated
+  @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json;charset=UTF-8", headers = "Accept=*")
+  public @ResponseBody
+  Map<String, Object> test() {
+
+    log.info("Login");
+    Map<String, Object> model = new HashMap<>();
+    model.put("id", "zzz");
+    model.put("content", "Oh well");
+    return model;
+  }
 }

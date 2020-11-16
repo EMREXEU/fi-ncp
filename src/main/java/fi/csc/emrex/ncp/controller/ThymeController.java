@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -52,24 +53,27 @@ public class ThymeController extends NcpControllerBase {
   @RequestMapping(value = "/ncp", method = RequestMethod.POST)
   public String getCourses(@ModelAttribute NcpRequestDto request) throws NpcException {
 
+    // TODO: use session attributes as in https://www.baeldung.com/spring-mvc-session-attributes
+
     log.info("URL: /ncp: " + request.toString());
+    HttpSession session = context.getSession();
 
-    if (context.getSession().getAttribute("sessionId") == null) {
-      context.getSession().setAttribute("sessionId", request.getSessionId());
+    if (session.getAttribute(NcpSessionAttributes.SESSION_ID) == null) {
+      session.setAttribute(NcpSessionAttributes.SESSION_ID, request.getSessionId());
     }
-    if (context.getSession().getAttribute("returnUrl") == null) {
-      context.getSession().setAttribute("returnUrl", request.getReturnUrl());
+    if (session.getAttribute(NcpSessionAttributes.RETURN_URL) == null) {
+      session.setAttribute(NcpSessionAttributes.RETURN_URL, request.getReturnUrl());
     }
 
-    if (context.getSession().getAttribute("elmo") == null) {
+    if (session.getAttribute(NcpSessionAttributes.ELMO) == null) {
       // TODO: real ids
       VirtaUserDto virtaUserDto = new VirtaUserDto("17488477125", null);
       String elmoXml = virtaClient.fetchStudies(virtaUserDto);
       ElmoParser parser = new ElmoParser(elmoXml);
-      context.getSession().setAttribute("elmo", parser);
+      session.setAttribute(NcpSessionAttributes.ELMO, parser);
     }
 
-    return Pages.NOREX;
+    return NcpPages.NOREX;
   }
 
   @RequestMapping(value = "/review", method = RequestMethod.GET)
@@ -78,34 +82,46 @@ public class ThymeController extends NcpControllerBase {
       Model model) throws NpcException {
 
     log.info("/review");
+    HttpSession session = context.getSession();
 
-    model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
-    model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
-    ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
+    model.addAttribute(
+        NcpSessionAttributes.SESSION_ID,
+        session.getAttribute(NcpSessionAttributes.SESSION_ID));
+    model.addAttribute(
+        NcpSessionAttributes.RETURN_URL,
+        session.getAttribute(NcpSessionAttributes.RETURN_URL));
+    ElmoParser parser = (ElmoParser) session.getAttribute(NcpSessionAttributes.ELMO);
     String xmlString;
 
     if (courses != null && courses.length > 0) {
       List<String> courseList = Arrays.asList(courses);
       xmlString = parser.getCourseData(courseList);
     } else {
-      xmlString = parser.getCourseData();
+      xmlString = parser.getAllCourseData();
     }
 
     xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
 
-    model.addAttribute("elmo", xmlString);
+    model.addAttribute(NcpSessionAttributes.ELMO, xmlString);
     model.addAttribute("buttonText", "Confirm selection");
     model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
-    return Pages.REVIEW;
+    return NcpPages.REVIEW;
   }
 
   @RequestMapping(value = "/abort", method = RequestMethod.GET)
   public String abort(Model model) {
-    model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
-    model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
+
+    HttpSession session = context.getSession();
+
+    model.addAttribute(
+        NcpSessionAttributes.SESSION_ID,
+        session.getAttribute(NcpSessionAttributes.SESSION_ID));
+    model.addAttribute(
+        NcpSessionAttributes.RETURN_URL,
+        session.getAttribute(NcpSessionAttributes.RETURN_URL));
     model.addAttribute("buttonText", "Cancel");
     model.addAttribute("buttonClass", "pure-button custom-panic-button custom-inline");
-    return Pages.REVIEW;
+    return NcpPages.REVIEW;
   }
 
 }

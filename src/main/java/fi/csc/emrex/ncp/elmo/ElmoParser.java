@@ -8,9 +8,6 @@ package fi.csc.emrex.ncp.elmo;
 import fi.csc.emrex.ncp.execption.NpcException;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,18 +15,11 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSOutput;
-import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -83,8 +73,8 @@ public class ElmoParser {
    *
    * @return String representation of Elmo-xml
    */
-  public String getCourseData() {
-    return getStringFromDoc(document);
+  public String getAllCourseData() {
+    return XmlUtil.getStringFromDoc(document);
   }
 
   /**
@@ -97,7 +87,7 @@ public class ElmoParser {
     try {
       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-      String copyElmo = this.getStringFromDoc(document);
+      String copyElmo = XmlUtil.getStringFromDoc(document);
 
       StringReader sr = new StringReader(copyElmo);
       InputSource s = new InputSource(sr);
@@ -135,39 +125,11 @@ public class ElmoParser {
           report.getParentNode().removeChild(report);
         }
       }
-      return getStringFromDoc(doc);
+      return XmlUtil.getStringFromDoc(doc);
 
     } catch (SAXException | IOException | ParserConfigurationException ex) {
       throw new NpcException("Parsing course data failed", ex);
     }
-  }
-
-  private String getStringFromDoc(org.w3c.dom.Document doc) {
-    DOMImplementationLS domImplementation = (DOMImplementationLS) doc.getImplementation();
-    LSSerializer lsSerializer = domImplementation.createLSSerializer();
-
-    LSOutput lsOutput = domImplementation.createLSOutput();
-    lsOutput.setEncoding(StandardCharsets.UTF_8.name());
-    Writer stringWriter = new StringWriter();
-    lsOutput.setCharacterStream(stringWriter);
-    lsSerializer.write(doc, lsOutput);
-    return stringWriter.toString();
-
-//        return lsSerializer.writeToString(doc);
-  }
-
-  // just for testing
-  private String getNodeString(Node node) {
-    StringWriter writer = new StringWriter();
-    try {
-      Transformer transformer = TransformerFactory.newInstance().newTransformer();
-      transformer.transform(new DOMSource(node), new StreamResult(writer));
-      String xml = writer.toString();
-      return xml;
-    } catch (Exception e) {
-      log.error("Parsing note to String failed.", e);
-    }
-    return "No Node";
   }
 
 }
