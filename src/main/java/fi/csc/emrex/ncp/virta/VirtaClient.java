@@ -21,16 +21,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class VirtaClient {
 
-  private static final String AVAIN = "salaisuus";
-  private static final String JARJESTELMA = "Emrex";
-  private static final String TUNNUS = "Test";
+  @Value("${ncp.virta.url}")
+  private String virtaUrl;
+  @Value("${ncp.virta.key}")
+  private String AVAIN;
+  @Value("${ncp.virta.system}")
+  private String JARJESTELMA;
+  @Value("${ncp.virta.user}")
+  private String TUNNUS;
 
   // Setter only for test purposes: mock this member
   @Setter
   private OpiskelijanTiedotService opiskelijanTiedotService;
-
-  @Value("${ncp.virta.url}")
-  private String virtaUrl;
 
   public String fetchStudies(VirtaUserDto virtaUser) throws NpcException {
     try {
@@ -46,8 +48,6 @@ public class VirtaClient {
     OpiskelijanTiedotService wsClient = getService();
     OpiskelijanTiedot ws = wsClient.getOpiskelijanTiedotSoap11();
     OpintosuorituksetRequest request = createRequest(virtaUser);
-
-    // TODO: this throws com.sun.xml.ws.fault.ServerSOAPFaultException: Client received SOAP Fault from server: Access denied!
     OpintosuorituksetResponse res = ws.opintosuoritukset(request);
     return res;
   }
