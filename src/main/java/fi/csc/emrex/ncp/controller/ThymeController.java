@@ -73,7 +73,7 @@ public class ThymeController extends NcpControllerBase {
       session.setAttribute(NcpSessionAttributes.ELMO, parser);
 
       // TODO: remove
-      log.debug("{VIRTA XML:}\n", elmoXml);
+      log.info("VIRTA XML:\n{}", elmoXml);
     }
 
     return NcpPages.NOREX;

@@ -2,6 +2,9 @@ package fi.csc.emrex.ncp;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+import fi.csc.emrex.ncp.controller.NcpSessionAttributes;
+import fi.csc.emrex.ncp.elmo.ElmoParser;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = FiNcpApplication.class)
 @WebAppConfiguration
+@Slf4j
 public class ThymeControllerIntegrationTest {
 
   @Autowired
@@ -46,6 +50,10 @@ public class ThymeControllerIntegrationTest {
         .andDo(print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andReturn();
+
+    ElmoParser elmoParser =
+        (ElmoParser) res.getRequest().getSession().getAttribute(NcpSessionAttributes.ELMO);
+    log.info("ELMO in session:\n{}", elmoParser.getAllCourseData());
 
     mockMvc.perform(MockMvcRequestBuilders
         .get("/review")
