@@ -143,4 +143,15 @@ public class ThymeController extends NcpControllerBase {
     return NcpPages.REVIEW;
   }
 
+  /**
+   * Debug endpoint to emulate session parameters by giving them in request parameter.
+   */
+  @Deprecated
+  @RequestMapping(value = "/ncp_mock_shibboleth", method = RequestMethod.POST)
+  public String getCoursesMockShibboleth(
+      @ModelAttribute NcpRequestDto request,
+      @RequestParam("unique-id") String personId,
+      @RequestParam("SHIB_funetEduPersonLearnerId") String learnerId) throws NpcException {
+    return getCourses(request, personId, learnerId);
+  }
 }
