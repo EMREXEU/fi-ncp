@@ -39,14 +39,63 @@ public class ThymeControllerIntegrationTest {
     mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
+  /**
+   * This is the main entry point for NCP.
+   */
   @Test
   public void getCourses() throws Exception {
+
+    MvcResult res = mockMvc.perform(MockMvcRequestBuilders
+        .post("/ncp")
+        .param("sessionId", "TODO")
+        .param("returnUrl", "TODO")
+        .sessionAttr("SHIB_funetEduPersonLearnerId", "1.2.246.562.24.17488477125")
+        .sessionAttr("SHIB_schacDateOfBirth", "19660718")
+        .sessionAttr("SHIB_schacHomeOrganization", "oamk.fi")
+        .sessionAttr("cn", "Teppo Testääja")
+        .sessionAttr("displayName", "Kaisa")
+        .sessionAttr("givenName", "Kaisa")
+        .sessionAttr("sn", "Keränen")
+        .sessionAttr("unique-code", "urn:mace:terena.org:schac:personalUniqueCode:fi:oamk.fi:x8734")
+        .sessionAttr("unique-id", "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213"))
+        .andDo(print())
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andReturn();
+
+    ElmoParser elmoParser =
+        (ElmoParser) res.getRequest().getSession().getAttribute(NcpSessionAttributes.ELMO);
+    log.info("ELMO in session:\n{}", elmoParser.getAllCourseData());
+  }
+
+  @Test
+  public void getCoursesAndReview() throws Exception {
+
+    // Shibboleth session params:
+
+    //SHIB_funetEduPersonLearnerId: 1.2.246.562.24.17488477125
+    //SHIB_schacDateOfBirth: 19660718
+    //SHIB_schacHomeOrganization: oamk.fi
+    //cn: Teppo Testääja
+    //displayName: Kaisa
+    //givenName: Kaisa
+    //sn: Keränen
+    //unique-code: urn:mace:terena.org:schac:personalUniqueCode:fi:oamk.fi:x8734
+    //unique-id: urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
 
     // First request will store data into session so must use same session in following request
     MvcResult res = mockMvc.perform(MockMvcRequestBuilders
         .post("/ncp")
         .param("sessionId", "TODO")
-        .param("returnUrl", "TODO"))
+        .param("returnUrl", "TODO")
+        .sessionAttr("SHIB_funetEduPersonLearnerId", "1.2.246.562.24.17488477125")
+        .sessionAttr("SHIB_schacDateOfBirth", "19660718")
+        .sessionAttr("SHIB_schacHomeOrganization", "oamk.fi")
+        .sessionAttr("cn", "Teppo Testääja")
+        .sessionAttr("displayName", "Kaisa")
+        .sessionAttr("givenName", "Kaisa")
+        .sessionAttr("sn", "Keränen")
+        .sessionAttr("unique-code", "urn:mace:terena.org:schac:personalUniqueCode:fi:oamk.fi:x8734")
+        .sessionAttr("unique-id", "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213"))
         .andDo(print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andReturn();
@@ -62,7 +111,6 @@ public class ThymeControllerIntegrationTest {
         .param("returnUrl", "TODO"))
         .andDo(print())
         .andExpect(MockMvcResultMatchers.status().isOk());
-
   }
 
 }

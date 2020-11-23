@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 /**
  * @author salum
@@ -51,12 +52,17 @@ public class ThymeController extends NcpControllerBase {
    * @return View name resolved by $routeProvider in ncp.js. Response data stored in session.
    */
   @RequestMapping(value = "/ncp", method = RequestMethod.POST)
-  public String getCourses(@ModelAttribute NcpRequestDto request) throws NpcException {
+  public String getCourses(
+      @ModelAttribute NcpRequestDto request,
+      @SessionAttribute("unique-id") String personId,
+      @SessionAttribute("SHIB_funetEduPersonLearnerId") String learnerId) throws NpcException {
 
     // TODO: use session attributes as in https://www.baeldung.com/spring-mvc-session-attributes
+    // TODO: is NcpRequestDto really required as attributes should be populated directly into session by shibboleth before this call?
+    log.info("NCP request parameters:{}", request.toString());
 
-    log.info("URL: /ncp: " + request.toString());
     HttpSession session = context.getSession();
+    logSession(session);
 
     if (session.getAttribute(NcpSessionAttributes.SESSION_ID) == null) {
       session.setAttribute(NcpSessionAttributes.SESSION_ID, request.getSessionId());
@@ -67,7 +73,14 @@ public class ThymeController extends NcpControllerBase {
 
     if (session.getAttribute(NcpSessionAttributes.ELMO) == null) {
       // TODO: real ids
-      VirtaUserDto virtaUserDto = new VirtaUserDto("17488477125", null);
+      String[] trimmedLearnerIds = learnerId.split(":");// TODO: not needed?
+      String[] trimmedPersonIds = personId.split(":");
+      String trimmedLearnerId = trimmedLearnerIds[trimmedLearnerIds.length - 1];
+      String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
+
+      VirtaUserDto virtaUserDto = new VirtaUserDto(trimmedLearnerId, trimmedPersonId);
+      log.info(virtaUserDto.toString());
+
       String elmoXml = virtaClient.fetchStudies(virtaUserDto);
       ElmoParser parser = new ElmoParser(elmoXml);
       session.setAttribute(NcpSessionAttributes.ELMO, parser);
@@ -77,6 +90,13 @@ public class ThymeController extends NcpControllerBase {
     }
 
     return NcpPages.NOREX;
+  }
+
+  private void logSession(HttpSession session) {
+    log.info("Session attributes:");
+    session.getAttributeNames().asIterator().forEachRemaining(x ->
+        log.info("name:{}, value:{}", x, session.getAttribute(x))
+    );
   }
 
   @RequestMapping(value = "/review", method = RequestMethod.GET)

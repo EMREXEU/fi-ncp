@@ -1,10 +1,11 @@
 @startuml
-"User"      -> "HAKA"     : login
-"HAKA"      -> "HAKA"     : populate user user login data to shibboleth
 "User"      -> "fi-smp"   : https://emrextest.csc.fi/smp/#/
 "fi-smp"    -> "fi-smp"   : https://emrextest.csc.fi/smp/api/emreg
 "User"      -> "fi-smp"   : select exchange country
 "fi-smp"    -> "fi-ncp"   : https://emrextest.csc.fi/ncp/#/
+"fi-ncp"    -> "fi-ncp"   : redirect to HAKA for login
+"User"      -> "HAKA"     : login
+"HAKA"      -> "HAKA"     : populate user login data to shibboleth
 "fi-ncp"    -> "fi-ncp"   : https://emrextest.csc.fi/ncp/api/fullelmo
 "fi-ncp"    -> "fi-ncp"   : https://emrextest.csc.fi/ncp/abort (why?)
 "User"      -> "fi-ncp"   : Select courses to import, press "Import selected"
@@ -13,6 +14,8 @@
 "fi-ncp"    -> "fi-ncp"   : https://emrextest.csc.fi/ncp/abort
 "fi-ncp"    -> "fi-ncp"   : https://emrextest.csc.fi/ncp/api/elmo/
 "fi-ncp"    -> "fi-ncp"   : https://emrextest.csc.fi/ncp/api/fullelmo
+
+"fi-ncp"    -> "fi-smp"   : HTTP POST ELMO document
 @enduml
 
 TODO: fi-ncp part requires run with existing course data to get real sequence.
