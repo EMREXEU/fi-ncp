@@ -57,11 +57,9 @@ public class ThymeController extends NcpControllerBase {
       @SessionAttribute("unique-id") String personId,
       @SessionAttribute("SHIB_funetEduPersonLearnerId") String learnerId) throws NpcException {
 
-    // TODO: use session attributes as in https://www.baeldung.com/spring-mvc-session-attributes
-    // TODO: is NcpRequestDto really required as attributes should be populated directly into session by shibboleth before this call?
-    log.info("NCP request parameters:{}", request.toString());
-
     HttpSession session = context.getSession();
+
+    log.info("NCP request parameters:{}", request.toString());
     logSession(session);
 
     if (session.getAttribute(NcpSessionAttributes.SESSION_ID) == null) {
@@ -73,12 +71,12 @@ public class ThymeController extends NcpControllerBase {
 
     if (session.getAttribute(NcpSessionAttributes.ELMO) == null) {
       // TODO: real ids
-      String[] trimmedLearnerIds = learnerId.split(":");// TODO: not needed?
+      //String[] trimmedLearnerIds = learnerId.split(".");// TODO: not needed?
       String[] trimmedPersonIds = personId.split(":");
-      String trimmedLearnerId = trimmedLearnerIds[trimmedLearnerIds.length - 1];
+      //String trimmedLearnerId = trimmedLearnerIds[trimmedLearnerIds.length - 1];
       String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
 
-      VirtaUserDto virtaUserDto = new VirtaUserDto(trimmedLearnerId, trimmedPersonId);
+      VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId);
       log.info(virtaUserDto.toString());
 
       String elmoXml = virtaClient.fetchStudies(virtaUserDto);
