@@ -70,10 +70,8 @@ public class ThymeController extends NcpControllerBase {
     }
 
     if (session.getAttribute(NcpSessionAttributes.ELMO) == null) {
-      // TODO: real ids
-      //String[] trimmedLearnerIds = learnerId.split(".");// TODO: not needed?
+      // Person id needs to be trimmed to match VIRTA learner id is ued as whole string
       String[] trimmedPersonIds = personId.split(":");
-      //String trimmedLearnerId = trimmedLearnerIds[trimmedLearnerIds.length - 1];
       String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
 
       VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId);
