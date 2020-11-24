@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+// TODO: Add base path here!
 @EnableAutoConfiguration(exclude = {
     org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
     //org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class

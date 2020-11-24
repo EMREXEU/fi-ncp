@@ -16,9 +16,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -63,6 +65,7 @@ public class ThymeControllerIntegrationTest {
 
     ElmoParser elmoParser =
         (ElmoParser) res.getRequest().getSession().getAttribute(NcpSessionAttributes.ELMO);
+    Assert.notNull(elmoParser, "Elmo session attribute is null");
     log.info("ELMO in session:\n{}", elmoParser.getAllCourseData());
   }
 
@@ -102,7 +105,7 @@ public class ThymeControllerIntegrationTest {
 
     ElmoParser elmoParser =
         (ElmoParser) res.getRequest().getSession().getAttribute(NcpSessionAttributes.ELMO);
-    log.info("ELMO in session:\n{}", elmoParser.getAllCourseData());
+    Assert.notNull(elmoParser, "Elmo session attribute is null");
 
     mockMvc.perform(MockMvcRequestBuilders
         .get("/review")
@@ -114,4 +117,16 @@ public class ThymeControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.content().string(NcpPages.REVIEW));
   }
 
+  MockHttpServletRequestBuilder addShibbolethAuthentication(MockHttpServletRequestBuilder builder) {
+    return builder
+        .sessionAttr("SHIB_funetEduPersonLearnerId", "1.2.246.562.24.17488477125")
+        .sessionAttr("SHIB_schacDateOfBirth", "19660718")
+        .sessionAttr("SHIB_schacHomeOrganization", "oamk.fi")
+        .sessionAttr("cn", "Teppo Testääja")
+        .sessionAttr("displayName", "Kaisa")
+        .sessionAttr("givenName", "Kaisa")
+        .sessionAttr("sn", "Keränen")
+        .sessionAttr("unique-code", "urn:mace:terena.org:schac:personalUniqueCode:fi:oamk.fi:x8734")
+        .sessionAttr("unique-id", "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213");
+  }
 }

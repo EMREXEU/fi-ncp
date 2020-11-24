@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,7 +50,7 @@ public class TestControllerIntegrationTest {
 
     ElmoParser elmoParser =
         (ElmoParser) res.getRequest().getSession().getAttribute(NcpSessionAttributes.ELMO);
-    //log.info("ELMO in session:\n{}", elmoParser.getAllCourseData());
+    Assert.notNull(elmoParser, "Elmo session attribute is null");
   }
 
 

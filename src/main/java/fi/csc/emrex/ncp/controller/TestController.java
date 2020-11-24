@@ -9,16 +9,12 @@ import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.execption.NpcException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@EnableAutoConfiguration(exclude = {
-    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
-})
 @RestController
 @Slf4j
 @RequestMapping("/test")
