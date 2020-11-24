@@ -11,6 +11,7 @@ import javax.xml.namespace.QName;
 /**
  * Created by marko.hollanti on 13/10/15.
  */
+@Deprecated
 public class VirtaMarshaller {
 
   public static final String NAMESPACE_URI = "http://purl.org/net/elmo";

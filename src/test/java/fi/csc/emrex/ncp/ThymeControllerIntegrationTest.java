@@ -4,7 +4,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import fi.csc.emrex.ncp.controller.NcpPages;
 import fi.csc.emrex.ncp.controller.NcpSessionAttributes;
-import fi.csc.emrex.ncp.elmo.ElmoParser;
+import fi.csc.emrex.ncp.elmo.XmlUtil;
+import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -55,10 +56,10 @@ public class ThymeControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
-    ElmoParser elmoParser =
-        (ElmoParser) res.getRequest().getSession().getAttribute(NcpSessionAttributes.ELMO);
-    Assert.notNull(elmoParser, "Elmo session attribute is null");
-    log.info("ELMO in session:\n{}", elmoParser.getAllCourseData());
+    OpintosuorituksetResponse virtaXml = (OpintosuorituksetResponse) res.getRequest().getSession()
+        .getAttribute(NcpSessionAttributes.VIRTA_XML);
+    Assert.notNull(virtaXml, "Elmo session attribute is null");
+    log.info("VIRTA XML in session:\n{}", XmlUtil.toString(virtaXml));
   }
 
   @Test
@@ -75,9 +76,9 @@ public class ThymeControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
-    ElmoParser elmoParser =
-        (ElmoParser) res.getRequest().getSession().getAttribute(NcpSessionAttributes.ELMO);
-    Assert.notNull(elmoParser, "Elmo session attribute is null");
+    OpintosuorituksetResponse virtaXml = (OpintosuorituksetResponse) res.getRequest().getSession()
+        .getAttribute(NcpSessionAttributes.VIRTA_XML);
+    Assert.notNull(virtaXml, "Elmo session attribute is null");
 
     mockMvc.perform(MockMvcRequestBuilders
         .get("/review")

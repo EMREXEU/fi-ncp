@@ -5,10 +5,12 @@
  */
 package fi.csc.emrex.ncp.controller;
 
-import fi.csc.emrex.ncp.elmo.ElmoParser;
+
+import fi.csc.emrex.ncp.elmo.XmlUtil;
 import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
+import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -90,15 +92,18 @@ public class JsonController extends NcpControllerBase {
     log.info("/api/elmo");
     HttpSession session = context.getSession();
 
-    ElmoParser parser = (ElmoParser) session.getAttribute(NcpSessionAttributes.ELMO);
+    OpintosuorituksetResponse virtaXml = (OpintosuorituksetResponse) session
+        .getAttribute(NcpSessionAttributes.VIRTA_XML);
     String xmlString;
     if (courses != null && courses.length > 0) {
       log.info("courses count: " + courses.length);
       List<String> courseList = Arrays.asList(courses);
-      xmlString = parser.getCourseData(courseList);
+      // TODO: convert to ELMO
+      xmlString = XmlUtil.toString(virtaXml);
     } else {
+      // TODO: selected courses, convert to ELMO
       log.info("null courses");
-      xmlString = parser.getAllCourseData();
+      xmlString = XmlUtil.toString(virtaXml);
     }
 
     JSONObject json = XML.toJSONObject(xmlString);

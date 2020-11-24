@@ -34,11 +34,10 @@ public class VirtaClient {
   @Setter
   private OpiskelijanTiedotService opiskelijanTiedotService;
 
-  public String fetchStudies(VirtaUserDto virtaUser) throws NpcException {
+  public OpintosuorituksetResponse fetchStudies(VirtaUserDto virtaUser) throws NpcException {
     try {
-      OpintosuorituksetResponse response = sendRequest(virtaUser);
-      return VirtaMarshaller.marshal(response);
-    } catch (Exception e) {
+      return sendRequest(virtaUser);
+    } catch (MalformedURLException e) {
       throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
