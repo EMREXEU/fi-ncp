@@ -2,6 +2,7 @@ package fi.csc.emrex.ncp;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+import fi.csc.emrex.ncp.controller.NcpPages;
 import fi.csc.emrex.ncp.controller.NcpSessionAttributes;
 import fi.csc.emrex.ncp.elmo.ElmoParser;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +21,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-/**
- * Created by marko.hollanti on 04/09/15.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = FiNcpApplication.class)
 @WebAppConfiguration
@@ -60,6 +58,7 @@ public class ThymeControllerIntegrationTest {
         .sessionAttr("unique-id", "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213"))
         .andDo(print())
         .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
     ElmoParser elmoParser =
@@ -98,6 +97,7 @@ public class ThymeControllerIntegrationTest {
         .sessionAttr("unique-id", "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213"))
         .andDo(print())
         .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
     ElmoParser elmoParser =
@@ -110,7 +110,8 @@ public class ThymeControllerIntegrationTest {
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO"))
         .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk());
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().string(NcpPages.REVIEW));
   }
 
 }

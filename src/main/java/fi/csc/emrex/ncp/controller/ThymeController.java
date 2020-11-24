@@ -27,9 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-/**
- * @author salum
- */
 @EnableAutoConfiguration(exclude = {
     org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
     //org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
@@ -143,15 +140,4 @@ public class ThymeController extends NcpControllerBase {
     return NcpPages.REVIEW;
   }
 
-  /**
-   * Debug endpoint to emulate session parameters by giving them in request parameter.
-   */
-  @Deprecated
-  @RequestMapping(value = "/ncp_mock_shibboleth", method = RequestMethod.POST)
-  public String getCoursesMockShibboleth(
-      @ModelAttribute NcpRequestDto request,
-      @RequestParam("unique-id") String personId,
-      @RequestParam("SHIB_funetEduPersonLearnerId") String learnerId) throws NpcException {
-    return getCourses(request, personId, learnerId);
-  }
 }
