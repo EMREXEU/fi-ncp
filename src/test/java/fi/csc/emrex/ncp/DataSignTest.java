@@ -1,13 +1,15 @@
 package fi.csc.emrex.ncp;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import fi.csc.emrex.ncp.service.DataSign;
 import fi.csc.emrex.ncp.util.GzipUtil;
 import fi.csc.emrex.ncp.util.TestUtil;
 import java.nio.charset.StandardCharsets;
 import javax.xml.bind.DatatypeConverter;
-import junit.framework.TestCase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.boot.test.SpringApplicationConfiguration;
 
@@ -16,11 +18,11 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 //@SpringApplicationConfiguration
 @SpringBootTest
-public class DataSignTest extends TestCase {
+public class DataSignTest {
 
   private DataSign instance;
 
-  @Before
+  @BeforeAll
   public void setUp() throws Exception {
     instance = new DataSign();
     instance.setCertificatePath("csc-cert.crt");

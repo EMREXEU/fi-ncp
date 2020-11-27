@@ -1,11 +1,12 @@
 package fi.csc.emrex.ncp;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Created by marko.hollanti on 04/09/15.
  */
-public class FiNcpApplicationTest extends TestCase {
+public class FiNcpApplicationTest {
 
   public void testGetElmo() throws Exception {
 
