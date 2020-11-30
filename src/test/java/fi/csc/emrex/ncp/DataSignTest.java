@@ -11,19 +11,14 @@ import javax.xml.bind.DatatypeConverter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.boot.test.SpringApplicationConfiguration;
 
-/**
- * Created by marko.hollanti on 06/10/15.
- */
-//@SpringApplicationConfiguration
 @SpringBootTest
 public class DataSignTest {
 
-  private DataSign instance;
+  private static DataSign instance;
 
   @BeforeAll
-  public void setUp() throws Exception {
+  public static void setUp() throws Exception {
     instance = new DataSign();
     instance.setCertificatePath("csc-cert.crt");
     instance.setEncryptionKeyPath("csc-privkey-pkcs8.key");
