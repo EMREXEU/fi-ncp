@@ -53,6 +53,8 @@
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
 
+    <!-- https://stackoverflow.com/questions/48204141/replacements-for-deprecated-jpms-modules-with-java-ee-apis -->
+    <!-- Must use older versions -->
     <!-- WS API -->
     <dependency>
       <groupId>jakarta.xml.ws</groupId>
