@@ -3,38 +3,25 @@ package fi.csc.emrex.ncp;
 import fi.csc.emrex.ncp.controller.NcpPages;
 import fi.csc.emrex.ncp.controller.NcpSessionAttributes;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
+import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Assert;
-import org.springframework.web.context.WebApplicationContext;
-import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = FiNcpApplication.class)
-@WebAppConfiguration
+@SpringBootTest
+@AutoConfigureMockMvc
 @Slf4j
 public class TestControllerIntegrationTest {
 
   @Autowired
-  private WebApplicationContext wac;
-
   private MockMvc mockMvc;
-
-  @BeforeAll
-  public void setUp() throws Exception {
-    mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-  }
 
   @Test
   public void getCoursesTestController() throws Exception {

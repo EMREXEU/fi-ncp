@@ -55,11 +55,18 @@
 
     <!-- This does not work with cxf -->
     <!-- Required by cxf-codegen-plugin -->
+    <!--
     <dependency>
       <groupId>com.sun.xml.ws</groupId>
       <artifactId>jaxws-ri</artifactId>
       <version>3.0.0</version>
-      <type>pom</type>
+    </dependency>
+    -->
+    <!-- https://mvnrepository.com/artifact/com.sun.xml.ws/jaxws-rt -->
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-rt</artifactId>
+      <version>3.0.0</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.sun.xml.stream.buffer/streambuffer -->
     <dependency>
@@ -288,7 +295,7 @@
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-codegen-plugin</artifactId>
-        <version>3.4.0</version>
+        <version>3.4.1</version>
         <executions>
           <execution>
             <id>generate-sources</id>
