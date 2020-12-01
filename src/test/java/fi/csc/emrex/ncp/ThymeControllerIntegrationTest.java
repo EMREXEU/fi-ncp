@@ -77,6 +77,36 @@ public class ThymeControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.content().string(NcpPages.REVIEW));
   }
 
+  @Test
+  public void getCoursesAndReviewSelected() throws Exception {
+
+    // First request will store data into session so must use same session in following request
+    MvcResult res = mockMvc.perform(MockMvcRequestBuilders
+        .post("/ncp")
+        .param("sessionId", "TODO")
+        .param("returnUrl", "TODO")
+        .sessionAttrs(getShibbolethAuthenticationAttributes()))
+        .andDo(print())
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
+        .andReturn();
+
+    OpintosuorituksetResponse virtaXml = (OpintosuorituksetResponse) res.getRequest().getSession()
+        .getAttribute(NcpSessionAttributes.VIRTA_XML);
+    Assert.notNull(virtaXml, "Elmo session attribute is null");
+
+    mockMvc.perform(MockMvcRequestBuilders
+        .get("/review")
+        // Expecting this existing course from VIRTA test service
+        .param("courses", "1451865")
+        .session((MockHttpSession) res.getRequest().getSession())
+        .param("sessionId", "TODO")
+        .param("returnUrl", "TODO"))
+        .andDo(print())
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().string(NcpPages.REVIEW));
+  }
+
   //  Shibboleth session params:
   //SHIB_funetEduPersonLearnerId: 1.2.246.562.24.17488477125
   //SHIB_schacDateOfBirth: 19660718

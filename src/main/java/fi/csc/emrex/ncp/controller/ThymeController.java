@@ -124,6 +124,12 @@ public class ThymeController extends NcpControllerBase {
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
     // TODO:  POST ELMO XML to return URL
 
+    // TODO: move this to endpoint after user confirmation?
+    elmoService.postElmo(elmoString,
+        new NcpRequestDto(
+            (String) session.getAttribute(NcpSessionAttributes.SESSION_ID),
+            (String) session.getAttribute(NcpSessionAttributes.RETURN_URL)));
+
     model.addAttribute(NcpSessionAttributes.VIRTA_XML, elmoString);
     model.addAttribute("buttonText", "Confirm selection");
     model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
