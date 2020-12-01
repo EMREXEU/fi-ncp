@@ -8,9 +8,11 @@ package fi.csc.emrex.ncp.controller;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
 import fi.csc.emrex.ncp.execption.NpcException;
-import fi.csc.emrex.ncp.service.DataSign;
+import fi.csc.emrex.ncp.service.DataSignService;
+import fi.csc.emrex.ncp.service.ElmoService;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
+import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -42,7 +44,9 @@ public class ThymeController extends NcpControllerBase {
   @Autowired
   private VirtaClient virtaClient;
   @Autowired
-  private DataSign dataSign;
+  private DataSignService dataSignService;
+  @Autowired
+  private ElmoService elmoService;
 
   /**
    * TODO: Is this the main entry point for NCP?
@@ -107,23 +111,20 @@ public class ThymeController extends NcpControllerBase {
     model.addAttribute(
         NcpSessionAttributes.RETURN_URL,
         session.getAttribute(NcpSessionAttributes.RETURN_URL));
-    OpintosuorituksetResponse virtaXml = (OpintosuorituksetResponse) session
-        .getAttribute(NcpSessionAttributes.VIRTA_XML);
-    String xmlString;
+    OpintosuorituksetResponse virtaXml =
+        (OpintosuorituksetResponse) session.getAttribute(NcpSessionAttributes.VIRTA_XML);
 
     if (courses != null && courses.length > 0) {
       List<String> courseList = Arrays.asList(courses);
-      //xmlString = parser.getCourseData(courseList);
-      // TODO: select courses, convert to ELMO
-      xmlString = XmlUtil.toString(virtaXml);
-    } else {
-      // TODO: Convert VIRTA-schema to ELMO-schema
-      xmlString = XmlUtil.toString(virtaXml);
+      virtaXml = elmoService.trimToSelectedCourses(virtaXml, courseList);
     }
 
-    xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
+    Elmo elmoXml = elmoService.convertToElmoXml(virtaXml);
+    String elmoString = XmlUtil.toString(elmoXml);
+    elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
+    // TODO:  POST ELMO XML to return URL
 
-    model.addAttribute(NcpSessionAttributes.VIRTA_XML, xmlString);
+    model.addAttribute(NcpSessionAttributes.VIRTA_XML, elmoString);
     model.addAttribute("buttonText", "Confirm selection");
     model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
     return NcpPages.REVIEW;

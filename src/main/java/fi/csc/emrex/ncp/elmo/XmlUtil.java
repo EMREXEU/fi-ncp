@@ -1,6 +1,7 @@
 package fi.csc.emrex.ncp.elmo;
 
 import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -37,6 +38,21 @@ public class XmlUtil {
       return writer.toString();
     } catch (JAXBException e) {
       throw new NpcException("Writing VIRTA XML to String failed.", e);
+    }
+  }
+
+
+  public static String toString(Elmo elmoXml) throws NpcException {
+    try {
+      // TODO: this writes elements without namespaces, ok?
+      StringWriter writer = new StringWriter();
+      JAXBContext jc = JAXBContext.newInstance(Elmo.class);
+      Marshaller marshaller = jc.createMarshaller();
+      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      marshaller.marshal(elmoXml, writer);
+      return writer.toString();
+    } catch (JAXBException e) {
+      throw new NpcException("Writing ELMO XML to String failed.", e);
     }
   }
 

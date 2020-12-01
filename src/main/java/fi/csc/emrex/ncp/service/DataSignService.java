@@ -43,7 +43,7 @@ import javax.xml.transform.stream.StreamResult;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
 /**
@@ -51,8 +51,8 @@ import org.w3c.dom.Document;
  */
 @Setter
 @Slf4j
-@Component
-public class DataSign {
+@Service
+public class DataSignService {
 
   private String certificate;
   private String encryptionKey;

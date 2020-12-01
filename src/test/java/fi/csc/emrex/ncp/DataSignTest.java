@@ -3,7 +3,7 @@ package fi.csc.emrex.ncp;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import fi.csc.emrex.ncp.service.DataSign;
+import fi.csc.emrex.ncp.service.DataSignService;
 import fi.csc.emrex.ncp.util.GzipUtil;
 import fi.csc.emrex.ncp.util.TestUtil;
 import java.nio.charset.StandardCharsets;
@@ -15,11 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class DataSignTest {
 
-  private static DataSign instance;
+  private static DataSignService instance;
 
   @BeforeAll
   public static void setUp() throws Exception {
-    instance = new DataSign();
+    instance = new DataSignService();
     instance.setCertificatePath("csc-cert.crt");
     instance.setEncryptionKeyPath("csc-privkey-pkcs8.key");
     instance.setEnvironment("dev");
