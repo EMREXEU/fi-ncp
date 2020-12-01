@@ -285,7 +285,8 @@
             </goals>
             <configuration>
               <sources>
-                <source>${project.build.directory}/generated-sources/cxf</source>
+                <source>${project.build.directory}/generated-sources/cxf/virta</source>
+                <source>${project.build.directory}/generated-sources/cxf/elmo</source>
               </sources>
             </configuration>
           </execution>
@@ -301,7 +302,7 @@
             <id>generate-sources</id>
             <phase>generate-sources</phase>
             <configuration>
-              <sourceRoot>${project.build.directory}/generated-sources/cxf</sourceRoot>
+              <sourceRoot>${project.build.directory}/generated-sources/cxf/virta</sourceRoot>
               <wsdlOptions>
                 <wsdlOption>
                   <!--<wsdl>http://virtawstesti.csc.fi/luku/opiskelijatiedot.wsdl</wsdl>-->
@@ -329,10 +330,11 @@
               <goal>xsdtojava</goal>
             </goals>
             <configuration>
+              <sourceRoot>${project.build.directory}/generated-sources/cxf/elmo</sourceRoot>
               <xsdOptions>
                 <xsdOption>
                   <xsd>${basedir}/src/main/resources/elmo/schema.xsd</xsd>
-                  <packagename>my.schemas.elmo</packagename>
+                  <packagename>fi.csc.schemas.elmo</packagename>
                 </xsdOption>
               </xsdOptions>
             </configuration>
