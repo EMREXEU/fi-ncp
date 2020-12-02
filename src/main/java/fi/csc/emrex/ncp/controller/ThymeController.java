@@ -85,6 +85,7 @@ public class ThymeController extends NcpControllerBase {
 
       OpintosuorituksetResponse virtaXml = virtaClient.fetchStudies(virtaUserDto);
       session.setAttribute(NcpSessionAttributes.VIRTA_XML, virtaXml);
+      session.setAttribute(NcpSessionAttributes.VIRTA_USER_DTO, virtaUserDto);
     }
 
     return NcpPages.NOREX;
@@ -113,13 +114,22 @@ public class ThymeController extends NcpControllerBase {
         session.getAttribute(NcpSessionAttributes.RETURN_URL));
     OpintosuorituksetResponse virtaXml =
         (OpintosuorituksetResponse) session.getAttribute(NcpSessionAttributes.VIRTA_XML);
+    // TODO: student data from shibboleth and VIRTA
+    VirtaUserDto student = (VirtaUserDto) session.getAttribute(NcpSessionAttributes.VIRTA_USER_DTO);
+
+    if (virtaXml == null) {
+      throw new NpcException("Empty VIRTA XML in session data.");
+    }
+    if (student == null) {
+      throw new NpcException("Empty VIRTA user in session data.");
+    }
 
     if (courses != null && courses.length > 0) {
       List<String> courseList = Arrays.asList(courses);
       virtaXml = elmoService.trimToSelectedCourses(virtaXml, courseList);
     }
 
-    Elmo elmoXml = elmoService.convertToElmoXml(virtaXml);
+    Elmo elmoXml = elmoService.convertToElmoXml(virtaXml, student);
     String elmoString = XmlUtil.toString(elmoXml);
 
     // TODO: remove

@@ -1,6 +1,7 @@
 package fi.csc.emrex.ncp.service;
 
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
+import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.schemas.elmo.Elmo.Learner;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ElmoService {
 
+  private String DEFAULT_LEARNER_ID_TYPE = "nationalIdentifier";
+
   public OpintosuorituksetResponse trimToSelectedCourses(
       OpintosuorituksetResponse virtaXml,
       List<String> courseKeys) {
@@ -40,45 +43,38 @@ public class ElmoService {
     return virtaXml;
   }
 
-  public Elmo convertToElmoXml(OpintosuorituksetResponse virtaXml) {
+  public Elmo convertToElmoXml(OpintosuorituksetResponse virtaXml, VirtaUserDto student) {
 
     Elmo elmo = new Elmo();
-
-    Elmo.Learner learner = createLearner();
-    elmo.setLearner(learner);
-
+    elmo.setLearner(createLearner(student));
     List<Elmo.Report> reports = elmo.getReport();
 
     virtaXml.getOpintosuoritukset().getOpintosuoritus().forEach(opintosuoritus -> {
-
-      Elmo.Report report = createReport(opintosuoritus);
-      reports.add(report);
-
-      List<LearningOpportunitySpecification> learningOpportunitySpecifications =
-          report.getLearningOpportunitySpecification();
-      LearningOpportunitySpecification learningOpportunitySpecification =
-          createLearningOpportunitySpecification(opintosuoritus);
-
-      learningOpportunitySpecifications.add(learningOpportunitySpecification);
+      reports.add(createReport(opintosuoritus));
     });
 
     return elmo;
-
   }
 
-  private Learner createLearner() {
+  private Learner createLearner(VirtaUserDto student) {
     Elmo.Learner learner = new Elmo.Learner();
     Elmo.Learner.Identifier identifier = new Elmo.Learner.Identifier();
-    identifier.setType("nationalIdentifier");
-    identifier.setValue("TODO");
+    identifier.setType(DEFAULT_LEARNER_ID_TYPE);
+    identifier.setValue(student.getSsn());
     learner.getIdentifier().add(identifier);
     return learner;
   }
 
   private Report createReport(OpintosuoritusTyyppi opintosuoritus) {
+
     Elmo.Report report = new Elmo.Report();
     report.setIssueDate(opintosuoritus.getSuoritusPvm());
     report.setIssuer(createIssuer());
+
+    List<LearningOpportunitySpecification> learningOpportunitySpecifications =
+        report.getLearningOpportunitySpecification();
+    learningOpportunitySpecifications.add(createLearningOpportunitySpecification(opintosuoritus));
+
     return report;
   }
 
