@@ -3,6 +3,8 @@ package fi.csc.emrex.ncp.service;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
+import fi.csc.schemas.elmo.Elmo.Learner;
+import fi.csc.schemas.elmo.Elmo.Report;
 import fi.csc.schemas.elmo.Elmo.Report.Issuer;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies;
@@ -39,39 +41,56 @@ public class ElmoService {
   }
 
   public Elmo convertToElmoXml(OpintosuorituksetResponse virtaXml) {
-    Elmo elmo = new Elmo();
-    // TODO
 
+    Elmo elmo = new Elmo();
+
+    Elmo.Learner learner = createLearner();
+    elmo.setLearner(learner);
+
+    List<Elmo.Report> reports = elmo.getReport();
+
+    virtaXml.getOpintosuoritukset().getOpintosuoritus().forEach(opintosuoritus -> {
+
+      Elmo.Report report = createReport(opintosuoritus);
+      reports.add(report);
+
+      List<LearningOpportunitySpecification> learningOpportunitySpecifications =
+          report.getLearningOpportunitySpecification();
+      LearningOpportunitySpecification learningOpportunitySpecification =
+          createLearningOpportunitySpecification(opintosuoritus);
+
+      learningOpportunitySpecifications.add(learningOpportunitySpecification);
+    });
+
+    return elmo;
+
+  }
+
+  private Learner createLearner() {
     Elmo.Learner learner = new Elmo.Learner();
     Elmo.Learner.Identifier identifier = new Elmo.Learner.Identifier();
     identifier.setType("nationalIdentifier");
     identifier.setValue("TODO");
     learner.getIdentifier().add(identifier);
-    elmo.setLearner(learner);
+    return learner;
+  }
 
-    List<Elmo.Report> reports = elmo.getReport();
-    virtaXml.getOpintosuoritukset().getOpintosuoritus().forEach(opintosuoritus -> {
-      Elmo.Report report = new Elmo.Report();
-      List<LearningOpportunitySpecification> learningOpportunitySpecifications
-          = report.getLearningOpportunitySpecification();
+  private Report createReport(OpintosuoritusTyyppi opintosuoritus) {
+    Elmo.Report report = new Elmo.Report();
+    report.setIssueDate(opintosuoritus.getSuoritusPvm());
+    report.setIssuer(createIssuer());
+    return report;
+  }
 
-      LearningOpportunitySpecification learningOpportunitySpecification = new LearningOpportunitySpecification();
-      learningOpportunitySpecification.setType(opintosuoritus.getKoulutusmoduulitunniste());
-      learningOpportunitySpecification.setSubjectArea(opintosuoritus.getKoulutuskoodi());
-      learningOpportunitySpecification.setIscedCode(opintosuoritus.getKoulutuskoodi());
-      learningOpportunitySpecification.setSpecifies(createSpecifies(opintosuoritus));
-
-      report.setIssueDate(opintosuoritus.getSuoritusPvm());
-      report.setIssuer(createIssuer());
-
-      createLocalizedTitles(opintosuoritus, learningOpportunitySpecification);
-
-      learningOpportunitySpecifications.add(learningOpportunitySpecification);
-      reports.add(report);
-    });
-
-    return elmo;
-
+  private LearningOpportunitySpecification createLearningOpportunitySpecification(
+      OpintosuoritusTyyppi opintosuoritus) {
+    LearningOpportunitySpecification learningOpportunitySpecification = new LearningOpportunitySpecification();
+    learningOpportunitySpecification.setType(opintosuoritus.getKoulutusmoduulitunniste());
+    learningOpportunitySpecification.setSubjectArea(opintosuoritus.getKoulutuskoodi());
+    learningOpportunitySpecification.setIscedCode(opintosuoritus.getKoulutuskoodi());
+    learningOpportunitySpecification.setSpecifies(createSpecifies(opintosuoritus));
+    createLocalizedTitles(opintosuoritus, learningOpportunitySpecification);
+    return learningOpportunitySpecification;
   }
 
   private Specifies createSpecifies(OpintosuoritusTyyppi opintosuoritus) {

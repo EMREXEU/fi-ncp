@@ -121,6 +121,10 @@ public class ThymeController extends NcpControllerBase {
 
     Elmo elmoXml = elmoService.convertToElmoXml(virtaXml);
     String elmoString = XmlUtil.toString(elmoXml);
+
+    // TODO: remove
+    log.info("ELMO XML pre sign:\n{}", elmoString);
+
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
     // TODO:  POST ELMO XML to return URL
 
