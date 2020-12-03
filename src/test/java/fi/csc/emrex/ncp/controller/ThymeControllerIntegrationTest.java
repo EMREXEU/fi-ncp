@@ -1,4 +1,4 @@
-package fi.csc.emrex.ncp;
+package fi.csc.emrex.ncp.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 

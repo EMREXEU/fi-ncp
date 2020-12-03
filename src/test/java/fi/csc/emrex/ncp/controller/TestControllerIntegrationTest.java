@@ -1,4 +1,4 @@
-package fi.csc.emrex.ncp;
+package fi.csc.emrex.ncp.controller;
 
 import fi.csc.emrex.ncp.controller.NcpPages;
 import fi.csc.emrex.ncp.controller.NcpSessionAttributes;
