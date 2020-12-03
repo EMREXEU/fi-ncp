@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.06.2"
+  attributeFormDefault="unqualified"
+  elementFormDefault="qualified"
+  targetNamespace="urn:mace:funet.fi:virta/2015/09/01"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:virta="urn:mace:funet.fi:virta/2015/09/01">
+
+<xs:include schemaLocation="tyypit.xsd">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Tiedonsiirtoelementtien tyypit.
+		</xs:documentation>
+	</xs:annotation>
+</xs:include>
+
+<!-- LUKUKAUSI-ILMOITTAUTUMISTEN RAKENNE -->
+
+<!-- Elementtinä, jos skeema-tiedostoa käytetään suoraan xml-tiedoston skeemana -->
+<!-- Tämä on siis ainoa globaali elementti, muutoin oltava jonkin muun elementin sisällä -->
+<xs:element name="LukukausiIlmoittautumiset" type="virta:LukukausiIlmoittautumisetTyyppi"/>
+
+<!-- Tyyppinä ilman organisaatio- ja lang-attribuutteja, jos skeemaa käytetään sisäkkäisesti toisesta skeemasta -->
+<xs:complexType name="LukukausiIlmoittautumisetTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Lukukausi-ilmoittautumiset
+			* Juurielementti useille lukukausi-ilmoittautumisille
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="LukukausiIlmoittautuminen" type="virta:LukukausiIlmoittautuminenTyyppi" minOccurs="1" maxOccurs="unbounded"/>
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="LukukausiIlmoittautuminenTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Ilmoittautuminen
+			* Yksittäinen ilmoittautuminen
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Myontaja" type="virta:OrganisaatioKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Lukukausi-ilmoittautumisen kohteena oleva organisaatio (oppilaitos). Pakollinen.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Tila" type="virta:LukukausiIlmoittautuminenTilaKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Ilmoittautumisen tila (koodisto).
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="IlmoittautumisPvm" type="virta:PvmTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Ilmoittautumispäivämäärä.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<!-- nämä alku- ja loppupvm -elementit voisi lukea mukaan myös extensionina, mutta järjestys... -->
+		<xs:element name="AlkuPvm" type="virta:PvmTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Alkamispäivämäärä.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="LoppuPvm" type="virta:PvmTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Päättymispäivämäärä.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="YlioppilaskuntaJasen" type="virta:KyllaEiKytkinTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Ylioppilaskunnan jäsen.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="YTHSMaksu" type="virta:KyllaEiKytkinTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					YTHS-maksu.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>		
+		<!-- Lukuvuosimaksu tieto -->
+		<xs:element name="LukuvuosiMaksu" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation xml:lang="fi">LukuvuosiMaksu.</xs:documentation>
+					</xs:annotation>	
+					<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Maksettu" type="virta:LukuvuosiMaksuTilaKoodiTyyppi" minOccurs="1" maxOccurs="1"/>								
+					</xs:sequence>	
+					</xs:complexType>
+		</xs:element>
+	</xs:sequence>
+	<xs:attribute name="opiskelijaAvain" type="virta:AvainTyyppi" use="required">
+		<xs:annotation>
+			<xs:documentation xml:lang="fi">
+				Opiskelijan (henkilön) avain. Pakollinen.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="opiskeluoikeusAvain" type="virta:AvainTyyppi" use="optional">
+		<xs:annotation>
+			<xs:documentation xml:lang="fi">
+				Opiskeluoikeuden avain. Valinnainen.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+</xs:complexType>
+
+</xs:schema>

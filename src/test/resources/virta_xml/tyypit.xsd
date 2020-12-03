@@ -1,0 +1,490 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.06.1"
+  attributeFormDefault="unqualified"
+  elementFormDefault="qualified"
+  targetNamespace="urn:mace:funet.fi:virta/2015/09/01"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:virta="urn:mace:funet.fi:virta/2015/09/01">
+
+<xs:include schemaLocation="koodistot.xsd">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Koodistot.
+		</xs:documentation>
+	</xs:annotation>
+</xs:include>
+
+<!-- ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~
+TYYPPIMÄÄRITYKSET
+* Tiedoston rakenne/sisältö:
+- YLEISET TYYPIT
+- HENKILÖ/OPISKELIJA
+- OPISKELUOIKEUS
+- SUORITUS
+-->
+
+<!-- ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~
+YLEISET TYYPIT
+-->
+
+<!-- AIKA / PÄIVÄMÄÄRÄ -->
+<!-- JHS-170:
+	<xs:simpleType name="AlkuPvmTyyppi">
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="LoppuPvmTyyppi">
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+-->
+<!-- kopioidaan omaksi, niin ei tarvitse importata jhs:ää aina -->
+<xs:simpleType name="PvmTyyppi">
+	<xs:restriction base="xs:date">
+		<!-- NB 2013-08-30: Lisätty päivämääriin minimivaatimus -->
+		<xs:minInclusive value="1900-01-01"/>
+	</xs:restriction>
+</xs:simpleType>
+<!-- AIKAJAKSO (alku pakollinen, loppu valinnainen) -->
+<xs:complexType name="AikajaksoTyyppi">
+	<xs:sequence>
+		<xs:element name="AlkuPvm" type="virta:PvmTyyppi" minOccurs="1" maxOccurs="1"/>
+		<xs:element name="LoppuPvm" type="virta:PvmTyyppi" minOccurs="0" maxOccurs="1"/>
+	</xs:sequence>
+</xs:complexType>
+
+<!-- AVAIN -->
+<xs:simpleType name="AvainTyyppi">
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="100"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<!-- KOULUTUSMODUULIID -->
+<xs:simpleType name="KoulutusmoduulitunnisteTyyppi">
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="200"/>
+	</xs:restriction>
+</xs:simpleType>
+<!-- VALTAKUNNALLINEN KOULUTUSMODUULIID -->
+<xs:simpleType name="ValtakunnallinenKoulutusmoduulitunnisteTyyppi">
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="200"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<!-- ORGANISAATIO -->
+<!-- perusrakenne: rooli+koodi[+osuus] -->
+<xs:complexType name="OrganisaatioRooliOsuusTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Organisaatiotiedot.
+			
+			Organisaatio-tietoja voi olla eri rooleilla ja useita, jolloin jakautuminen
+			voidaan kertoa osuus-tietona. Osuustieto on väliltä 0-1.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Rooli" type="virta:OrganisaatioRooliKoodiTyyppi" minOccurs="1" maxOccurs="1"/>
+		<xs:element name="Koodi" type="virta:OrganisaatioKoodiTyyppi"  minOccurs="1" maxOccurs="1"/>
+		<xs:element name="Osuus" type="virta:OsuusTyyppi" minOccurs="0" maxOccurs="1"/>
+	</xs:sequence>
+</xs:complexType>
+
+<!-- OSUUS -->
+<xs:simpleType name="OsuusTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Osuus-tieto väliltä 0-1 (1 = 100%).
+			Yleisesti yhteenlasketut osuus-tiedot tulisi olla tasan 1 (=100%).
+		</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:decimal">
+		<xs:totalDigits value="24"/>
+		<xs:fractionDigits value="6"/>
+		<xs:minInclusive value="0.0"/>
+		<xs:maxInclusive value="1.0"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<!-- KOULUTUSALA -->
+<!-- huom eri versiot -->
+<xs:complexType name="KoulutusalaVersioTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Koulutusalat yhdistettynä, versio-attribuutilla.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:simpleContent>
+		<xs:extension base="virta:KoulutusalaKoodiTyyppi">
+			<xs:attribute name="versio" type="virta:KoulutusalaVersioKoodiTyyppi" use="required"/>
+		</xs:extension>
+	</xs:simpleContent>
+</xs:complexType>
+
+<xs:complexType name="KoulutusalaVersioOsuusTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Koulutusalat yhdistettynä, versio-attribuutilla ja osuus-tiedolla.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Koodi" type="virta:KoulutusalaVersioTyyppi" minOccurs="1" maxOccurs="1"/>
+		<xs:element name="Osuus" type="virta:OsuusTyyppi" minOccurs="0" maxOccurs="1"/>
+	</xs:sequence>
+</xs:complexType>
+
+<!-- ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~
+HENKILÖ/OPISKELIJA
+-->
+
+<xs:simpleType name="KansallinenOppijanumeroTyyppi">
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="200"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<!-- JHS-170 muokattuna -->
+<xs:simpleType name="HenkilotunnusTyyppi">
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="200"/> <!-- xdw-malli -->
+		<!-- xs:maxLength value="11"/ -->
+		<xs:pattern value="(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[0-2])[0-9][0-9][+\-A]((00[2-9]|[0-8][1-9][0-9]|[1-8][0-9][0-9])[0-9ABCDEFHJKLMNPRSTUVWXY])?"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="SukunimiTyyppi">
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="200"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="EtunimetTyyppi">
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="200"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<!-- ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~
+OPISKELUOIKEUDEN TYYPIT
+-->
+
+<xs:simpleType name="LukukausiMaaraTyyppi">
+	<xs:restriction base="xs:short"/>
+</xs:simpleType>
+
+
+<!-- ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~
+SUORITUSTEN TYYPIT
+-->
+
+<xs:simpleType name="OpintosuoritusNimiTekstiTyyppi">
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="200"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="OpintosuoritusNimiTyyppi">
+	<xs:simpleContent>
+		<xs:extension base="virta:OpintosuoritusNimiTekstiTyyppi">
+			<xs:attribute name="kieli" type="virta:KieliKoodiTyyppi" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="fi">
+						Opintosuorituksen nimen kieli. Valinnainen.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:extension>
+	</xs:simpleContent>
+</xs:complexType>
+
+<!-- NB: Ei salli HTML-tageja! Pitäisi keksiä miten laajennetaan mixed-tyyppiä pituusrajoituksella.... -->
+<xs:simpleType name="OpintosuoritusJulkinenLisatietoTekstiTyyppi">
+	<xs:restriction base="xs:string">
+		<xs:maxLength value="4000"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="OpintosuoritusJulkinenLisatietoTyyppi">
+	<xs:simpleContent>
+		<xs:extension base="virta:OpintosuoritusJulkinenLisatietoTekstiTyyppi">
+			<xs:attribute name="kieli" type="virta:KieliKoodiTyyppi" use="optional">
+				<xs:annotation>
+					<xs:documentation xml:lang="fi">
+						Opintosuorituksen julkisen lisätiedon kieli. Valinnainen.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:extension>
+	</xs:simpleContent>
+</xs:complexType>
+<!--
+<xs:complexType name="OpintosuoritusLisatietoTyyppi" mixed="true">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Opintosuorituksen lisätiedot.
+			
+			Vaihtoehtoisista osista koostuva tekstityyppi, mutta pituus rajoitettu.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="virta:OpintosuoritusLisatietoTekstiTyyppi">
+			<xs:sequence>
+				<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+-->
+
+<xs:complexType name="LaajuusLaajennettuTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Tutkinnon, opintokokonaisuuden tai opintojakson laajuus opintopisteinä.
+			Lisäksi voidaan antaa laajuus opintoviikkoina.
+		</xs:documentation>
+		<xs:documentation xml:lang="en">
+			The scope of a degree or a study module as ECTS credit.
+			Additionally the scope may be given as course unit.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Opintopiste" type="virta:LaajuusTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opintopistelaajuus.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Opintoviikko" type="virta:LaajuusTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opintoviikkolaajuus. Valinnainen.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+	</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="LaajuusTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Tutkinnon, opintokokonaisuuden tai opintojakson laajuus.
+			Opintopisteitä tai opintoviikkoja.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:decimal">
+		<xs:totalDigits value="24"/>
+		<xs:fractionDigits value="6"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<!-- Arvosana ja arvosana-asteikko -->
+<!--
+Arvosana
+  Arvosana-asteikko
+-->
+<xs:complexType name="ArvosanaTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Opintosuorituksen arvosana. Arvosana ja arvosana-asteikko.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:choice>
+		<xs:element name="Viisiportainen" type="virta:ArvosanaViisiportainenKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Arvosana-asteikko viisiportainen (1-5).
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="ToinenKotimainen" type="virta:ArvosanaToinenKotimainenKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Arvosana-asteikko Tyydyttävät tiedot-Hyvät tiedot.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Hyvaksytty" type="virta:ArvosanaHyvaksyttyKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Arvosana-asteikko Hyväksytty/Hylätty.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Naytetyo" type="virta:ArvosanaNaytetyoKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Arvosana-asteikko Hyväksytty-Kiittäen hyväksytty.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Tutkielma" type="virta:ArvosanaTutkielmaKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Arvosana-asteikko Approbatur-Laudatur.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="EiKaytossa" type="virta:ArvosanaEiKaytossaKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Arvosana-asteikko arvosanoille joita ei ole: "Arvosana ei käytössä"
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Muu" type="virta:ArvosanaAsteikkoMuuTyyppi" minOccurs="1" maxOccurs="1"/>
+		<!-- ks. alla -->
+	</xs:choice>
+</xs:complexType>
+
+<xs:complexType name="ArvosanaAsteikkoMuuTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Arvosana-asteikko muu.
+			Arvosanoja varten, jotka kuuluvat muihin arvosana-asteikoihin kuin tässä
+			XML-skeemassa erikseen kuvattuihin.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Asteikko" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Arvosana-asteikko 'Muu'-asteikon tiedot nimineen ja arvosanoineen voidaan tuoda
+					tiedonsiirrossa mukana. Yhden asteikon kaikki mahdolliset arvosanat voidaan siis
+					ilmoittaa samalla ja yhdellä kerralla.
+					
+					Asteikolle voidaan tuoda (ks. korkeakoulujen tietomalli):
+					* avain (Koodi)
+					* Nimi
+					Lisäksi asteikkoon liittyvät arvosanat:
+					* avain (Koodi)
+					* Nimi (Arvosana)
+					* Laskennallinen arvo
+					
+					Rakenteena vastaa korkeakoulujen tietomallin käsitteitä:
+					* Arvosana-asteikko (Koodi, Nimi) ja
+					* Arvosana (Arvosana.Koodi, Arvosana.Arvosana, Arvosana.LaskennallinenArvo)
+				</xs:documentation>
+			</xs:annotation>
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="Nimi" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="fi">
+								Arvosana-asteikon 'Muu' lähettävän oppilaitoksen käyttämä nimi
+								arvosana-asteikolle. Valinnainen.
+
+								Vastaa korkeakoulujen tietomallissa käsitettä:
+								Arvosana-asteikko.Nimi
+							</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="200"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AsteikkoArvosana" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation xml:lang="fi">
+								Arvosana-asteikon 'Muu' sisältämien arvosanojen lista. Valinnainen.
+								Yhden asteikon kaikki arvosanat voidaan ilmoittaa kerralla.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Koodi" minOccurs="1" maxOccurs="1">
+									<xs:annotation>
+										<xs:documentation xml:lang="fi">
+											Arvosana-asteikon 'Muu' yksittäisen arvosanan koodiarvo. Pakollinen.
+											Esim. HYV, 1, 2, ..., A, ... E, L
+											
+											Vastaa korkeakoulujen tietomallissa käsitettä:
+											Arvosana.Arvosana tai *ei vastaavuutta* (arvosanan lyhenne)
+										</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="20"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="Nimi" minOccurs="0" maxOccurs="1">
+									<xs:annotation>
+										<xs:documentation xml:lang="fi">
+											Arvosana-asteikon 'Muu' yksittäisen arvosanan selite/nimi. Valinnainen.
+											Esim. Hyväksytty, ..., Approbatur, ..., Eximia cum laude approbatur, Laudatur
+											
+											Vastaa korkeakoulujen tietomallissa käsitettä:
+											*ei vastaavuutta* tai Arvosana.Arvosana
+										</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="200"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="LaskennallinenArvo" minOccurs="0" maxOccurs="1">
+									<xs:annotation>
+										<xs:documentation xml:lang="fi">
+											Arvosana-asteikon 'Muu' yksittäisen arvosanan laskennallinen arvo. Valinnainen.
+											
+											Vastaa korkeakoulujen tietomallissa käsitettä:
+											Arvosana.Laskennallinen arvo
+										</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:decimal">
+											<xs:totalDigits value="24"/>
+											<xs:fractionDigits value="6"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="avain" type="virta:AvainTyyppi" use="required">
+								<xs:annotation>
+									<xs:documentation xml:lang="fi">
+										Arvosana-asteikon 'Muu' yksittäisen arvosanan lähettävän oppilaitoksen
+										käyttämä tunnistetieto ko. arvosana-asteikon arvosanalle. Pakollinen.
+										
+										Vastaa korkeakoulujen tietomallissa käsitettä:
+										Arvosana.Koodi
+									</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="avain" type="virta:AvainTyyppi" use="required">
+					<xs:annotation>
+						<xs:documentation xml:lang="fi">
+							Arvosana-asteikon 'Muu' lähettävän oppilaitoksen käyttämä tunnistetieto arvosana-asteikolle. Pakollinen.
+							
+							Vastaa korkeakoulujen tietomallissa käsitettä:
+							Arvosana-asteikko.Koodi
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="Koodi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Arvosana-asteikon 'Muu' varsinainen arvosana ko opintosuoritukselle. Pakollinen.
+					
+					Tämä "koodiarvo" on (ei pakollinen) viittaus XML-skeeman elementtiin:
+					Muu.Asteikko.AsteikkoArvosana.Koodi
+					
+					Viittausta ei tarkisteta XML-skeemassa, mutta Virta-tietomallin mukaisessa
+					relaatiokannassa kyllä.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:maxLength value="20"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+	</xs:sequence>
+</xs:complexType>
+
+</xs:schema>

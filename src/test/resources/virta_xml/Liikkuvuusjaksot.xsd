@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.06.1"
+  attributeFormDefault="unqualified"
+  elementFormDefault="qualified"
+  targetNamespace="urn:mace:funet.fi:virta/2015/09/01"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:virta="urn:mace:funet.fi:virta/2015/09/01">
+
+<xs:include schemaLocation="tyypit.xsd">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">Tiedonsiirtoelementtien tyypit.</xs:documentation>
+	</xs:annotation>
+</xs:include>
+
+<!-- LIIKKUVUUSJAKSOJEN RAKENNE -->
+
+<!-- Elementtinä, jos skeema-tiedostoa käytetään suoraan xml-tiedoston skeemana -->
+<!-- Tämä on siis ainoa globaali "Liikkuvuusjaksot" elementti, muutoin oltava jonkin muun elementin sisällä -->
+<xs:element name="Liikkuvuusjaksot" type="virta:LiikkuvuusjaksotTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">Liikkuvuusjaksot. Juurielementti useille liikkuvuusjaksoille</xs:documentation>
+	</xs:annotation>
+</xs:element>
+
+<!-- Tyyppinä ilman organisaatio- ja lang-attribuutteja, jos skeemaa käytetään sisäkkäisesti toisesta skeemasta -->
+<xs:complexType name="LiikkuvuusjaksotTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">Liikkuvuusjaksot. Juurielementti useille liikkuvuusjaksoille</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Liikkuvuusjakso" type="virta:LiikkuvuusjaksoTyyppi" minOccurs="1" maxOccurs="unbounded"/>
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="LiikkuvuusjaksoTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">Liikkuvuusjakso. Yksittäinen liikkuvuusjakso</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Myontaja" type="virta:OrganisaatioKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">Liikkuvuusjakson myöntäjä</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="AlkuPvm" type="virta:PvmTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">Liikkuvuusjakson alkamispäivämäärä</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="LoppuPvm" type="virta:PvmTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">Liikkuvuusjakson päättymispäivämäärä</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Suunta" type="virta:LiikkuvuusSuuntaKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">Liikkuvuuden suunta</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Maa" type="virta:MaatunnusKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">Liikkuvuusjakson lähtevän opiskelijan kohdemaa tai saapuvan opiskelijan lähtömaa</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Tyyppi" type="virta:LiikkuvuusTyyppiKoodiTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">Liikkuvuusjakson liikkuvuuden tyyppi</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Liikkuvuusohjelma" type="virta:LiikkuvuusohjelmaKoodiTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">Liikkuvuusjakson liikkuvuusohjelma</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="OpiskeluoikeusTyyppi" type="virta:OpiskeluoikeusTyyppiKoodiTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">Liikkuvuusjaksolle saapuvan opiskelijan koulutusaste suomalaisessa korkeakoulussa</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Luokittelu" type="virta:LiikkuvuusLuokitteluKoodiTyyppi" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">Liikkuvuuden luokittelu</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+	</xs:sequence>
+	<!-- ATTRIBUUTIT -->
+	<xs:attribute name="avain" type="virta:AvainTyyppi" use="required">
+		<xs:annotation>
+			<xs:documentation xml:lang="fi">Liikkuvuusjakson avain</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="opiskelijaAvain" type="virta:AvainTyyppi" use="required">
+		<xs:annotation>
+			<xs:documentation xml:lang="fi">Liikkuvuusjaksoon liittyvä opiskelija</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="opiskeluoikeusAvain" type="virta:AvainTyyppi" use="optional">
+		<xs:annotation>
+			<xs:documentation xml:lang="fi">Liikkuvuusjaksoon liittyvä opiskeluoikeus</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="koulutusmoduulitunniste" type="virta:KoulutusmoduulitunnisteTyyppi" use="optional">
+		<xs:annotation>
+			<xs:documentation xml:lang="fi">Liikkuvuusjaksoon liittyvän koulutuksen id</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="valtakunnallinenKoulutusmoduulitunniste" type="virta:ValtakunnallinenKoulutusmoduulitunnisteTyyppi" use="optional">
+		<xs:annotation>
+			<xs:documentation xml:lang="fi">Liikkuvuusjaksoon liittyvän koulutuksen valtakunnallinen id</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+</xs:complexType>
+
+</xs:schema>

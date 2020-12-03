@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.06.1"
+  attributeFormDefault="unqualified"
+  elementFormDefault="qualified"
+  targetNamespace="urn:mace:funet.fi:virta/2015/09/01"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:virta="urn:mace:funet.fi:virta/2015/09/01">
+
+<xs:include schemaLocation="tyypit.xsd">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Tiedonsiirtoelementtien tyypit.
+		</xs:documentation>
+	</xs:annotation>
+</xs:include>
+
+<!-- HENKILÖIDEN/OPISKELIJOIDEN RAKENNE -->
+
+<!--
+Poikkeuksellisesti muihin Virta-projektin XML-skeemoihin nähden
+rakenne on seuraavanlainen:
+Opiskelijat
+\_ Opiskelija
+\__ Henkilo (henkilön tiedot)
+\__ + opiskelija-rooliin liittyvät laajennukset henkilölle
+-->
+
+<!-- Elementtinä, jos skeema-tiedostoa käytetään suoraan xml-tiedoston skeemana -->
+<xs:element name="Opiskelijat" type="virta:OpiskelijatTyyppi"/>
+
+<!-- Tyyppinä ilman organisaatio- ja lang-attribuutteja, jos skeemaa käytetään sisäkkäisesti toisesta skeemasta -->
+<xs:complexType name="OpiskelijatTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Opiskelijat
+			* Juurielementti kaikille opiskelijoille
+		</xs:documentation>
+		<xs:documentation xml:lang="en">
+			Students
+			* Root element for all students
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Opiskelija" type="virta:OpiskelijaTyyppi" minOccurs="1" maxOccurs="unbounded"/>
+	</xs:sequence>
+</xs:complexType>
+
+<!-- Henkilö-tyyppi, henkilön perustietoja varten
+ NB! Tätä tyyppiä laajennetaan sitten opiskelijan tietoihin alla!
+-->
+<xs:complexType name="HenkiloTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Henkilö
+			* Yksittäisen henkilön tiedot
+			
+			Henkilön osalta tiedot saadaan pääasiassa väestötietojärjestelmästä (VTJ)
+			henkilötunnuksen perusteella. Koska korkeakoulutuksessa on paljon myös
+			henkilötunnuksettomia henkilöitä, tarvitaan yksilöivää id -tietoa ja
+			henkilötunnuksettomien osalta viranomaistiedonkeruiden kannalta olennaisia
+			henkilöön liittyviä tietoja korkeakoulun opiskelijarekisteristä.
+		</xs:documentation>
+		<xs:documentation xml:lang="en">
+			Person
+			* Information of a single person
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Henkilotunnus" type="virta:HenkilotunnusTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Henkilötunnus
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Sukunimi" type="virta:SukunimiTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Sukunimi
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Etunimet" type="virta:EtunimetTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Etunimet
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Sukupuoli" type="virta:SukupuoliKoodiTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Sukupuoli
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Kansalaisuus" type="virta:MaatunnusKoodiTyyppi" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Kansalaisuus
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Aidinkieli" type="virta:KieliKoodiTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Äidinkieli
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Asuinkunta" type="virta:KuntaKoodiTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Asuinkunta
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Opiskelija-tyyppi, laajennetaan henkilö-tyyppiä nimenomaan opiskelija-roolia koskevin tiedoin -->
+<xs:complexType name="OpiskelijaTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Opiskelija
+			* Yksittäisen opiskelijan tiedot
+			* Laajentaa henkilön tietoja
+			
+			RAKETTI-VIRTA-projektissa huomioidaan mahdollinen valtakunnallinen oppijan
+			yksilöintipalvelu
+			(https://confluence.csc.fi/display/VIRTA/Valtakunnallinen+oppijan+yksilointipalvelu)
+			henkilön yksilöivän id:n lähteenä.
+		</xs:documentation>
+		<xs:documentation xml:lang="en">
+			Student
+			* Information of a single student
+		</xs:documentation>
+	</xs:annotation>
+	<xs:complexContent>
+		<xs:extension base="virta:HenkiloTyyppi">
+			<xs:sequence>
+				<xs:element name="KirjoihintuloPvm" type="virta:PvmTyyppi" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation xml:lang="fi">
+							Kirjoihintulopäivämäärä
+							
+							Kirjoihintulopäivämäärä on tieto, joka voidaan myös päätellä opiskeluoikeus-
+							sekä läsnäoloilmoittautumistiedoista. Silloin kun ko. tieto ei olisi
+							pääteltävissä lähetettävin tiedoin oikein, on syytä ilmoittaa opiskelijan
+							kirjoitulopäivämäärä erikseen. Esim. opiskelijat, jotka ovat aloittaneet
+							alun perin opiskelun 1950-luvulla, mutta nyttemmin saaneet uuden tutkinnon
+							suoritusoikeuden ja alkuperäisiä tietoja ei opiskelijarekisterissä ole
+							saatavilla.
+							
+							Tilastokeskuksen yliopisto-opiskelijat tiedonkeruusta lainattuna ja muokattuna:
+							Päivämäärä jolloin opiskelija on ensimmäisen kerran tullut kirjoille
+							korkeakouluun tutkintoon johtavaan koulutukseen. Jos ei tutkintoon johtavassa
+							koulutuksessa oleva opiskelija siirtyy tutkintoon johtavaan koulutukseen,
+							hänet merkitään uudeksi opiskelijaksi ja kirjoihintulopäivämääräksi merkitään
+							uuden tutkinnon suoritusoikeuden alkamispäivä.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="KansallinenOppijanumero" type="virta:KansallinenOppijanumeroTyyppi" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation xml:lang="fi">
+							Opiskelijan kansallinen oppijanumero. Valinnainen.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="avain" type="virta:AvainTyyppi" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="fi">
+						Opiskelijan avain. Pakollinen.
+
+						Suorituksilla, tutkinnoilla, opiskeluoikeuksilla ja opiskelijoilla on yksilöivä id
+						(avain), jolla tarkoitetaan koneellisen aukottoman tunnistamisen mahdollisuutta.
+						Tällaista id-tietoa ei nykyisin ole valtakunnallisella tasolla ja jatkossakin
+						tieto perustunee korkeakoulun antaman yksilöivän tunnisteen ja korkeakoulun
+						tunnisteen yhdistelmään paitsi opiskelijoiden osalta.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+</xs:schema>

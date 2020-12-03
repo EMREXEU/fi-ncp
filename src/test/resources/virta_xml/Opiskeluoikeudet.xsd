@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.06.1"
+  attributeFormDefault="unqualified"
+  elementFormDefault="qualified"
+  targetNamespace="urn:mace:funet.fi:virta/2015/09/01"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:virta="urn:mace:funet.fi:virta/2015/09/01">
+
+<xs:include schemaLocation="tyypit.xsd">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Tiedonsiirtoelementtien tyypit.
+		</xs:documentation>
+	</xs:annotation>
+</xs:include>
+
+<!-- OPISKELUOIKEUKSIEN RAKENNE -->
+
+<!-- Elementtinä, jos skeema-tiedostoa käytetään suoraan xml-tiedoston skeemana -->
+<!-- Tämä on siis ainoa globaali "Opiskeluoikeudet" elementti, muutoin oltava jonkin muun elementin sisällä -->
+<xs:element name="Opiskeluoikeudet" type="virta:OpiskeluoikeudetTyyppi"/>
+
+<!-- Tyyppinä ilman organisaatio- ja lang-attribuutteja, jos skeemaa käytetään sisäkkäisesti toisesta skeemasta -->
+<xs:complexType name="OpiskeluoikeudetTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Opiskeluoikeudet
+			* Juurielementti useille opiskeluoikeuksille
+		</xs:documentation>
+		<xs:documentation xml:lang="en">
+			StudyRights
+			* Root element for several study rights
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="Opiskeluoikeus" type="virta:OpiskeluoikeusTyyppi" minOccurs="1" maxOccurs="unbounded"/>
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="OpiskeluoikeusTyyppi">
+	<xs:annotation>
+		<xs:documentation xml:lang="fi">
+			Opiskeluoikeus
+			* Yksittäinen opiskeluoikeus
+		</xs:documentation>
+		<xs:documentation xml:lang="en">
+			StudyRight
+			* Single study right
+		</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="AlkuPvm" type="virta:PvmTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opiskeluoikeuden alkamispäivämäärä
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="LoppuPvm" type="virta:PvmTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opiskeluoikeuden päättymispäivämäärä
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Tila" minOccurs="1" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opiskeluoikeuden tila.
+					
+					Opiskeluoikeuden tila voi muuttua opiskeluoikeuden voimassaoloaikana, joten
+					opiskeluoikeuden tilan voi ilmoittaa useita kertoja. Opiskeluoikeuden tilojen
+					aikajaksojen täytyy muodostaa yhtenäinen aikajana opiskeluoikeuden alusta
+					loppuun. Aikajaksot eivät saa mennä päällekkäin. Mikäli päättymispäivämäärää
+					(loppupvm) ei ilmoiteta, tulkitaan ko. opiskeluoikeuden tila -tieto jatkuvaksi
+					aina opiskeluoikeuden loppuun saakka.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:complexType>
+				<xs:complexContent>
+					<xs:extension base="virta:AikajaksoTyyppi">
+						<xs:sequence>
+							<xs:element name="Koodi" type="virta:OpiskeluoikeusTilaKoodiTyyppi" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="Tyyppi" type="virta:OpiskeluoikeusTyyppiKoodiTyyppi" minOccurs="1" maxOccurs="1"> <!-- vain 1 -->
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opiskeluoikeuden tyyppi.
+					
+					Opiskeluoikeudella voi olla koko olemassaolonsa aikana vain yksi opiskeluoikeuden tyyppi.
+					Suhde itse opiskeluoikeuteen on siis yksi-yhteen (1-1).
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Myontaja" type="virta:OrganisaatioKoodiTyyppi" minOccurs="1" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opiskeluoikeuden myöntänyt organisaatio (oppilaitos). Pakollinen.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Organisaatio" type="virta:OrganisaatioRooliOsuusTyyppi" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opiskeluoikeuteen liittyvät valinnaiset organisaatiotiedot.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Jakso" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opiskeluoikeuden jakso.
+					
+					Aikajakso jonka aikana opiskeluoikeuden määrätyt tiedot ovat pysyneet samoina.
+					Opiskeluoikeuden jakso -tietoihin liittyvien aikajaksojen täytyy muodostaa
+					yhtenäinen aikajana opiskeluoikeuden alusta loppuun. Aikajaksot eivät saa mennä
+					päällekkäin. Mikäli päättymispäivämäärää (loppupvm) ei ilmoiteta, tulkitaan ko.
+					opiskeluoikeuden jakso -tieto jatkuvaksi aina opiskeluoikeuden loppuun saakka.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:complexType>
+				<xs:complexContent>
+					<xs:extension base="virta:AikajaksoTyyppi">
+						<xs:sequence>
+							<xs:element name="Koulutuskoodi" type="virta:KoulutuskoodiKoodiTyyppi" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="Koulutuskunta" type="virta:KuntaKoodiTyyppi" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation xml:lang="fi">
+										Koulutuskunta (koodisto).
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Koulutuskieli" type="virta:KieliKoodiTyyppi" minOccurs="0" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation xml:lang="fi">
+										Koulutuskieli (koodisto).
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Rahoituslahde" type="virta:RahoituslahdeKoodiTyyppi" minOccurs="0" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation xml:lang="fi">
+										Rahoituslähde (koodisto).
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Patevyys" type="virta:PatevyysKoodiTyyppi" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation xml:lang="fi">
+										Pätevyys (koodisto).
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Luokittelu" type="virta:OpiskeluoikeusLuokitteluKoodiTyyppi" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation xml:lang="fi">
+										Luokittelu (koodisto).
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="koulutusmoduulitunniste" type="virta:KoulutusmoduulitunnisteTyyppi" use="required">
+							<xs:annotation>
+								<xs:documentation xml:lang="fi">
+									Koulutusmoduulin tunniste.
+									
+									Koulutusmoduuli on uusi tietoarkkitehtuurin käsite, joka vastaa eurooppalaisten
+									standardien "learning opportunity" -käsitettä (CEN 2011: MLO-AD, ELM EuroLMAI).
+									Koulutusmoduuliin voi sisältyä koulutusmoduuleja ja koulutusmoduuli voi esimerkiksi olla
+									tutkinto, tutkinnon osa, kokonaisuus tai kurssi.
+									Koulutusmoduulin tiedot löytyvät korkeakoulujen omista koulutustarjonta- ja
+									opetustarjontatietovarannoista. Tässä tietotarkkitehtuurissa koulutusmoduulin tunnisteet
+									ovat varautumista tietojen yhdisteltävyyteen.
+									Kuvaus Oppijan tietomallin osassa koulutuksen rakenne
+									(https://confluence.csc.fi/display/oppija/Koulutuksen+rakenne).
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="valtakunnallinenKoulutusmoduulitunniste" type="virta:ValtakunnallinenKoulutusmoduulitunnisteTyyppi" use="optional">
+							<xs:annotation>
+								<xs:documentation xml:lang="fi">
+									Valtakunnallisen koulutusmoduulin tunniste.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="Ensisijaisuus" type="virta:AikajaksoTyyppi" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Ensisijaisuus.
+					
+					Opiskeluoikeuden ensisijaisuus voi muuttua opiskeluoikeuden voimassaoloaikana,
+					joten ensisijaisuus-tiedon voi ilmoittaa useita kertoja. Ensisijaisuus-tietojen
+					aikajaksojen täytyy muodostaa yhtenäinen aikajana opiskelijan(!) ko.
+					korkeakoulussa opiskeluiden ajalta, tai useilta ajoilta, mikäli opiskelu ei
+					ole yhtenäistä eri opiskeluoikeuksien välillä. Aikajaksot eivät saa mennä
+					päällekkäin. Mikäli päättymispäivämäärää (loppupvm) ei ilmoiteta, tulkitaan ko.
+					opiskeluoikeuden ensisijaisuus-tieto jatkuvaksi aina ko. opiskeluoikeuden
+					loppuun saakka.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Koulutusala" type="virta:KoulutusalaVersioTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Yhdistetty koulutusala (koodisto).
+					
+					Tieto tarvitaan erillisistä opiskeluoikeuksista, ei tutkintoon johtavista
+					opiskeluoikeuksista. Tutkintoon johtavien opiskeluoikeuksien
+					koulutusala-tieto voidaan päätellä koulutusluokituksen kautta.
+
+					Koulutusalan eri versiot:
+					* Koulutusala 2002 (opmala)
+					(* Koulutusala 1995 (opm95ala)
+					(* Koulutusala (kala) (Tilastokeskuksen oma versio)
+					(* ISCED 2011 pääluokka (broad fields)
+					(* OKM ohjauksen ala
+					* ISCED 2011 väliluokka (narrow fields)
+					* Opintoala 1995
+					(* Opintoala 2002
+					(* ISCED 2011 ala (detailed field) (iscfi2013)
+					
+					Yliopistoilla on ollut käytössä OPINTOALA 1995.
+					Ammattikorkeakouluilla on ollut käytössä KOULUTUSALA 2002.
+					Yhteisesti käytetään ISCED 2011 väliluokkaa.
+					
+					Opiskeluoikeuteen voi liittyä vain yksi koulutusala-tieto.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Erikoistumiskoulutus" type="virta:ErikoistumiskoulutusKoodiTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Erikoistumiskoulutus (koodisto).
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Liittyvyys" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Opiskeluoikeuteen liittyvän toisen opiskeluoikeuden avain. Valinnainen. Voi olla useita.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:complexType>
+				<xs:attribute name="liittyvaOpiskeluoikeusAvain" type="virta:AvainTyyppi" use="required"/>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="SiirtoOpiskelija" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Siirto-opiskelijan opiskeluoikeuteen liittyvät tiedot. Valinnainen.
+					
+					Siirto-opiskelijan opiskeluoikeustiedot ovat:
+					* Siirto-opiskelijan siirtopäivämäärä
+					* Siirto-opiskelijaan liittyvä lähde tai kohde organisaatio
+						- Organisaatiotietoja tuodaan lähde- ja kohde-roolilla siirto-opiskelijoihin liittyen.
+						- Siirron lähettävä korkeakoulu käyttää kohde-roolia ja siirron vastaanottava korkeakoulu
+						  käyttää lähde-roolia. Molempia ei tarvitse samalta korkeakoululta.
+					* Siirto-opiskelijan lähdeorganisaatiossa käyttämä läsnä- ja poissaololukukausien määrä
+					* Siirto-opiskelijan lähdeopiskeluoikeus (jonka avain)
+				</xs:documentation>
+			</xs:annotation>
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="SiirtoPvm" type="virta:PvmTyyppi" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation xml:lang="fi">
+								Opiskeluoikeuden siirtopäivämäärä
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Lukukausikertyma" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation xml:lang="fi">
+								Siirto-opiskelijan lähdeorganisaatiossa käyttämä lukukausien ilmoittautumisten tilat ja määrät.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="IlmoittautuminenTila" type="virta:LukukausiIlmoittautuminenTilaKoodiTyyppi" minOccurs="1" maxOccurs="1">
+									<xs:annotation>
+										<xs:documentation xml:lang="fi">
+											Ilmoittautumisen tila (koodisto).
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Maara" type="virta:LukukausiMaaraTyyppi" minOccurs="1" maxOccurs="1">
+									<xs:annotation>
+										<xs:documentation xml:lang="fi">
+											Käytetty lukukausien määrä.
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="lahdeOpiskeluoikeusAvain" type="virta:AvainTyyppi" use="optional"/>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="Laajuus" type="virta:LaajuusLaajennettuTyyppi" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation xml:lang="fi">
+					Suoritettavien opintojen laajuus.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+	</xs:sequence>
+	<xs:attribute name="avain" type="virta:AvainTyyppi" use="required">
+		<xs:annotation>
+			<xs:documentation xml:lang="fi">
+				Opiskeluoikeuden avain. Pakollinen.
+				
+				Opintosuorituksilla, tutkinnoilla, opiskeluoikeuksilla ja henkilöillä on yksilöivä
+				id (avain), jolla tarkoitetaan koneellisen aukottoman tunnistamisen mahdollisuutta.
+				Tällaista id-tietoa ei nykyisin ole valtakunnallisella tasolla ja jatkossakin
+				tieto perustunee korkeakoulun antaman yksilöivän tunnisteen ja korkeakoulun
+				tunnisteen yhdistelmään paitsi henkilöiden osalta.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="opiskelijaAvain" type="virta:AvainTyyppi" use="required">
+		<xs:annotation>
+			<xs:documentation xml:lang="fi">
+				Opiskelijan (henkilön) avain. Pakollinen.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+</xs:complexType>
+
+</xs:schema>
