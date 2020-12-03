@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import javax.xml.XMLConstants;
-import javax.xml.validation.Schema;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
@@ -38,19 +39,22 @@ public class ElmoServiceTest {
   public void convert() throws JAXBException, IOException, SAXException {
 
     Path path = workingDir.resolve("virta_xml/OpitosuoritukseResponse.xml");
-    //Path schemaPath = workingDir.resolve("virta_xml/opiskelijatiedot.wsdl");
-    Path schemaPath = workingDir.resolve("virta_xml/Virta.xsd");
+
+    Source[] schemas = {
+        new StreamSource(workingDir.resolve("virta_xml/wsdl.xsd").toFile()),
+        new StreamSource(workingDir.resolve("virta_xml/opiskelijatiedot.wsdl").toFile()),
+        new StreamSource(workingDir.resolve("virta_xml/Virta.xsd").toFile())
+    };
 
     log.info("XML file:\n{}", Files.readString(path));
 
-    SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    Schema schema = sf.newSchema(schemaPath.toFile());
-
     JAXBContext ctx = JAXBContext.newInstance(OpintosuorituksetResponse.class);
-    //JAXBContext ctx = JAXBContext.newInstance("fi.csc.tietovaranto.luku");
+
     Unmarshaller unmarshaller = ctx.createUnmarshaller();
-    unmarshaller.setSchema(schema);
-    //unmarshaller.setSchema(null);
+    unmarshaller.setSchema(
+        SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
+            .newSchema(schemas));
+
     OpintosuorituksetResponse opintosuorituksetResponse =
         (OpintosuorituksetResponse) unmarshaller.unmarshal(path.toFile());
 
