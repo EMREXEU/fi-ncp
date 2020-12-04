@@ -1,6 +1,7 @@
 package fi.csc.emrex.ncp.service;
 
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
+import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
@@ -13,7 +14,10 @@ import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOp
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier;
 import fi.csc.schemas.elmo.TokenWithOptionalLang;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import java.util.GregorianCalendar;
 import java.util.List;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import lombok.extern.slf4j.Slf4j;
 import mace.funet_fi.virta._2015._09._01.OpintosuorituksetTyyppi;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
@@ -43,17 +47,23 @@ public class ElmoService {
     return virtaXml;
   }
 
-  public Elmo convertToElmoXml(OpintosuorituksetResponse virtaXml, VirtaUserDto student) {
+  public Elmo convertToElmoXml(OpintosuorituksetResponse virtaXml, VirtaUserDto student)
+      throws NpcException {
+    try {
+      Elmo elmo = new Elmo();
+      elmo.setLearner(createLearner(student));
+      elmo.setGeneratedDate(
+          DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
+      List<Elmo.Report> reports = elmo.getReport();
 
-    Elmo elmo = new Elmo();
-    elmo.setLearner(createLearner(student));
-    List<Elmo.Report> reports = elmo.getReport();
+      virtaXml.getOpintosuoritukset().getOpintosuoritus().forEach(opintosuoritus -> {
+        reports.add(createReport(opintosuoritus));
+      });
 
-    virtaXml.getOpintosuoritukset().getOpintosuoritus().forEach(opintosuoritus -> {
-      reports.add(createReport(opintosuoritus));
-    });
-
-    return elmo;
+      return elmo;
+    } catch (DatatypeConfigurationException e) {
+      throw new NpcException("Creating XMLGregorianCalendar failed.", e);
+    }
   }
 
   private Learner createLearner(VirtaUserDto student) {

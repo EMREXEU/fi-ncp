@@ -48,12 +48,11 @@ public class ElmoServiceTest {
 
     VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
     OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
-    log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
+    //log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
     Elmo elmoXml = elmoService.convertToElmoXml(opintosuorituksetResponse, student);
-    validateElmoXml(elmoXml);
-
     log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
+    validateElmoXml(elmoXml);
   }
 
   private void validateElmoXml(Elmo elmoXml) throws SAXException, javax.xml.bind.JAXBException {
