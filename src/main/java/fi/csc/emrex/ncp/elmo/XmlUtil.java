@@ -46,6 +46,7 @@ public class XmlUtil {
     try {
       // TODO: this writes elements without namespaces, ok?
       StringWriter writer = new StringWriter();
+      // BE CAREFUL! Project has two JAXB modules.
       JAXBContext jc = JAXBContext.newInstance(Elmo.class);
       Marshaller marshaller = jc.createMarshaller();
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
