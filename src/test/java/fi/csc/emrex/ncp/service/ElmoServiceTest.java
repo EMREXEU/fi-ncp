@@ -41,9 +41,9 @@ public class ElmoServiceTest {
     Path path = workingDir.resolve("virta_xml/OpitosuoritukseResponse.xml");
 
     Source[] schemas = {
+        new StreamSource(workingDir.resolve("virta_xml/Virta.xsd").toFile()),
         new StreamSource(workingDir.resolve("virta_xml/wsdl.xsd").toFile()),
-        new StreamSource(workingDir.resolve("virta_xml/opiskelijatiedot.wsdl").toFile()),
-        new StreamSource(workingDir.resolve("virta_xml/Virta.xsd").toFile())
+        new StreamSource(workingDir.resolve("virta_xml/opiskelijatiedot.wsdl").toFile())
     };
 
     log.info("XML file:\n{}", Files.readString(path));
