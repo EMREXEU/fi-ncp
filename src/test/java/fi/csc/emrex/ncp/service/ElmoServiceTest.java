@@ -1,5 +1,8 @@
 package fi.csc.emrex.ncp.service;
 
+import fi.csc.emrex.ncp.elmo.XmlUtil;
+import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
@@ -27,6 +30,8 @@ public class ElmoServiceTest {
 
   @Autowired
   ElmoService elmoService;
+  @Autowired
+  VirtaClient virtaClient;
 
   private static Path workingDir;
 
@@ -36,29 +41,39 @@ public class ElmoServiceTest {
   }
 
   @Test
-  public void convert() throws JAXBException, IOException, SAXException {
+  public void convert() throws JAXBException, IOException, SAXException, NpcException {
 
+    VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
+    OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
+    log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
+
+    Elmo elmoXml = elmoService.convertToElmoXml(opintosuorituksetResponse, student);
+    validateElmoXml(elmoXml);
+
+    log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
+  }
+
+  private void validateElmoXml(Elmo elmoXml) {
+    // TODO: validate schema
+
+  }
+
+  private OpintosuorituksetResponse readFile() throws JAXBException, IOException, SAXException {
     Path path = workingDir.resolve("virta_xml/OpitosuoritukseResponse.xml");
-
     Source[] schemas = {
         new StreamSource(workingDir.resolve("virta_xml/Virta.xsd").toFile()),
         new StreamSource(workingDir.resolve("virta_xml/wsdl.xsd").toFile()),
         new StreamSource(workingDir.resolve("virta_xml/opiskelijatiedot.wsdl").toFile())
     };
-
     log.info("XML file:\n{}", Files.readString(path));
-
     JAXBContext ctx = JAXBContext.newInstance(OpintosuorituksetResponse.class);
-
     Unmarshaller unmarshaller = ctx.createUnmarshaller();
     unmarshaller.setSchema(
         SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
             .newSchema(schemas));
-
     OpintosuorituksetResponse opintosuorituksetResponse =
         (OpintosuorituksetResponse) unmarshaller.unmarshal(path.toFile());
-
-    VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
-    Elmo elmoXml = elmoService.convertToElmoXml(opintosuorituksetResponse, student);
+    return opintosuorituksetResponse;
   }
+
 }
