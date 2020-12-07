@@ -1,9 +1,11 @@
 package fi.csc.emrex.ncp.service;
 
+import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
 import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
+import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import java.io.IOException;
@@ -44,15 +46,29 @@ public class ElmoServiceTest {
   }
 
   @Test
-  public void convert() throws SAXException, NpcException, javax.xml.bind.JAXBException {
+  public void convertToElmoXml() throws SAXException, NpcException, javax.xml.bind.JAXBException {
 
     VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
     OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
-    //log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
+    log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
-    Elmo elmoXml = elmoService.convertToElmoXml(opintosuorituksetResponse, student);
+    Elmo elmoXml = elmoService.convertToElmoXml(
+        opintosuorituksetResponse,
+        student,
+        createLearnerDetails());
+
     log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
+  }
+
+  private LearnerDetailsDto createLearnerDetails() {
+    // TODO
+    LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
+    learnerDetails.setCitizenship(CountryCode.FI);
+    learnerDetails.setGivenNames("Teppo");
+    learnerDetails.setFamilyName("Testaaja");
+    learnerDetails.setSchacHomeOrganization("oamk.fi");
+    return learnerDetails;
   }
 
   private void validateElmoXml(Elmo elmoXml) throws SAXException, javax.xml.bind.JAXBException {

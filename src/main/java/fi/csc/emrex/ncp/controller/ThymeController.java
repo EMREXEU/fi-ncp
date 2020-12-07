@@ -5,6 +5,7 @@
  */
 package fi.csc.emrex.ncp.controller;
 
+import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
 import fi.csc.emrex.ncp.execption.NpcException;
@@ -101,7 +102,8 @@ public class ThymeController extends NcpControllerBase {
   @RequestMapping(value = "/review", method = RequestMethod.GET)
   public String reviewCourses(
       @RequestParam(value = "courses", required = false) String[] courses,
-      Model model) throws NpcException {
+      Model model,
+      @SessionAttribute("SHIB_schacHomeOrganization") String schacHomeOrganization) throws NpcException {
 
     log.info("/review");
     HttpSession session = context.getSession();
@@ -129,15 +131,19 @@ public class ThymeController extends NcpControllerBase {
       virtaXml = elmoService.trimToSelectedCourses(virtaXml, courseList);
     }
 
-    Elmo elmoXml = elmoService.convertToElmoXml(virtaXml, student);
+    // TODO: read these from VIRTA and/or shibboleth
+    LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
+    learnerDetails.setSchacHomeOrganization(schacHomeOrganization);
+
+    Elmo elmoXml = elmoService.convertToElmoXml(virtaXml, student, learnerDetails);
     String elmoString = XmlUtil.toString(elmoXml);
 
     // TODO: remove
     log.info("ELMO XML pre sign:\n{}", elmoString);
 
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
-    // TODO:  POST ELMO XML to return URL
 
+    // TODO:  POST ELMO XML to return URL
     // TODO: move this to endpoint after user confirmation?
     elmoService.postElmo(elmoString,
         new NcpRequestDto(
