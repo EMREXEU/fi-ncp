@@ -1,9 +1,12 @@
 package fi.csc.emrex.ncp.service;
 
+import static fi.csc.emrex.ncp.service.ElmoDefaults.DEFAULT_LEARNER_ID_TYPE;
+
 import fi.csc.emrex.ncp.dto.IssuerDto;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.service.ElmoDefaults.LOI;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
@@ -13,7 +16,9 @@ import fi.csc.schemas.elmo.Elmo.Report.Issuer;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance;
+import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Credit;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier;
+import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Level;
 import fi.csc.schemas.elmo.TokenWithOptionalLang;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import java.util.GregorianCalendar;
@@ -33,10 +38,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ElmoService {
 
-  // TODO: what is proper type?
-  private static final String DEFAULT_VIRTA_LOI_ID_TYPE = "opintosuoritus_avain";
-  CountryCode VIRTA_ISSUER_COUNTRY_CODE = CountryCode.FI;
-  private String DEFAULT_LEARNER_ID_TYPE = "nationalIdentifier";
+
   // Opintosuoritus.Myontaja is just a VIRTA code which needs to be mapped to actual organization details
   // Key: Opintosuoritus.Myontaja
   private Map<String, IssuerDto> virtaIssuerCodeToIssuer = new HashMap<>();
@@ -172,14 +174,33 @@ public class ElmoService {
 
     LearningOpportunityInstance learningOpportunityInstance = new LearningOpportunityInstance();
     LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier identifier = new Identifier();
-    identifier.setType(DEFAULT_VIRTA_LOI_ID_TYPE);
+    identifier.setType(LOI.ID_TYPE);
     identifier.setValue(opintosuoritus.getKoulutusmoduulitunniste());
     learningOpportunityInstance.getIdentifier().add(identifier);
     learningOpportunityInstance.setDate(copyOf(opintosuoritus.getSuoritusPvm()));
 
+    learningOpportunityInstance.setStatus(LOI.STATUS);
+    learningOpportunityInstance.setResultLabel(opintosuoritus.getArvosana().getViisiportainen());
+    learningOpportunityInstance.getCredit().add(createCredit(opintosuoritus));
+    learningOpportunityInstance.getLevel().add(createLevel(opintosuoritus));
+    learningOpportunityInstance.setLanguageOfInstruction(opintosuoritus.getKieli());
+
     Specifies specifies = new Specifies();
     specifies.setLearningOpportunityInstance(learningOpportunityInstance);
     return specifies;
+  }
+
+  private Credit createCredit(OpintosuoritusTyyppi opintosuoritus) {
+    Credit credit = new Credit();
+    credit.setScheme(LOI.CREDIT_SCHEME);
+    credit.setValue(opintosuoritus.getLaajuus().getOpintopiste());
+    return credit;
+  }
+
+  private Level createLevel(OpintosuoritusTyyppi opintosuoritus) {
+    Level level = new Level();
+    level.setType(LOI.LEVEL_TYPE);
+    return level;
   }
 
   /**
