@@ -130,10 +130,9 @@ public class ElmoService {
 
   private LearningOpportunitySpecification createLearningOpportunitySpecification(
       OpintosuoritusTyyppi opintosuoritus) throws NpcException {
+
     LearningOpportunitySpecification learningOpportunitySpecification = new LearningOpportunitySpecification();
-
     learningOpportunitySpecification.setType(createLOSpecType(opintosuoritus.getLaji()));
-
     learningOpportunitySpecification.setSubjectArea(opintosuoritus.getKoulutuskoodi());
     learningOpportunitySpecification.setIscedCode(opintosuoritus.getKoulutuskoodi());
     learningOpportunitySpecification.setSpecifies(createSpecifies(opintosuoritus));
@@ -178,7 +177,6 @@ public class ElmoService {
     identifier.setValue(opintosuoritus.getKoulutusmoduulitunniste());
     learningOpportunityInstance.getIdentifier().add(identifier);
     learningOpportunityInstance.setDate(copyOf(opintosuoritus.getSuoritusPvm()));
-
     learningOpportunityInstance.setStatus(LOI.STATUS);
     learningOpportunityInstance.setResultLabel(opintosuoritus.getArvosana().getViisiportainen());
     learningOpportunityInstance.getCredit().add(createCredit(opintosuoritus));
