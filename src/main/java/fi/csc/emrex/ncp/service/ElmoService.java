@@ -105,11 +105,9 @@ public class ElmoService {
 
     Elmo.Report report = new Elmo.Report();
 
-    // TODO: why this empty?
-    //report.setIssueDate(opintosuoritus.getSuoritusPvm());
-    report.setIssueDate(
-        DatatypeFactory.newInstance().newXMLGregorianCalendar(
-            opintosuoritus.getSuoritusPvm().toGregorianCalendar()));
+    // Must create a copy of calendar as reference to VIRTA data seems to disappear.
+    report.setIssueDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(
+        opintosuoritus.getSuoritusPvm().toGregorianCalendar()));
 
     report.setIssuer(createIssuer(opintosuoritus, details));
 
