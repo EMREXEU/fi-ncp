@@ -1,12 +1,13 @@
 package fi.csc.emrex.ncp.service;
 
-import static fi.csc.emrex.ncp.service.ElmoDefaults.DEFAULT_LEARNER_ID_TYPE;
+import static fi.csc.emrex.ncp.service.ElmoXmlDefaults.DEFAULT_LEARNER_ID_TYPE;
 
 import fi.csc.emrex.ncp.dto.IssuerDto;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.execption.NpcException;
-import fi.csc.emrex.ncp.service.ElmoDefaults.LOI;
+import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOI;
+import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS.TYPE;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
@@ -160,11 +161,11 @@ public class ElmoService {
    * @return ELMO type mapped from VIRTA type
    */
   private String createLOSpecType(String virtaType) {
-    String DEFAULT_LOS_SPEC_TYPE = "Course";
-    String elmoType = DEFAULT_LOS_SPEC_TYPE;
+
+    String elmoType = TYPE.DEFAULT;
 
     if ("1".equalsIgnoreCase(virtaType)) {
-      elmoType = "Degree Programme";
+      elmoType = TYPE.DEGREE;
     }
     return elmoType;
   }
