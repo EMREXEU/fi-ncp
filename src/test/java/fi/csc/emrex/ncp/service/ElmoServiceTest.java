@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -57,6 +58,24 @@ public class ElmoServiceTest {
         student,
         createLearnerDetails());
 
+    log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
+    validateElmoXml(elmoXml);
+  }
+
+  @Test
+  public void convertToElmoXmlSelectOneReport()
+      throws SAXException, NpcException, javax.xml.bind.JAXBException {
+
+    VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
+    OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
+    opintosuorituksetResponse = elmoService
+        .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("1451865"));
+    log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
+
+    Elmo elmoXml = elmoService.convertToElmoXml(
+        opintosuorituksetResponse,
+        student,
+        createLearnerDetails());
     log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
   }
