@@ -101,10 +101,16 @@ public class ElmoService {
   }
 
   private Report createReport(OpintosuoritusTyyppi opintosuoritus, LearnerDetailsDto details)
-      throws NpcException {
+      throws NpcException, DatatypeConfigurationException {
 
     Elmo.Report report = new Elmo.Report();
-    report.setIssueDate(opintosuoritus.getSuoritusPvm());
+
+    // TODO: why this empty?
+    //report.setIssueDate(opintosuoritus.getSuoritusPvm());
+    report.setIssueDate(
+        DatatypeFactory.newInstance().newXMLGregorianCalendar(
+            opintosuoritus.getSuoritusPvm().toGregorianCalendar()));
+
     report.setIssuer(createIssuer(opintosuoritus, details));
 
     List<LearningOpportunitySpecification> learningOpportunitySpecifications =
@@ -118,16 +124,42 @@ public class ElmoService {
       OpintosuoritusTyyppi opintosuoritus) {
     LearningOpportunitySpecification learningOpportunitySpecification = new LearningOpportunitySpecification();
 
-    // TODO: https://github.com/erasmus-without-paper/ewp-specs-api-courses#unique-identifiers
-    String L_SPEC_TYPE = "Course";
-    //learningOpportunitySpecification.setType(opintosuoritus.getKoulutusmoduulitunniste());
-    learningOpportunitySpecification.setType(L_SPEC_TYPE);
+    learningOpportunitySpecification.setType(createLOSpecType(opintosuoritus.getLaji()));
 
     learningOpportunitySpecification.setSubjectArea(opintosuoritus.getKoulutuskoodi());
     learningOpportunitySpecification.setIscedCode(opintosuoritus.getKoulutuskoodi());
     learningOpportunitySpecification.setSpecifies(createSpecifies(opintosuoritus));
     createLocalizedTitles(opintosuoritus, learningOpportunitySpecification);
     return learningOpportunitySpecification;
+  }
+
+
+  /**
+   * <pre>
+   *
+   * VIRTA (OpintosuoritusLajiKoodiTyyppi):
+   * 		<xs:enumeration value="1"/> <!-- tutkinto -->
+   * 		<xs:enumeration value="2"/> <!-- muu opintosuoritus -->
+   * 		<xs:enumeration value="3"/> <!-- ei huomioitava -->
+   * 		<xs:enumeration value="4"/> <!-- oppilaitoksen sisäinen -->
+   *
+   * ELMO:
+   *    <xs:enumeration value="Degree Programme">
+   *    <xs:enumeration value="Module">
+   *    <xs:enumeration value="Course">
+   *    <xs:enumeration value="Class">
+   * </pre>
+   *
+   * @return ELMO type mapped from VIRTA type
+   */
+  private String createLOSpecType(String virtaType) {
+    String DEFAULT_LOS_SPEC_TYPE = "Course";
+    String elmoType = DEFAULT_LOS_SPEC_TYPE;
+
+    if ("1".equalsIgnoreCase(virtaType)) {
+      elmoType = "Degree Programme";
+    }
+    return elmoType;
   }
 
   private Specifies createSpecifies(OpintosuoritusTyyppi opintosuoritus) {
