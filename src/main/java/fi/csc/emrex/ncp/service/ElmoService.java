@@ -1,5 +1,6 @@
 package fi.csc.emrex.ncp.service;
 
+import fi.csc.emrex.ncp.dto.IssuerDto;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.execption.NpcException;
@@ -22,6 +23,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import lombok.extern.slf4j.Slf4j;
 import mace.funet_fi.virta._2015._09._01.OpintosuorituksetTyyppi;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
@@ -31,14 +33,26 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ElmoService {
 
+  // TODO: what is proper type?
+  private static final String DEFAULT_VIRTA_LOI_ID_TYPE = "opintosuoritus_avain";
+  CountryCode VIRTA_ISSUER_COUNTRY_CODE = CountryCode.FI;
   private String DEFAULT_LEARNER_ID_TYPE = "nationalIdentifier";
-  // Opintosuoritus.Myontaja is just a code which needs to be mapped to actual organization name
-  private Map<String, String> issuerCodeToName = new HashMap<>();
+  // Opintosuoritus.Myontaja is just a VIRTA code which needs to be mapped to actual organization details
+  // Key: Opintosuoritus.Myontaja
+  private Map<String, IssuerDto> virtaIssuerCodeToIssuer = new HashMap<>();
 
   @PostConstruct
   public void init() {
     // TODO: Update this map from config, include all codes.
-    issuerCodeToName.put("02536", "TODO: Oikea myöntäjän nimien konfiguraatio");
+    // TODO: pic/erasmus/schac	SCHAC - muodostettava palvelimella opintosuorituksen myöntäjästä
+    virtaIssuerCodeToIssuer.put(
+        "02536",
+        new IssuerDto(
+            CountryCode.FI,
+            "TODO: identifier type from cached config",
+            "TODO: identifier from cached config",
+            "TODO: Title from cached config",
+            "TODO: url from cached config"));
   }
 
   public OpintosuorituksetResponse trimToSelectedCourses(
@@ -104,22 +118,16 @@ public class ElmoService {
       throws NpcException, DatatypeConfigurationException {
 
     Elmo.Report report = new Elmo.Report();
-
     // Must create a copy of calendar as reference to VIRTA data seems to disappear.
-    report.setIssueDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(
-        opintosuoritus.getSuoritusPvm().toGregorianCalendar()));
-
+    report.setIssueDate(copyOf(opintosuoritus.getSuoritusPvm()));
     report.setIssuer(createIssuer(opintosuoritus, details));
-
-    List<LearningOpportunitySpecification> learningOpportunitySpecifications =
-        report.getLearningOpportunitySpecification();
-    learningOpportunitySpecifications.add(createLearningOpportunitySpecification(opintosuoritus));
-
+    report.getLearningOpportunitySpecification()
+        .add(createLearningOpportunitySpecification(opintosuoritus));
     return report;
   }
 
   private LearningOpportunitySpecification createLearningOpportunitySpecification(
-      OpintosuoritusTyyppi opintosuoritus) {
+      OpintosuoritusTyyppi opintosuoritus) throws NpcException {
     LearningOpportunitySpecification learningOpportunitySpecification = new LearningOpportunitySpecification();
 
     learningOpportunitySpecification.setType(createLOSpecType(opintosuoritus.getLaji()));
@@ -160,15 +168,17 @@ public class ElmoService {
     return elmoType;
   }
 
-  private Specifies createSpecifies(OpintosuoritusTyyppi opintosuoritus) {
-    Specifies specifies = new Specifies();
+  private Specifies createSpecifies(OpintosuoritusTyyppi opintosuoritus) throws NpcException {
 
     LearningOpportunityInstance learningOpportunityInstance = new LearningOpportunityInstance();
     LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier identifier = new Identifier();
-    identifier.setType(opintosuoritus.getKoulutusmoduulitunniste());
+    identifier.setType(DEFAULT_VIRTA_LOI_ID_TYPE);
+    identifier.setValue(opintosuoritus.getKoulutusmoduulitunniste());
     learningOpportunityInstance.getIdentifier().add(identifier);
-    specifies.setLearningOpportunityInstance(learningOpportunityInstance);
+    learningOpportunityInstance.setDate(copyOf(opintosuoritus.getSuoritusPvm()));
 
+    Specifies specifies = new Specifies();
+    specifies.setLearningOpportunityInstance(learningOpportunityInstance);
     return specifies;
   }
 
@@ -177,32 +187,33 @@ public class ElmoService {
    */
   private Issuer createIssuer(OpintosuoritusTyyppi opintosuoritus, LearnerDetailsDto details)
       throws NpcException {
+
+    IssuerDto issuerDto = issuerForCode(opintosuoritus.getMyontaja());
+
     Issuer issuer = new Issuer();
-    issuer.setCountry(CountryCode.FI);
-    // TODO: pic/erasmus/schac	SCHAC - muodostettava palvelimella opintosuorituksen myöntäjästä
+    issuer.setCountry(issuerDto.getCountryCode());
     issuer.getIdentifier().add(createIdentifier(
-        "TODO:type",
-        details.getSchacHomeOrganization()));
-
+        issuerDto.getIdentifierType(),
+        issuerDto.getIdentifier()));
     issuer.getTitle().add(createLocalizedToken(
-        CountryCode.FI,
-        issuerCodeToTitle(opintosuoritus.getMyontaja())));
-
-    // TODO
-    issuer.setUrl("TODO");
+        issuerDto.getCountryCode(),
+        issuerDto.getTitle()));
+    issuer.setUrl(issuerDto.getUrl());
 
     return issuer;
   }
 
-  private String issuerCodeToTitle(String issuerCode) throws NpcException {
-    // TODO: create and use mapping
-    // Opintosuoritus.Myontaja is just a code which needs to be mapped to actual organization name
-
-    String issuerName = issuerCodeToName.get(issuerCode);
-    if (issuerName == null) {
+  /**
+   * @param issuerCode VIRTA XML: Opintosuoritus.Myontaja
+   * @return cached Issuer details
+   * @throws NpcException No issuer found for key
+   */
+  private IssuerDto issuerForCode(String issuerCode) throws NpcException {
+    IssuerDto issuer = virtaIssuerCodeToIssuer.get(issuerCode);
+    if (issuer == null) {
       throw new NpcException(String.format("Issuer not found for issuer code:%s", issuerCode));
     }
-    return issuerName;
+    return issuer;
   }
 
   private Issuer.Identifier createIdentifier(String type, String value) {
@@ -241,4 +252,21 @@ public class ElmoService {
   public void postElmo(String elmoString, NcpRequestDto ncpRequestDto) {
     // TODO
   }
+
+  /**
+   * From some reason setting existing   protected XMLGregorianCalendar copyOf(XMLGregorianCalendar
+   * source) throws NpcException { entry to target XML will be empty -> create copy instead
+   *
+   * @param source original XML entry which will not exist afterwards
+   * @return copy of source
+   */
+  protected XMLGregorianCalendar copyOf(XMLGregorianCalendar source) throws NpcException {
+    try {
+      return DatatypeFactory.newInstance().newXMLGregorianCalendar(
+          source.toGregorianCalendar());
+    } catch (DatatypeConfigurationException e) {
+      throw new NpcException("Creating XMLGregorianCalendar failed.", e);
+    }
+  }
+
 }

@@ -58,7 +58,7 @@ public class ElmoServiceTest {
         student,
         createLearnerDetails());
 
-    log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
+    //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
   }
 
@@ -76,7 +76,7 @@ public class ElmoServiceTest {
         opintosuorituksetResponse,
         student,
         createLearnerDetails());
-    log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
+    //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
   }
 
