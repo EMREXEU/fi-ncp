@@ -30,7 +30,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.xml.sax.SAXException;
 
 @SpringBootTest
-//@AutoConfigureMockMvc
 @Slf4j
 public class ElmoServiceTest {
 
@@ -63,11 +62,10 @@ public class ElmoServiceTest {
   }
 
   @Test
-  public void convertToElmoXmlSelectOneReport()
+  public void convertToElmoXmlSelectOneReportUseFile()
       throws SAXException, NpcException, javax.xml.bind.JAXBException, IOException {
 
     VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
-    //OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
     OpintosuorituksetResponse opintosuorituksetResponse = readFile();
     opintosuorituksetResponse = elmoService
         .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("1451865"));
@@ -80,6 +78,25 @@ public class ElmoServiceTest {
     //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
   }
+
+  @Test
+  public void convertToElmoXmlSelectOneReportUseVirtaClient()
+      throws SAXException, NpcException, javax.xml.bind.JAXBException {
+
+    VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
+    OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
+    opintosuorituksetResponse = elmoService
+        .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("1451865"));
+    log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
+
+    Elmo elmoXml = elmoService.convertToElmoXml(
+        opintosuorituksetResponse,
+        student,
+        createLearnerDetails());
+    //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
+    validateElmoXml(elmoXml);
+  }
+
 
   private LearnerDetailsDto createLearnerDetails() {
     // TODO
