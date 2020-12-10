@@ -64,10 +64,11 @@ public class ElmoServiceTest {
 
   @Test
   public void convertToElmoXmlSelectOneReport()
-      throws SAXException, NpcException, javax.xml.bind.JAXBException {
+      throws SAXException, NpcException, javax.xml.bind.JAXBException, IOException {
 
     VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
-    OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
+    //OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
+    OpintosuorituksetResponse opintosuorituksetResponse = readFile();
     opintosuorituksetResponse = elmoService
         .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("1451865"));
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
@@ -104,22 +105,29 @@ public class ElmoServiceTest {
     log.info("Validated ELMO XML:\n{}", writer.toString());
   }
 
-  private OpintosuorituksetResponse readFile() throws IOException, SAXException, JAXBException {
+  private OpintosuorituksetResponse readFile() throws IOException, JAXBException {
+    // This is manually chopped XML from actual VIRTA SOAP message.
     Path path = workingDir.resolve("virta_xml/OpitosuoritukseResponse.xml");
+    log.info("XML file:\n{}", Files.readString(path));
+    JAXBContext ctx = JAXBContext.newInstance(OpintosuorituksetResponse.class);
+    Unmarshaller unmarshaller = ctx.createUnmarshaller();
+    //unmarshaller.setSchema(getSchema());
+    OpintosuorituksetResponse opintosuorituksetResponse =
+        (OpintosuorituksetResponse) unmarshaller.unmarshal(path.toFile());
+    return opintosuorituksetResponse;
+  }
+
+  /**
+   * Use if need schema validation for VIRTA XML. Still missing parts of schema definition chain?
+   */
+  private Schema getSchema() throws SAXException {
     Source[] schemas = {
         new StreamSource(workingDir.resolve("virta_xml/Virta.xsd").toFile()),
         new StreamSource(workingDir.resolve("virta_xml/wsdl.xsd").toFile()),
         new StreamSource(workingDir.resolve("virta_xml/opiskelijatiedot.wsdl").toFile())
     };
-    log.info("XML file:\n{}", Files.readString(path));
-    JAXBContext ctx = JAXBContext.newInstance(OpintosuorituksetResponse.class);
-    Unmarshaller unmarshaller = ctx.createUnmarshaller();
-    unmarshaller.setSchema(
-        SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
-            .newSchema(schemas));
-    OpintosuorituksetResponse opintosuorituksetResponse =
-        (OpintosuorituksetResponse) unmarshaller.unmarshal(path.toFile());
-    return opintosuorituksetResponse;
+    return SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
+        .newSchema(schemas);
   }
 
 }

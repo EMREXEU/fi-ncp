@@ -1,7 +1,4 @@
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-  <SOAP-ENV:Header/>
-  <SOAP-ENV:Body>
-    <virtaluku:OpintosuorituksetResponse xmlns:virtaluku="http://tietovaranto.csc.fi/luku">
+ <virtaluku:OpintosuorituksetResponse xmlns:virtaluku="http://tietovaranto.csc.fi/luku">
       <virta:Opintosuoritukset xmlns:virta="urn:mace:funet.fi:virta/2015/09/01">
         <virta:Opintosuoritus avain="1451865" koulutusmoduulitunniste="THHTN14A SH0202-148A4" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
           <virta:SuoritusPvm>2014-11-28</virta:SuoritusPvm>
@@ -870,5 +867,3 @@
         </virta:Opintosuoritus>
       </virta:Opintosuoritukset>
     </virtaluku:OpintosuorituksetResponse>
-  </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>
