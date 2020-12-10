@@ -4,22 +4,41 @@
   xmlns:ns2="https://github.com/erasmus-without-paper/ewp-specs-types-address/tree/stable-v1"
   xmlns:ns4="https://github.com/erasmus-without-paper/ewp-specs-architecture/blob/stable-v1/common-types.xsd"
   xmlns:ns3="http://www.w3.org/2000/09/xmldsig#">
+  <generatedDate>2020-12-10T11:57:17.318+02:00</generatedDate>
   <learner>
+    <citizenship>FI</citizenship>
     <identifier type="nationalIdentifier">180766-2213</identifier>
+    <givenNames>Teppo</givenNames>
+    <familyName>Testaaja</familyName>
   </learner>
   <report>
     <issuer>
       <country>FI</country>
+      <identifier type="TODO: identifier type from cached config">TODO: identifier from cached config</identifier>
+      <title xml:lang="FI">TODO: Title from cached config</title>
+      <url>TODO: url from cached config</url>
     </issuer>
     <learningOpportunitySpecification>
       <title xml:lang="fi">Potilaslähtöisen hoitotyön toiminnot</title>
-      <type>THHTN14A SH0202-148A4</type>
+      <type>Class</type>
       <specifies>
         <learningOpportunityInstance>
-          <identifier/>
+          <identifier type="opintosuoritus_avain">THHTN14A SH0202-148A4</identifier>
+          <date>2014-11-28+02:00</date>
+          <status>passed</status>
+          <resultLabel>4</resultLabel>
+          <credit>
+            <scheme>ECTS</scheme>
+            <value>5</value>
+          </credit>
+          <level>
+            <type>EQF</type>
+          </level>
+          <languageOfInstruction>fi</languageOfInstruction>
         </learningOpportunityInstance>
       </specifies>
     </learningOpportunitySpecification>
-    <issueDate></issueDate>
+    <issueDate>2014-11-28T00:00:00.000+02:00</issueDate>
   </report>
 </elmo>
+

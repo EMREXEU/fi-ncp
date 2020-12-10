@@ -100,7 +100,8 @@ public class ElmoService {
     }
   }
 
-  private Learner createLearner(VirtaUserDto student, LearnerDetailsDto details) {
+  private Learner createLearner(VirtaUserDto student, LearnerDetailsDto details)
+      throws NpcException {
     Elmo.Learner learner = new Elmo.Learner();
 
     learner.setCitizenship(details.getCitizenship());
@@ -109,7 +110,7 @@ public class ElmoService {
     identifier.setType(DEFAULT_LEARNER_ID_TYPE);
     identifier.setValue(student.getSsn());
     learner.getIdentifier().add(identifier);
-
+    learner.setBday(copyOf(details.getBday()));
     learner.setGivenNames(details.getGivenNames());
     learner.setFamilyName(details.getFamilyName());
 
@@ -278,12 +279,16 @@ public class ElmoService {
    * source) throws NpcException { entry to target XML will be empty -> create copy instead
    *
    * @param source original XML entry which will not exist afterwards
-   * @return copy of source
+   * @return copy of source or null if source null
    */
   protected XMLGregorianCalendar copyOf(XMLGregorianCalendar source) throws NpcException {
     try {
-      return DatatypeFactory.newInstance().newXMLGregorianCalendar(
-          source.toGregorianCalendar());
+      XMLGregorianCalendar cal = null;
+      if (source != null) {
+        cal = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+            source.toGregorianCalendar());
+      }
+      return cal;
     } catch (DatatypeConfigurationException e) {
       throw new NpcException("Creating XMLGregorianCalendar failed.", e);
     }
