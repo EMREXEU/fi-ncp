@@ -11,6 +11,7 @@ import fi.csc.emrex.ncp.elmo.XmlUtil;
 import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.emrex.ncp.service.DataSignService;
 import fi.csc.emrex.ncp.service.ElmoService;
+import fi.csc.emrex.ncp.util.FidUtil;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.Elmo;
@@ -103,7 +104,8 @@ public class ThymeController extends NcpControllerBase {
   public String reviewCourses(
       @RequestParam(value = "courses", required = false) String[] courses,
       Model model,
-      @SessionAttribute("SHIB_schacHomeOrganization") String schacHomeOrganization) throws NpcException {
+      @SessionAttribute("SHIB_schacHomeOrganization") String schacHomeOrganization)
+      throws NpcException {
 
     log.info("/review");
     HttpSession session = context.getSession();
@@ -134,6 +136,7 @@ public class ThymeController extends NcpControllerBase {
     // TODO: read these from VIRTA and/or shibboleth
     LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
     learnerDetails.setSchacHomeOrganization(schacHomeOrganization);
+    learnerDetails.setBday(FidUtil.resolveBirthDate("", "", virtaXml));
 
     Elmo elmoXml = elmoService.convertToElmoXml(virtaXml, student, learnerDetails);
     String elmoString = XmlUtil.toString(elmoXml);
