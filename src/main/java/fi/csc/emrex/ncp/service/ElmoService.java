@@ -7,6 +7,7 @@ import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOI;
+import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS.TYPE;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.CountryCode;
@@ -18,7 +19,6 @@ import fi.csc.schemas.elmo.LearningOpportunitySpecification;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Credit;
-import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Level;
 import fi.csc.schemas.elmo.TokenWithOptionalLang;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
@@ -179,6 +179,9 @@ public class ElmoService {
       OpintosuoritusTyyppi opintosuoritus) throws NpcException {
 
     LearningOpportunitySpecification learningOpportunitySpecification = new LearningOpportunitySpecification();
+    learningOpportunitySpecification.getIdentifier().add(createLosIdentifier(
+        LOS.ID_TYPE,
+        opintosuoritus.getKoulutusmoduulitunniste()));
     learningOpportunitySpecification.setType(createLOSpecType(opintosuoritus.getLaji()));
     learningOpportunitySpecification.setSubjectArea(opintosuoritus.getKoulutuskoodi());
     learningOpportunitySpecification.setIscedCode(opintosuoritus.getKoulutuskoodi());
@@ -219,10 +222,10 @@ public class ElmoService {
   private Specifies createSpecifies(OpintosuoritusTyyppi opintosuoritus) throws NpcException {
 
     LearningOpportunityInstance learningOpportunityInstance = new LearningOpportunityInstance();
-    LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier identifier = new Identifier();
-    identifier.setType(LOI.ID_TYPE);
-    identifier.setValue(opintosuoritus.getKoulutusmoduulitunniste());
-    learningOpportunityInstance.getIdentifier().add(identifier);
+
+    learningOpportunityInstance.getIdentifier().add(createLoiIdentifier(
+        LOI.ID_TYPE,
+        opintosuoritus.getKoulutusmoduulitunniste()));
     learningOpportunityInstance.setDate(copyOf(opintosuoritus.getSuoritusPvm()));
     learningOpportunityInstance.setStatus(LOI.STATUS);
     learningOpportunityInstance.setResultLabel(opintosuoritus.getArvosana().getViisiportainen());
@@ -233,6 +236,15 @@ public class ElmoService {
     Specifies specifies = new Specifies();
     specifies.setLearningOpportunityInstance(learningOpportunityInstance);
     return specifies;
+  }
+
+  private LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier createLoiIdentifier(
+      String type, String value) {
+    LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier identifier =
+        new LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier();
+    identifier.setType(type);
+    identifier.setValue(value);
+    return identifier;
   }
 
   private Credit createCredit(OpintosuoritusTyyppi opintosuoritus) {
@@ -284,6 +296,16 @@ public class ElmoService {
 
   private Issuer.Identifier createIdentifier(String type, String value) {
     Elmo.Report.Issuer.Identifier identifier = new Issuer.Identifier();
+    identifier.setType(type);
+    identifier.setValue(value);
+    return identifier;
+  }
+
+
+  private fi.csc.schemas.elmo.LearningOpportunitySpecification.Identifier createLosIdentifier(
+      String type, String value) {
+    fi.csc.schemas.elmo.LearningOpportunitySpecification.Identifier identifier =
+        new fi.csc.schemas.elmo.LearningOpportunitySpecification.Identifier();
     identifier.setType(type);
     identifier.setValue(value);
     return identifier;

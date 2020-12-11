@@ -69,7 +69,7 @@ public class ElmoServiceTest {
     VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = readFile();
     opintosuorituksetResponse = elmoService
-        .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("1451865"));
+        .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("TUTKINTO-39525"));
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
     Elmo elmoXml = elmoService.convertToElmoXml(

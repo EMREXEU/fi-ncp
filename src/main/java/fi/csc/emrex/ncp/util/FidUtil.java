@@ -29,7 +29,6 @@ public class FidUtil {
       String shibUid,
       OpiskelijanKaikkiTiedotResponse virtaXml) throws NpcException {
     try {
-      // TODO
       int day;
       int month;
       int year;
@@ -46,7 +45,7 @@ public class FidUtil {
         month = Integer.parseInt(fid.substring(2, 4));
         year = resolveYearFromFid(fid);
       } else if (virtaXml != null) {
-        // TODO: OpiskelijanKaikkiTiedotResponse.Virta.Opiskelija.Henkilotunnus
+        // OpiskelijanKaikkiTiedotResponse.Virta.Opiskelija.Henkilotunnus
         String fid = virtaXml.getVirta().getOpiskelija().get(0).getHenkilotunnus();
         day = Integer.parseInt(fid.substring(0, 2));
         month = Integer.parseInt(fid.substring(2, 4));
@@ -82,7 +81,7 @@ public class FidUtil {
         break;
       default:
         throw new NpcException(
-            "Parsing birth date failed: cannot resolve century from fid characer:" + centuryChar);
+            "Parsing birth date failed: cannot resolve century from fid character:" + centuryChar);
     }
     return Integer.parseInt(yearPreStr + yearPostStr);
   }

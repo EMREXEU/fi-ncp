@@ -53,7 +53,6 @@ public class FidUtilTest {
     String shibBday = "";
     String shibUid = "";
     OpiskelijanKaikkiTiedotResponse virtaXml = (readFile());
-
     XMLGregorianCalendar cal = FidUtil.resolveBirthDate(shibBday, shibUid, virtaXml);
 
     Assertions.assertEquals(1966, cal.getYear());
@@ -67,11 +66,9 @@ public class FidUtilTest {
     log.info("XML file:\n{}", Files.readString(path));
     JAXBContext ctx = JAXBContext.newInstance(OpiskelijanKaikkiTiedotResponse.class);
     Unmarshaller unmarshaller = ctx.createUnmarshaller();
-    //unmarshaller.setSchema(getSchema());
     OpiskelijanKaikkiTiedotResponse OpiskelijanKaikkiTiedotResponse =
         (OpiskelijanKaikkiTiedotResponse) unmarshaller.unmarshal(path.toFile());
     return OpiskelijanKaikkiTiedotResponse;
   }
-
 
 }

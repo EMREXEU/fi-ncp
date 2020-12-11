@@ -42,7 +42,6 @@ public class XmlUtil {
     }
   }
 
-
   public static String toString(OpintosuorituksetResponse virtaXml) throws NpcException {
     try {
       // TODO: this writes elements without namespaces, ok?

@@ -12,6 +12,8 @@ public class ElmoXmlDefaults {
 
   public static class LOS {
 
+    public static final String ID_TYPE = "koulutusmoduulitunniste";
+
     public static class TYPE {
 
       public static final String DEGREE = "Degree Programme";
