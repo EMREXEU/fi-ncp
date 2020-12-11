@@ -1,0 +1,998 @@
+<virtaluku:OpiskelijanKaikkiTiedotResponse xmlns:virtaluku="http://tietovaranto.csc.fi/luku">
+  <virta:Virta xmlns:virta="urn:mace:funet.fi:virta/2015/09/01">
+    <virta:Opiskelija avain="EMX888">
+      <virta:Henkilotunnus>180766-2213</virta:Henkilotunnus>
+      <virta:KansallinenOppijanumero>1.2.246.562.24.17488477125</virta:KansallinenOppijanumero>
+      <virta:Opiskeluoikeudet>
+        <virta:Opiskeluoikeus avain="EMXOO888" opiskelijaAvain="EMX888">
+          <virta:AlkuPvm>2014-09-02</virta:AlkuPvm>
+          <virta:LoppuPvm>2018-05-31</virta:LoppuPvm>
+          <virta:Tila>
+            <virta:AlkuPvm>2014-09-02</virta:AlkuPvm>
+            <virta:LoppuPvm>2014-12-31</virta:LoppuPvm>
+            <virta:Koodi>1</virta:Koodi>
+          </virta:Tila>
+          <virta:Tila>
+            <virta:AlkuPvm>2015-01-01</virta:AlkuPvm>
+            <virta:LoppuPvm>2015-07-31</virta:LoppuPvm>
+            <virta:Koodi>1</virta:Koodi>
+          </virta:Tila>
+          <virta:Tila>
+            <virta:AlkuPvm>2015-08-01</virta:AlkuPvm>
+            <virta:LoppuPvm>2015-12-31</virta:LoppuPvm>
+            <virta:Koodi>1</virta:Koodi>
+          </virta:Tila>
+          <virta:Tila>
+            <virta:AlkuPvm>2016-01-01</virta:AlkuPvm>
+            <virta:LoppuPvm>2016-07-31</virta:LoppuPvm>
+            <virta:Koodi>1</virta:Koodi>
+          </virta:Tila>
+          <virta:Tila>
+            <virta:AlkuPvm>2016-08-01</virta:AlkuPvm>
+            <virta:LoppuPvm>2016-12-31</virta:LoppuPvm>
+            <virta:Koodi>1</virta:Koodi>
+          </virta:Tila>
+          <virta:Tila>
+            <virta:AlkuPvm>2017-01-01</virta:AlkuPvm>
+            <virta:LoppuPvm>2017-07-31</virta:LoppuPvm>
+            <virta:Koodi>1</virta:Koodi>
+          </virta:Tila>
+          <virta:Tila>
+            <virta:AlkuPvm>2017-08-01</virta:AlkuPvm>
+            <virta:LoppuPvm>2017-12-31</virta:LoppuPvm>
+            <virta:Koodi>1</virta:Koodi>
+          </virta:Tila>
+          <virta:Tila>
+            <virta:AlkuPvm>2018-01-01</virta:AlkuPvm>
+            <virta:LoppuPvm>2018-05-31</virta:LoppuPvm>
+            <virta:Koodi>1</virta:Koodi>
+          </virta:Tila>
+          <virta:Tila>
+            <virta:AlkuPvm>2018-06-01</virta:AlkuPvm>
+            <virta:Koodi>3</virta:Koodi>
+          </virta:Tila>
+          <virta:Tyyppi>1</virta:Tyyppi>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Jakso koulutusmoduulitunniste="671103TH Terveydenhoitajakoulutus">
+            <virta:AlkuPvm>2014-09-02</virta:AlkuPvm>
+            <virta:LoppuPvm>2018-05-31</virta:LoppuPvm>
+            <virta:Koulutuskoodi>671103</virta:Koulutuskoodi>
+            <virta:Koulutuskunta>109</virta:Koulutuskunta>
+            <virta:Koulutuskieli>fi</virta:Koulutuskieli>
+            <virta:Rahoituslahde>1</virta:Rahoituslahde>
+            <virta:Patevyys>12</virta:Patevyys>
+          </virta:Jakso>
+          <virta:Koulutusala versio="ohjausala">11</virta:Koulutusala>
+          <virta:Laajuus>
+            <virta:Opintopiste>240</virta:Opintopiste>
+          </virta:Laajuus>
+        </virta:Opiskeluoikeus>
+      </virta:Opiskeluoikeudet>
+      <virta:LukukausiIlmoittautumiset>
+        <virta:LukukausiIlmoittautuminen opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Tila>1</virta:Tila>
+          <virta:IlmoittautumisPvm>2014-09-02</virta:IlmoittautumisPvm>
+          <virta:AlkuPvm>2014-08-01</virta:AlkuPvm>
+          <virta:LoppuPvm>2014-12-31</virta:LoppuPvm>
+        </virta:LukukausiIlmoittautuminen>
+        <virta:LukukausiIlmoittautuminen opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Tila>1</virta:Tila>
+          <virta:IlmoittautumisPvm>2017-01-01</virta:IlmoittautumisPvm>
+          <virta:AlkuPvm>2017-01-01</virta:AlkuPvm>
+          <virta:LoppuPvm>2017-07-31</virta:LoppuPvm>
+        </virta:LukukausiIlmoittautuminen>
+        <virta:LukukausiIlmoittautuminen opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Tila>1</virta:Tila>
+          <virta:IlmoittautumisPvm>2015-01-01</virta:IlmoittautumisPvm>
+          <virta:AlkuPvm>2015-01-01</virta:AlkuPvm>
+          <virta:LoppuPvm>2015-07-31</virta:LoppuPvm>
+        </virta:LukukausiIlmoittautuminen>
+        <virta:LukukausiIlmoittautuminen opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Tila>1</virta:Tila>
+          <virta:IlmoittautumisPvm>2017-08-01</virta:IlmoittautumisPvm>
+          <virta:AlkuPvm>2017-08-01</virta:AlkuPvm>
+          <virta:LoppuPvm>2017-12-31</virta:LoppuPvm>
+        </virta:LukukausiIlmoittautuminen>
+        <virta:LukukausiIlmoittautuminen opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Tila>1</virta:Tila>
+          <virta:IlmoittautumisPvm>2015-08-01</virta:IlmoittautumisPvm>
+          <virta:AlkuPvm>2015-08-01</virta:AlkuPvm>
+          <virta:LoppuPvm>2015-12-31</virta:LoppuPvm>
+        </virta:LukukausiIlmoittautuminen>
+        <virta:LukukausiIlmoittautuminen opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Tila>1</virta:Tila>
+          <virta:IlmoittautumisPvm>2018-01-01</virta:IlmoittautumisPvm>
+          <virta:AlkuPvm>2018-01-01</virta:AlkuPvm>
+          <virta:LoppuPvm>2018-07-31</virta:LoppuPvm>
+        </virta:LukukausiIlmoittautuminen>
+        <virta:LukukausiIlmoittautuminen opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Tila>1</virta:Tila>
+          <virta:IlmoittautumisPvm>2016-01-01</virta:IlmoittautumisPvm>
+          <virta:AlkuPvm>2016-01-01</virta:AlkuPvm>
+          <virta:LoppuPvm>2016-07-31</virta:LoppuPvm>
+        </virta:LukukausiIlmoittautuminen>
+        <virta:LukukausiIlmoittautuminen opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Tila>1</virta:Tila>
+          <virta:IlmoittautumisPvm>2016-08-01</virta:IlmoittautumisPvm>
+          <virta:AlkuPvm>2016-08-01</virta:AlkuPvm>
+          <virta:LoppuPvm>2016-12-31</virta:LoppuPvm>
+        </virta:LukukausiIlmoittautuminen>
+      </virta:LukukausiIlmoittautumiset>
+      <virta:Opintosuoritukset>
+        <virta:Opintosuoritus avain="1451865" koulutusmoduulitunniste="THHTN14A SH0202-148A4" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2014-11-28</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>4</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Potilaslähtöisen hoitotyön toiminnot</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1485021" koulutusmoduulitunniste="THHTN14A SH0401-148A3" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2015-04-17</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Asiakaslähtöinen hoitotyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1550503" koulutusmoduulitunniste="THHTN14A SH0601-158A2" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2016-02-15</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>7.5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu sisätautien hoitotyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1562848" koulutusmoduulitunniste="THHTN14A SH0802-158A2" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2016-04-19</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu perheiden hoitotyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1625196" koulutusmoduulitunniste="THHTN14A SH1003-3003" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-01-20</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>1</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Hoitotyön johtaminen</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>3</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1636549" koulutusmoduulitunniste="THHTN14A TH0103-3001" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-03-30</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Yhteistyö terveydenhoitajatyössä</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="2031131" koulutusmoduulitunniste="THHTN14A TH00BP70-3001 2031131" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-04-30</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu, työterveyshuolto</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1889817" koulutusmoduulitunniste="THHTN14A P-02467_EMXOO888_168A1_0" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-04-25</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>15</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Opinnäytetyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1481015" koulutusmoduulitunniste="THHTN14A SH0103-148A4" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2015-03-30</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Vuorovaikutusosaaminen</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1507578" koulutusmoduulitunniste="THHTN14A SH0302-148A3" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2015-06-09</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Väestön epäterveys</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1563474" koulutusmoduulitunniste="THHTN14A SH05021-158A3" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2016-04-21</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>3</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Terveyden edistäminen</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1526932" koulutusmoduulitunniste="THHTN14A SH0702-158A2" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2015-11-26</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu terveyden edistämisen</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1626521" koulutusmoduulitunniste="THHTN14A SH1001-3003" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-01-30</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>2</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Tutkiva kehittäminen</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1640671" koulutusmoduulitunniste="THHTN14A TH0101-3001" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-04-13</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Lapsiperhe terveydenhoitajatyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>1</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="2031129" koulutusmoduulitunniste="THHTN14A TH00BP70-3001 2031129" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-05-03</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>4</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Terveydenhoitajatyön asiantuntijuus</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1982430" koulutusmoduulitunniste="THHTN14A TH00BP69-3001 1982430" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-04-23</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>2</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Yhteiskunnallinen terveydenhoitajatyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1495695" koulutusmoduulitunniste="THHTN14A SH0101-148A5" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2015-05-18</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>2</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Opiskeluvaikeudet</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1449390" koulutusmoduulitunniste="THHTN14A SH0203-148A4" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2014-11-18</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu hoitotyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1481014" koulutusmoduulitunniste="THHTN14A SH0403-148A4" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2015-03-30</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu hoitotyön perusteet</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1579872" koulutusmoduulitunniste="THHTN14A SH0603-158A2" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2016-06-02</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>7.5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu päihdetyö II</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1625401" koulutusmoduulitunniste="THHTN14A SH0901-3001" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-01-21</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Ikääntyneiden hoitotyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1645625" koulutusmoduulitunniste="THHTN14A SH2001-3001" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-05-08</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Asiakkuusosaaminen hoitotyössä</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>1</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1967701" koulutusmoduulitunniste="THHTN14A TH0201" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-12-13</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>15</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu terveydenhoitajatyön työelämätaidot</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1982360" koulutusmoduulitunniste="THHTN14A TH00BP69-3001" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-04-23</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>15</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Yksilön terveydenhoitajatyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1982399">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1982430">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1982461">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>2</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1926371" koulutusmoduulitunniste="THHTN14A T-39525" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-04-25</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>0</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>4</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Opinnäytetyö I</virta:Nimi>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>1</virta:Opinnaytetyo>
+          <virta:Hankkeistettu>1</virta:Hankkeistettu>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1454589" koulutusmoduulitunniste="THHTN14A SH0201-148A4" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2014-12-11</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>5</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Potilaslähtöisen hoitotyön perusta</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1513132" koulutusmoduulitunniste="THHTN14A SH0303-148A3" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2015-07-31</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>4</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Lääketieteellinen perusta</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1573339" koulutusmoduulitunniste="THHTN14A SH0503-158A3" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2016-05-20</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Hoitotyö päihdetyössä</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1545022" koulutusmoduulitunniste="THHTN14A SH0801-158A2" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2016-01-07</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>4</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Lasten ja nuorten hoitotyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1628209" koulutusmoduulitunniste="THHTN14A SH1002-3003" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-02-09</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>4</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Yrittäjyys- ja verkosto-osaaminen</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1636039" koulutusmoduulitunniste="THHTN14A TH0102-3001" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-03-29</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Työmenetelmät</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>1</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="2031130" koulutusmoduulitunniste="THHTN14A TH00BP70-3001 2031130" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-04-30</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>2</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Työikäisen terveydenhoitajatyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1982461" koulutusmoduulitunniste="THHTN14A TH00BP69-3001 1982461" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-03-29</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu opiskelijaterveydenhuolto</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1472740" koulutusmoduulitunniste="THHTN14A SH0102-148A5" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2015-02-10</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>5</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Hoitotyön tieto- ja arvoperusta</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1513131" koulutusmoduulitunniste="THHTN14A SH0301-148A3" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2015-07-31</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Ihmisen kasvu ja kehitys</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1581321" koulutusmoduulitunniste="THHTN14A SH05011-158A3" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2016-06-07</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>7</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>4</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Sisätauti-kirurginen hoitotyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1574230" koulutusmoduulitunniste="THHTN14A SH0701-158A2" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2016-05-23</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Terveyden ja hyvinvoinnin osa-alueet</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1602672" koulutusmoduulitunniste="THHTN14A SH0902-3003" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2016-11-21</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>HYV</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Harjoittelu ikääntyneiden hoitotyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1654250" koulutusmoduulitunniste="THHTN14A SH2102-3002" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-05-29</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Avopalvelu hoitotyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>3</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="2031128" koulutusmoduulitunniste="THHTN14A TH00BP70-3001" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-05-03</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>15</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>3</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Terveydenhoitajatyön kehittäminen</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="2031129">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="2031130">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="2031131">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:TKILaajuusMuu>
+            <virta:Opintopiste>2</virta:Opintopiste>
+          </virta:TKILaajuusMuu>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="1982399" koulutusmoduulitunniste="THHTN14A TH00BP69-3001 1982399" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2017-12-07</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Viisiportainen>4</virta:Viisiportainen>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>2</virta:Laji>
+          <virta:Nimi kieli="fi">Kouluikäisen terveydenhoitajatyö</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutusala>
+            <virta:Koodi versio="ohjausala">11</virta:Koodi>
+          </virta:Koulutusala>
+          <virta:Opinnaytetyo>0</virta:Opinnaytetyo>
+        </virta:Opintosuoritus>
+        <virta:Opintosuoritus avain="TUTKINTO-39525" koulutusmoduulitunniste="671103TH Terveydenhoitajakoulutus" opiskelijaAvain="EMX888" opiskeluoikeusAvain="EMXOO888">
+          <virta:SuoritusPvm>2018-05-31</virta:SuoritusPvm>
+          <virta:Laajuus>
+            <virta:Opintopiste>240</virta:Opintopiste>
+          </virta:Laajuus>
+          <virta:Arvosana>
+            <virta:Hyvaksytty>HYV</virta:Hyvaksytty>
+          </virta:Arvosana>
+          <virta:Myontaja>02536</virta:Myontaja>
+          <virta:Laji>1</virta:Laji>
+          <virta:Nimi kieli="fi">Terveydenhoitaja (AMK)</virta:Nimi>
+          <virta:Kieli>fi</virta:Kieli>
+          <virta:Koulutuskoodi>671103</virta:Koulutuskoodi>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1495695">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1472740">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1481015">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1454589">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1451865">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1449390">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1513131">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1507578">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1513132">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1485021">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1481014">
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1581321">
+            <virta:Opintopiste>7</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1563474">
+            <virta:Opintopiste>3</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1573339">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1550503">
+            <virta:Opintopiste>7.5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1579872">
+            <virta:Opintopiste>7.5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1574230">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1526932">
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1545022">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1562848">
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1625401">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1602672">
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1626521">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1628209">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1625196">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1645625">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1654250">
+            <virta:Opintopiste>10</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1640671">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1636039">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1636549">
+            <virta:Opintopiste>5</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1967701">
+            <virta:Opintopiste>15</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="2031128">
+            <virta:Opintopiste>15</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1982360">
+            <virta:Opintopiste>15</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1889817">
+            <virta:Opintopiste>15</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Sisaltyvyys sisaltyvaOpintosuoritusAvain="1926371">
+            <virta:Opintopiste>0</virta:Opintopiste>
+          </virta:Sisaltyvyys>
+          <virta:Patevyys>12</virta:Patevyys>
+        </virta:Opintosuoritus>
+      </virta:Opintosuoritukset>
+    </virta:Opiskelija>
+  </virta:Virta>
+</virtaluku:OpiskelijanKaikkiTiedotResponse>

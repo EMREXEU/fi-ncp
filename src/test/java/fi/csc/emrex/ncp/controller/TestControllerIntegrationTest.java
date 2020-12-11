@@ -3,7 +3,7 @@ package fi.csc.emrex.ncp.controller;
 import fi.csc.emrex.ncp.controller.NcpPages;
 import fi.csc.emrex.ncp.controller.NcpSessionAttributes;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
-import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class TestControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
-    OpintosuorituksetResponse virtaXml = (OpintosuorituksetResponse) res.getRequest().getSession()
+    OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest().getSession()
         .getAttribute(NcpSessionAttributes.VIRTA_XML);
     Assert.notNull(virtaXml, "Elmo session attribute is null");
     log.info("VIRTA XML in session:\n{}", XmlUtil.toString(virtaXml));

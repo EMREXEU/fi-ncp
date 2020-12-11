@@ -15,7 +15,7 @@ import fi.csc.emrex.ncp.util.FidUtil;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.Elmo;
-import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -85,7 +85,8 @@ public class ThymeController extends NcpControllerBase {
       VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId);
       log.info(virtaUserDto.toString());
 
-      OpintosuorituksetResponse virtaXml = virtaClient.fetchStudies(virtaUserDto);
+      OpiskelijanKaikkiTiedotResponse virtaXml = virtaClient
+          .fetchStudiesAndLearnerDetails(virtaUserDto);
       session.setAttribute(NcpSessionAttributes.VIRTA_XML, virtaXml);
       session.setAttribute(NcpSessionAttributes.VIRTA_USER_DTO, virtaUserDto);
     }
@@ -116,8 +117,8 @@ public class ThymeController extends NcpControllerBase {
     model.addAttribute(
         NcpSessionAttributes.RETURN_URL,
         session.getAttribute(NcpSessionAttributes.RETURN_URL));
-    OpintosuorituksetResponse virtaXml =
-        (OpintosuorituksetResponse) session.getAttribute(NcpSessionAttributes.VIRTA_XML);
+    OpiskelijanKaikkiTiedotResponse virtaXml =
+        (OpiskelijanKaikkiTiedotResponse) session.getAttribute(NcpSessionAttributes.VIRTA_XML);
     // TODO: student data from shibboleth and VIRTA
     VirtaUserDto student = (VirtaUserDto) session.getAttribute(NcpSessionAttributes.VIRTA_USER_DTO);
 

@@ -22,6 +22,7 @@ import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOp
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Level;
 import fi.csc.schemas.elmo.TokenWithOptionalLang;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +59,26 @@ public class ElmoService {
             "TODO: url from cached config"));
   }
 
-  public OpintosuorituksetResponse trimToSelectedCourses(
+  public OpiskelijanKaikkiTiedotResponse trimToSelectedCourses(
+      OpiskelijanKaikkiTiedotResponse virtaXml,
+      List<String> courseKeys) {
+
+    List<OpintosuoritusTyyppi> opintosuoritukset = virtaXml.getVirta().getOpiskelija().get(0)
+        .getOpintosuoritukset()
+        .getOpintosuoritus();
+    OpintosuorituksetTyyppi opintosuorituksetTyyppi = new OpintosuorituksetTyyppi();
+    // Initializes to empty array
+    opintosuorituksetTyyppi.getOpintosuoritus();
+    opintosuoritukset.forEach(course -> {
+      if (courseKeys.contains(course.getAvain())) {
+        opintosuorituksetTyyppi.getOpintosuoritus().add(course);
+      }
+    });
+    virtaXml.getVirta().getOpiskelija().get(0).setOpintosuoritukset(opintosuorituksetTyyppi);
+    return virtaXml;
+  }
+
+  public OpintosuorituksetResponse _trimToSelectedCourses(
       OpintosuorituksetResponse virtaXml,
       List<String> courseKeys) {
 
@@ -77,6 +97,31 @@ public class ElmoService {
   }
 
   public Elmo convertToElmoXml(
+      OpiskelijanKaikkiTiedotResponse virtaXml,
+      VirtaUserDto student,
+      LearnerDetailsDto learnerDetails) throws NpcException {
+
+    // TODO: report.issuer
+    try {
+      Elmo elmo = new Elmo();
+      elmo.setLearner(createLearner(student, learnerDetails));
+      elmo.setGeneratedDate(
+          DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
+      List<Elmo.Report> reports = elmo.getReport();
+
+      for (OpintosuoritusTyyppi opintosuoritus : virtaXml.getVirta().getOpiskelija().get(0)
+          .getOpintosuoritukset()
+          .getOpintosuoritus()) {
+        reports.add(createReport(opintosuoritus, learnerDetails));
+      }
+
+      return elmo;
+    } catch (DatatypeConfigurationException e) {
+      throw new NpcException("Creating XMLGregorianCalendar failed.", e);
+    }
+  }
+
+  public Elmo _convertToElmoXml(
       OpintosuorituksetResponse virtaXml,
       VirtaUserDto student,
       LearnerDetailsDto learnerDetails) throws NpcException {

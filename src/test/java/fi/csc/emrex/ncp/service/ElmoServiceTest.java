@@ -8,6 +8,7 @@ import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
@@ -49,7 +50,7 @@ public class ElmoServiceTest {
   public void convertToElmoXml() throws SAXException, NpcException, javax.xml.bind.JAXBException {
 
     VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
-    OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
+    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient.fetchStudiesAndLearnerDetails(student);
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
     Elmo elmoXml = elmoService.convertToElmoXml(
@@ -66,7 +67,7 @@ public class ElmoServiceTest {
       throws SAXException, NpcException, javax.xml.bind.JAXBException, IOException {
 
     VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
-    OpintosuorituksetResponse opintosuorituksetResponse = readFile();
+    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = readFile();
     opintosuorituksetResponse = elmoService
         .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("1451865"));
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
@@ -84,7 +85,8 @@ public class ElmoServiceTest {
       throws SAXException, NpcException, javax.xml.bind.JAXBException {
 
     VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
-    OpintosuorituksetResponse opintosuorituksetResponse = virtaClient.fetchStudies(student);
+    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient
+        .fetchStudiesAndLearnerDetails(student);
     opintosuorituksetResponse = elmoService
         .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("1451865"));
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
@@ -122,7 +124,21 @@ public class ElmoServiceTest {
     log.info("Validated ELMO XML:\n{}", writer.toString());
   }
 
-  private OpintosuorituksetResponse readFile() throws IOException, JAXBException {
+
+  private OpiskelijanKaikkiTiedotResponse readFile() throws IOException, JAXBException {
+    // This is manually chopped XML from actual VIRTA SOAP message.
+    Path path = workingDir.resolve("virta_xml/OpiskelijanKaikkiTiedotResponse.xml");
+    log.info("XML file:\n{}", Files.readString(path));
+    JAXBContext ctx = JAXBContext.newInstance(OpiskelijanKaikkiTiedotResponse.class);
+    Unmarshaller unmarshaller = ctx.createUnmarshaller();
+    //unmarshaller.setSchema(getSchema());
+    OpiskelijanKaikkiTiedotResponse OpiskelijanKaikkiTiedotResponse =
+        (OpiskelijanKaikkiTiedotResponse) unmarshaller.unmarshal(path.toFile());
+    return OpiskelijanKaikkiTiedotResponse;
+  }
+
+
+  private OpintosuorituksetResponse _readFile() throws IOException, JAXBException {
     // This is manually chopped XML from actual VIRTA SOAP message.
     Path path = workingDir.resolve("virta_xml/OpitosuoritukseResponse.xml");
     log.info("XML file:\n{}", Files.readString(path));

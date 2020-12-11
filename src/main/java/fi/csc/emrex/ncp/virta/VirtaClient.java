@@ -5,6 +5,8 @@ import fi.csc.tietovaranto.luku.HakuEhdotOrganisaatioVapaa;
 import fi.csc.tietovaranto.luku.Kutsuja;
 import fi.csc.tietovaranto.luku.OpintosuorituksetRequest;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotRequest;
+import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanTiedot;
 import fi.csc.tietovaranto.luku.OpiskelijanTiedotService;
 import java.net.MalformedURLException;
@@ -42,12 +44,31 @@ public class VirtaClient {
     }
   }
 
+  public OpiskelijanKaikkiTiedotResponse fetchStudiesAndLearnerDetails(VirtaUserDto virtaUser)
+      throws NpcException {
+    try {
+      return sendRequestAllDetails(virtaUser);
+    } catch (MalformedURLException e) {
+      throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
+    }
+  }
+
   private OpintosuorituksetResponse sendRequest(VirtaUserDto virtaUser)
       throws MalformedURLException {
     OpiskelijanTiedotService wsClient = getService();
     OpiskelijanTiedot ws = wsClient.getOpiskelijanTiedotSoap11();
     OpintosuorituksetRequest request = createRequest(virtaUser);
     OpintosuorituksetResponse res = ws.opintosuoritukset(request);
+    return res;
+  }
+
+  private OpiskelijanKaikkiTiedotResponse sendRequestAllDetails(VirtaUserDto virtaUser)
+      throws MalformedURLException {
+
+    OpiskelijanTiedotService wsClient = getService();
+    OpiskelijanTiedot ws = wsClient.getOpiskelijanTiedotSoap11();
+    OpiskelijanKaikkiTiedotRequest request = createAllDetailsRequest(virtaUser);
+    OpiskelijanKaikkiTiedotResponse res = ws.opiskelijanKaikkiTiedot(request);
     return res;
   }
 
@@ -60,6 +81,13 @@ public class VirtaClient {
 
   private OpintosuorituksetRequest createRequest(VirtaUserDto virtaUser) {
     OpintosuorituksetRequest request = new OpintosuorituksetRequest();
+    request.setKutsuja(createKutsuja());
+    request.setHakuehdot(createHakuehdot(virtaUser));
+    return request;
+  }
+
+  private OpiskelijanKaikkiTiedotRequest createAllDetailsRequest(VirtaUserDto virtaUser) {
+    OpiskelijanKaikkiTiedotRequest request = new OpiskelijanKaikkiTiedotRequest();
     request.setKutsuja(createKutsuja());
     request.setHakuehdot(createHakuehdot(virtaUser));
     return request;

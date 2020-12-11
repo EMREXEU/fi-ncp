@@ -1,7 +1,7 @@
 package fi.csc.emrex.ncp.util;
 
 import fi.csc.emrex.ncp.execption.NpcException;
-import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
@@ -27,7 +27,7 @@ public class FidUtil {
   public static XMLGregorianCalendar resolveBirthDate(
       String shibBday,
       String shibUid,
-      OpintosuorituksetResponse virtaXml) throws NpcException {
+      OpiskelijanKaikkiTiedotResponse virtaXml) throws NpcException {
     try {
       // TODO
       int day;
@@ -47,7 +47,7 @@ public class FidUtil {
         year = resolveYearFromFid(fid);
       } else if (virtaXml != null) {
         // TODO: OpiskelijanKaikkiTiedotResponse.Virta.Opiskelija.Henkilotunnus
-        String fid = "OpiskelijanKaikkiTiedotResponse.Virta.Opiskelija.Henkilotunnus";
+        String fid = virtaXml.getVirta().getOpiskelija().get(0).getHenkilotunnus();
         day = Integer.parseInt(fid.substring(0, 2));
         month = Integer.parseInt(fid.substring(2, 4));
         year = resolveYearFromFid(fid);

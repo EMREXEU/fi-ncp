@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import fi.csc.emrex.ncp.controller.NcpPages;
 import fi.csc.emrex.ncp.controller.NcpSessionAttributes;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
-import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ public class ThymeControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
-    OpintosuorituksetResponse virtaXml = (OpintosuorituksetResponse) res.getRequest().getSession()
+    OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest().getSession()
         .getAttribute(NcpSessionAttributes.VIRTA_XML);
     Assert.notNull(virtaXml, "Elmo session attribute is null");
     log.info("VIRTA XML in session:\n{}", XmlUtil.toString(virtaXml));
@@ -63,7 +63,7 @@ public class ThymeControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
-    OpintosuorituksetResponse virtaXml = (OpintosuorituksetResponse) res.getRequest().getSession()
+    OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest().getSession()
         .getAttribute(NcpSessionAttributes.VIRTA_XML);
     Assert.notNull(virtaXml, "Elmo session attribute is null");
 
@@ -91,7 +91,7 @@ public class ThymeControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
-    OpintosuorituksetResponse virtaXml = (OpintosuorituksetResponse) res.getRequest().getSession()
+    OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest().getSession()
         .getAttribute(NcpSessionAttributes.VIRTA_XML);
     Assert.notNull(virtaXml, "Elmo session attribute is null");
 
