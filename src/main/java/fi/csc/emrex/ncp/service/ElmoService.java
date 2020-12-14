@@ -225,7 +225,7 @@ public class ElmoService {
 
     learningOpportunityInstance.getIdentifier().add(createLoiIdentifier(
         LOI.ID_TYPE,
-        opintosuoritus.getKoulutusmoduulitunniste()));
+        opintosuoritus.getAvain()));
     learningOpportunityInstance.setDate(copyOf(opintosuoritus.getSuoritusPvm()));
     learningOpportunityInstance.setStatus(LOI.STATUS);
     learningOpportunityInstance.setResultLabel(opintosuoritus.getArvosana().getViisiportainen());

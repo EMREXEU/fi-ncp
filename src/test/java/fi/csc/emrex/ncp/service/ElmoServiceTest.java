@@ -3,6 +3,7 @@ package fi.csc.emrex.ncp.service;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
 import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.util.FidUtil;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.CountryCode;
@@ -50,13 +51,14 @@ public class ElmoServiceTest {
   public void convertToElmoXml() throws SAXException, NpcException, javax.xml.bind.JAXBException {
 
     VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
-    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient.fetchStudiesAndLearnerDetails(student);
+    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient
+        .fetchStudiesAndLearnerDetails(student);
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
     Elmo elmoXml = elmoService.convertToElmoXml(
         opintosuorituksetResponse,
         student,
-        createLearnerDetails());
+        createLearnerDetails(opintosuorituksetResponse));
 
     //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
@@ -75,7 +77,7 @@ public class ElmoServiceTest {
     Elmo elmoXml = elmoService.convertToElmoXml(
         opintosuorituksetResponse,
         student,
-        createLearnerDetails());
+        createLearnerDetails(opintosuorituksetResponse));
     //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
   }
@@ -94,19 +96,22 @@ public class ElmoServiceTest {
     Elmo elmoXml = elmoService.convertToElmoXml(
         opintosuorituksetResponse,
         student,
-        createLearnerDetails());
+        createLearnerDetails(opintosuorituksetResponse));
     //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
   }
 
 
-  private LearnerDetailsDto createLearnerDetails() {
+  private LearnerDetailsDto createLearnerDetails(
+      OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse)
+      throws NpcException {
     // TODO
     LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
     learnerDetails.setCitizenship(CountryCode.FI);
     learnerDetails.setGivenNames("Teppo");
     learnerDetails.setFamilyName("Testaaja");
     learnerDetails.setSchacHomeOrganization("oamk.fi");
+    learnerDetails.setBday(FidUtil.resolveBirthDate(null, null, opintosuorituksetResponse));
     return learnerDetails;
   }
 
