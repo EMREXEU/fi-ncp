@@ -1,0 +1,37 @@
+Åbo Akademi;01903;abo.fi
+Yrkeshögskolan Arcada;02535;arcada.fi
+Aalto-yliopisto;10076;aalto.fi
+Centria-ammattikorkeakoulu;02536;centria.fi
+Diakonia-ammattikorkeakoulu;02623;diak.fi
+Haaga-Helia ammattikorkeakoulu;10056;haaga-helia.fi
+Hämeen ammattikorkeakoulu;02467;hamk.fi
+Humanistinen ammattikorkeakoulu;02631;humak.fi
+Helsingin yliopisto;01901;helsinki.fi
+Itä-Suomen yliopisto;10088;uef.fi
+Jyväskylän ammattikorkeakoulu;02504;jamk.fi
+Jyväskylän yliopisto;01906;jyu.fi
+Kajaanin ammattikorkeakoulu;02473;kamk.fi
+Karelia-ammattikorkeakoulu;02469;karelia.fi
+Kaakkois-Suomen ammattikorkeakoulu;10118;xamk.fi
+LAB-ammattikorkeakoulu;10126;lab.fi
+Lapin ammattikorkeakoulu;10108;lapinamk.fi
+Laurea-ammattikorkeakoulu;02629;laurea.fi
+Lapin yliopisto;01918;ulapland.fi
+Lappeenrannan-Lahden teknillinen yliopisto LUT;01914;lut.fi
+Metropolia Ammattikorkeakoulu;10065;metropolia.fi
+Maanpuolustuskorkeakoulu;02358;mil.fi
+Yrkeshögskolan Novia;10066;novia.fi
+Oulun ammattikorkeakoulu;02471;oamk.fi
+Oulun yliopisto;01904;oulu.fi
+Poliisiammattikorkeakoulu;02557;polamk.fi
+Satakunnan ammattikorkeakoulu;02507;samk.fi
+Savonia-ammattikorkeakoulu;02537;savonia.fi
+Seinäjoen ammattikorkeakoulu;02472;seamk.fi
+Svenska handelhögskolan;01910;hanken.fi
+Taideyliopisto;10103;uniarts.fi
+Tampereen ammattikorkeakoulu;02630;tamk.fi
+Tampereen yliopisto;01905;tau.fi
+Turun ammattikorkeakoulu;02509;turkuamk.fi
+Turun yliopisto;10089;utu.fi
+Vaasan ammattikorkeakoulu;02627;vamk.fi
+Vaasan yliopisto;01913;uwasa.fi

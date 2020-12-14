@@ -1,5 +1,6 @@
 package fi.csc.emrex.ncp.dto;
 
+import fi.csc.emrex.ncp.service.ElmoService.ISSUER_FILE_COLUMN;
 import fi.csc.schemas.elmo.CountryCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,9 +26,25 @@ import lombok.ToString;
 @ToString
 public class IssuerDto {
 
+  private final static String IDENTIFIER_TYPE = "SCHAC";
+  private static final String DOMAIN_PREFIX = "http://";
+
   private CountryCode countryCode;
   private String identifierType;
   private String identifier;
   private String title;
   private String url;
+
+  /**
+   * Korkeakoulu;TK-oppilaitoskoodi;Domain = schac
+   *
+   * @param args Values read from config file line
+   */
+  public IssuerDto(String[] args) {
+    countryCode = CountryCode.FI;
+    identifierType = IDENTIFIER_TYPE;
+    identifier = args[ISSUER_FILE_COLUMN.DOMAIN.ordinal()];
+    title = args[ISSUER_FILE_COLUMN.TITLE.ordinal()];
+    url = DOMAIN_PREFIX + args[ISSUER_FILE_COLUMN.DOMAIN.ordinal()];
+  }
 }

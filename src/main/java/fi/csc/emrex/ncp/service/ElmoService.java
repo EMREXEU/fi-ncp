@@ -23,6 +23,9 @@ import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOp
 import fi.csc.schemas.elmo.TokenWithOptionalLang;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -34,29 +37,37 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import lombok.extern.slf4j.Slf4j;
 import mace.funet_fi.virta._2015._09._01.OpintosuorituksetTyyppi;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 public class ElmoService {
 
+  @Value("classpath:data/issuers.txt")
+  Resource issuerResourceFile;
+
+  // Line format: Korkeakoulu;TK-oppilaitoskoodi;Domain = schac
+  public enum ISSUER_FILE_COLUMN {TITLE, CODE, DOMAIN}
 
   // Opintosuoritus.Myontaja is just a VIRTA code which needs to be mapped to actual organization details
   // Key: Opintosuoritus.Myontaja
   private Map<String, IssuerDto> virtaIssuerCodeToIssuer = new HashMap<>();
 
   @PostConstruct
-  public void init() {
-    // TODO: Update this map from config, include all codes.
-    // TODO: pic/erasmus/schac	SCHAC - muodostettava palvelimella opintosuorituksen myöntäjästä
-    virtaIssuerCodeToIssuer.put(
-        "02536",
-        new IssuerDto(
-            CountryCode.FI,
-            "TODO: identifier type from cached config",
-            "TODO: identifier from cached config",
-            "TODO: Title from cached config",
-            "TODO: url from cached config"));
+  public void init() throws IOException {
+
+    // Line format: Korkeakoulu;TK-oppilaitoskoodi;Domain = schac
+    try (BufferedReader reader = new BufferedReader(
+        new InputStreamReader(issuerResourceFile.getInputStream()))) {
+      reader.lines().forEach(line -> {
+        if (!line.isEmpty()) {
+          String[] args = line.split(";");
+          virtaIssuerCodeToIssuer.put(args[ISSUER_FILE_COLUMN.CODE.ordinal()], new IssuerDto(args));
+        }
+      });
+    }
   }
 
   public OpiskelijanKaikkiTiedotResponse trimToSelectedCourses(
