@@ -231,9 +231,15 @@ public class ElmoService {
   }
 
   private Specifies createSpecifies(OpintosuoritusTyyppi opintosuoritus) throws NpcException {
+    Specifies specifies = new Specifies();
+    specifies.setLearningOpportunityInstance(createLearningOpportunityInstance(opintosuoritus));
+    return specifies;
+  }
 
+  private LearningOpportunityInstance createLearningOpportunityInstance(
+      OpintosuoritusTyyppi opintosuoritus)
+      throws NpcException {
     LearningOpportunityInstance learningOpportunityInstance = new LearningOpportunityInstance();
-
     learningOpportunityInstance.getIdentifier().add(createLoiIdentifier(
         LOI.ID_TYPE,
         opintosuoritus.getAvain()));
@@ -243,10 +249,7 @@ public class ElmoService {
     learningOpportunityInstance.getCredit().add(createCredit(opintosuoritus));
     learningOpportunityInstance.getLevel().add(createLevel(opintosuoritus));
     learningOpportunityInstance.setLanguageOfInstruction(opintosuoritus.getKieli());
-
-    Specifies specifies = new Specifies();
-    specifies.setLearningOpportunityInstance(learningOpportunityInstance);
-    return specifies;
+    return learningOpportunityInstance;
   }
 
   private LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Identifier createLoiIdentifier(
