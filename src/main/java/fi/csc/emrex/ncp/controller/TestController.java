@@ -5,6 +5,7 @@
  */
 package fi.csc.emrex.ncp.controller;
 
+import fi.csc.emrex.ncp.controller.NcpRequestFields.SHIBBOLETH_KEYS;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.execption.NpcException;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +31,16 @@ public class TestController extends NcpControllerBase {
   @RequestMapping(value = "/ncp_mock_shibboleth", method = RequestMethod.POST)
   public String getCoursesMockShibboleth(
       @ModelAttribute NcpRequestDto request,
-      @RequestParam("unique-id") String personId,
-      @RequestParam("SHIB_funetEduPersonLearnerId") String learnerId) throws NpcException {
-    return thymeController.getCourses(request, personId, learnerId);
+      @RequestParam(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
+      @RequestParam(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
+      @RequestParam(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN) String schacHomeOrganization,
+      @RequestParam(SHIBBOLETH_KEYS.ORGANIZATION_ID) String schacHomeOrganizationId)
+      throws NpcException {
+    return thymeController.getCourses(
+        request,
+        personId,
+        learnerId,
+        schacHomeOrganization,
+        schacHomeOrganizationId);
   }
 }

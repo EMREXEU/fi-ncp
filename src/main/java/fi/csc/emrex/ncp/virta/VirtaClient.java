@@ -7,7 +7,9 @@ import fi.csc.tietovaranto.luku.OpintosuorituksetRequest;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotRequest;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
-import fi.csc.tietovaranto.luku.OpiskelijanTiedot;
+import fi.csc.tietovaranto.luku.OpiskelijanTiedotRequest;
+import fi.csc.tietovaranto.luku.OpiskelijanTiedotRequest.Hakuehdot;
+import fi.csc.tietovaranto.luku.OpiskelijanTiedotResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanTiedotService;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -38,7 +40,8 @@ public class VirtaClient {
 
   public OpintosuorituksetResponse fetchStudies(VirtaUserDto virtaUser) throws NpcException {
     try {
-      return sendRequest(virtaUser);
+      return getService().getOpiskelijanTiedotSoap11().opintosuoritukset(
+          createRequest(virtaUser));
     } catch (MalformedURLException e) {
       throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
@@ -47,30 +50,41 @@ public class VirtaClient {
   public OpiskelijanKaikkiTiedotResponse fetchStudiesAndLearnerDetails(VirtaUserDto virtaUser)
       throws NpcException {
     try {
-      return sendRequestAllDetails(virtaUser);
+      return getService().getOpiskelijanTiedotSoap11().opiskelijanKaikkiTiedot(
+          createAllDetailsRequest(virtaUser));
     } catch (MalformedURLException e) {
       throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
 
-  private OpintosuorituksetResponse sendRequest(VirtaUserDto virtaUser)
-      throws MalformedURLException {
-    OpiskelijanTiedotService wsClient = getService();
-    OpiskelijanTiedot ws = wsClient.getOpiskelijanTiedotSoap11();
-    OpintosuorituksetRequest request = createRequest(virtaUser);
-    OpintosuorituksetResponse res = ws.opintosuoritukset(request);
-    return res;
+  public OpiskelijanTiedotResponse fetchLearnerDetails(VirtaUserDto virtaUser)
+      throws NpcException {
+    try {
+      return getService().getOpiskelijanTiedotSoap11().opiskelijanTiedot(
+          createLearnerDetailsRequest(virtaUser));
+    } catch (MalformedURLException e) {
+      throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
+    }
   }
 
-  private OpiskelijanKaikkiTiedotResponse sendRequestAllDetails(VirtaUserDto virtaUser)
-      throws MalformedURLException {
-
-    OpiskelijanTiedotService wsClient = getService();
-    OpiskelijanTiedot ws = wsClient.getOpiskelijanTiedotSoap11();
-    OpiskelijanKaikkiTiedotRequest request = createAllDetailsRequest(virtaUser);
-    OpiskelijanKaikkiTiedotResponse res = ws.opiskelijanKaikkiTiedot(request);
-    return res;
+  private OpiskelijanTiedotRequest createLearnerDetailsRequest(VirtaUserDto virtaUser) {
+    OpiskelijanTiedotRequest request = new OpiskelijanTiedotRequest();
+    request.setKutsuja(createKutsuja());
+    request.setHakuehdot(createLearnerDetailsHakuehdot(virtaUser));
+    return request;
   }
+
+  private Hakuehdot createLearnerDetailsHakuehdot(VirtaUserDto virtaUser) {
+    Hakuehdot hakuehdot = new Hakuehdot();
+    if (virtaUser.isOidSet()) {
+      hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
+    } else {
+      hakuehdot.setHenkilotunnus(virtaUser.getSsn());
+    }
+    hakuehdot.setOrganisaatio(virtaUser.getSchacHomeOrganizationId());
+    return hakuehdot;
+  }
+
 
   private OpiskelijanTiedotService getService() throws MalformedURLException {
     if (opiskelijanTiedotService == null) {
@@ -97,12 +111,9 @@ public class VirtaClient {
     HakuEhdotOrganisaatioVapaa hakuehdot = new HakuEhdotOrganisaatioVapaa();
     if (virtaUser.isOidSet()) {
       hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
-      //hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));
     } else {
       hakuehdot.setHenkilotunnus(virtaUser.getSsn());
-      //hakuehdot.getContent().add(0, new ObjectFactory().createHeTu(virtaUser.getSsn()));
     }
-
     return hakuehdot;
   }
 

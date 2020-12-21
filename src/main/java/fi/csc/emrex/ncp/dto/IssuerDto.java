@@ -29,10 +29,12 @@ public class IssuerDto {
   private final static String IDENTIFIER_TYPE = "SCHAC";
   private static final String DOMAIN_PREFIX = "http://";
 
+  private String code;
   private CountryCode countryCode;
   private String identifierType;
   private String identifier;
   private String title;
+  private String domain;
   private String url;
 
   /**
@@ -41,10 +43,12 @@ public class IssuerDto {
    * @param args Values read from config file line
    */
   public IssuerDto(String[] args) {
+    code = args[ISSUER_FILE_COLUMN.CODE.ordinal()];
     countryCode = CountryCode.FI;
     identifierType = IDENTIFIER_TYPE;
     identifier = args[ISSUER_FILE_COLUMN.DOMAIN.ordinal()];
     title = args[ISSUER_FILE_COLUMN.TITLE.ordinal()];
+    domain = args[ISSUER_FILE_COLUMN.DOMAIN.ordinal()];
     url = DOMAIN_PREFIX + args[ISSUER_FILE_COLUMN.DOMAIN.ordinal()];
   }
 }

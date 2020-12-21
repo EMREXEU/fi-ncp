@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 /**
  * @author salum
@@ -34,9 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 public class JsonController extends NcpControllerBase {
-
-  // TODO: remove
-  private final static String SSN = "010280-123A";
 
   @Autowired
   private HttpServletRequest context;
@@ -46,7 +44,13 @@ public class JsonController extends NcpControllerBase {
 
   @RequestMapping(value = "/elmo", method = RequestMethod.GET)
   @ResponseBody
-  public Map<String, Object> fetchElmoXml() throws NpcException {
+  public Map<String, Object> fetchElmoXml(
+      @SessionAttribute("unique-id") String personId,
+      @SessionAttribute("SHIB_funetEduPersonLearnerId") String learnerId,
+      // TODO: need to verify available shibboleth data related to organization
+      @SessionAttribute("SHIB_schacHomeOrganization") String schacHomeOrganization,
+      @SessionAttribute("SHIB_schacHomeOrganizationId") String schacHomeOrganizationId
+  ) throws NpcException {
 
     log.info("elmo");
     HttpSession session = context.getSession();
@@ -60,10 +64,13 @@ public class JsonController extends NcpControllerBase {
         session.getAttribute(NcpSessionAttributes.SESSION_ID));
 
     // TODO oikeat hakuehdot
+    String[] trimmedPersonIds = personId.split(":");
+    String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
     VirtaUserDto virtaUserDto = new VirtaUserDto(
-        //"17488477125",
-        null,
-        SSN);
+        learnerId,
+        trimmedPersonId,
+        schacHomeOrganizationId);
+
     model.put("elmoXml", virtaClient.fetchStudies(virtaUserDto));
     return model;
   }

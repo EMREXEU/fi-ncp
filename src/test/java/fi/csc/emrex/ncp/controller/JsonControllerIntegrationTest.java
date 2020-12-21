@@ -1,5 +1,6 @@
 package fi.csc.emrex.ncp.controller;
 
+import static fi.csc.emrex.ncp.controller.ThymeControllerIntegrationTest.getShibbolethAuthenticationAttributes;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class JsonControllerIntegrationTest {
   public void testFetchElmoXml() throws Exception {
 
     mockMvc.perform(MockMvcRequestBuilders
-        .get("/elmo"))
+        .get("/elmo").sessionAttrs(getShibbolethAuthenticationAttributes()))
         .andDo(print())
         .andExpect(MockMvcResultMatchers.status().isOk());
   }

@@ -54,6 +54,9 @@ public class ElmoService {
   // Opintosuoritus.Myontaja is just a VIRTA code which needs to be mapped to actual organization details
   // Key: Opintosuoritus.Myontaja
   private Map<String, IssuerDto> virtaIssuerCodeToIssuer = new HashMap<>();
+  // Contains same data but mapped by SHIB_schacHomeOrganization as key (IssuerDto.domain)
+  // TODO: populate
+  private Map<String, IssuerDto> shibDomainToIssuer = new HashMap<>();
 
   @PostConstruct
   public void init() throws IOException {
@@ -64,7 +67,9 @@ public class ElmoService {
       reader.lines().forEach(line -> {
         if (!line.isEmpty()) {
           String[] args = line.split(";");
-          virtaIssuerCodeToIssuer.put(args[ISSUER_FILE_COLUMN.CODE.ordinal()], new IssuerDto(args));
+          IssuerDto issuer = new IssuerDto(args);
+          virtaIssuerCodeToIssuer.put(issuer.getCode(), issuer);
+          shibDomainToIssuer.put(issuer.getDomain(), issuer);
         }
       });
     }

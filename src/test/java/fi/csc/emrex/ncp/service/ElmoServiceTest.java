@@ -50,7 +50,7 @@ public class ElmoServiceTest {
   @Test
   public void convertToElmoXml() throws SAXException, NpcException, javax.xml.bind.JAXBException {
 
-    VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
+    VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient
         .fetchStudiesAndLearnerDetails(student);
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
@@ -68,7 +68,7 @@ public class ElmoServiceTest {
   public void convertToElmoXmlSelectOneReportUseFile()
       throws SAXException, NpcException, javax.xml.bind.JAXBException, IOException {
 
-    VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
+    VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = readFile();
     opintosuorituksetResponse = elmoService
         .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("TUTKINTO-39525"));
@@ -86,7 +86,7 @@ public class ElmoServiceTest {
   public void convertToElmoXmlSelectOneReportUseVirtaClient()
       throws SAXException, NpcException, javax.xml.bind.JAXBException {
 
-    VirtaUserDto student = new VirtaUserDto(null, "180766-2213");
+    VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient
         .fetchStudiesAndLearnerDetails(student);
     opintosuorituksetResponse = elmoService
@@ -110,7 +110,6 @@ public class ElmoServiceTest {
     learnerDetails.setCitizenship(CountryCode.FI);
     learnerDetails.setGivenNames("Teppo");
     learnerDetails.setFamilyName("Testaaja");
-    learnerDetails.setSchacHomeOrganization("oamk.fi");
     learnerDetails.setBday(FidUtil.resolveBirthDate(null, null, opintosuorituksetResponse));
     return learnerDetails;
   }
@@ -168,4 +167,7 @@ public class ElmoServiceTest {
         .newSchema(schemas);
   }
 
+  private VirtaUserDto createStudent() {
+    return  new VirtaUserDto(null, "180766-2213", "02536");
+  }
 }

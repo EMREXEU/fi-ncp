@@ -31,6 +31,4 @@ public class LearnerDetailsDto {
   private FlexibleAddress currentAddress;
   private BigInteger gender;
 
-  // From shibboleth
-  private String schacHomeOrganization;
 }

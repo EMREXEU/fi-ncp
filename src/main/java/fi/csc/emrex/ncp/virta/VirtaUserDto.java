@@ -19,7 +19,8 @@ public class VirtaUserDto {
 
   private String oid;
   private String ssn;
-
+  private String schacHomeOrganizationId;
+  
   public boolean isOidSet() {
     return !StringUtils.isBlank(oid);
   }

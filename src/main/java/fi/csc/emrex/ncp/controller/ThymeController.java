@@ -5,6 +5,7 @@
  */
 package fi.csc.emrex.ncp.controller;
 
+import fi.csc.emrex.ncp.controller.NcpRequestFields.SHIBBOLETH_KEYS;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
@@ -16,6 +17,8 @@ import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
+import fi.csc.tietovaranto.luku.OpiskelijanTiedotResponse;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -61,8 +64,12 @@ public class ThymeController extends NcpControllerBase {
   @RequestMapping(value = "/ncp", method = RequestMethod.POST)
   public String getCourses(
       @ModelAttribute NcpRequestDto request,
-      @SessionAttribute("unique-id") String personId,
-      @SessionAttribute("SHIB_funetEduPersonLearnerId") String learnerId) throws NpcException {
+      @SessionAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
+      @SessionAttribute(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
+      // TODO: need to verify available shibboleth data related to organization
+      @SessionAttribute(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN) String schacHomeOrganization,
+      @SessionAttribute(SHIBBOLETH_KEYS.ORGANIZATION_ID) String schacHomeOrganizationId)
+      throws NpcException {
 
     HttpSession session = context.getSession();
 
@@ -82,7 +89,11 @@ public class ThymeController extends NcpControllerBase {
       String[] trimmedPersonIds = personId.split(":");
       String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
 
-      VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId);
+      VirtaUserDto virtaUserDto = new VirtaUserDto(
+          learnerId,
+          trimmedPersonId,
+          schacHomeOrganizationId);
+
       log.info(virtaUserDto.toString());
 
       OpiskelijanKaikkiTiedotResponse virtaXml = virtaClient
@@ -104,8 +115,7 @@ public class ThymeController extends NcpControllerBase {
   @RequestMapping(value = "/review", method = RequestMethod.GET)
   public String reviewCourses(
       @RequestParam(value = "courses", required = false) String[] courses,
-      Model model,
-      @SessionAttribute("SHIB_schacHomeOrganization") String schacHomeOrganization)
+      Model model)
       throws NpcException {
 
     log.info("/review");
@@ -134,10 +144,13 @@ public class ThymeController extends NcpControllerBase {
       virtaXml = elmoService.trimToSelectedCourses(virtaXml, courseList);
     }
 
+    OpiskelijanTiedotResponse virtaLearnerDetails = virtaClient.fetchLearnerDetails(student);
+
     // TODO: read these from VIRTA and/or shibboleth
     LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
-    learnerDetails.setSchacHomeOrganization(schacHomeOrganization);
     learnerDetails.setBday(FidUtil.resolveBirthDate("", "", virtaXml));
+    learnerDetails.setGender(
+        new BigInteger(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukupuoli()));
 
     Elmo elmoXml = elmoService.convertToElmoXml(virtaXml, student, learnerDetails);
     String elmoString = XmlUtil.toString(elmoXml);
