@@ -27,7 +27,7 @@ public class TestControllerIntegrationTest {
   public void getCoursesTestController() throws Exception {
 
     MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .post("/test/ncp_mock_shibboleth")
+        .post("/test/ncp")
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO")
         .param(SHIBBOLETH_KEYS.LEARNER_ID, SHIBBOLETH_VALUES.LEARNER_ID)

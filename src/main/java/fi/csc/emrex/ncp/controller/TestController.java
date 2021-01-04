@@ -28,8 +28,36 @@ public class TestController extends NcpControllerBase {
    * Debug endpoint to emulate session parameters by giving them in request parameter.
    */
   @Deprecated
-  @RequestMapping(value = "/ncp_mock_shibboleth", method = RequestMethod.POST)
+  @RequestMapping(value = "/ncp", method = RequestMethod.POST)
   public String getCoursesMockShibboleth(
+      @ModelAttribute NcpRequestDto request,
+      @RequestParam(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
+      @RequestParam(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
+      @RequestParam(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN) String schacHomeOrganization,
+      @RequestParam(SHIBBOLETH_KEYS.ORGANIZATION_ID) String schacHomeOrganizationId)
+      throws NpcException {
+    return thymeController.getCourses(
+        request,
+        personId,
+        learnerId,
+        schacHomeOrganization,
+        schacHomeOrganizationId);
+  }
+
+  /**
+   * Allow login without shibboleth authentication.
+   *
+   * @param request
+   * @param personId
+   * @param learnerId
+   * @param schacHomeOrganization
+   * @param schacHomeOrganizationId
+   * @return
+   * @throws NpcException
+   */
+  @Deprecated
+  @RequestMapping(value = "/ncp", method = RequestMethod.GET)
+  public String getCoursesMockShibboleth2(
       @ModelAttribute NcpRequestDto request,
       @RequestParam(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
       @RequestParam(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
