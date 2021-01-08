@@ -272,7 +272,60 @@
           <fork>true</fork>
           <executable><!-- path-to-javac --></executable>
           <compilerVersion>11</compilerVersion>
+          <excludes>
+            <!-- Angular source -->
+            <exclude>fi-ncp-front/**</exclude>
+          </excludes>
         </configuration>
+      </plugin>
+
+
+      <!--https://stackoverflow.com/questions/38532210/how-to-integrate-angular-2-java-maven-web-application-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <excludes>
+            <exclude>fi-ncp-front/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <executions>
+          <execution>
+            <id>exec-npm-install</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <workingDirectory>${project.basedir}/src/main/fi-ncp-front</workingDirectory>
+              <executable>npm</executable>
+              <arguments>
+                <argument>install</argument>
+              </arguments>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>exec-npm-ng-build</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <workingDirectory>${project.basedir}/src/main/fi-ncp-front</workingDirectory>
+              <executable>ng</executable>
+              <arguments>
+                <argument>build</argument>
+                <argument>--base-href=/ng/</argument>
+              </arguments>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
     </plugins>

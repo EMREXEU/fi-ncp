@@ -9,3 +9,7 @@ buildNumber.properties
 .idea
 *.iml
 .DS_Store
+
+
+# Angular-integration
+src/main/webapp/ng
