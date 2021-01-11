@@ -4,42 +4,58 @@
 </div>
 
 <div>
-  <h2>Opiskelija</h2>
-  Opiskelija: {{jsonRes.virta.opiskelija[0].kansallinenOppijanumero}}
+  <h2>Kurssien tuonti</h2>
+
 </div>
 <div *ngFor="let opiskelija of jsonRes.virta.opiskelija">
   <div>
-    Etunimet: {{opiskelija.etunimet}}
-  </div>
-  <div>
-    Sukunimi: {{opiskelija.sukunimi}}
-  </div>
-  <div>
-    Henkilotunnus: {{opiskelija.henkilotunnus}}
-  </div>
-  <div>
-    Kansallinen oppijanumero: {{opiskelija.kansallinenOppijanumero}}
+
+    <table>
+      <tr>
+        <th>Etunimet:</th>
+        <td>{{opiskelija.etunimet}}</td>
+      </tr>
+      <tr>
+        <th>Sukunimi:</th>
+        <td>{{opiskelija.sukunimi}}</td>
+      </tr>
+      <tr>
+        <th>Henkilötunnus:</th>
+        <td>{{opiskelija.henkilotunnus}}</td>
+      </tr>
+      <tr>
+        <th>Kansallinen oppijanumero:</th>
+        <td>{{opiskelija.kansallinenOppijanumero}}</td>
+      </tr>
+    </table>
+
+    <br>
   </div>
 
-  <div><h2>Kurssit</h2></div>
-  <div *ngFor="let opintosuoritus of opiskelija.opintosuoritukset.opintosuoritus">
-    <div>
-      <h3>
-        {{opintosuoritus.nimi[0].value}}
-      </h3>
-    </div>
-    <div>
-      Laajuus:{{opintosuoritus.laajuus.opintopiste}}
-    </div>
-    <div>
-      Arvosana:{{opintosuoritus.arvosana.viisiportainen}}
-    </div>
-    <div>
-      Myöntäjä:{{opintosuoritus.myontaja}}
-    </div>
-    <div>
-      Pvm:{{opintosuoritus.suoritusPvm}}
-    </div>
+  <div>
+    <table>
+      <th>Valitse</th>
+      <th>Avain</th>
+      <th>moduuli</th>
+      <th>Kurssi</th>
+      <th>Arvosana</th>
+      <th>pvm</th>
+      <th>Laajuus</th>
+      <th>Myöntäjä</th>
+      <tr *ngFor="let opintosuoritus of opiskelija.opintosuoritukset.opintosuoritus">
+        <td>
+          <mat-pseudo-checkbox>xxx</mat-pseudo-checkbox>
+        </td>
+        <td>{{opintosuoritus.avain}}</td>
+        <td>{{opintosuoritus.koulutusmoduulitunniste}}</td>
+        <td>{{opintosuoritus.nimi[0].value}}</td>
+        <td>{{opintosuoritus.arvosana.viisiportainen}}</td>
+        <td>{{opintosuoritus.suoritusPvm}}</td>
+        <td>{{opintosuoritus.laajuus.opintopiste}}</td>
+        <td>{{opintosuoritus.myontaja}}</td>
+      </tr>
+    </table>
   </div>
+
 </div>
 <router-outlet></router-outlet>
