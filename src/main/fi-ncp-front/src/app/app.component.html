@@ -1,5 +1,5 @@
 <div>
-  <h2>Kurssien tuonti</h2>
+  <h1>Kurssien tuonti</h1>
 </div>
 <div *ngFor="let opiskelija of jsonRes.virta.opiskelija">
   <div>
@@ -29,16 +29,21 @@
   <div>
     <table>
       <th>Valitse</th>
+      <!--TODO: add JSON details of the course in tooltip-->
       <th>Avain</th>
       <th>moduuli</th>
       <th>Kurssi</th>
       <th>Arvosana</th>
       <th>pvm</th>
       <th>Laajuus</th>
-      <th>Myöntäjä</th>
+      <!--Map key to name from separate request?-->
+      <th>Myöntäjä koodi</th>
+      <th>Myöntäjä nimi</th>
       <tr *ngFor="let opintosuoritus of opiskelija.opintosuoritukset.opintosuoritus">
-        <td (click)="courseSelected(opintosuoritus.avain)">
-          <mat-pseudo-checkbox>xxx</mat-pseudo-checkbox>
+        <td>
+          <div class="ui checkbox" (click)="courseSelected(opintosuoritus.avain)">
+            <input type="checkbox" name="example">
+          </div>
         </td>
         <td>{{opintosuoritus.avain}}</td>
         <td>{{opintosuoritus.koulutusmoduulitunniste}}</td>
@@ -47,6 +52,7 @@
         <td>{{opintosuoritus.suoritusPvm}}</td>
         <td>{{opintosuoritus.laajuus.opintopiste}}</td>
         <td>{{opintosuoritus.myontaja}}</td>
+        <td>{{this.organizationNames.get(opintosuoritus.myontaja)}}</td>
       </tr>
     </table>
   </div>
