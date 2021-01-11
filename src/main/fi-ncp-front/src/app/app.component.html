@@ -1,11 +1,5 @@
 <div>
-  <h1>Hello!</h1>
-  {{title}}
-</div>
-
-<div>
   <h2>Kurssien tuonti</h2>
-
 </div>
 <div *ngFor="let opiskelija of jsonRes.virta.opiskelija">
   <div>
@@ -43,7 +37,7 @@
       <th>Laajuus</th>
       <th>Myöntäjä</th>
       <tr *ngFor="let opintosuoritus of opiskelija.opintosuoritukset.opintosuoritus">
-        <td>
+        <td (click)="courseSelected(opintosuoritus.avain)">
           <mat-pseudo-checkbox>xxx</mat-pseudo-checkbox>
         </td>
         <td>{{opintosuoritus.avain}}</td>
@@ -57,5 +51,8 @@
     </table>
   </div>
 
+</div>
+<div>
+  <button (click)="reviewSelectedCourses()">Siirrä valitut kurssit</button>
 </div>
 <router-outlet></router-outlet>
