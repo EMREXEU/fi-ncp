@@ -8,6 +8,7 @@ package fi.csc.emrex.ncp.controller;
 import fi.csc.emrex.ncp.controller.NcpRequestFields.SHIBBOLETH_KEYS;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,7 +32,7 @@ public class TestController extends NcpControllerBase {
    */
   @Deprecated
   @RequestMapping(value = "/ncp", method = RequestMethod.POST)
-  public String getCoursesMockShibboleth(
+  public OpiskelijanKaikkiTiedotResponse getCoursesMockShibboleth(
       @ModelAttribute NcpRequestDto request,
       @RequestParam(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
       @RequestParam(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
@@ -59,7 +60,7 @@ public class TestController extends NcpControllerBase {
    */
   @Deprecated
   @RequestMapping(value = "/ncp", method = RequestMethod.GET)
-  public String getCoursesMockShibboleth2(
+  public OpiskelijanKaikkiTiedotResponse getCoursesMockShibboleth2(
       @ModelAttribute NcpRequestDto request,
       @RequestParam(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
       @RequestParam(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,

@@ -62,7 +62,7 @@ public class ThymeController extends NcpControllerBase {
    * @return View name resolved by $routeProvider in ncp.js. Response data stored in session.
    */
   @RequestMapping(value = "/ncp", method = RequestMethod.POST)
-  public String getCourses(
+  public OpiskelijanKaikkiTiedotResponse getCourses(
       @ModelAttribute NcpRequestDto request,
       @SessionAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
       @SessionAttribute(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
@@ -100,9 +100,9 @@ public class ThymeController extends NcpControllerBase {
           .fetchStudiesAndLearnerDetails(virtaUserDto);
       session.setAttribute(NcpSessionAttributes.VIRTA_XML, virtaXml);
       session.setAttribute(NcpSessionAttributes.VIRTA_USER_DTO, virtaUserDto);
+      return virtaXml;
     }
-
-    return NcpPages.NOREX;
+    return null;
   }
 
   private void logSession(HttpSession session) {

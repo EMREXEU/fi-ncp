@@ -16,9 +16,15 @@ export class AppComponent {
     const url = 'http://localhost:9001/test/ncp/?sessionId=1234&returnUrl=234123&unique-id=urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213&SHIB_funetEduPersonLearnerId=1.2.246.562.24.17488477125&SHIB_schacHomeOrganization=oamk.fi&SHIB_schacHomeOrganizationId=02536';
 
     // Default response type: JSON
-    httpClient.get(url, {responseType: 'text'}).subscribe(res => this.plainTextRes = res);
+    httpClient.get(url, {responseType: 'text'}).subscribe(res => {
+      this.jsonRes = JSON.parse(res);
+      this.plainTextRes = res;
+      console.log("jsonRes:" + this.jsonRes);
+      console.log("plainTextRes:" + this.plainTextRes);
+    });
 
     httpClient.get(url).subscribe(res => this.jsonRes = res);
+    console.log("HELLOOOO!");
 
   }
 }
