@@ -11,6 +11,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { CourseSelectionComponent } from './course-selection/course-selection.component';
 import { CourseSelectionReviewComponent } from './course-selection-review/course-selection-review.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
+import { CourseSelectionViewComponent } from './course-selection-view/course-selection-view.component';
+import { CourseSelectionReviewViewComponent } from './course-selection-review-view/course-selection-review-view.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { StudentDetailsComponent } from './student-details/student-details.compo
     AppComponent,
     CourseSelectionComponent,
     CourseSelectionReviewComponent,
-    StudentDetailsComponent
+    StudentDetailsComponent,
+    CourseSelectionViewComponent,
+    CourseSelectionReviewViewComponent
   ],
   imports: [
     BrowserModule,

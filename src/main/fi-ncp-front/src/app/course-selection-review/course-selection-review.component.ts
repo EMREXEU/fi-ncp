@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-course-selection-review',
@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./course-selection-review.component.css']
 })
 export class CourseSelectionReviewComponent implements OnInit {
+  @Input() opiskelija: any;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
+  exportElmo() {
+    // TOOO: POST to returnUrl...
+    window.alert("Tuodaan kurssit...");
+  }
 }
