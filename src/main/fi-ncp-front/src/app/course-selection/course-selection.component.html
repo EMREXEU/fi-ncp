@@ -1,0 +1,36 @@
+<div>
+  <div>
+    <table>
+      <th>Valitse</th>
+      <!--TODO: add JSON details of the course in tooltip-->
+      <th>Avain</th>
+      <th>moduuli</th>
+      <th>Kurssi</th>
+      <th>Arvosana</th>
+      <th>pvm</th>
+      <th>Laajuus</th>
+      <!--Map key to name from separate request?-->
+      <th>Myöntäjä koodi</th>
+      <th>Myöntäjä nimi</th>
+      <tr *ngFor="let opintosuoritus of opiskelija.opintosuoritukset.opintosuoritus">
+        <td>
+          <div class="ui checkbox" (click)="courseSelected(opintosuoritus.avain)">
+            <input type="checkbox" name="example">
+          </div>
+        </td>
+        <td matTooltip="Info about the action"
+            matTooltipPosition="right">{{opintosuoritus.avain}}</td>
+        <td>{{opintosuoritus.koulutusmoduulitunniste}}</td>
+        <td>{{opintosuoritus.nimi[0].value}}</td>
+        <td>{{opintosuoritus.arvosana.viisiportainen}}</td>
+        <td>{{opintosuoritus.suoritusPvm}}</td>
+        <td>{{opintosuoritus.laajuus.opintopiste}}</td>
+        <td>{{opintosuoritus.myontaja}}</td>
+        <td>{{this.organizationNames.get(opintosuoritus.myontaja)}}</td>
+      </tr>
+    </table>
+  </div>
+  <div>
+    <button (click)="reviewSelectedCourses()">Siirrä valitut kurssit</button>
+  </div>
+</div>
