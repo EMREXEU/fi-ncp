@@ -8,8 +8,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class AppComponent {
   title = 'fi-ncp-front';
-  plainTextRes: any;
-  jsonRes: any;
+  getCoursesResponse: any;
 
   constructor(private httpClient: HttpClient) {
 
@@ -17,15 +16,7 @@ export class AppComponent {
 
     // Default response type: JSON
     httpClient.get(url, {responseType: 'text'}).subscribe(res => {
-      this.jsonRes = JSON.parse(res);
-      this.plainTextRes = res;
-      // console.log("jsonRes:" + this.jsonRes);
-      // console.log("plainTextRes:" + this.plainTextRes);
+      this.getCoursesResponse = JSON.parse(res);
     });
-
-    httpClient.get(url).subscribe(res => this.jsonRes = res);
-    // console.log("HELLOOOO!");
-
   }
-
 }

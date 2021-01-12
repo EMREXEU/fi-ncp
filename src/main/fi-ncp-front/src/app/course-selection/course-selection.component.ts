@@ -14,20 +14,14 @@ export class CourseSelectionComponent implements OnInit {
   constructor() {
     this.selectedCourses = new Set();
     this.organizationNames = new Map<any, any>();
-    // TODO: fetch real mapping
+    // TODO: fetch real mappings
     this.organizationNames.set("02536", "Testikoulu");
-
   }
 
   ngOnInit(): void {
   }
 
-
   courseSelected(x: any) {
-    // TODO: add selected course / remove deselected...
-    // TODO: Update checkbox
-    // TODO: Use map (no dupplicates)
-
     if (this.selectedCourses.has(x)) {
       this.selectedCourses.delete(x);
       console.log("Removed course:" + x);
@@ -35,9 +29,7 @@ export class CourseSelectionComponent implements OnInit {
       console.log("Added course:" + x);
       this.selectedCourses.add(x);
     }
-
     console.log("Courses to review:" + Array.from(this.selectedCourses.values()).toString());
-
   }
 
   reviewSelectedCourses() {

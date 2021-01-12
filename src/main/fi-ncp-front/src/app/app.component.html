@@ -2,7 +2,7 @@
   <h1>Kurssien tuonti</h1>
 </div>
 <div>
-  <app-student-details [opiskelija]="jsonRes.virta.opiskelija[0]"></app-student-details>
-  <app-course-selection [opiskelija]="jsonRes.virta.opiskelija[0]"></app-course-selection>
+  <app-student-details [opiskelija]="getCoursesResponse.virta.opiskelija[0]"></app-student-details>
+  <app-course-selection [opiskelija]="getCoursesResponse.virta.opiskelija[0]"></app-course-selection>
 </div>
 <router-outlet></router-outlet>
