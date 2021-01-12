@@ -1,28 +1,8 @@
 <div>
   <h1>Kurssien tuonti</h1>
 </div>
-<div *ngFor="let opiskelija of jsonRes.virta.opiskelija">
-  <div>
-    <table>
-      <tr>
-        <th>Etunimet:</th>
-        <td>{{opiskelija.etunimet}}</td>
-      </tr>
-      <tr>
-        <th>Sukunimi:</th>
-        <td>{{opiskelija.sukunimi}}</td>
-      </tr>
-      <tr>
-        <th>Henkilötunnus:</th>
-        <td>{{opiskelija.henkilotunnus}}</td>
-      </tr>
-      <tr>
-        <th>Kansallinen oppijanumero:</th>
-        <td>{{opiskelija.kansallinenOppijanumero}}</td>
-      </tr>
-    </table>
-    <br>
-  </div>
+<div>
+  <app-student-details [opiskelija]="jsonRes.virta.opiskelija[0]"></app-student-details>
+  <app-course-selection [opiskelija]="jsonRes.virta.opiskelija[0]"></app-course-selection>
 </div>
-<app-course-selection [opiskelija]="jsonRes.virta.opiskelija[0]">
-  <router-outlet></router-outlet>
+<router-outlet></router-outlet>

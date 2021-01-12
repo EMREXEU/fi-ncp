@@ -10,13 +10,15 @@ import {MatPseudoCheckboxModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { CourseSelectionComponent } from './course-selection/course-selection.component';
 import { CourseSelectionReviewComponent } from './course-selection-review/course-selection-review.component';
+import { StudentDetailsComponent } from './student-details/student-details.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CourseSelectionComponent,
-    CourseSelectionReviewComponent
+    CourseSelectionReviewComponent,
+    StudentDetailsComponent
   ],
   imports: [
     BrowserModule,
