@@ -113,20 +113,13 @@ public class ThymeController extends NcpControllerBase {
   }
 
   @RequestMapping(value = "/review", method = RequestMethod.GET)
-  public String reviewCourses(
-      @RequestParam(value = "courses", required = false) String[] courses,
-      Model model)
+  public Elmo reviewCourses(
+      @RequestParam(value = "courses", required = false) String[] courses)
       throws NpcException {
 
     log.info("/review");
     HttpSession session = context.getSession();
 
-    model.addAttribute(
-        NcpSessionAttributes.SESSION_ID,
-        session.getAttribute(NcpSessionAttributes.SESSION_ID));
-    model.addAttribute(
-        NcpSessionAttributes.RETURN_URL,
-        session.getAttribute(NcpSessionAttributes.RETURN_URL));
     OpiskelijanKaikkiTiedotResponse virtaXml =
         (OpiskelijanKaikkiTiedotResponse) session.getAttribute(NcpSessionAttributes.VIRTA_XML);
     // TODO: student data from shibboleth and VIRTA
@@ -153,9 +146,14 @@ public class ThymeController extends NcpControllerBase {
         new BigInteger(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukupuoli()));
 
     Elmo elmoXml = elmoService.convertToElmoXml(virtaXml, student, learnerDetails);
-    String elmoString = XmlUtil.toString(elmoXml);
+    return elmoXml;
+  }
 
-    // TODO: remove
+  // TODO
+  public void postElmo(Elmo elmoXml) throws NpcException {
+    HttpSession session = context.getSession();
+
+    String elmoString = XmlUtil.toString(elmoXml);
     log.info("ELMO XML pre sign:\n{}", elmoString);
 
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
@@ -167,10 +165,6 @@ public class ThymeController extends NcpControllerBase {
             (String) session.getAttribute(NcpSessionAttributes.SESSION_ID),
             (String) session.getAttribute(NcpSessionAttributes.RETURN_URL)));
 
-    model.addAttribute(NcpSessionAttributes.VIRTA_XML, elmoString);
-    model.addAttribute("buttonText", "Confirm selection");
-    model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
-    return NcpPages.REVIEW;
   }
 
   @RequestMapping(value = "/abort", method = RequestMethod.GET)
