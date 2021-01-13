@@ -8,6 +8,7 @@ package fi.csc.emrex.ncp.controller;
 import fi.csc.emrex.ncp.controller.NcpRequestFields.SHIBBOLETH_KEYS;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,14 +50,6 @@ public class TestController extends NcpControllerBase {
 
   /**
    * Allow login without shibboleth authentication.
-   *
-   * @param request
-   * @param personId
-   * @param learnerId
-   * @param schacHomeOrganization
-   * @param schacHomeOrganizationId
-   * @return
-   * @throws NpcException
    */
   @Deprecated
   @RequestMapping(value = "/ncp", method = RequestMethod.GET)
@@ -73,5 +66,26 @@ public class TestController extends NcpControllerBase {
         learnerId,
         schacHomeOrganization,
         schacHomeOrganizationId);
+  }
+
+  // TODO: remove - chain two requets to bypass missing session handling
+  @Deprecated
+  @RequestMapping(value = "/ncp_review", method = RequestMethod.GET)
+  public Elmo getCoursesAndReviewMockShibboleth(
+      @ModelAttribute NcpRequestDto request,
+      @RequestParam(value = "courses", required = false) String[] courses,
+      @RequestParam(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
+      @RequestParam(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
+      @RequestParam(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN) String schacHomeOrganization,
+      @RequestParam(SHIBBOLETH_KEYS.ORGANIZATION_ID) String schacHomeOrganizationId)
+      throws NpcException {
+    thymeController.getCourses(
+        request,
+        personId,
+        learnerId,
+        schacHomeOrganization,
+        schacHomeOrganizationId);
+
+    return thymeController.reviewCourses(courses);
   }
 }
