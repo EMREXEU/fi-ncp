@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./course-selection-review.component.css']
 })
 export class CourseSelectionReviewComponent implements OnInit {
-  @Input() opiskelija: any;
+  @Input() elmoResponse: any;
 
   constructor() {
   }

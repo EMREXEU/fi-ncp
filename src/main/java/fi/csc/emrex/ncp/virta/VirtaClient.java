@@ -18,9 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by marko.hollanti on 28/09/15.
- */
 @Slf4j
 @Component
 public class VirtaClient {
