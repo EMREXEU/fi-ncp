@@ -1,0 +1,17 @@
+<p>Henkilötiedot</p>
+<div>
+  <table>
+    <tr *ngFor="let identifier of learner.identifier">
+      <th>{{identifier.type}}</th>
+      <td>{{identifier.value}}</td>
+    </tr>
+    <tr>
+      <th>Etunimet</th>
+      <td>{{learner.givenNames}}</td>
+    </tr>
+    <tr>
+      <th>Sukunimi</th>
+      <td>{{learner.familyName}}</td>
+    </tr>
+  </table>
+</div>

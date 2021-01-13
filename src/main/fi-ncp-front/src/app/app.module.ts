@@ -13,6 +13,8 @@ import { CourseSelectionReviewComponent } from './course-selection-review/course
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { CourseSelectionViewComponent } from './course-selection-view/course-selection-view.component';
 import { CourseSelectionReviewViewComponent } from './course-selection-review-view/course-selection-review-view.component';
+import { ElmoLearnerComponent } from './elmo-learner/elmo-learner.component';
+import { ElmoReportComponent } from './elmo-report/elmo-report.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { CourseSelectionReviewViewComponent } from './course-selection-review-vi
     CourseSelectionReviewComponent,
     StudentDetailsComponent,
     CourseSelectionViewComponent,
-    CourseSelectionReviewViewComponent
+    CourseSelectionReviewViewComponent,
+    ElmoLearnerComponent,
+    ElmoReportComponent
   ],
   imports: [
     BrowserModule,

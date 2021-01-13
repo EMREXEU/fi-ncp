@@ -1,0 +1,3553 @@
+{
+  "generatedDate": "2021-01-13T13:55:06.803+00:00",
+  "learner": {
+    "citizenship": null,
+    "identifier": [
+      {
+        "value": "180766-2213",
+        "type": "nationalIdentifier"
+      }
+    ],
+    "givenNames": null,
+    "familyName": null,
+    "bday": "1966-07-17T22:00:00.000+00:00",
+    "placeOfBirth": null,
+    "birthName": null,
+    "currentAddress": null,
+    "gender": null
+  },
+  "report": [
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0202-148A4",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Potilaslähtöisen hoitotyön toiminnot",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1451865",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2014-11-27T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "4",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2014-11-27T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0401-148A3",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Asiakaslähtöinen hoitotyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1485021",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2015-04-16T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2015-04-16T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0601-158A2",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu sisätautien hoitotyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1550503",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2016-02-14T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 7.5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2016-02-14T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0802-158A2",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu perheiden hoitotyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1562848",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2016-04-18T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 10
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2016-04-18T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH1003-3003",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Hoitotyön johtaminen",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1625196",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-01-19T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "1",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-01-19T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH0103-3001",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Yhteistyö terveydenhoitajatyössä",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1636549",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-03-29T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-03-29T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH00BP70-3001 2031131",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu, työterveyshuolto",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "2031131",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-04-29T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-04-29T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A P-02467_EMXOO888_168A1_0",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Opinnäytetyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1889817",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-04-24T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 15
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-04-24T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0103-148A4",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Vuorovaikutusosaaminen",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1481015",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2015-03-29T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2015-03-29T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0302-148A3",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Väestön epäterveys",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1507578",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2015-06-08T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2015-06-08T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH05021-158A3",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Terveyden edistäminen",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1563474",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2016-04-20T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 3
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2016-04-20T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0702-158A2",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu terveyden edistämisen",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1526932",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2015-11-25T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 10
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2015-11-25T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH1001-3003",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Tutkiva kehittäminen",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1626521",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-01-29T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "2",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-01-29T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH0101-3001",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Lapsiperhe terveydenhoitajatyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1640671",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-04-12T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-04-12T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH00BP70-3001 2031129",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Terveydenhoitajatyön asiantuntijuus",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "2031129",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-05-02T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "4",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-05-02T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH00BP69-3001 1982430",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Yhteiskunnallinen terveydenhoitajatyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1982430",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-04-22T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "2",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-04-22T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0101-148A5",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Opiskeluvaikeudet",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1495695",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2015-05-17T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "2",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2015-05-17T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0203-148A4",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu hoitotyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1449390",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2014-11-17T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2014-11-17T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0403-148A4",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu hoitotyön perusteet",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1481014",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2015-03-29T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 10
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2015-03-29T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0603-158A2",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu päihdetyö II",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1579872",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2016-06-01T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 7.5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2016-06-01T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0901-3001",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Ikääntyneiden hoitotyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1625401",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-01-20T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-01-20T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH2001-3001",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Asiakkuusosaaminen hoitotyössä",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1645625",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-05-07T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-05-07T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH0201",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu terveydenhoitajatyön työelämätaidot",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1967701",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-12-12T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 15
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-12-12T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH00BP69-3001",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Yksilön terveydenhoitajatyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1982360",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-04-22T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 15
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-04-22T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A T-39525",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Opinnäytetyö I",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1926371",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-04-24T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "4",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 0
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": null,
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-04-24T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0201-148A4",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Potilaslähtöisen hoitotyön perusta",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1454589",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2014-12-10T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "5",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2014-12-10T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0303-148A3",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Lääketieteellinen perusta",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1513132",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2015-07-30T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "4",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2015-07-30T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0503-158A3",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Hoitotyö päihdetyössä",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1573339",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2016-05-19T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2016-05-19T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0801-158A2",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Lasten ja nuorten hoitotyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1545022",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2016-01-06T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "4",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2016-01-06T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH1002-3003",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Yrittäjyys- ja verkosto-osaaminen",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1628209",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-02-08T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "4",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-02-08T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH0102-3001",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Työmenetelmät",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1636039",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-03-28T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-03-28T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH00BP70-3001 2031130",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Työikäisen terveydenhoitajatyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "2031130",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-04-29T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "2",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-04-29T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH00BP69-3001 1982461",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu opiskelijaterveydenhuolto",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1982461",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-03-28T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-03-28T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0102-148A5",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Hoitotyön tieto- ja arvoperusta",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1472740",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2015-02-09T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "5",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2015-02-09T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0301-148A3",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Ihmisen kasvu ja kehitys",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1513131",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2015-07-30T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2015-07-30T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH05011-158A3",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Sisätauti-kirurginen hoitotyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1581321",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2016-06-06T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "4",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 7
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2016-06-06T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0701-158A2",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Terveyden ja hyvinvoinnin osa-alueet",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1574230",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2016-05-22T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2016-05-22T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH0902-3003",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Harjoittelu ikääntyneiden hoitotyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1602672",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2016-11-20T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "HYV",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 10
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2016-11-20T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A SH2102-3002",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Avopalvelu hoitotyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1654250",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-05-28T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 10
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-05-28T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH00BP70-3001",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Terveydenhoitajatyön kehittäminen",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "2031128",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-05-02T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "3",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 15
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-05-02T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "THHTN14A TH00BP69-3001 1982399",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Kouluikäisen terveydenhoitajatyö",
+              "lang": "fi"
+            }
+          ],
+          "type": "Class",
+          "subjectArea": null,
+          "iscedCode": null,
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "1982399",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2017-12-06T22:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": "4",
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 5
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2017-12-06T22:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    },
+    {
+      "issuer": {
+        "country": "FI",
+        "identifier": [
+          {
+            "value": "centria.fi",
+            "type": "SCHAC"
+          }
+        ],
+        "title": [
+          {
+            "value": "Centria-ammattikorkeakoulu",
+            "lang": "FI"
+          }
+        ],
+        "url": "http://centria.fi"
+      },
+      "learningOpportunitySpecification": [
+        {
+          "identifier": [
+            {
+              "value": "671103TH Terveydenhoitajakoulutus",
+              "type": "koulutusmoduulitunniste"
+            }
+          ],
+          "title": [
+            {
+              "value": "Terveydenhoitaja (AMK)",
+              "lang": "fi"
+            }
+          ],
+          "type": "Degree Programme",
+          "subjectArea": "671103",
+          "iscedCode": "671103",
+          "url": null,
+          "description": [],
+          "descriptionHtml": [],
+          "specifies": {
+            "learningOpportunityInstance": {
+              "identifier": [
+                {
+                  "value": "TUTKINTO-39525",
+                  "type": "opintosuoritus_avain"
+                }
+              ],
+              "start": null,
+              "date": "2018-05-30T21:00:00.000+00:00",
+              "academicTerm": null,
+              "status": "passed",
+              "gradingSchemeLocalId": null,
+              "resultLabel": null,
+              "shortenedGrading": null,
+              "resultDistribution": null,
+              "credit": [
+                {
+                  "scheme": "ECTS",
+                  "level": null,
+                  "value": 240
+                }
+              ],
+              "level": [
+                {
+                  "type": "EQF",
+                  "description": null,
+                  "value": null
+                }
+              ],
+              "languageOfInstruction": "fi",
+              "engagementHours": null,
+              "attachments": null,
+              "grouping": null,
+              "extension": null,
+              "diplomaSupplement": null
+            },
+            "extension": null
+          },
+          "hasPart": [],
+          "extension": null
+        }
+      ],
+      "issueDate": "2018-05-30T21:00:00.000+00:00",
+      "gradingScheme": [],
+      "attachment": []
+    }
+  ],
+  "attachment": [],
+  "groups": null,
+  "extension": null,
+  "signature": null
+}

@@ -1,0 +1,36 @@
+<div *ngFor="let r of report">
+  <h2>Raportit</h2>
+  <table>
+    <tr>
+      <th>Myöntäjä maakoodi</th>
+      <th>Tunniste</th>
+      <th>Tyyppi</th>
+      <th>Myöntäjän nimi</th>
+      <th>Nimi maakoodi</th>
+      <th>pvm</th>
+    </tr>
+    <tr>
+      <td>{{r.issuer.country}}</td>
+      <td>{{r.issuer.identifier[0].value}}</td>
+      <td>{{r.issuer.identifier[0].type}}</td>
+      <td>{{r.issuer.title[0].value}}</td>
+      <td>{{r.issuer.title[0].lang}}</td>
+      <td>{{r.issueDate}}</td>
+    </tr>
+  </table>
+  <h2>Kurssit</h2>
+  <table>
+    <tr>
+      <th>Tunniste</th>
+      <th>Tunnistetyyppi</th>
+      <th>Kurssi</th>
+      <th>Kieli</th>
+    </tr>
+    <tr *ngFor="let loi of r.learningOpportunitySpecification">
+      <td>{{loi.identifier[0].value}}</td>
+      <td>{{loi.identifier[0].type}}</td>
+      <td>{{loi.title[0].value}}</td>
+      <td>{{loi.title[0].lang}}</td>
+    </tr>
+  </table>
+</div>
