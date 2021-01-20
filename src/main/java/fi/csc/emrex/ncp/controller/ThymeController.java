@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 @RestController
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api")
 public class ThymeController extends NcpControllerBase {
 
   @Autowired
@@ -55,6 +56,7 @@ public class ThymeController extends NcpControllerBase {
   @Autowired
   private ElmoService elmoService;
 
+
   /**
    * TODO: Is this the main entry point for NCP?
    *
@@ -63,7 +65,7 @@ public class ThymeController extends NcpControllerBase {
    * @param learnerId Whole attribute as defined in HAKA Shibboleth.
    * @return View name resolved by $routeProvider in ncp.js. Response data stored in session.
    */
-  @RequestMapping(value = "/ncp", method = RequestMethod.POST)
+  @RequestMapping(value = "/courses", method = RequestMethod.GET)
   public OpiskelijanKaikkiTiedotResponse getCourses(
       @ModelAttribute NcpRequestDto request,
       @SessionAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,

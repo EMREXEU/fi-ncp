@@ -52,7 +52,7 @@ public class TestController extends NcpControllerBase {
    * Allow login without shibboleth authentication.
    */
   @Deprecated
-  @RequestMapping(value = "/ncp", method = RequestMethod.GET)
+  @RequestMapping(value = "/api/courses", method = RequestMethod.GET)
   public OpiskelijanKaikkiTiedotResponse getCoursesMockShibboleth2(
       @ModelAttribute NcpRequestDto request,
       @RequestParam(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
@@ -70,7 +70,7 @@ public class TestController extends NcpControllerBase {
 
   // TODO: remove - chain two requets to bypass missing session handling
   @Deprecated
-  @RequestMapping(value = "/ncp_review", method = RequestMethod.GET)
+  @RequestMapping(value = "/api/review", method = RequestMethod.GET)
   public Elmo getCoursesAndReviewMockShibboleth(
       @ModelAttribute NcpRequestDto request,
       @RequestParam(value = "courses", required = false) String[] courses,

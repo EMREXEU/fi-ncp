@@ -24,6 +24,9 @@ import org.springframework.util.Assert;
 @Slf4j
 public class ThymeControllerIntegrationTest {
 
+  private static final String GET_COURSES = "/api/courses";
+  private static final String REVIEW_COURSES = "/api/review";
+
   @Autowired
   private MockMvc mockMvc;
 
@@ -34,7 +37,7 @@ public class ThymeControllerIntegrationTest {
   public void getCourses() throws Exception {
 
     MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .post("/ncp")
+        .get(GET_COURSES)
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO")
         .sessionAttrs(getShibbolethAuthenticationAttributes()))
@@ -55,7 +58,7 @@ public class ThymeControllerIntegrationTest {
 
     // First request will store data into session so must use same session in following request
     MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .post("/ncp")
+        .get(GET_COURSES)
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO")
         .sessionAttrs(getShibbolethAuthenticationAttributes()))
@@ -70,7 +73,7 @@ public class ThymeControllerIntegrationTest {
     Assert.notNull(virtaXml, "Elmo session attribute is null");
 
     mockMvc.perform(MockMvcRequestBuilders
-        .get("/review")
+        .get(REVIEW_COURSES)
         .session((MockHttpSession) res.getRequest().getSession())
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO"))
@@ -85,7 +88,7 @@ public class ThymeControllerIntegrationTest {
 
     // First request will store data into session so must use same session in following request
     MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .post("/ncp")
+        .get(GET_COURSES)
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO")
         .sessionAttrs(getShibbolethAuthenticationAttributes()))
@@ -100,7 +103,7 @@ public class ThymeControllerIntegrationTest {
     Assert.notNull(virtaXml, "Elmo session attribute is null");
 
     mockMvc.perform(MockMvcRequestBuilders
-        .get("/review")
+        .get(REVIEW_COURSES)
         // Expecting this existing course from VIRTA test service
         .param("courses", "1451865")
         .session((MockHttpSession) res.getRequest().getSession())
