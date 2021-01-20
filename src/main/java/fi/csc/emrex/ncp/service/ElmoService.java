@@ -125,11 +125,9 @@ public class ElmoService {
           DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
       List<Elmo.Report> reports = elmo.getReport();
 
-      for (OpintosuoritusTyyppi opintosuoritus : virtaXml.getVirta().getOpiskelija().get(0)
-          .getOpintosuoritukset()
-          .getOpintosuoritus()) {
-        reports.add(createReport(opintosuoritus, learnerDetails));
-      }
+      reports.add(createReport(
+          virtaXml.getVirta().getOpiskelija().get(0).getOpintosuoritukset().getOpintosuoritus(),
+          learnerDetails));
 
       return elmo;
     } catch (DatatypeConfigurationException e) {
@@ -150,10 +148,9 @@ public class ElmoService {
           DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
       List<Elmo.Report> reports = elmo.getReport();
 
-      for (OpintosuoritusTyyppi opintosuoritus : virtaXml.getOpintosuoritukset()
-          .getOpintosuoritus()) {
-        reports.add(createReport(opintosuoritus, learnerDetails));
-      }
+      reports.add(createReport(
+          virtaXml.getOpintosuoritukset().getOpintosuoritus(),
+          learnerDetails));
 
       return elmo;
     } catch (DatatypeConfigurationException e) {
@@ -179,15 +176,31 @@ public class ElmoService {
     return learner;
   }
 
-  private Report createReport(OpintosuoritusTyyppi opintosuoritus, LearnerDetailsDto details)
-      throws NpcException, DatatypeConfigurationException {
+  private Report createReport(
+      List<OpintosuoritusTyyppi> opintosuoritukset,
+      LearnerDetailsDto details) throws NpcException, DatatypeConfigurationException {
 
+    // VIRTA has issuer on course level whereas ELMO has single issuer in report level.
+    // Result: ELMO report can only have single issuer and courses from this single issuer!
+    // VIRTA: OpintosuoritusTyyppi.myontaja
+    // ELMO: report.issuer
+    // ELMO: report.learningOpportunitySpecification
     Elmo.Report report = new Elmo.Report();
+
+    // Only single issuer should exist for all courses
+    IssuerDto issuerDto = issuerForCode(opintosuoritukset.stream().findFirst().get().getMyontaja());
+
     // Must create a copy of calendar as reference to VIRTA data seems to disappear.
-    report.setIssueDate(copyOf(opintosuoritus.getSuoritusPvm()));
-    report.setIssuer(createIssuer(opintosuoritus, details));
-    report.getLearningOpportunitySpecification()
-        .add(createLearningOpportunitySpecification(opintosuoritus));
+    //report.setIssueDate(copyOf(opintosuoritsTyyppi.getSuoritusPvm()));
+    report.setIssueDate(
+        DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
+    report.setIssuer(createIssuer(issuerDto));
+
+    for (OpintosuoritusTyyppi opintosuoritus : opintosuoritukset) {
+      report.getLearningOpportunitySpecification().add(
+          createLearningOpportunitySpecification(opintosuoritus));
+    }
+
     return report;
   }
 
@@ -282,11 +295,7 @@ public class ElmoService {
   /**
    * Always defaults to FI.
    */
-  private Issuer createIssuer(OpintosuoritusTyyppi opintosuoritus, LearnerDetailsDto details)
-      throws NpcException {
-
-    IssuerDto issuerDto = issuerForCode(opintosuoritus.getMyontaja());
-
+  private Issuer createIssuer(IssuerDto issuerDto) {
     Issuer issuer = new Issuer();
     issuer.setCountry(issuerDto.getCountryCode());
     issuer.getIdentifier().add(createIdentifier(
@@ -296,7 +305,6 @@ public class ElmoService {
         issuerDto.getCountryCode(),
         issuerDto.getTitle()));
     issuer.setUrl(issuerDto.getUrl());
-
     return issuer;
   }
 

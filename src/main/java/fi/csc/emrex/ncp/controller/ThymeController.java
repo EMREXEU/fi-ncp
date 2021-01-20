@@ -149,7 +149,7 @@ public class ThymeController extends NcpControllerBase {
     return elmoXml;
   }
 
-  // TODO
+  // TODO: implement as endpoint for user accepting reviewed courses
   public void postElmo(Elmo elmoXml) throws NpcException {
     HttpSession session = context.getSession();
 
