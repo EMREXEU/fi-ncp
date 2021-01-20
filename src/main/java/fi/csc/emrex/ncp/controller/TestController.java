@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequestMapping("/test")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(
+    origins = "http://localhost:4200",
+    allowCredentials = "true")
 public class TestController extends NcpControllerBase {
 
   @Autowired

@@ -14,11 +14,13 @@ export class CourseSelectionReviewViewComponent implements OnInit {
     const url = ncpConf.default.getSelectedCoursesUrl;
     console.log("URL:" + url);
     httpClient.get(url, {
-      responseType: 'text'
-      //  , withCredentials: true
+      responseType: 'text',
+      withCredentials: true
     }).subscribe(res => {
       console.log("Get selected courses res:" + res);
       this.elmoResponse = JSON.parse(res);
+    }, error => {
+      alert(error.message);
     });
   }
 

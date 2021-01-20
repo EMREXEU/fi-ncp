@@ -13,8 +13,13 @@ export class CourseSelectionViewComponent implements OnInit {
   constructor(private httpClient: HttpClient) {
     const url = ncpConf.default.getAllCoursesUrl;
     console.log("URL:" + url);
-    httpClient.get(url, {responseType: 'text'}).subscribe(res => {
+    httpClient.get(url, {
+      responseType: 'text',
+      withCredentials: true
+    }).subscribe(res => {
       this.getCoursesResponse = JSON.parse(res);
+    }, error => {
+      alert(error.message);
     });
   }
 
