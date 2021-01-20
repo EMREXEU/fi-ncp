@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,33 +82,27 @@ public class ThymeController extends NcpControllerBase {
     log.info("NCP request parameters:{}", request.toString());
     logSession(session);
 
-    if (session.getAttribute(NcpSessionAttributes.SESSION_ID) == null) {
-      session.setAttribute(NcpSessionAttributes.SESSION_ID, request.getSessionId());
-    }
-    if (session.getAttribute(NcpSessionAttributes.RETURN_URL) == null) {
-      session.setAttribute(NcpSessionAttributes.RETURN_URL, request.getReturnUrl());
-    }
+    // Person id needs to be trimmed to match VIRTA.
+    // Learner id is used as whole string.
+    String[] trimmedPersonIds = personId.split(":");
+    String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
 
-    if (session.getAttribute(NcpSessionAttributes.VIRTA_XML) == null) {
-      // Person id needs to be trimmed to match VIRTA.
-      // Learner id is used as whole string.
-      String[] trimmedPersonIds = personId.split(":");
-      String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
+    VirtaUserDto virtaUserDto = new VirtaUserDto(
+        learnerId,
+        trimmedPersonId,
+        schacHomeOrganizationId);
 
-      VirtaUserDto virtaUserDto = new VirtaUserDto(
-          learnerId,
-          trimmedPersonId,
-          schacHomeOrganizationId);
+    log.info(virtaUserDto.toString());
 
-      log.info(virtaUserDto.toString());
+    OpiskelijanKaikkiTiedotResponse virtaXml =
+        virtaClient.fetchStudiesAndLearnerDetails(virtaUserDto);
 
-      OpiskelijanKaikkiTiedotResponse virtaXml = virtaClient
-          .fetchStudiesAndLearnerDetails(virtaUserDto);
-      session.setAttribute(NcpSessionAttributes.VIRTA_XML, virtaXml);
-      session.setAttribute(NcpSessionAttributes.VIRTA_USER_DTO, virtaUserDto);
-      return virtaXml;
-    }
-    return null;
+    session.setAttribute(NcpSessionAttributes.SESSION_ID, request.getSessionId());
+    session.setAttribute(NcpSessionAttributes.RETURN_URL, request.getReturnUrl());
+    session.setAttribute(NcpSessionAttributes.VIRTA_XML, virtaXml);
+    session.setAttribute(NcpSessionAttributes.VIRTA_USER_DTO, virtaUserDto);
+
+    return virtaXml;
   }
 
   private void logSession(HttpSession session) {
@@ -173,20 +167,11 @@ public class ThymeController extends NcpControllerBase {
 
   }
 
-  @RequestMapping(value = "/abort", method = RequestMethod.GET)
-  public String abort(Model model) {
-
+  @RequestMapping(value = "/logout", method = RequestMethod.GET)
+  public ResponseEntity abort() {
     HttpSession session = context.getSession();
-
-    model.addAttribute(
-        NcpSessionAttributes.SESSION_ID,
-        session.getAttribute(NcpSessionAttributes.SESSION_ID));
-    model.addAttribute(
-        NcpSessionAttributes.RETURN_URL,
-        session.getAttribute(NcpSessionAttributes.RETURN_URL));
-    model.addAttribute("buttonText", "Cancel");
-    model.addAttribute("buttonClass", "pure-button custom-panic-button custom-inline");
-    return NcpPages.REVIEW;
+    session.invalidate();
+    return ResponseEntity.ok().build();
   }
 
 }

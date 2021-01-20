@@ -10,6 +10,10 @@ import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.execption.NpcException;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +33,9 @@ public class TestController extends NcpControllerBase {
 
   @Autowired
   private ThymeController thymeController;
+
+  @Autowired
+  private HttpServletRequest context;
 
   /**
    * Debug endpoint to emulate session parameters by giving them in request parameter.
@@ -90,4 +97,31 @@ public class TestController extends NcpControllerBase {
 
     return thymeController.reviewCourses(courses);
   }
+
+  @Deprecated
+  @RequestMapping(value = "/mock_shibbolet_auth", method = RequestMethod.GET)
+  public Map<String,String> mockShibboleth(
+      @ModelAttribute NcpRequestDto request,
+      @RequestParam(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
+      @RequestParam(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
+      @RequestParam(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN) String schacHomeOrganization,
+      @RequestParam(SHIBBOLETH_KEYS.ORGANIZATION_ID) String schacHomeOrganizationId)
+      throws NpcException {
+
+    HttpSession session = context.getSession();
+
+    session.setAttribute(SHIBBOLETH_KEYS.UNIQUE_ID, personId);
+    session.setAttribute(SHIBBOLETH_KEYS.LEARNER_ID, learnerId);
+    session.setAttribute(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN, schacHomeOrganization);
+    session.setAttribute(SHIBBOLETH_KEYS.ORGANIZATION_ID, schacHomeOrganizationId);
+
+    Map<String,String> sessionAttributes =new HashMap<>();
+    session.getAttributeNames().asIterator().forEachRemaining(x ->
+        sessionAttributes.put( x, session.getAttribute(x).toString()));
+
+    return sessionAttributes;
+  }
+
 }
+
+
