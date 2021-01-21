@@ -15,11 +15,10 @@ EMREX guide: https://emrex.eu/wp-content/uploads/2020/01/Technical-Guide-to-EMRE
 - npm
 
 ## Project structure
-- Project root contains `pom.xml` which builds and packages both front-end and back-end 
+- Project root contains `./pom.xml` which builds and packages both front-end and back-end 
 - front-end is a separate folder inside project which can be run also locally as normal angular 
-  project:`fi-ncp/src/main/fi-ncp-front`
-  -  
-
+  project:
+  - `fi-ncp/src/main/fi-ncp-front`
 
 ## Compiling
 Maven project builds and packages both spring-boot back-end and angular front-end application 
@@ -39,7 +38,6 @@ See script `run_docker.sh`
 See project https://github.com/EMREXEU/fi-ncp-docker
 
 ### Option 1: Using application locally from war
-Run:
 1) Compile all: `mvn clean install`
 2) Run war: `java -jar ./target/ncp-0.0.1-SNAPSHOT.war`
 
@@ -51,11 +49,16 @@ fi-ncp is running on `localhost:9001` on default
 NOTE: front-end and back-end locally still uses configured VIRTA-TEST service.
 
 ### Option 2: Run back-end and front-end separately
-Run:
-1) Compile all: `mvn clean install` (you're only using the back-end from port 9001)
-2) Run war: `java -jar ./target/ncp-0.0.1-SNAPSHOT.war` or execute `fi.csc.emrex.ncp.FiNcpApplication` 
+1) Change used port in back-end from relative 4200 to absolute path with port 9001 in
+   `src/main/fi-ncp-front/src/app/ncp-config.ts`  
+   <pre>
+   getAllCoursesUrl: "http://localhost:9001/test/api/courses/",
+   getSelectedCoursesUrl: "http://localhost:9001/test/api/review/"
+   </pre>
+2) Compile all: `mvn clean install` (you're only using the back-end from port 9001)
+3) Run war: `java -jar ./target/ncp-0.0.1-SNAPSHOT.war` or execute `fi.csc.emrex.ncp.FiNcpApplication` 
    on your IDE of choice.
-3) Compile and serve front-end separately in `src/main/fi-ncp-front` in your IDE or shell:
+4) Compile and serve front-end separately in `src/main/fi-ncp-front` in your IDE or shell:
    - `cd src/main/fi-ncp-front`
    - `ng build`
    - `bg serve`
@@ -63,8 +66,9 @@ Run:
 fi-ncp is running on `localhost:9001` but the front-end is also running locally in 
 `localhost:4200` 
 1) Mock shibboleth authentication: http://localhost:9001/test/mock_shibbolet_auth/?sessionId=1234&returnUrl=234123&unique-id=urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213&SHIB_funetEduPersonLearnerId=1.2.246.562.24.17488477125&SHIB_schacHomeOrganization=oamk.fi&SHIB_schacHomeOrganizationId=02536
-2) Access application root from angular project in your web browser directly: http://localhost:4200/ng/index.html
-3) Editing angular code will compile and use hot deploy normally as with `ng serve`
+2) Access application root from angular project in your web browser directly: http://localhost:4200/index.html
+3) Editing angular code will compile and use hot deploy normally as with `ng serve`. It is 
+   recommended to use private browsing in browser so no javascript code is cached between reloads. 
 
 ## Authentication
 Back-end and front-end do not provide authentication but rely on production configuration where both
@@ -74,7 +78,8 @@ end-point for mocking shibboleth authentication.
 
 ## Configuration
 ### front-end
-
+- Front-end uses back-end URIs from: 
+  - `src/main/fi-ncp-front/src/app/ncp-config.ts`
 
 ### back-end
 - `src/main/resources/application.properties`
@@ -84,7 +89,8 @@ end-point for mocking shibboleth authentication.
 - docker-compose
 
 ## Documentation
-https://emrex.eu/technical/
+- https://emrex.eu/technical/
+- https://emrex.eu/wp-content/uploads/2020/01/Technical-Guide-to-EMREX.pdf
 
 ## Coding conventions
 - Google style 
