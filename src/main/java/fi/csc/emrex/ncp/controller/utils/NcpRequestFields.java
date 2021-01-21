@@ -18,5 +18,4 @@ public class NcpRequestFields {
     public static final String GIVEN_NAME = "givenName";
     public static final String SUR_NAME = "sn";
   }
-
 }
