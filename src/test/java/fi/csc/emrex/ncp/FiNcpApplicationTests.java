@@ -8,7 +8,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 @ExtendWith(SpringExtension.class)
-//@SpringApplicationConfiguration(classes = FiNcpApplication.class)
 @SpringBootTest
 @WebAppConfiguration
 @Disabled
@@ -17,5 +16,4 @@ public class FiNcpApplicationTests {
   @Test
   public void contextLoads() {
   }
-
 }

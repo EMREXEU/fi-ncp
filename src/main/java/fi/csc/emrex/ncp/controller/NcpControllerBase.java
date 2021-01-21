@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 // TODO: check return requirements
 // https://confluence.csc.fi/display/EMREX/Implementation+details%3A+NCP
+// https://emrex.eu/wp-content/uploads/2020/01/Technical-Guide-to-EMREX.pdf, page 7
 @Slf4j
 public class NcpControllerBase {
 

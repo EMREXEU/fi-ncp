@@ -1,4 +1,4 @@
-package fi.csc.emrex.ncp.controller;
+package fi.csc.emrex.ncp.util;
 
 public class NcpPaths {
 

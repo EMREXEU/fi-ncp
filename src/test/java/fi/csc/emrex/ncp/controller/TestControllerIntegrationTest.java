@@ -2,8 +2,9 @@ package fi.csc.emrex.ncp.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import fi.csc.emrex.ncp.NcpTestConstants.SHIBBOLETH_VALUES;
+import fi.csc.emrex.ncp.util.NcpTestConstants.SHIBBOLETH_VALUES;
 import fi.csc.emrex.ncp.controller.utils.NcpRequestFields.SHIBBOLETH_KEYS;
+import fi.csc.emrex.ncp.util.NcpPaths;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

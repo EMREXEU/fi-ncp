@@ -1,4 +1,4 @@
-package fi.csc.emrex.ncp;
+package fi.csc.emrex.ncp.util;
 
 /**
  * Matching test values for NcpRequestFields
@@ -21,5 +21,4 @@ public class NcpTestConstants {
     public static final String GIVEN_NAME = "Kaisa";
     public static final String SUR_NAME = "Keränen";
   }
-
 }

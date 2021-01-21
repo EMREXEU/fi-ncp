@@ -2,10 +2,11 @@ package fi.csc.emrex.ncp.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import fi.csc.emrex.ncp.NcpTestConstants.SHIBBOLETH_VALUES;
 import fi.csc.emrex.ncp.controller.utils.NcpRequestFields.SHIBBOLETH_KEYS;
 import fi.csc.emrex.ncp.controller.utils.NcpSessionAttributes;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
+import fi.csc.emrex.ncp.util.NcpPaths;
+import fi.csc.emrex.ncp.util.NcpTestConstants.SHIBBOLETH_VALUES;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -73,9 +74,7 @@ public class NcpUiControllerIntegrationTest {
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO"))
         .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
-    //    .andExpect(MockMvcResultMatchers.content().string(NcpPages.REVIEW))
-    ;
+        .andExpect(MockMvcResultMatchers.status().isOk());
   }
 
   @Test
@@ -105,21 +104,9 @@ public class NcpUiControllerIntegrationTest {
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO"))
         .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
-    //    .andExpect(MockMvcResultMatchers.content().string(NcpPages.REVIEW))
-    ;
+        .andExpect(MockMvcResultMatchers.status().isOk());
   }
 
-  //  Shibboleth session params:
-  //SHIB_funetEduPersonLearnerId: 1.2.246.562.24.17488477125
-  //SHIB_schacDateOfBirth: 19660718
-  //SHIB_schacHomeOrganization: oamk.fi
-  //cn: Teppo Testääja
-  //displayName: Kaisa
-  //givenName: Kaisa
-  //sn: Keränen
-  //unique-code: urn:mace:terena.org:schac:personalUniqueCode:fi:oamk.fi:x8734
-  //unique-id: urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
   public static Map<String, Object> getShibbolethAuthenticationAttributes() {
     return Map.of(
         SHIBBOLETH_KEYS.LEARNER_ID, SHIBBOLETH_VALUES.LEARNER_ID,

@@ -70,5 +70,4 @@ public class FidUtilTest {
         (OpiskelijanKaikkiTiedotResponse) unmarshaller.unmarshal(path.toFile());
     return OpiskelijanKaikkiTiedotResponse;
   }
-
 }
