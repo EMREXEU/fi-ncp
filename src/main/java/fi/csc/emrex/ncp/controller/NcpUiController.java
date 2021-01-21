@@ -5,7 +5,8 @@
  */
 package fi.csc.emrex.ncp.controller;
 
-import fi.csc.emrex.ncp.controller.NcpRequestFields.SHIBBOLETH_KEYS;
+import fi.csc.emrex.ncp.controller.utils.NcpRequestFields.SHIBBOLETH_KEYS;
+import fi.csc.emrex.ncp.controller.utils.NcpSessionAttributes;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
@@ -22,6 +23,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -30,24 +32,27 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-// TODO: Add base path here!
+/**
+ * Controller providing REST-style endpoints used by fi-ncp fornt-end.
+ *
+ * NOTE: Actual public EMREX entry point is in NcpController.
+ */
 @EnableAutoConfiguration(exclude = {
-    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
-    //org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
-})
+    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
 @RestController
 @Slf4j
 @CrossOrigin(
     origins = "http://localhost:4200",
     allowCredentials = "true")
 @RequestMapping("/api")
-public class ThymeController extends NcpControllerBase {
+public class NcpUiController extends NcpControllerBase {
 
   @Autowired
   private HttpServletRequest context;
@@ -58,9 +63,10 @@ public class ThymeController extends NcpControllerBase {
   @Autowired
   private ElmoService elmoService;
 
-
   /**
-   * TODO: Is this the main entry point for NCP?
+   * STEP 1: User has logged in to fi-ncp using SSO. Display all user's course data available via
+   * fi-ncp to the user. Front-end end provides functionality for selecting courses from this list
+   * to STEP 2.
    *
    * @param request NCP request as defined for NCP service.
    * @param personId Whole attribute as defined in HAKA Shibboleth.
@@ -69,6 +75,7 @@ public class ThymeController extends NcpControllerBase {
    */
   @RequestMapping(value = "/courses", method = RequestMethod.GET)
   public OpiskelijanKaikkiTiedotResponse getCourses(
+      @RequestHeader Map<String, String> headers,
       @ModelAttribute NcpRequestDto request,
       @SessionAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
       @SessionAttribute(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
@@ -78,6 +85,10 @@ public class ThymeController extends NcpControllerBase {
       throws NpcException {
 
     HttpSession session = context.getSession();
+
+    headers.forEach((key, value) -> {
+      log.info(String.format("Header '%s' = %s", key, value));
+    });
 
     log.info("NCP request parameters:{}", request.toString());
     logSession(session);
@@ -105,13 +116,11 @@ public class ThymeController extends NcpControllerBase {
     return virtaXml;
   }
 
-  private void logSession(HttpSession session) {
-    log.info("Session attributes:");
-    session.getAttributeNames().asIterator().forEachRemaining(x ->
-        log.info("name:{}, value:{}", x, session.getAttribute(x))
-    );
-  }
-
+  /**
+   * STEP 2: After user has chosen courses from VIRTA XMl in front-end, convert chosen courses to
+   * ELMO XML and display generated ELMO XML to user for review. (VIRTA XML has different structure
+   * from ELMO XML so user verification for correct conversion is required here)
+   */
   @RequestMapping(value = "/review", method = RequestMethod.GET)
   public Elmo reviewCourses(
       @RequestParam(value = "courses", required = false) String[] courses)
@@ -136,7 +145,6 @@ public class ThymeController extends NcpControllerBase {
       List<String> courseList = Arrays.asList(courses);
       virtaXml = elmoService.trimToSelectedCourses(virtaXml, courseList);
     }
-
     OpiskelijanTiedotResponse virtaLearnerDetails = virtaClient.fetchLearnerDetails(student);
 
     // TODO: read these from VIRTA and/or shibboleth
@@ -146,32 +154,43 @@ public class ThymeController extends NcpControllerBase {
         new BigInteger(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukupuoli()));
 
     Elmo elmoXml = elmoService.convertToElmoXml(virtaXml, student, learnerDetails);
+    session.setAttribute(NcpSessionAttributes.ELMO_XML, elmoXml);
     return elmoXml;
   }
 
-  // TODO: implement as endpoint for user accepting reviewed courses
-  public void postElmo(Elmo elmoXml) throws NpcException {
+  /**
+   * STEP 3: After user has reviewed and accepted course data from ELMO XML, post it to return URL.
+   *
+   * TODO: implement as endpoint for user accepting reviewed courses
+   */
+  @RequestMapping(value = "/accept", method = RequestMethod.POST)
+  public void acceptCourses() throws NpcException {
     HttpSession session = context.getSession();
-
+    Elmo elmoXml = (Elmo) session.getAttribute(NcpSessionAttributes.ELMO_XML);
+    if (elmoXml == null) {
+      throw new NpcException("Elmo XML is not stored in session.");
+    }
     String elmoString = XmlUtil.toString(elmoXml);
     log.info("ELMO XML pre sign:\n{}", elmoString);
-
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
-
-    // TODO:  POST ELMO XML to return URL
-    // TODO: move this to endpoint after user confirmation?
     elmoService.postElmo(elmoString,
         new NcpRequestDto(
             (String) session.getAttribute(NcpSessionAttributes.SESSION_ID),
             (String) session.getAttribute(NcpSessionAttributes.RETURN_URL)));
-
   }
 
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
-  public ResponseEntity abort() {
+  public ResponseEntity logout() {
     HttpSession session = context.getSession();
     session.invalidate();
     return ResponseEntity.ok().build();
+  }
+
+  private void logSession(HttpSession session) {
+    log.info("Session attributes:");
+    session.getAttributeNames().asIterator().forEachRemaining(x ->
+        log.info("name:{}, value:{}", x, session.getAttribute(x))
+    );
   }
 
 }

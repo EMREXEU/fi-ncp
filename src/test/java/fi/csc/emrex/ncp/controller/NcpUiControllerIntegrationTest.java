@@ -3,7 +3,8 @@ package fi.csc.emrex.ncp.controller;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import fi.csc.emrex.ncp.NcpTestConstants.SHIBBOLETH_VALUES;
-import fi.csc.emrex.ncp.controller.NcpRequestFields.SHIBBOLETH_KEYS;
+import fi.csc.emrex.ncp.controller.utils.NcpRequestFields.SHIBBOLETH_KEYS;
+import fi.csc.emrex.ncp.controller.utils.NcpSessionAttributes;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.util.Map;
@@ -22,22 +23,16 @@ import org.springframework.util.Assert;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class ThymeControllerIntegrationTest {
-
-  private static final String GET_COURSES = "/api/courses";
-  private static final String REVIEW_COURSES = "/api/review";
+public class NcpUiControllerIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;
 
-  /**
-   * This is the main entry point for NCP.
-   */
   @Test
   public void getCourses() throws Exception {
 
     MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .get(GET_COURSES)
+        .get(NcpPaths.GET_COURSES)
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO")
         .sessionAttrs(getShibbolethAuthenticationAttributes()))
@@ -58,7 +53,7 @@ public class ThymeControllerIntegrationTest {
 
     // First request will store data into session so must use same session in following request
     MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .get(GET_COURSES)
+        .get(NcpPaths.GET_COURSES)
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO")
         .sessionAttrs(getShibbolethAuthenticationAttributes()))
@@ -73,7 +68,7 @@ public class ThymeControllerIntegrationTest {
     Assert.notNull(virtaXml, "Elmo session attribute is null");
 
     mockMvc.perform(MockMvcRequestBuilders
-        .get(REVIEW_COURSES)
+        .get(NcpPaths.REVIEW_COURSES)
         .session((MockHttpSession) res.getRequest().getSession())
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO"))
@@ -88,7 +83,7 @@ public class ThymeControllerIntegrationTest {
 
     // First request will store data into session so must use same session in following request
     MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .get(GET_COURSES)
+        .get(NcpPaths.GET_COURSES)
         .param("sessionId", "TODO")
         .param("returnUrl", "TODO")
         .sessionAttrs(getShibbolethAuthenticationAttributes()))
@@ -103,7 +98,7 @@ public class ThymeControllerIntegrationTest {
     Assert.notNull(virtaXml, "Elmo session attribute is null");
 
     mockMvc.perform(MockMvcRequestBuilders
-        .get(REVIEW_COURSES)
+        .get(NcpPaths.REVIEW_COURSES)
         // Expecting this existing course from VIRTA test service
         .param("courses", "1451865")
         .session((MockHttpSession) res.getRequest().getSession())

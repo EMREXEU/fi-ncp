@@ -1,4 +1,4 @@
-package fi.csc.emrex.ncp.controller;
+package fi.csc.emrex.ncp.controller.utils;
 
 public class NcpRequestFields {
 

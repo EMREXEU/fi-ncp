@@ -1,5 +1,6 @@
 package fi.csc.emrex.ncp.controller;
 
+import fi.csc.emrex.ncp.controller.utils.NcpReturnCodes;
 import fi.csc.emrex.ncp.execption.NpcException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
