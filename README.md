@@ -84,6 +84,7 @@ end-point for mocking shibboleth authentication.
 ### back-end
 - `src/main/resources/application.properties`
 - `src/main/resources/application.yml`
+- `src/main/resources/data/issuers.txt`
 
 ### docker
 - docker-compose
