@@ -179,6 +179,7 @@ public class NcpUiController extends NcpControllerBase {
             (String) session.getAttribute(NcpSessionAttributes.RETURN_URL)));
   }
 
+  // TODO: Should user logout and session invalidate also after sending ELMO response to client?
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
   public ResponseEntity logout() {
     HttpSession session = context.getSession();
@@ -192,5 +193,4 @@ public class NcpUiController extends NcpControllerBase {
         log.info("name:{}, value:{}", x, session.getAttribute(x))
     );
   }
-
 }

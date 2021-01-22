@@ -61,7 +61,7 @@ NOTE: front-end and back-end locally still uses configured VIRTA-TEST service.
 4) Compile and serve front-end separately in `src/main/fi-ncp-front` in your IDE or shell:
    - `cd src/main/fi-ncp-front`
    - `ng build`
-   - `bg serve`
+   - `ng serve`
 
 fi-ncp is running on `localhost:9001` but the front-end is also running locally in 
 `localhost:4200` 
