@@ -47,10 +47,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web-services</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-thymeleaf</artifactId>
-    </dependency>
 
     <!-- https://stackoverflow.com/questions/48204141/replacements-for-deprecated-jpms-modules-with-java-ee-apis -->
     <!-- Must use older versions -->
@@ -166,15 +162,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!--TODO: remove after spring-boot 2.3 migration-->
-    <!--
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-properties-migrator</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    -->
-
   </dependencies>
 
   <build>
@@ -279,7 +266,6 @@
         </configuration>
       </plugin>
 
-
       <!--https://stackoverflow.com/questions/38532210/how-to-integrate-angular-2-java-maven-web-application-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -291,6 +277,7 @@
           </excludes>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -318,7 +305,6 @@
               <executable>ng</executable>
               <arguments>
                 <argument>build</argument>
-
               </arguments>
             </configuration>
             <goals>
