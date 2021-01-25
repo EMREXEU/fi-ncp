@@ -4,6 +4,6 @@ export default {
   getSelectedCoursesUrl: "../api/review/"
 
   // Angular standalone in port 4200 requires API from NCP app in port 9001
-  // getAllCoursesUrl: "http://localhost:9001/test/api/courses/",
-  // getSelectedCoursesUrl: "http://localhost:9001/test/api/review/"
+  // getAllCoursesUrl: "http://localhost:9001/api/courses/",
+  // getSelectedCoursesUrl: "http://localhost:9001/api/review/"
 }

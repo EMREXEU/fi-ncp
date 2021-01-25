@@ -52,8 +52,8 @@ NOTE: front-end and back-end locally still uses configured VIRTA-TEST service.
 1) Change used port in back-end from relative 4200 to absolute path with port 9001 in
    `src/main/fi-ncp-front/src/app/ncp-config.ts`  
    <pre>
-   getAllCoursesUrl: "http://localhost:9001/test/api/courses/",
-   getSelectedCoursesUrl: "http://localhost:9001/test/api/review/"
+   getAllCoursesUrl: "http://localhost:9001/api/courses/",
+   getSelectedCoursesUrl: "http://localhost:9001/api/review/"
    </pre>
 2) Compile all: `mvn clean install` (you're only using the back-end from port 9001)
 3) Run war: `java -jar ./target/ncp-0.0.1-SNAPSHOT.war` or execute `fi.csc.emrex.ncp.FiNcpApplication` 
