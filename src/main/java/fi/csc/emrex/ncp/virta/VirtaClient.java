@@ -1,6 +1,6 @@
 package fi.csc.emrex.ncp.virta;
 
-import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.tietovaranto.luku.HakuEhdotOrganisaatioVapaa;
 import fi.csc.tietovaranto.luku.Kutsuja;
 import fi.csc.tietovaranto.luku.OpintosuorituksetRequest;
@@ -35,32 +35,32 @@ public class VirtaClient {
   @Setter
   private OpiskelijanTiedotService opiskelijanTiedotService;
 
-  public OpintosuorituksetResponse fetchStudies(VirtaUserDto virtaUser) throws NpcException {
+  public OpintosuorituksetResponse fetchStudies(VirtaUserDto virtaUser) throws NcpException {
     try {
       return getService().getOpiskelijanTiedotSoap11().opintosuoritukset(
           createRequest(virtaUser));
     } catch (MalformedURLException e) {
-      throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
+      throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
 
   public OpiskelijanKaikkiTiedotResponse fetchStudiesAndLearnerDetails(VirtaUserDto virtaUser)
-      throws NpcException {
+      throws NcpException {
     try {
       return getService().getOpiskelijanTiedotSoap11().opiskelijanKaikkiTiedot(
           createAllDetailsRequest(virtaUser));
     } catch (MalformedURLException e) {
-      throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
+      throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
 
   public OpiskelijanTiedotResponse fetchLearnerDetails(VirtaUserDto virtaUser)
-      throws NpcException {
+      throws NcpException {
     try {
       return getService().getOpiskelijanTiedotSoap11().opiskelijanTiedot(
           createLearnerDetailsRequest(virtaUser));
     } catch (MalformedURLException e) {
-      throw new NpcException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
+      throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
 

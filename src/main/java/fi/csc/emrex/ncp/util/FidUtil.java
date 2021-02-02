@@ -1,6 +1,6 @@
 package fi.csc.emrex.ncp.util;
 
-import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
@@ -27,7 +27,7 @@ public class FidUtil {
   public static XMLGregorianCalendar resolveBirthDate(
       String shibBday,
       String shibUid,
-      OpiskelijanKaikkiTiedotResponse virtaXml) throws NpcException {
+      OpiskelijanKaikkiTiedotResponse virtaXml) throws NcpException {
     try {
       int day;
       int month;
@@ -51,20 +51,20 @@ public class FidUtil {
         month = Integer.parseInt(fid.substring(2, 4));
         year = resolveYearFromFid(fid);
       } else {
-        throw new NpcException("Parsing birth date failed: no source date available.");
+        throw new NcpException("Parsing birth date failed: no source date available.");
       }
 
       return DatatypeFactory.newInstance()
           .newXMLGregorianCalendarDate(year, month, day, DatatypeConstants.FIELD_UNDEFINED);
     } catch (DatatypeConfigurationException e) {
-      throw new NpcException("Parsing birth date failed.", e);
+      throw new NcpException("Parsing birth date failed.", e);
     }
   }
 
   /**
    * @param fid Finnish Personal ID: PPKKVVXNNNT -> VVVV
    */
-  private static int resolveYearFromFid(String fid) throws NpcException {
+  private static int resolveYearFromFid(String fid) throws NcpException {
 
     char centuryChar = fid.charAt(6);
     String yearPreStr;
@@ -80,7 +80,7 @@ public class FidUtil {
         yearPreStr = "20";
         break;
       default:
-        throw new NpcException(
+        throw new NcpException(
             "Parsing birth date failed: cannot resolve century from fid character:" + centuryChar);
     }
     return Integer.parseInt(yearPreStr + yearPostStr);

@@ -1,6 +1,6 @@
 package fi.csc.emrex.ncp.elmo;
 
-import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
@@ -28,7 +28,7 @@ public class XmlUtil {
     return stringWriter.toString();
   }
 
-  public static String toString(OpiskelijanKaikkiTiedotResponse virtaXml) throws NpcException {
+  public static String toString(OpiskelijanKaikkiTiedotResponse virtaXml) throws NcpException {
     try {
       // TODO: this writes elements without namespaces, ok?
       StringWriter writer = new StringWriter();
@@ -38,11 +38,11 @@ public class XmlUtil {
       marshaller.marshal(virtaXml, writer);
       return writer.toString();
     } catch (JAXBException e) {
-      throw new NpcException("Writing VIRTA XML to String failed.", e);
+      throw new NcpException("Writing VIRTA XML to String failed.", e);
     }
   }
 
-  public static String toString(OpintosuorituksetResponse virtaXml) throws NpcException {
+  public static String toString(OpintosuorituksetResponse virtaXml) throws NcpException {
     try {
       // TODO: this writes elements without namespaces, ok?
       StringWriter writer = new StringWriter();
@@ -52,12 +52,12 @@ public class XmlUtil {
       marshaller.marshal(virtaXml, writer);
       return writer.toString();
     } catch (JAXBException e) {
-      throw new NpcException("Writing VIRTA XML to String failed.", e);
+      throw new NcpException("Writing VIRTA XML to String failed.", e);
     }
   }
 
 
-  public static String toString(Elmo elmoXml) throws NpcException {
+  public static String toString(Elmo elmoXml) throws NcpException {
     try {
       // TODO: this writes elements without namespaces, ok?
       StringWriter writer = new StringWriter();
@@ -68,7 +68,7 @@ public class XmlUtil {
       marshaller.marshal(elmoXml, writer);
       return writer.toString();
     } catch (JAXBException e) {
-      throw new NpcException("Writing ELMO XML to String failed.", e);
+      throw new NcpException("Writing ELMO XML to String failed.", e);
     }
   }
 

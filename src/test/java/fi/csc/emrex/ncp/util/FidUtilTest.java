@@ -1,6 +1,6 @@
 package fi.csc.emrex.ncp.util;
 
-import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,7 +25,7 @@ public class FidUtilTest {
   }
 
   @Test
-  public void parseFidFromBday() throws NpcException {
+  public void parseFidFromBday() throws NcpException {
     String shibBday = "19660718";
     String shibUid = "";
     OpiskelijanKaikkiTiedotResponse virtaXml = null;
@@ -37,7 +37,7 @@ public class FidUtilTest {
   }
 
   @Test
-  public void parseFidFromUid() throws NpcException {
+  public void parseFidFromUid() throws NcpException {
     String shibBday = "";
     String shibUid = "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213";
     OpiskelijanKaikkiTiedotResponse virtaXml = null;
@@ -49,7 +49,7 @@ public class FidUtilTest {
   }
 
   @Test
-  public void parseFidFromVirtaXml() throws NpcException, IOException, JAXBException {
+  public void parseFidFromVirtaXml() throws NcpException, IOException, JAXBException {
     String shibBday = "";
     String shibUid = "";
     OpiskelijanKaikkiTiedotResponse virtaXml = (readFile());

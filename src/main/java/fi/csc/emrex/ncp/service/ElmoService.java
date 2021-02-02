@@ -5,7 +5,7 @@ import static fi.csc.emrex.ncp.service.ElmoXmlDefaults.DEFAULT_LEARNER_ID_TYPE;
 import fi.csc.emrex.ncp.dto.IssuerDto;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
-import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOI;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS.TYPE;
@@ -115,7 +115,7 @@ public class ElmoService {
   public Elmo convertToElmoXml(
       OpiskelijanKaikkiTiedotResponse virtaXml,
       VirtaUserDto student,
-      LearnerDetailsDto learnerDetails) throws NpcException {
+      LearnerDetailsDto learnerDetails) throws NcpException {
 
     // TODO: report.issuer
     try {
@@ -131,14 +131,14 @@ public class ElmoService {
 
       return elmo;
     } catch (DatatypeConfigurationException e) {
-      throw new NpcException("Creating XMLGregorianCalendar failed.", e);
+      throw new NcpException("Creating XMLGregorianCalendar failed.", e);
     }
   }
 
   public Elmo _convertToElmoXml(
       OpintosuorituksetResponse virtaXml,
       VirtaUserDto student,
-      LearnerDetailsDto learnerDetails) throws NpcException {
+      LearnerDetailsDto learnerDetails) throws NcpException {
 
     // TODO: report.issuer
     try {
@@ -154,12 +154,12 @@ public class ElmoService {
 
       return elmo;
     } catch (DatatypeConfigurationException e) {
-      throw new NpcException("Creating XMLGregorianCalendar failed.", e);
+      throw new NcpException("Creating XMLGregorianCalendar failed.", e);
     }
   }
 
   private Learner createLearner(VirtaUserDto student, LearnerDetailsDto details)
-      throws NpcException {
+      throws NcpException {
     Elmo.Learner learner = new Elmo.Learner();
 
     learner.setCitizenship(details.getCitizenship());
@@ -178,7 +178,7 @@ public class ElmoService {
 
   private Report createReport(
       List<OpintosuoritusTyyppi> opintosuoritukset,
-      LearnerDetailsDto details) throws NpcException, DatatypeConfigurationException {
+      LearnerDetailsDto details) throws NcpException, DatatypeConfigurationException {
 
     // VIRTA has issuer on course level whereas ELMO has single issuer in report level.
     // Result: ELMO report can only have single issuer and courses from this single issuer!
@@ -205,7 +205,7 @@ public class ElmoService {
   }
 
   private LearningOpportunitySpecification createLearningOpportunitySpecification(
-      OpintosuoritusTyyppi opintosuoritus) throws NpcException {
+      OpintosuoritusTyyppi opintosuoritus) throws NcpException {
 
     LearningOpportunitySpecification learningOpportunitySpecification = new LearningOpportunitySpecification();
     learningOpportunitySpecification.getIdentifier().add(createLosIdentifier(
@@ -248,7 +248,7 @@ public class ElmoService {
     return elmoType;
   }
 
-  private Specifies createSpecifies(OpintosuoritusTyyppi opintosuoritus) throws NpcException {
+  private Specifies createSpecifies(OpintosuoritusTyyppi opintosuoritus) throws NcpException {
     Specifies specifies = new Specifies();
     specifies.setLearningOpportunityInstance(createLearningOpportunityInstance(opintosuoritus));
     return specifies;
@@ -256,7 +256,7 @@ public class ElmoService {
 
   private LearningOpportunityInstance createLearningOpportunityInstance(
       OpintosuoritusTyyppi opintosuoritus)
-      throws NpcException {
+      throws NcpException {
     LearningOpportunityInstance learningOpportunityInstance = new LearningOpportunityInstance();
     learningOpportunityInstance.getIdentifier().add(createLoiIdentifier(
         LOI.ID_TYPE,
@@ -311,12 +311,25 @@ public class ElmoService {
   /**
    * @param issuerCode VIRTA XML: Opintosuoritus.Myontaja
    * @return cached Issuer details
-   * @throws NpcException No issuer found for key
+   * @throws NcpException No issuer found for key
    */
-  private IssuerDto issuerForCode(String issuerCode) throws NpcException {
+  private IssuerDto issuerForCode(String issuerCode) throws NcpException {
     IssuerDto issuer = virtaIssuerCodeToIssuer.get(issuerCode);
     if (issuer == null) {
-      throw new NpcException(String.format("Issuer not found for issuer code:%s", issuerCode));
+      throw new NcpException(String.format("Issuer not found for issuer code:%s", issuerCode));
+    }
+    return issuer;
+  }
+
+  /**
+   * @param issuerDomain SHIBBOLETH: SHIB_schacHomeOrganization
+   * @return cached Issuer details
+   * @throws NcpException No issuer found for key
+   */
+  public IssuerDto issuerForDomain(String issuerDomain) throws NcpException {
+    IssuerDto issuer = shibDomainToIssuer.get(issuerDomain);
+    if (issuer == null) {
+      throw new NcpException(String.format("Issuer not found for issuer code:%s", issuerDomain));
     }
     return issuer;
   }
@@ -370,12 +383,12 @@ public class ElmoService {
 
   /**
    * From some reason setting existing   protected XMLGregorianCalendar copyOf(XMLGregorianCalendar
-   * source) throws NpcException { entry to target XML will be empty -> create copy instead
+   * source) throws NcpException { entry to target XML will be empty -> create copy instead
    *
    * @param source original XML entry which will not exist afterwards
    * @return copy of source or null if source null
    */
-  protected XMLGregorianCalendar copyOf(XMLGregorianCalendar source) throws NpcException {
+  protected XMLGregorianCalendar copyOf(XMLGregorianCalendar source) throws NcpException {
     try {
       XMLGregorianCalendar cal = null;
       if (source != null) {
@@ -384,7 +397,7 @@ public class ElmoService {
       }
       return cal;
     } catch (DatatypeConfigurationException e) {
-      throw new NpcException("Creating XMLGregorianCalendar failed.", e);
+      throw new NcpException("Creating XMLGregorianCalendar failed.", e);
     }
   }
 

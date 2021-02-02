@@ -28,9 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequestMapping("/test")
-@CrossOrigin(
-    origins = "http://localhost:4200",
-    allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class TestController extends NcpControllerBase {
 
   @Autowired
@@ -39,15 +37,14 @@ public class TestController extends NcpControllerBase {
   /**
    * Mock SSO authentication by copying request parameters to session.
    *
-   * After calling this, you can use the real endpoints which expect user data to be stored in
-   * session (your client needs to store and use session).
+   * After calling this, you can use the real endpoints which expect user data to
+   * be stored in session (your client needs to store and use session).
    *
    * @return Attributes stored to session.
    */
   @Deprecated
   @RequestMapping(value = "/mock_shibbolet_auth", method = RequestMethod.GET)
-  public Map<String, String> mockShibboleth(
-      @ModelAttribute NcpRequestDto request,
+  public Map<String, String> mockShibboleth(@ModelAttribute NcpRequestDto request,
       @RequestParam(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
       @RequestParam(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
       @RequestParam(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN) String schacHomeOrganization,
@@ -60,8 +57,8 @@ public class TestController extends NcpControllerBase {
     session.setAttribute(SHIBBOLETH_KEYS.ORGANIZATION_ID, schacHomeOrganizationId);
 
     Map<String, String> sessionAttributes = new HashMap<>();
-    session.getAttributeNames().asIterator().forEachRemaining(x ->
-        sessionAttributes.put(x, session.getAttribute(x).toString()));
+    session.getAttributeNames().asIterator()
+        .forEachRemaining(x -> sessionAttributes.put(x, session.getAttribute(x).toString()));
     return sessionAttributes;
   }
 }

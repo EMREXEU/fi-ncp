@@ -1,6 +1,6 @@
 package fi.csc.emrex.ncp.service;
 
-import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.emrex.ncp.util.FileReader;
 import fi.csc.emrex.ncp.util.GzipUtil;
 import java.io.ByteArrayInputStream;
@@ -66,7 +66,7 @@ public class DataSignService {
   @Value("${environment}")
   private String environment;
 
-  public String sign(String data, Charset charset) throws NpcException {
+  public String sign(String data, Charset charset) throws NcpException {
     try {
       assertCertificateAndEncryptionKeyAvailable();
 
@@ -128,7 +128,7 @@ public class DataSignService {
 
       return DatatypeConverter.printBase64Binary(compressedXml);
     } catch (Exception e) {
-      throw new NpcException("Signing failed.", e);
+      throw new NcpException("Signing failed.", e);
     }
   }
 

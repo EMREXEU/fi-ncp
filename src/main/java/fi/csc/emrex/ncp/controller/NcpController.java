@@ -1,7 +1,7 @@
 package fi.csc.emrex.ncp.controller;
 
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
-import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.exception.NcpException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class NcpController {
   // (this entry-point is asynchronous).
   @RequestMapping(value = "/ncp_entry", method = RequestMethod.POST)
   public String handleNcpEntry(@ModelAttribute NcpRequestDto request)
-      throws NpcException {
+      throws NcpException {
     return "TODO";
   }
 }

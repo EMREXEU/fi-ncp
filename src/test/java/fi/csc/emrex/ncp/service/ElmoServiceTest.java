@@ -2,7 +2,7 @@ package fi.csc.emrex.ncp.service;
 
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
-import fi.csc.emrex.ncp.execption.NpcException;
+import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.emrex.ncp.util.FidUtil;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
@@ -48,7 +48,7 @@ public class ElmoServiceTest {
   }
 
   @Test
-  public void convertToElmoXml() throws SAXException, NpcException, javax.xml.bind.JAXBException {
+  public void convertToElmoXml() throws SAXException, NcpException, javax.xml.bind.JAXBException {
 
     VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient
@@ -66,7 +66,7 @@ public class ElmoServiceTest {
 
   @Test
   public void convertToElmoXmlSelectOneReportUseFile()
-      throws SAXException, NpcException, javax.xml.bind.JAXBException, IOException {
+      throws SAXException, NcpException, javax.xml.bind.JAXBException, IOException {
 
     VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = readFile();
@@ -84,7 +84,7 @@ public class ElmoServiceTest {
 
   @Test
   public void convertToElmoXmlSelectOneReportUseVirtaClient()
-      throws SAXException, NpcException, javax.xml.bind.JAXBException {
+      throws SAXException, NcpException, javax.xml.bind.JAXBException {
 
     VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient
@@ -104,7 +104,7 @@ public class ElmoServiceTest {
 
   private LearnerDetailsDto createLearnerDetails(
       OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse)
-      throws NpcException {
+      throws NcpException {
     // TODO
     LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
     learnerDetails.setCitizenship(CountryCode.FI);
