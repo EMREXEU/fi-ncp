@@ -7,6 +7,11 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .idea
+.vscode
+.project
+.settings
+.classpath
+.factorypath
 *.iml
 .DS_Store
 
