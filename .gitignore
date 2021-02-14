@@ -17,4 +17,4 @@ buildNumber.properties
 
 
 # Angular-integration
-src/main/webapp/ng
+src/main/webapp/*
