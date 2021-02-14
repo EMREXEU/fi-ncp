@@ -73,12 +73,11 @@ public class VirtaClient {
 
   private Hakuehdot createLearnerDetailsHakuehdot(VirtaUserDto virtaUser) {
     Hakuehdot hakuehdot = new Hakuehdot();
-    if (virtaUser.isOidSet()) {
-      hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
-    } else {
+    if (virtaUser.isSsnSet()) {
       hakuehdot.setHenkilotunnus(virtaUser.getSsn());
+    } else {
+      hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
     }
-    hakuehdot.setOrganisaatio(virtaUser.getSchacHomeOrganizationId());
     return hakuehdot;
   }
 
@@ -106,10 +105,10 @@ public class VirtaClient {
 
   private HakuEhdotOrganisaatioVapaa createHakuehdot(VirtaUserDto virtaUser) {
     HakuEhdotOrganisaatioVapaa hakuehdot = new HakuEhdotOrganisaatioVapaa();
-    if (virtaUser.isOidSet()) {
-      hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
-    } else {
+    if (virtaUser.isSsnSet()) {
       hakuehdot.setHenkilotunnus(virtaUser.getSsn());
+    } else {
+      hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
     }
     return hakuehdot;
   }
