@@ -7,6 +7,7 @@ package fi.csc.emrex.ncp.controller;
 
 import fi.csc.emrex.ncp.controller.utils.NcpRequestFields.SHIBBOLETH_KEYS;
 import fi.csc.emrex.ncp.controller.utils.NcpSessionAttributes;
+import fi.csc.emrex.ncp.dto.IssuerDto;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
@@ -62,10 +63,14 @@ public class NcpUiController extends NcpControllerBase {
   private ElmoService elmoService;
 
   /**
-   * STEP 1: User has logged in to fi-ncp using SSO. Display all user's course data available via
-   * fi-ncp to the user. Front-end end provides functionality for selecting courses from this list
-   * to STEP 2.
-   *
+/**
+   * @return Map of issuers.
+   */
+  @RequestMapping(value = "/issuers", method = RequestMethod.GET)
+  public Map<String, IssuerDto> getIssuers() {
+    return elmoService.getVirtaIssuerCodeToIssuer();
+  }
+
   /**
    * STEP 1: User has logged in to fi-ncp using SSO. Display all user's course
    * data available via fi-ncp to the user. Front-end end provides functionality
