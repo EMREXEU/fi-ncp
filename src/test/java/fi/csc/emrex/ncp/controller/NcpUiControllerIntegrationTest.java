@@ -32,18 +32,14 @@ public class NcpUiControllerIntegrationTest {
   @Test
   public void getCourses() throws Exception {
 
-    MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .get(NcpPaths.GET_COURSES)
-        .param("sessionId", "TODO")
-        .param("returnUrl", "TODO")
-        .sessionAttrs(getShibbolethAuthenticationAttributes()))
-        .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        //.andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
+    MvcResult res = mockMvc
+        .perform(MockMvcRequestBuilders.get(NcpPaths.GET_COURSES).param("sessionId", "TODO").param("returnUrl", "TODO")
+            .requestAttr(SHIBBOLETH_KEYS.UNIQUE_ID, SHIBBOLETH_VALUES.UNIQUE_ID))
+        .andDo(print()).andExpect(MockMvcResultMatchers.status().isOk())
+        // .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
-    OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest()
-        .getSession()
+    OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest().getSession()
         .getAttribute(NcpSessionAttributes.VIRTA_XML);
     Assert.notNull(virtaXml, "Elmo session attribute is null");
     log.info("VIRTA XML in session:\n{}", XmlUtil.toString(virtaXml));

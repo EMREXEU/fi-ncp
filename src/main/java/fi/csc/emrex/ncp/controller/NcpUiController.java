@@ -76,34 +76,32 @@ public class NcpUiController extends NcpControllerBase {
    * data available via fi-ncp to the user. Front-end end provides functionality
    * for selecting courses from this list to STEP 2.
    *
-   * @param request   NCP request as defined for NCP service.
-   * @param personId  Whole attribute as defined in HAKA Shibboleth.
-   * @param learnerId Whole attribute as defined in HAKA Shibboleth.
+   * @param request NCP request as defined for NCP service.
    * @return View name resolved by $routeProvider in ncp.js. Response data stored
    *         in session.
    */
   @RequestMapping(value = "/courses", method = RequestMethod.GET)
-  public OpiskelijanKaikkiTiedotResponse getCourses(@RequestHeader Map<String, String> headers,
-      @ModelAttribute NcpRequestDto request, @SessionAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) String personId,
-      @SessionAttribute(SHIBBOLETH_KEYS.LEARNER_ID) String learnerId,
-      @SessionAttribute(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN) String schacHomeOrganization,
-      @SessionAttribute(SHIBBOLETH_KEYS.ORGANIZATION_ID) String schacHomeOrganizationId) throws NcpException {
+  public OpiskelijanKaikkiTiedotResponse getCourses(@ModelAttribute NcpRequestDto request) throws NcpException {
 
     HttpSession session = context.getSession();
 
-    headers.forEach((key, value) -> {
-      log.info(String.format("Header '%s' = %s", key, value));
-    });
+    String personId = context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) != null
+        ? context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID).toString()
+        : null;
+    String learnerId = context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID) != null
+        ? context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID).toString()
+        : null;
 
-    log.info("NCP request parameters:{}", request.toString());
-    logSession(session);
+    if (personId == null && learnerId == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either Unique ID or Learner ID required");
+    }
 
     // Person id needs to be trimmed to match VIRTA.
     // Learner id is used as whole string.
     String[] trimmedPersonIds = personId.split(":");
     String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
 
-    VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId, schacHomeOrganizationId);
+    VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId);
 
     log.info(virtaUserDto.toString());
 
