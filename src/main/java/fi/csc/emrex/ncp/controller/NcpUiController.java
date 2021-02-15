@@ -20,25 +20,29 @@ import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanTiedotResponse;
+
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Controller providing REST-style endpoints used by fi-ncp fornt-end.
@@ -63,7 +67,47 @@ public class NcpUiController extends NcpControllerBase {
   private ElmoService elmoService;
 
   /**
-/**
+   * @return Map of user related information from Shibboleth/Haka.
+   */
+  @RequestMapping(value = "/user", method = RequestMethod.GET)
+  public Map<String, String> getUserInformation() {
+    Map<String, String> userAttributes = new HashMap<>();
+    try {
+      userAttributes.put("givenNames",
+          context.getAttribute(SHIBBOLETH_KEYS.GIVEN_NAME) != null
+              ? new String(context.getAttribute(SHIBBOLETH_KEYS.GIVEN_NAME).toString().getBytes("ISO-8859-1"), "UTF-8")
+              : null);
+
+      userAttributes.put("surname",
+          context.getAttribute(SHIBBOLETH_KEYS.SUR_NAME) != null
+              ? new String(context.getAttribute(SHIBBOLETH_KEYS.SUR_NAME).toString().getBytes("ISO-8859-1"), "UTF-8")
+              : null);
+      userAttributes.put("displayName",
+          context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME) != null
+              ? new String(context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME).toString().getBytes("ISO-8859-1"),
+                  "UTF-8")
+              : null);
+      userAttributes.put("commonName",
+          context.getAttribute(SHIBBOLETH_KEYS.CN) != null
+              ? new String(context.getAttribute(SHIBBOLETH_KEYS.CN).toString().getBytes("ISO-8859-1"), "UTF-8")
+              : null);
+    } catch (UnsupportedEncodingException e1) {
+    }
+    if (context.getAttribute(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN) != null) {
+      try {
+        IssuerDto issuer = (IssuerDto) elmoService
+            .issuerForDomain(context.getAttribute(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN).toString());
+        userAttributes.put("homeOrganization", issuer.getTitle());
+        userAttributes.put("homeOrganizationId", issuer.getCode());
+      } catch (NcpException e) {
+      }
+    }
+    // log.info("userAttributes:{}", userAttributes);
+
+    return userAttributes;
+  }
+
+  /**
    * @return Map of issuers.
    */
   @RequestMapping(value = "/issuers", method = RequestMethod.GET)
@@ -101,7 +145,8 @@ public class NcpUiController extends NcpControllerBase {
     String[] trimmedPersonIds = personId.split(":");
     String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
 
-    // Since VirtaUser can have courses from multiple issuers/orgs, we'll fill that in after the courses are selected in next step
+    // Since VirtaUser can have courses from multiple issuers/orgs, we'll fill that
+    // in after the courses are selected in next step
     VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId, null);
 
     OpiskelijanKaikkiTiedotResponse virtaXml = virtaClient.fetchStudiesAndLearnerDetails(virtaUserDto);
@@ -141,8 +186,10 @@ public class NcpUiController extends NcpControllerBase {
     } else {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No courses selected");
     }
-    // Set issuer of the first course as student.org (at this point there are only courses from a single issuer/org)
-    student.setOrg(virtaXml.getVirta().getOpiskelija().get(0).getOpintosuoritukset().getOpintosuoritus().get(0).getMyontaja());
+    // Set issuer of the first course as student.org (at this point there are only
+    // courses from a single issuer/org)
+    student.setOrg(
+        virtaXml.getVirta().getOpiskelija().get(0).getOpintosuoritukset().getOpintosuoritus().get(0).getMyontaja());
     OpiskelijanTiedotResponse virtaLearnerDetails = virtaClient.fetchLearnerDetails(student);
 
     // Default to ISO/IEC 5218 0 = Not known if virta data doesn't have gender
