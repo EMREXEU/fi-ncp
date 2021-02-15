@@ -168,6 +168,6 @@ public class ElmoServiceTest {
   }
 
   private VirtaUserDto createStudent() {
-    return  new VirtaUserDto(null, "180766-2213");
+    return  new VirtaUserDto(null, "180766-2213", null);
   }
 }

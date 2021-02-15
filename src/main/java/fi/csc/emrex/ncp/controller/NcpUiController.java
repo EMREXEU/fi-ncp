@@ -101,9 +101,8 @@ public class NcpUiController extends NcpControllerBase {
     String[] trimmedPersonIds = personId.split(":");
     String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
 
-    VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId);
-
-    log.info(virtaUserDto.toString());
+    // Since VirtaUser can have courses from multiple issuers/orgs, we'll fill that in after the courses are selected in next step
+    VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId, null);
 
     OpiskelijanKaikkiTiedotResponse virtaXml = virtaClient.fetchStudiesAndLearnerDetails(virtaUserDto);
 
@@ -122,34 +121,39 @@ public class NcpUiController extends NcpControllerBase {
    * correct conversion is required here)
    */
   @RequestMapping(value = "/review", method = RequestMethod.GET)
-  public Elmo reviewCourses(@RequestParam(value = "courses", required = false) String[] courses) throws NcpException {
+  public Elmo reviewCourses(@RequestParam(value = "courses") String[] courses) throws NcpException {
 
-    log.info("/review");
     HttpSession session = context.getSession();
 
     OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) session
         .getAttribute(NcpSessionAttributes.VIRTA_XML);
     // TODO: student data from shibboleth and VIRTA
     VirtaUserDto student = (VirtaUserDto) session.getAttribute(NcpSessionAttributes.VIRTA_USER_DTO);
-
     if (virtaXml == null) {
       throw new NcpException("Empty VIRTA XML in session data.");
     }
     if (student == null) {
       throw new NcpException("Empty VIRTA user in session data.");
     }
-
     if (courses != null && courses.length > 0) {
       List<String> courseList = Arrays.asList(courses);
       virtaXml = elmoService.trimToSelectedCourses(virtaXml, courseList);
+    } else {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No courses selected");
     }
+    // Set issuer of the first course as student.org (at this point there are only courses from a single issuer/org)
+    student.setOrg(virtaXml.getVirta().getOpiskelija().get(0).getOpintosuoritukset().getOpintosuoritus().get(0).getMyontaja());
     OpiskelijanTiedotResponse virtaLearnerDetails = virtaClient.fetchLearnerDetails(student);
+
+    // Default to ISO/IEC 5218 0 = Not known if virta data doesn't have gender
+    String gender = virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukupuoli() != null
+        ? virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukupuoli()
+        : "0";
 
     // TODO: read these from VIRTA and/or shibboleth
     LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
     learnerDetails.setBday(FidUtil.resolveBirthDate("", "", virtaXml));
-    learnerDetails
-        .setGender(new BigInteger(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukupuoli()));
+    learnerDetails.setGender(new BigInteger(gender));
 
     Elmo elmoXml = elmoService.convertToElmoXml(virtaXml, student, learnerDetails);
     session.setAttribute(NcpSessionAttributes.ELMO_XML, elmoXml);

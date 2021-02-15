@@ -19,6 +19,7 @@ public class VirtaUserDto {
 
   private String oid;
   private String ssn;
+  private String org;
 
   public boolean isSsnSet() {
     return !StringUtils.isBlank(ssn);

@@ -37,28 +37,23 @@ public class VirtaClient {
 
   public OpintosuorituksetResponse fetchStudies(VirtaUserDto virtaUser) throws NcpException {
     try {
-      return getService().getOpiskelijanTiedotSoap11().opintosuoritukset(
-          createRequest(virtaUser));
+      return getService().getOpiskelijanTiedotSoap11().opintosuoritukset(createRequest(virtaUser));
     } catch (MalformedURLException e) {
       throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
 
-  public OpiskelijanKaikkiTiedotResponse fetchStudiesAndLearnerDetails(VirtaUserDto virtaUser)
-      throws NcpException {
+  public OpiskelijanKaikkiTiedotResponse fetchStudiesAndLearnerDetails(VirtaUserDto virtaUser) throws NcpException {
     try {
-      return getService().getOpiskelijanTiedotSoap11().opiskelijanKaikkiTiedot(
-          createAllDetailsRequest(virtaUser));
+      return getService().getOpiskelijanTiedotSoap11().opiskelijanKaikkiTiedot(createAllDetailsRequest(virtaUser));
     } catch (MalformedURLException e) {
       throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
 
-  public OpiskelijanTiedotResponse fetchLearnerDetails(VirtaUserDto virtaUser)
-      throws NcpException {
+  public OpiskelijanTiedotResponse fetchLearnerDetails(VirtaUserDto virtaUser) throws NcpException {
     try {
-      return getService().getOpiskelijanTiedotSoap11().opiskelijanTiedot(
-          createLearnerDetailsRequest(virtaUser));
+      return getService().getOpiskelijanTiedotSoap11().opiskelijanTiedot(createLearnerDetailsRequest(virtaUser));
     } catch (MalformedURLException e) {
       throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
@@ -78,9 +73,9 @@ public class VirtaClient {
     } else {
       hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
     }
+    hakuehdot.setOrganisaatio(virtaUser.getOrg());
     return hakuehdot;
   }
-
 
   private OpiskelijanTiedotService getService() throws MalformedURLException {
     if (opiskelijanTiedotService == null) {

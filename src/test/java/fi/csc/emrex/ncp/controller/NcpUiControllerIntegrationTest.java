@@ -46,72 +46,32 @@ public class NcpUiControllerIntegrationTest {
   }
 
   @Test
-  public void getCoursesAndReview() throws Exception {
-
-    // First request will store data into session so must use same session in following request
-    MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .get(NcpPaths.GET_COURSES)
-        .param("sessionId", "TODO")
-        .param("returnUrl", "TODO")
-        .sessionAttrs(getShibbolethAuthenticationAttributes()))
-        .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        //.andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
-        .andReturn();
-
-    OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest()
-        .getSession()
-        .getAttribute(NcpSessionAttributes.VIRTA_XML);
-    Assert.notNull(virtaXml, "Elmo session attribute is null");
-
-    mockMvc.perform(MockMvcRequestBuilders
-        .get(NcpPaths.REVIEW_COURSES)
-        .session((MockHttpSession) res.getRequest().getSession())
-        .param("sessionId", "TODO")
-        .param("returnUrl", "TODO"))
-        .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk());
-  }
-
-  @Test
   public void getCoursesAndReviewSelected() throws Exception {
 
-    // First request will store data into session so must use same session in following request
-    MvcResult res = mockMvc.perform(MockMvcRequestBuilders
-        .get(NcpPaths.GET_COURSES)
-        .param("sessionId", "TODO")
-        .param("returnUrl", "TODO")
-        .sessionAttrs(getShibbolethAuthenticationAttributes()))
-        .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        //.andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
+    // First request will store data into session so must use same session in
+    // following request
+    MvcResult res = mockMvc
+        .perform(MockMvcRequestBuilders.get(NcpPaths.GET_COURSES).param("sessionId", "TODO").param("returnUrl", "TODO")
+            .requestAttr(SHIBBOLETH_KEYS.UNIQUE_ID, SHIBBOLETH_VALUES.UNIQUE_ID))
+        .andDo(print()).andExpect(MockMvcResultMatchers.status().isOk())
+        // .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
         .andReturn();
 
-    OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest()
-        .getSession()
+    OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest().getSession()
         .getAttribute(NcpSessionAttributes.VIRTA_XML);
     Assert.notNull(virtaXml, "Elmo session attribute is null");
 
-    mockMvc.perform(MockMvcRequestBuilders
-        .get(NcpPaths.REVIEW_COURSES)
+    mockMvc.perform(MockMvcRequestBuilders.get(NcpPaths.REVIEW_COURSES)
         // Expecting this existing course from VIRTA test service
-        .param("courses", "1451865")
-        .session((MockHttpSession) res.getRequest().getSession())
-        .param("sessionId", "TODO")
-        .param("returnUrl", "TODO"))
-        .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk());
+        .param("courses", "1451865").session((MockHttpSession) res.getRequest().getSession()).param("sessionId", "TODO")
+        .param("returnUrl", "TODO")).andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
   }
 
   public static Map<String, Object> getShibbolethAuthenticationAttributes() {
-    return Map.of(
-        SHIBBOLETH_KEYS.LEARNER_ID, SHIBBOLETH_VALUES.LEARNER_ID,
-        SHIBBOLETH_KEYS.UNIQUE_ID, SHIBBOLETH_VALUES.UNIQUE_ID,
-        SHIBBOLETH_KEYS.DATE_OF_BIRTH, SHIBBOLETH_VALUES.DATE_OF_BIRTH,
-        SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN, SHIBBOLETH_VALUES.ORGANIZATION_DOMAIN,
-        SHIBBOLETH_KEYS.ORGANIZATION_ID, SHIBBOLETH_VALUES.ORGANIZATION_ID,
-        SHIBBOLETH_KEYS.DISPLAY_NAME, SHIBBOLETH_VALUES.DISPLAY_NAME,
-        SHIBBOLETH_KEYS.GIVEN_NAME, SHIBBOLETH_VALUES.GIVEN_NAME,
-        SHIBBOLETH_KEYS.SUR_NAME, SHIBBOLETH_VALUES.SUR_NAME);
+    return Map.of(SHIBBOLETH_KEYS.LEARNER_ID, SHIBBOLETH_VALUES.LEARNER_ID, SHIBBOLETH_KEYS.UNIQUE_ID,
+        SHIBBOLETH_VALUES.UNIQUE_ID, SHIBBOLETH_KEYS.DATE_OF_BIRTH, SHIBBOLETH_VALUES.DATE_OF_BIRTH,
+        SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN, SHIBBOLETH_VALUES.ORGANIZATION_DOMAIN, SHIBBOLETH_KEYS.ORGANIZATION_ID,
+        SHIBBOLETH_VALUES.ORGANIZATION_ID, SHIBBOLETH_KEYS.DISPLAY_NAME, SHIBBOLETH_VALUES.DISPLAY_NAME,
+        SHIBBOLETH_KEYS.GIVEN_NAME, SHIBBOLETH_VALUES.GIVEN_NAME, SHIBBOLETH_KEYS.SUR_NAME, SHIBBOLETH_VALUES.SUR_NAME);
   }
 }
