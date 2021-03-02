@@ -1,0 +1,47 @@
+<div class="container" *ngIf="lang$ | async as lang">
+	<div class="courses-container" *ngIf="coursesByIssuer">
+		<div *ngIf="issuers.length > 1" id="issuer-select">
+			<p *ngIf="!selectedIssuer">{{i18n.courses.issuers.prompt[lang]}}</p>
+			<label for="organizationSelect">{{i18n.courses.organization[lang]}}</label>
+			<select class="form-control" *ngIf="issuers" (change)="selectIssuer($event)" id="organizationSelect">
+				<option value="" disabled selected>{{i18n.courses.issuers.select[lang]}}</option>
+				<option *ngFor="let issuer of issuers" [value]="issuer">{{issuer}}</option>
+			</select>
+		</div>
+
+		<div id="courses-selected" *ngIf="selectedIssuer">
+			<span>{{calculateSize()}}
+				{{i18n.courses.coursesselected[lang]}}
+				<span *ngIf="creditsCount > 0">({{creditsCount}}
+					{{i18n.courses.credits[lang]}})</span>
+			</span>
+			<button [disabled]="calculateSize() < 1" type="submit" class="btn btn-primary btn-default" (click)="reviewSelectedCourses()">{{i18n.courses.export[lang]}}</button>
+		</div>
+		<table *ngIf="selectedIssuer" class="table table-striped">
+			<thead>
+				<th>
+					<input type="checkbox" [checked]="selectedCourses.size === coursesByIssuer[selectedIssuer].length" (click)="toggleSelectAll()" [title]="selectedCourses.size === coursesByIssuer[selectedIssuer].length ? i18n.courses.table.deselectall[lang] : i18n.courses.table.selectall[lang]">
+					<span class="checkbox-margin">{{i18n.courses.table.name[lang]}}</span>
+				</th>
+				<th>{{i18n.courses.table.credits[lang]}}</th>
+				<th>{{i18n.courses.organization[lang]}}</th>
+				<th>{{i18n.courses.table.evaluation[lang]}}</th>
+				<th>{{i18n.courses.table.regdate[lang]}}</th>
+			</thead>
+			<tbody>
+				<tr *ngFor="let opintosuoritus of coursesByIssuer[selectedIssuer]" role="row" (click)="selectCourse(opintosuoritus.avain)">
+					<td [class.partOfDegree]="opintosuoritus.isPartOfDegree" [class.partOfModule]="opintosuoritus.isPartOfModule">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" [checked]="courseSelected(opintosuoritus.avain)" [disabled]="courseSelected(opintosuoritus.degree) || courseSelected(opintosuoritus.module)" [title]="courseSelected(opintosuoritus.avain) ? i18n.courses.table.deselect[lang] + ' ' + i18n.courses.type[opintosuoritus.type][lang] + ' ' + opintosuoritus.nimi[0].value : i18n.courses.table.select[lang] + ' ' + i18n.courses.type[opintosuoritus.type][lang] + ' ' + opintosuoritus.nimi[0].value">
+						</div>
+						<span class="checkbox-margin">{{opintosuoritus.nimi[0].value}}</span>
+					</td>
+					<td>{{opintosuoritus.laajuus.opintopiste}}</td>
+					<td>{{opintosuoritus.myontaja}}</td>
+					<td>{{opintosuoritus.arvosana.viisiportainen}}</td>
+					<td>{{opintosuoritus.suoritusPvm | date : 'yyyy-MM-dd'}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

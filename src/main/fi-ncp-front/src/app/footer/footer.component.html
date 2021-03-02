@@ -1,0 +1,6 @@
+<footer *ngIf="lang$ | async as lang">
+	<a href="https://" target="__blank">
+		<i class="fa fa-external-link"></i>
+		{{i18n.footer.accessibilitystatement[lang]}}
+	</a>
+</footer>

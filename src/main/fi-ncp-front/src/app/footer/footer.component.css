@@ -1,0 +1,13 @@
+footer {
+  margin-top: 30px;
+  border-top: 1px solid #e7e7e7;
+  background-color: #ffffff;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  overflow: hidden;
+}
+
+footer a {
+  color: #666;
+}

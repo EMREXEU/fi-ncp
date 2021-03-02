@@ -1,16 +1,17 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {CourseSelectionViewComponent} from "./course-selection-view/course-selection-view.component";
-import {CourseSelectionReviewViewComponent} from "./course-selection-review-view/course-selection-review-view.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { CoursesComponent } from './courses/courses.component';
+import { PreviewComponent } from './preview/preview.component';
 
 const routes: Routes = [
-  {path: 'a', component: CourseSelectionViewComponent},
-  {path: 'b', component: CourseSelectionReviewViewComponent}
+  { path: 'courses', component: CoursesComponent },
+  { path: 'preview', component: PreviewComponent },
+  { path: '', pathMatch: 'full', redirectTo: '/courses' },
+  { path: '**', redirectTo: '/courses' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

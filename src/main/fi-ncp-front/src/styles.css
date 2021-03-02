@@ -2,3 +2,14 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+button.link-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.container {
+  display: flow-root;
+  min-height: calc(100vh - 155px);
+}

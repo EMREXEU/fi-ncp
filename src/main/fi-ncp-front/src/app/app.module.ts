@@ -1,44 +1,30 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {HttpClientModule} from "@angular/common/http";
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatPseudoCheckboxModule} from "@angular/material/core";
-import {MatTooltipModule} from "@angular/material/tooltip";
-import { CourseSelectionComponent } from './course-selection/course-selection.component';
-import { CourseSelectionReviewComponent } from './course-selection-review/course-selection-review.component';
-import { StudentDetailsComponent } from './student-details/student-details.component';
-import { CourseSelectionViewComponent } from './course-selection-view/course-selection-view.component';
-import { CourseSelectionReviewViewComponent } from './course-selection-review-view/course-selection-review-view.component';
-import { ElmoLearnerComponent } from './elmo-learner/elmo-learner.component';
-import { ElmoReportComponent } from './elmo-report/elmo-report.component';
-
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CoursesComponent } from './courses/courses.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { PreviewComponent } from './preview/preview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CourseSelectionComponent,
-    CourseSelectionReviewComponent,
-    StudentDetailsComponent,
-    CourseSelectionViewComponent,
-    CourseSelectionReviewViewComponent,
-    ElmoLearnerComponent,
-    ElmoReportComponent
+    CoursesComponent,
+    HeaderComponent,
+    FooterComponent,
+    PreviewComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     NoopAnimationsModule,
-    MatSliderModule,
-    MatPseudoCheckboxModule,
-    MatTooltipModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

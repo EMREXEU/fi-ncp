@@ -1,0 +1,17 @@
+<header *ngIf="lang$ | async as lang"><img
+	id="logo" src="assets/img/emrex-logo.png" alt="Emrex logo"/>
+	<h1>{{i18n.header.title[lang]}}</h1>
+	<div class="pull-right">
+		<div id="user-info" *ngIf="user$ | async as user">
+			<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{user.commonName}}&nbsp;<span aria-hidden="true">|</span>&nbsp;
+			<button class="link-button" (click)="logout()">{{i18n.header.logout[lang]}}</button>
+		</div>
+		<div id="language-select">
+			<button *ngIf="lang != 'FI'" class="link-button" (click)="changeLang('FI')">{{i18n.header.lang.FI}}</button>
+			<span *ngIf="lang != 'FI'" aria-hidden="true">&nbsp;|&nbsp;</span>
+			<button *ngIf="lang != 'SV'" class="link-button" (click)="changeLang('SV')">{{i18n.header.lang.SV}}</button>
+			<span *ngIf="lang != 'SV' && lang != 'EN'" aria-hidden="true">&nbsp;|&nbsp;</span>
+			<button *ngIf="lang != 'EN'" class="link-button" (click)="changeLang('EN')">{{i18n.header.lang.EN}}</button>
+		</div>
+	</div>
+</header>

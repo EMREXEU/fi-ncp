@@ -1,0 +1,33 @@
+header {
+  background-color: #1a212d;
+  color: white;
+  margin-bottom: 15px;
+}
+
+header h1 {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1.6em;
+  margin: 0;
+}
+
+header .link-button {
+  color: white;
+}
+
+header #user-info {
+  margin: 4px 0;
+  padding-right: 15px;
+}
+
+header #language-select {
+  margin: 4px 0;
+  padding-right: 15px;
+  text-align: right;
+}
+
+img#logo {
+  padding: 10px 30px 10px 15px;
+  height: 60px;
+  width: auto;
+}

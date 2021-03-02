@@ -1,0 +1,30 @@
+td {
+  user-select: none;
+}
+
+#issuer-select {
+  margin-bottom: 20px;
+}
+
+#courses-selected {
+  margin-bottom: 20px;
+}
+
+#courses-selected button {
+  margin-left: 20px;
+}
+th .checkbox-margin {
+  margin-left: 1.75rem;
+}
+
+td .checkbox-margin {
+  margin-left: calc(1.75rem + 12.67px);
+}
+
+.partOfDegree {
+  padding-left: 40px;
+}
+
+.partOfModule {
+  padding-left: 80px;
+}
