@@ -24,4 +24,8 @@ public class VirtaUserDto {
   public boolean isSsnSet() {
     return !StringUtils.isBlank(ssn);
   }
+
+  public boolean isOidSet() {
+    return !StringUtils.isBlank(oid);
+  }
 }

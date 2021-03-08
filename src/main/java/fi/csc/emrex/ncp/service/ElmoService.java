@@ -77,21 +77,20 @@ public class ElmoService {
     }
   }
 
-  public OpiskelijanKaikkiTiedotResponse trimToSelectedCourses(OpiskelijanKaikkiTiedotResponse virtaXml,
+  public List<OpintosuoritusTyyppi> trimToSelectedCourses(List<OpintosuoritusTyyppi> opintosuoritukset,
       List<String> courseKeys) {
 
-    List<OpintosuoritusTyyppi> opintosuoritukset = virtaXml.getVirta().getOpiskelija().get(0).getOpintosuoritukset()
-        .getOpintosuoritus();
     OpintosuorituksetTyyppi opintosuorituksetTyyppi = new OpintosuorituksetTyyppi();
     // Initializes to empty array
     opintosuorituksetTyyppi.getOpintosuoritus();
+
     opintosuoritukset.forEach(course -> {
       if (courseKeys.contains(course.getAvain())) {
         opintosuorituksetTyyppi.getOpintosuoritus().add(course);
       }
     });
-    virtaXml.getVirta().getOpiskelija().get(0).setOpintosuoritukset(opintosuorituksetTyyppi);
-    return virtaXml;
+
+    return opintosuorituksetTyyppi.getOpintosuoritus();
   }
 
   public OpintosuorituksetResponse _trimToSelectedCourses(OpintosuorituksetResponse virtaXml, List<String> courseKeys) {
@@ -109,18 +108,17 @@ public class ElmoService {
     return virtaXml;
   }
 
-  public Elmo convertToElmoXml(OpiskelijanKaikkiTiedotResponse virtaXml, VirtaUserDto student,
-      LearnerDetailsDto learnerDetails) throws NcpException {
-
-    // TODO: report.issuer
+  public Elmo convertToElmoXml(List<OpintosuoritusTyyppi> filteredCourses,
+      List<OpintosuoritusTyyppi> allCoursesFromSelectedIssuer, VirtaUserDto student, LearnerDetailsDto learnerDetails)
+      throws NcpException {
     try {
       Elmo elmo = new Elmo();
+
       elmo.setLearner(createLearner(student, learnerDetails));
       elmo.setGeneratedDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
       List<Elmo.Report> reports = elmo.getReport();
 
-      reports.add(createReport(virtaXml.getVirta().getOpiskelija().get(0).getOpintosuoritukset().getOpintosuoritus(),
-          learnerDetails));
+      reports.add(createReport(filteredCourses, allCoursesFromSelectedIssuer, learnerDetails));
 
       return elmo;
     } catch (DatatypeConfigurationException e) {
@@ -128,17 +126,17 @@ public class ElmoService {
     }
   }
 
-  public Elmo _convertToElmoXml(OpintosuorituksetResponse virtaXml, VirtaUserDto student,
-      LearnerDetailsDto learnerDetails) throws NcpException {
+  public Elmo _convertToElmoXml(List<OpintosuoritusTyyppi> filteredCourses,
+      List<OpintosuoritusTyyppi> allCoursesFromSelectedIssuer, VirtaUserDto student, LearnerDetailsDto learnerDetails)
+      throws NcpException {
 
-    // TODO: report.issuer
     try {
       Elmo elmo = new Elmo();
       elmo.setLearner(createLearner(student, learnerDetails));
       elmo.setGeneratedDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
       List<Elmo.Report> reports = elmo.getReport();
 
-      reports.add(createReport(virtaXml.getOpintosuoritukset().getOpintosuoritus(), learnerDetails));
+      reports.add(createReport(filteredCourses, allCoursesFromSelectedIssuer, learnerDetails));
 
       return elmo;
     } catch (DatatypeConfigurationException e) {
@@ -149,21 +147,29 @@ public class ElmoService {
   private Learner createLearner(VirtaUserDto student, LearnerDetailsDto details) throws NcpException {
     Elmo.Learner learner = new Elmo.Learner();
 
-    learner.setCitizenship(details.getCitizenship());
+    // learner.setCitizenship(details.getCitizenship());
 
-    Elmo.Learner.Identifier identifier = new Elmo.Learner.Identifier();
-    identifier.setType(DEFAULT_LEARNER_ID_TYPE);
-    identifier.setValue(student.getSsn());
-    learner.getIdentifier().add(identifier);
+    Elmo.Learner.Identifier nationalIdentifier = new Elmo.Learner.Identifier();
+    nationalIdentifier.setType(DEFAULT_LEARNER_ID_TYPE);
+    nationalIdentifier.setValue(student.getSsn());
+    learner.getIdentifier().add(nationalIdentifier);
+    if (student.isOidSet()) {
+      Elmo.Learner.Identifier nationalLearnerId = new Elmo.Learner.Identifier();
+      nationalLearnerId.setType("nationalLearnerId");
+      nationalLearnerId.setValue(student.getOid());
+      learner.getIdentifier().add(nationalLearnerId);
+    }
+
     learner.setBday(copyOf(details.getBday()));
+    learner.setGender(details.getGender());
     learner.setGivenNames(details.getGivenNames());
     learner.setFamilyName(details.getFamilyName());
 
-    // Given name
     return learner;
   }
 
-  private Report createReport(List<OpintosuoritusTyyppi> opintosuoritukset, LearnerDetailsDto details)
+  private Report createReport(List<OpintosuoritusTyyppi> selectedCourses,
+      List<OpintosuoritusTyyppi> allCoursesFromSelectedIssuer, LearnerDetailsDto details)
       throws NcpException, DatatypeConfigurationException {
 
     // VIRTA has issuer on course level whereas ELMO has single issuer in report
@@ -176,31 +182,51 @@ public class ElmoService {
     Elmo.Report report = new Elmo.Report();
 
     // Only single issuer should exist for all courses
-    IssuerDto issuerDto = issuerForCode(opintosuoritukset.stream().findFirst().get().getMyontaja());
+    IssuerDto issuerDto = issuerForCode(selectedCourses.stream().findFirst().get().getMyontaja());
 
     // Must create a copy of calendar as reference to VIRTA data seems to disappear.
     // report.setIssueDate(copyOf(opintosuoritsTyyppi.getSuoritusPvm()));
     report.setIssueDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
     report.setIssuer(createIssuer(issuerDto));
 
-    for (OpintosuoritusTyyppi opintosuoritus : opintosuoritukset) {
-      report.getLearningOpportunitySpecification().add(createLearningOpportunitySpecification(opintosuoritus));
+    for (OpintosuoritusTyyppi course : selectedCourses) {
+      report.getLearningOpportunitySpecification()
+          .add(createLearningOpportunitySpecification(course, allCoursesFromSelectedIssuer));
     }
 
     return report;
   }
 
-  private LearningOpportunitySpecification createLearningOpportunitySpecification(OpintosuoritusTyyppi opintosuoritus)
-      throws NcpException {
+  private LearningOpportunitySpecification createLearningOpportunitySpecification(OpintosuoritusTyyppi opintosuoritus,
+      List<OpintosuoritusTyyppi> opintosuoritukset) throws NcpException {
 
     LearningOpportunitySpecification learningOpportunitySpecification = new LearningOpportunitySpecification();
     learningOpportunitySpecification.getIdentifier()
         .add(createLosIdentifier(LOS.ID_TYPE, opintosuoritus.getKoulutusmoduulitunniste()));
-    learningOpportunitySpecification.setType(createLOSpecType(opintosuoritus.getLaji()));
+    learningOpportunitySpecification.setType(createLOSpecType(opintosuoritus));
     learningOpportunitySpecification.setSubjectArea(opintosuoritus.getKoulutuskoodi());
     learningOpportunitySpecification.setIscedCode(opintosuoritus.getKoulutuskoodi());
     learningOpportunitySpecification.setSpecifies(createSpecifies(opintosuoritus));
     createLocalizedTitles(opintosuoritus, learningOpportunitySpecification);
+
+    if (opintosuoritus.getSisaltyvyys().toArray().length > 0) {
+      opintosuoritus.getSisaltyvyys().forEach(course -> {
+        OpintosuoritusTyyppi suoritus = opintosuoritukset.stream()
+            .filter(c -> c.getAvain().equals(course.getSisaltyvaOpintosuoritusAvain())).findFirst().orElse(null);
+        if (suoritus != null) {
+          try {
+            LearningOpportunitySpecification.HasPart hasPart = new LearningOpportunitySpecification.HasPart();
+            hasPart.setLearningOpportunitySpecification(
+                createLearningOpportunitySpecification(suoritus, opintosuoritukset));
+            learningOpportunitySpecification.getHasPart().add(hasPart);
+          } catch (NcpException e) {
+            // TODO: handle exception
+          }
+
+        }
+
+      });
+    }
     return learningOpportunitySpecification;
   }
 
@@ -222,13 +248,17 @@ public class ElmoService {
    *
    * @return ELMO type mapped from VIRTA type
    */
-  private String createLOSpecType(String virtaType) {
+  private String createLOSpecType(OpintosuoritusTyyppi opintosuoritus) {
 
     String elmoType = TYPE.DEFAULT;
 
-    if ("1".equalsIgnoreCase(virtaType)) {
+    if ("1".equalsIgnoreCase(opintosuoritus.getLaji())) {
       elmoType = TYPE.DEGREE;
     }
+    if ("2".equalsIgnoreCase(opintosuoritus.getLaji()) && opintosuoritus.getSisaltyvyys().toArray().length > 0) {
+      elmoType = TYPE.MODULE;
+    }
+
     return elmoType;
   }
 
@@ -289,7 +319,7 @@ public class ElmoService {
    * @return cached Issuer details
    * @throws NcpException No issuer found for key
    */
-  private IssuerDto issuerForCode(String issuerCode) throws NcpException {
+  public IssuerDto issuerForCode(String issuerCode) throws NcpException {
     IssuerDto issuer = virtaIssuerCodeToIssuer.get(issuerCode);
     if (issuer == null) {
       throw new NcpException(String.format("Issuer not found for issuer code:%s", issuerCode));

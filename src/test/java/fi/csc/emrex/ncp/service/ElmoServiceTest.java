@@ -10,11 +10,14 @@ import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
+import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
+
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -51,16 +54,16 @@ public class ElmoServiceTest {
   public void convertToElmoXml() throws SAXException, NcpException, javax.xml.bind.JAXBException {
 
     VirtaUserDto student = createStudent();
-    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient
-        .fetchStudiesAndLearnerDetails(student);
+    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient.fetchStudiesAndLearnerDetails(student);
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
-    Elmo elmoXml = elmoService.convertToElmoXml(
-        opintosuorituksetResponse,
-        student,
+    List<OpintosuoritusTyyppi> courses = opintosuorituksetResponse.getVirta().getOpiskelija().get(0)
+        .getOpintosuoritukset().getOpintosuoritus();
+
+    Elmo elmoXml = elmoService.convertToElmoXml(courses, courses, student,
         createLearnerDetails(opintosuorituksetResponse));
 
-    //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
+    // log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
   }
 
@@ -70,15 +73,15 @@ public class ElmoServiceTest {
 
     VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = readFile();
-    opintosuorituksetResponse = elmoService
-        .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("TUTKINTO-39525"));
+    List<OpintosuoritusTyyppi> courses = opintosuorituksetResponse.getVirta().getOpiskelija().get(0)
+        .getOpintosuoritukset().getOpintosuoritus();
+
+    List<OpintosuoritusTyyppi> filtered = elmoService.trimToSelectedCourses(courses, Arrays.asList("TUTKINTO-39525"));
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
-    Elmo elmoXml = elmoService.convertToElmoXml(
-        opintosuorituksetResponse,
-        student,
+    Elmo elmoXml = elmoService.convertToElmoXml(filtered, courses, student,
         createLearnerDetails(opintosuorituksetResponse));
-    //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
+    // log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
   }
 
@@ -87,27 +90,23 @@ public class ElmoServiceTest {
       throws SAXException, NcpException, javax.xml.bind.JAXBException {
 
     VirtaUserDto student = createStudent();
-    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient
-        .fetchStudiesAndLearnerDetails(student);
-    opintosuorituksetResponse = elmoService
-        .trimToSelectedCourses(opintosuorituksetResponse, Arrays.asList("1451865"));
+    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient.fetchStudiesAndLearnerDetails(student);
+    List<OpintosuoritusTyyppi> courses = opintosuorituksetResponse.getVirta().getOpiskelija().get(0)
+        .getOpintosuoritukset().getOpintosuoritus();
+    List<OpintosuoritusTyyppi> filtered = elmoService.trimToSelectedCourses(courses, Arrays.asList("1451865"));
     log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
-    Elmo elmoXml = elmoService.convertToElmoXml(
-        opintosuorituksetResponse,
-        student,
+    Elmo elmoXml = elmoService.convertToElmoXml(filtered, courses, student,
         createLearnerDetails(opintosuorituksetResponse));
-    //log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
+    // log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
   }
 
-
-  private LearnerDetailsDto createLearnerDetails(
-      OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse)
+  private LearnerDetailsDto createLearnerDetails(OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse)
       throws NcpException {
     // TODO
     LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
-    learnerDetails.setCitizenship(CountryCode.FI);
+    // learnerDetails.setCitizenship(CountryCode.FI);
     learnerDetails.setGivenNames("Teppo");
     learnerDetails.setFamilyName("Testaaja");
     learnerDetails.setBday(FidUtil.resolveBirthDate(null, null, opintosuorituksetResponse));
@@ -128,19 +127,17 @@ public class ElmoServiceTest {
     log.info("Validated ELMO XML:\n{}", writer.toString());
   }
 
-
   private OpiskelijanKaikkiTiedotResponse readFile() throws IOException, JAXBException {
     // This is manually chopped XML from actual VIRTA SOAP message.
     Path path = workingDir.resolve("virta_xml/OpiskelijanKaikkiTiedotResponse.xml");
     log.info("XML file:\n{}", Files.readString(path));
     JAXBContext ctx = JAXBContext.newInstance(OpiskelijanKaikkiTiedotResponse.class);
     Unmarshaller unmarshaller = ctx.createUnmarshaller();
-    //unmarshaller.setSchema(getSchema());
-    OpiskelijanKaikkiTiedotResponse OpiskelijanKaikkiTiedotResponse =
-        (OpiskelijanKaikkiTiedotResponse) unmarshaller.unmarshal(path.toFile());
+    // unmarshaller.setSchema(getSchema());
+    OpiskelijanKaikkiTiedotResponse OpiskelijanKaikkiTiedotResponse = (OpiskelijanKaikkiTiedotResponse) unmarshaller
+        .unmarshal(path.toFile());
     return OpiskelijanKaikkiTiedotResponse;
   }
-
 
   private OpintosuorituksetResponse _readFile() throws IOException, JAXBException {
     // This is manually chopped XML from actual VIRTA SOAP message.
@@ -148,26 +145,24 @@ public class ElmoServiceTest {
     log.info("XML file:\n{}", Files.readString(path));
     JAXBContext ctx = JAXBContext.newInstance(OpintosuorituksetResponse.class);
     Unmarshaller unmarshaller = ctx.createUnmarshaller();
-    //unmarshaller.setSchema(getSchema());
-    OpintosuorituksetResponse opintosuorituksetResponse =
-        (OpintosuorituksetResponse) unmarshaller.unmarshal(path.toFile());
+    // unmarshaller.setSchema(getSchema());
+    OpintosuorituksetResponse opintosuorituksetResponse = (OpintosuorituksetResponse) unmarshaller
+        .unmarshal(path.toFile());
     return opintosuorituksetResponse;
   }
 
   /**
-   * Use if need schema validation for VIRTA XML. Still missing parts of schema definition chain?
+   * Use if need schema validation for VIRTA XML. Still missing parts of schema
+   * definition chain?
    */
   private Schema getSchema() throws SAXException {
-    Source[] schemas = {
-        new StreamSource(workingDir.resolve("virta_xml/Virta.xsd").toFile()),
+    Source[] schemas = { new StreamSource(workingDir.resolve("virta_xml/Virta.xsd").toFile()),
         new StreamSource(workingDir.resolve("virta_xml/wsdl.xsd").toFile()),
-        new StreamSource(workingDir.resolve("virta_xml/opiskelijatiedot.wsdl").toFile())
-    };
-    return SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
-        .newSchema(schemas);
+        new StreamSource(workingDir.resolve("virta_xml/opiskelijatiedot.wsdl").toFile()) };
+    return SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemas);
   }
 
   private VirtaUserDto createStudent() {
-    return  new VirtaUserDto(null, "180766-2213", null);
+    return new VirtaUserDto(null, "180766-2213", null);
   }
 }
