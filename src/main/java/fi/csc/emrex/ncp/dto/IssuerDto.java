@@ -27,7 +27,7 @@ import lombok.ToString;
 public class IssuerDto {
 
   private final static String IDENTIFIER_TYPE = "SCHAC";
-  private static final String DOMAIN_PREFIX = "http://";
+  private static final String DOMAIN_PREFIX = "https://";
 
   private String code;
   private CountryCode countryCode;
