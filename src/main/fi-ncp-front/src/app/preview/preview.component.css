@@ -26,3 +26,7 @@
 .list-group-item {
   padding: 0 0 5px 0;
 }
+
+button {
+  margin-bottom: 20px;
+}

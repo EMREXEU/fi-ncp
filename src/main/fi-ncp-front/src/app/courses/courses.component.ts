@@ -24,7 +24,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private coursesService: CoursesService,
     private router: Router,
     private i18nService: I18nService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loading = true;
@@ -36,6 +37,9 @@ export class CoursesComponent implements OnInit, OnDestroy {
           this.selectedIssuer = this.issuers[0];
         }
         this.loading = false;
+        if (this.coursesService.selectedCourses && this.coursesService.selectedCourses.length > 0) {
+          this.coursesService.selectedCourses.forEach(course => this.selectCourse(course))
+        }
       }
     );
   }

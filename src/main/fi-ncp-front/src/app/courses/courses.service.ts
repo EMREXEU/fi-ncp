@@ -104,7 +104,7 @@ export class CoursesService {
       })
     );
 
-  private selectedCourses: string[] = [];
+  selectedCourses: string[] = [];
 
   coursesWithIssuers$ = combineLatest([this.issuers$, this.courses$]).pipe(
     map(([issuers, courses]) => {
