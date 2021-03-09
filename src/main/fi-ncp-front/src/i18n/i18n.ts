@@ -18,6 +18,7 @@ export const i18n = {
     },
   },
   courses: {
+    loading: { FI: 'Haetaan suorituksia...', SV: '', EN: 'Fetching courses...' },
     issuers: {
       prompt: {
         FI:
@@ -56,4 +57,7 @@ export const i18n = {
       course: { FI: 'Kurssi', SV: '', EN: 'Course' },
     }
   },
+  preview: {
+    loading: { FI: 'Tuotetaan esikatselua...', SV: '', EN: 'Generating preview...' },
+  }
 };

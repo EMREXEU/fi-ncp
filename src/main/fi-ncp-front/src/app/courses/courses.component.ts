@@ -12,6 +12,7 @@ import { CoursesService } from './courses.service';
 export class CoursesComponent implements OnInit, OnDestroy {
   private sub: any;
   coursesByIssuer: { [key: string]: Opintosuoritus[] };
+  loading = true;
   issuers: string[] = [];
   selectedIssuer = '';
   selectedCourses: Set<string> = new Set();
@@ -26,6 +27,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.sub = this.coursesService.coursesWithIssuers$.subscribe(
       (coursesByIssuer) => {
         this.coursesByIssuer = coursesByIssuer;
@@ -33,6 +35,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
         if (this.issuers.length === 1) {
           this.selectedIssuer = this.issuers[0];
         }
+        this.loading = false;
       }
     );
   }

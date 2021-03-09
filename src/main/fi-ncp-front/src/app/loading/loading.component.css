@@ -1,0 +1,27 @@
+.backdrop {
+  left: 0 !important;
+  top: 0 !important;
+  z-index: 10000 !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed !important;
+  background-color: rgba(0,0,0,0.5) !important;
+  visibility: visible !important;
+  transition: visibility 0s, opacity 0.4s linear !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.backdrop i.fa.fa-spinner.fa-spin, .spinner-big {
+  font-size: 100px !important;
+  color: white;
+}
+
+.backdrop .message {
+  margin-top: 30px;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+}

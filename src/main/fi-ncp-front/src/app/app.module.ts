@@ -14,6 +14,7 @@ import { IdentifiersComponent } from './preview/identifiers/identifiers.componen
 import { IssuerComponent } from './preview/issuer/issuer.component';
 import { LosComponent } from './preview/los/los.component';
 import { LoiComponent } from './preview/loi/loi.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { LoiComponent } from './preview/loi/loi.component';
     IssuerComponent,
     LosComponent,
     LoiComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,
