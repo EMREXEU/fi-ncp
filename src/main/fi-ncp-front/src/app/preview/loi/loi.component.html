@@ -1,0 +1,36 @@
+<div>
+  <div (click)="collapse = !collapse" class="collapse-toggle">
+    <b>Specifies:</b>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+  </div>
+  <div class="indented-1" *ngIf="!collapse">
+    <b>Learning Opportunity Instance:</b>
+    <div class="indented-1">
+      <div>
+        <b>Status:</b>&nbsp;{{loi.status}}
+      </div>
+      <div>
+        <b>Registration date:</b>&nbsp;{{loi.date | date : 'dd.MM.YYYY'}}
+      </div>
+      <b>Credit:</b>
+      <div *ngFor="let credit of loi.credit">
+        <span class="indented-1">
+          <b>{{credit.scheme}}:</b>
+        </span>&nbsp;{{credit.value}} 
+      </div>
+      <div>
+        <b>Language of instruction:</b>&nbsp;{{loi.languageOfInstruction}}
+      </div>
+      <div>
+        <b>Level:</b>&nbsp;{{loi.level[0].type}}
+      </div>
+      <div>
+        <b>Identifiers:</b>&nbsp;
+        <div *ngFor="let identifier of loi.identifier">
+          <span class="indented-1">
+            <b>{{identifier.type}}:</b>
+          </span>&nbsp;{{identifier.value}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

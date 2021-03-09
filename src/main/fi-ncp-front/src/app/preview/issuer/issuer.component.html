@@ -1,0 +1,22 @@
+<div>
+  <div (click)="collapse = !collapse" class="collapse-toggle">
+    <b>Issuer:</b>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+  </div>
+  <div *ngIf="!collapse" class="indented-1 ">
+    <div>
+      <b>Country:</b>&nbsp;{{issuer.country}}
+    </div>
+    <div>
+      <b>Title:</b>&nbsp;
+      <div *ngFor="let title of issuer.title">
+        <span class="indented-1">
+          <b>{{title.lang}}:</b>
+        </span>&nbsp;{{title.value}}
+      </div>
+    </div>
+    <app-identifiers [identifiers]="issuer.identifier"></app-identifiers>
+    <div>
+      <b>URL:</b>&nbsp;<a [href]="issuer.url" target="_blank">{{issuer.url}}</a>
+    </div>
+  </div>
+</div>

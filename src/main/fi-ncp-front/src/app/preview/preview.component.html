@@ -1,1 +1,27 @@
-<p>preview works!</p>
+<div class="container">
+	<div *ngIf="elmo">
+		<div class="card">
+			<div class="card-body">
+				<div (click)="collapse.generated = !collapse.generated" class="card-title collapse-toggle">Generated&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.generated ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+				</div>
+				<div *ngIf="!collapse.generated" clas="card-text">{{elmo.generatedDate | date : 'dd.MM.YYYY HH:mm'}}</div>
+			</div>
+		</div>
+		<app-learner *ngIf="elmo.learner" [learner]="elmo.learner"></app-learner>
+		<div class="card" *ngIf="elmo.report">
+			<div class="card-body">
+				<div (click)="collapse.report = !collapse.report" class="card-title collapse-toggle">Report&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.report ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+				</div>
+				<div *ngIf="!collapse.report" class="card-text">
+					<div *ngFor="let report of elmo.report">
+						<div>
+							<b>Issue date:</b>&nbsp;{{report.issueDate | date : 'dd.MM.YYYY HH:mm'}}
+						</div>
+						<app-issuer [issuer]="report.issuer"></app-issuer>
+						<app-los *ngFor="let los of report.learningOpportunitySpecification" [los]="los"></app-los>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

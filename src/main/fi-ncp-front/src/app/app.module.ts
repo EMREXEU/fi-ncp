@@ -9,6 +9,11 @@ import { CoursesComponent } from './courses/courses.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PreviewComponent } from './preview/preview.component';
+import { LearnerComponent } from './preview/learner/learner.component';
+import { IdentifiersComponent } from './preview/identifiers/identifiers.component';
+import { IssuerComponent } from './preview/issuer/issuer.component';
+import { LosComponent } from './preview/los/los.component';
+import { LoiComponent } from './preview/loi/loi.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +22,11 @@ import { PreviewComponent } from './preview/preview.component';
     HeaderComponent,
     FooterComponent,
     PreviewComponent,
+    LearnerComponent,
+    IdentifiersComponent,
+    IssuerComponent,
+    LosComponent,
+    LoiComponent,
   ],
   imports: [
     BrowserModule,

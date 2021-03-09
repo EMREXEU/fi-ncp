@@ -1,0 +1,36 @@
+<div>
+	<ul class="list-group list-group-flush">
+		<li class="list-group-item">
+			<div (click)="collapse.los = !collapse.los" class="collapse-toggle">
+				<b>Learning Opportunity Specification:</b>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.los ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+			</div>
+			<div class="indented-1" *ngIf="!collapse.los">
+				<div>
+					<b>Title:</b>
+					<div *ngFor="let title of los.title">
+						<span class="indented-1">
+							<b>{{title.lang}}:</b>
+						</span>&nbsp;{{title.value}}
+					</div>
+				</div>
+				<app-identifiers [identifiers]="los.identifier"></app-identifiers>
+				<div>
+					<b>Type:</b>&nbsp;{{los.type}}
+				</div>
+				<div *ngIf="los.iscedCode">
+					<b>ISCED code:</b>&nbsp;{{los.iscedCode}}
+				</div>
+				<div *ngIf="los.subjectArea">
+					<b>Subject area:</b>&nbsp;{{los.subjectArea}}
+				</div>
+				<app-loi [loi]="los.specifies.learningOpportunityInstance"></app-loi>
+				<div *ngIf="los.hasPart?.length > 0">
+					<div (click)="collapse.hasPart = !collapse.hasPart" class="collapse-toggle"><b>Has part:</b>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.hasPart ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
+					<div class="indented-1" *ngIf="!collapse.hasPart">
+						<app-los *ngFor="let part of los.hasPart" [los]="part.learningOpportunitySpecification"></app-los>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>

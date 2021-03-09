@@ -1,0 +1,28 @@
+.card-title {
+  font-weight: bold;
+}
+
+.card-body {
+  padding: .75rem;
+}
+
+.collapse-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.indented-1 {
+  padding-left: 30px;
+}
+
+.indented-2 {
+  padding-left: 45px;
+}
+
+.indented-3 {
+  padding-left: 60px;
+}
+
+.list-group-item {
+  padding: 0 0 5px 0;
+}
