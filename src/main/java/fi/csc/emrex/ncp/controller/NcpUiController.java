@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,8 @@ import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,6 +51,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Controller providing REST-style endpoints used by fi-ncp fornt-end.
@@ -61,6 +65,15 @@ import org.springframework.web.server.ResponseStatusException;
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("/api")
 public class NcpUiController extends NcpControllerBase {
+
+  /**
+  * Redirect routes that are not recognized in Spring to Angular
+  */
+  @Bean
+	public ErrorViewResolver customErrorViewResolver() {
+		final ModelAndView redirectToIndexHtml = new ModelAndView("forward:/index.html", Collections.emptyMap(), HttpStatus.OK);
+		return (request, status, model) -> status == HttpStatus.NOT_FOUND ? redirectToIndexHtml : null;
+	}
 
   @Autowired
   private HttpServletRequest context;
