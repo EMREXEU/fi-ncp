@@ -24,8 +24,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private coursesService: CoursesService,
     private router: Router,
     private i18nService: I18nService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;
@@ -37,8 +36,16 @@ export class CoursesComponent implements OnInit, OnDestroy {
           this.selectedIssuer = this.issuers[0];
         }
         this.loading = false;
-        if (this.coursesService.selectedCourses && this.coursesService.selectedCourses.length > 0) {
-          this.coursesService.selectedCourses.forEach(course => this.selectCourse(course))
+        if (this.coursesService.selectedIssuer) {
+          this.selectedIssuer = this.coursesService.selectedIssuer;
+        }
+        if (
+          this.coursesService.selectedCourses &&
+          this.coursesService.selectedCourses.length > 0
+        ) {
+          this.coursesService.selectedCourses.forEach((course) =>
+            this.selectCourse(course)
+          );
         }
       }
     );
@@ -109,8 +116,13 @@ export class CoursesComponent implements OnInit, OnDestroy {
   }
 
   reviewSelectedCourses(): void {
-    const partOfModule = this.coursesByIssuer[this.selectedIssuer].filter(course => course.isPartOfModule);
-    const partOfDegree = this.coursesByIssuer[this.selectedIssuer].filter(course => course.isPartOfDegree);
+    this.coursesService.count = this.calculateSize();
+    const partOfModule = this.coursesByIssuer[this.selectedIssuer].filter(
+      (course) => course.isPartOfModule
+    );
+    const partOfDegree = this.coursesByIssuer[this.selectedIssuer].filter(
+      (course) => course.isPartOfDegree
+    );
     partOfModule.forEach((course) => {
       if (this.selectedCourses.has(course.avain)) {
         if (this.courseSelected(course.module)) {
@@ -127,6 +139,16 @@ export class CoursesComponent implements OnInit, OnDestroy {
     });
     const courses = Array.from(this.selectedCourses.values());
     this.coursesService.setSelectedCourses(courses);
+    this.coursesService.courses = this.coursesByIssuer[
+      this.selectedIssuer
+    ].filter(
+      (course) =>
+        courses.includes(course.avain) ||
+        courses.includes(course.degree) ||
+        courses.includes(course.module)
+    );
+    this.coursesService.credits = this.creditsCount;
+    this.coursesService.selectedIssuer = this.selectedIssuer;
     this.router.navigate(['/preview']);
   }
 

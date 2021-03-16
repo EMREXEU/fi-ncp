@@ -27,6 +27,33 @@
   padding: 0 0 5px 0;
 }
 
-button {
-  margin-bottom: 20px;
+h2 {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  display: inline-block;
+}
+.table td, .table th {
+  padding: 3px 5px;
+}
+
+.partOfDegree {
+  padding-left: 40px !important;
+}
+
+.partOfModule {
+  padding-left: 80px !important;
+}
+
+.table {
+  margin-bottom: 30px;
+}
+
+.primary-action {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+}
+
+.primary-action button {
+  margin-left: auto;
 }

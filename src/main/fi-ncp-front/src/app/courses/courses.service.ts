@@ -19,6 +19,9 @@ export class CoursesService {
       map((response) => {
         let degrees = [];
         response.virta.opiskelija.forEach((HEI) => {
+          HEI.opintosuoritukset.opintosuoritus = HEI.opintosuoritukset.opintosuoritus.filter(
+            (suoritus) => +suoritus.laji === 1 || +suoritus.laji === 2
+          );
           degrees = HEI.opintosuoritukset.opintosuoritus.filter(
             (suoritus) => +suoritus.laji === 1
           );
@@ -43,12 +46,17 @@ export class CoursesService {
                       (c) =>
                         c.avain === sisaltyvyys.sisaltyvaOpintosuoritusAvain
                     );
-                    course.isPartOfModule = true;
-                    course.weight = suoritus.weight =
-                      i + 100 * (j + 1) + 1 * (k + 1);
-                    course.module = suoritus.avain;
-                    course.type = 'course';
-                    suoritus.hasPart.push(course);
+                    if (course) {
+                      course.isPartOfModule = true;
+                      course.weight = i + 100 * (j + 1) + 1 * (k + 1);
+                      course.module = suoritus.avain;
+                      course.type = 'course';
+                      suoritus.hasPart.push(course);
+                    } else {
+                      suoritus.isModule = false;
+                      suoritus.type = 'course';
+                      suoritus.sisaltyvyys = [];
+                    }
                   });
                   suoritus.weight = i + 100 * (j + 1);
                 }
@@ -63,6 +71,12 @@ export class CoursesService {
                   }
                 }
               });
+              HEI.opintosuoritukset.opintosuoritus
+                .filter((c) => c.isModule)
+                .forEach((m) =>
+                  m.hasPart.forEach((c) => (c.degree = m.degree))
+                );
+
               degree.weight = i * 100000;
               degree.hasPart = HEI.opintosuoritukset.opintosuoritus.filter(
                 (c) => c.isPartOfDegree
@@ -77,25 +91,29 @@ export class CoursesService {
                 suoritus.isModule = true;
                 suoritus.type = 'module';
                 suoritus.hasPart = [];
+                suoritus.weight = (i + 1) * 100;
                 suoritus.sisaltyvyys.forEach((sisaltyvyys, j) => {
                   const course = HEI.opintosuoritukset.opintosuoritus.find(
                     (c) => c.avain === sisaltyvyys.sisaltyvaOpintosuoritusAvain
                   );
-                  course.isPartOfModule = true;
-                  course.weight = suoritus.weight = i + 100 * (j + 1);
-                  course.module = suoritus.avain;
-                  course.type = 'course';
-                  suoritus.hasPart.push(course);
+                  if (course) {
+                    course.isPartOfModule = true;
+                    course.weight = (i + 1) * 100 + (j + 1);
+                    course.module = suoritus.avain;
+                    course.type = 'course';
+                    suoritus.hasPart.push(course);
+                  } else {
+                    suoritus.isModule = false;
+                    suoritus.type = 'course';
+                    suoritus.sisaltyvyys = [];
+                  }
                 });
               } else {
                 suoritus.type = 'course';
+                suoritus.weight = (i + 1) * 100;
               }
             });
           }
-
-          HEI.opintosuoritukset.opintosuoritus = HEI.opintosuoritukset.opintosuoritus.filter(
-            (suoritus) => +suoritus.laji === 1 || +suoritus.laji === 2
-          );
           HEI.opintosuoritukset.opintosuoritus.sort(
             (a, b) => a.weight - b.weight
           );
@@ -105,6 +123,10 @@ export class CoursesService {
     );
 
   selectedCourses: string[] = [];
+  selectedIssuer = '';
+  courses = [];
+  count = 0;
+  credits = 0;
 
   coursesWithIssuers$ = combineLatest([this.issuers$, this.courses$]).pipe(
     map(([issuers, courses]) => {
@@ -144,5 +166,13 @@ export class CoursesService {
       this.router.navigate(['/courses']);
       return of();
     }
+  }
+
+  sendReport(): void {
+    this.http.post(environment.sendReportUrl, {}, {
+      withCredentials: true,
+    }).subscribe(_ => {
+      return;
+    });
   }
 }

@@ -58,6 +58,32 @@ export const i18n = {
     }
   },
   preview: {
+    back: { FI: 'Takaisin', SV: '', EN: 'Back' },
     loading: { FI: 'Tuotetaan esikatselua...', SV: '', EN: 'Generating preview...' },
+    personalInfo: {
+      title: { FI: 'Henkilötiedot', SV: '', EN: 'Personal information' },
+      givenNames: { FI: 'Etunimet', SV: '', EN: 'Given names' },
+      familyName: { FI: 'Sukunimi', SV: '', EN: 'Family name' },
+      ssn: { FI: 'Henkilötunnus', SV: '', EN: 'Personal Identity Code' },
+      oid: { FI: 'Kansallinen oppijanumero', SV: '', EN: 'National Learner ID' },
+      bday: { FI: 'Syntymäaika', SV: '', EN: 'Day of Birth' },
+      gender: { FI: 'Sukupuoli', SV: '', EN: 'Gender' },
+      male: { FI: 'Mies', SV: '', EN: 'Male' },
+      female: { FI: 'Nainen', SV: '', EN: 'Female' },
+      'not applicable': { FI: 'Ei määritelty', SV: '', EN: 'Not applicable' },
+      'not known': { FI: 'Ei tiedossa', SV: '', EN: 'Not known' },
+    },
+    achievements: {
+      title: { FI: 'Lähetettävät suoritukset', SV: '', EN: 'Exportable achievements' },
+      degree: { FI: 'tutkinto', SV: '', EN: 'degree' },
+      degrees: { FI: 'tutkintoa', SV: '', EN: 'degrees' },
+      module: { FI: 'moduuli', SV: '', EN: 'module' },
+      modules: { FI: 'moduulia', SV: '', EN: 'modules' },
+      course: { FI: 'kurssi', SV: '', EN: 'course' },
+      courses: { FI: 'kurssia', SV: '', EN: 'courses' },
+      credits: { FI: 'opintopistettä', SV: '', EN: 'credits' },
+    },
+    submit: { FI: 'Lähetä', SV: '', EN: 'Submit' },
+    expandElmo: { FI: 'Klikkaa tästä nähdäksesi kaikki lähetettävät tiedot Elmo formaatissa', SV: '', EN: 'Click here to view the whole exportable dataset in Elmo format' },
   }
 };

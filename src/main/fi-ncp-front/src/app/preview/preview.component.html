@@ -1,29 +1,76 @@
 <div class="container" *ngIf="lang$ | async as lang">
-  <button class="btn btn-primary btn-default" routerLink="courses"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;&nbsp;Back</button>
+  <button class="btn btn-primary btn-default" routerLink="courses"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;&nbsp;{{i18n.preview.back[lang]}}</button>
 	<div *ngIf="elmo">
-		<div class="card" *ngIf="elmo.generatedDate">
-			<div class="card-body">
-				<div (click)="collapse.generated = !collapse.generated" class="card-title collapse-toggle">Generated&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.generated ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
-				</div>
-				<div *ngIf="!collapse.generated" clas="card-text">{{elmo.generatedDate | date : 'dd.MM.YYYY HH:mm'}}</div>
-			</div>
-		</div>
-		<app-learner *ngIf="elmo.learner" [learner]="elmo.learner"></app-learner>
-		<div class="card" *ngIf="elmo.report">
-			<div class="card-body">
-				<div (click)="collapse.report = !collapse.report" class="card-title collapse-toggle">Report&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.report ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
-				</div>
-				<div *ngIf="!collapse.report" class="card-text">
-					<div *ngFor="let report of elmo.report">
-						<div>
-							<b>Issue date:</b>&nbsp;{{report.issueDate | date : 'dd.MM.YYYY HH:mm'}}
-						</div>
-						<app-issuer [issuer]="report.issuer"></app-issuer>
-						<app-los *ngFor="let los of report.learningOpportunitySpecification" [los]="los"></app-los>
-					</div>
-				</div>
-			</div>
-		</div>
+    <div *ngIf="elmo.learner">
+      <h2>{{i18n.preview.personalInfo.title[lang]}}:</h2>
+      <div><b>{{i18n.preview.personalInfo.givenNames[lang]}}:</b>&nbsp;{{elmo.learner.givenNames}}</div>
+      <div><b>{{i18n.preview.personalInfo.familyName[lang]}}:</b>&nbsp;{{elmo.learner.familyName}}</div>
+      <div *ngIf="ssn"><b>{{i18n.preview.personalInfo.ssn[lang]}}:</b>&nbsp;{{ssn}}</div>
+      <div *ngIf="oid"><b>{{i18n.preview.personalInfo.oid[lang]}}:</b>&nbsp;{{oid}}</div>
+      <div><b>{{i18n.preview.personalInfo.bday[lang]}}:</b>&nbsp;{{elmo.learner.bday | date : 'dd.MM.YYYY'}}</div>
+      <div><b>{{i18n.preview.personalInfo.gender[lang]}}:</b>&nbsp;{{i18n.preview.personalInfo[elmo.learner.gender][lang]}}</div>
+      <h2>{{i18n.preview.achievements.title[lang]}}:</h2>
+      <div>
+        <span *ngIf="degreesCount === 1">{{degreesCount}}&nbsp;{{i18n.preview.achievements.degree[lang]}},&nbsp;</span>
+        <span *ngIf="degreesCount > 1">{{degreesCount}}&nbsp;{{i18n.preview.achievements.degrees[lang]}},&nbsp;</span>
+        <span *ngIf="modulesCount === 1">{{modulesCount}}&nbsp;{{i18n.preview.achievements.module[lang]}},&nbsp;</span>
+        <span *ngIf="modulesCount > 1">{{modulesCount}}&nbsp;{{i18n.preview.achievements.modules[lang]}},&nbsp;</span>
+        <span *ngIf="coursesCount === 1">{{coursesCount}}&nbsp;{{i18n.preview.achievements.course[lang]}}</span>
+        <span *ngIf="coursesCount > 1">{{coursesCount}}&nbsp;{{i18n.preview.achievements.courses[lang]}}</span>
+        <span>&nbsp;=&nbsp;{{credits}}&nbsp;{{i18n.preview.achievements.credits[lang]}}</span>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <th>{{i18n.courses.table.name[lang]}}</th>
+          <th>{{i18n.courses.table.credits[lang]}}</th>
+          <th>{{i18n.courses.organization[lang]}}</th>
+          <th>{{i18n.courses.table.evaluation[lang]}}</th>
+          <th>{{i18n.courses.table.regdate[lang]}}</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let opintosuoritus of courses" role="row">
+            <td [class.partOfDegree]="opintosuoritus.isPartOfDegree" [class.partOfModule]="opintosuoritus.isPartOfModule">
+              {{opintosuoritus.nimi[0].value}}
+            </td>
+            <td>{{opintosuoritus.laajuus.opintopiste}}</td>
+            <td>{{opintosuoritus.myontaja}}</td>
+            <td>{{opintosuoritus.arvosana.viisiportainen}}</td>
+            <td>{{opintosuoritus.suoritusPvm | date : 'yyyy-MM-dd'}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="primary-action">
+        <button class="btn btn-primary btn-default" (click)="sendReport()">{{i18n.preview.submit[lang]}}</button>
+      </div>
+    </div>
+    <div class="card" *ngIf="elmo">
+      <div (click)="collapse.elmo = !collapse.elmo" class="card-header collapse-toggle">{{i18n.preview.expandElmo[lang]}}&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.elmo ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
+      <div class="card-body" *ngIf="!collapse.elmo">
+        <div class="card" *ngIf="elmo.generatedDate">
+          <div class="card-body">
+            <div (click)="collapse.generated = !collapse.generated" class="card-title collapse-toggle">Generated&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.generated ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+            </div>
+            <div *ngIf="!collapse.generated" clas="card-text">{{elmo.generatedDate | date : 'dd.MM.YYYY HH:mm'}}</div>
+          </div>
+        </div>
+        <app-learner *ngIf="elmo.learner" [learner]="elmo.learner"></app-learner>
+        <div class="card" *ngIf="elmo.report">
+          <div class="card-body">
+            <div (click)="collapse.report = !collapse.report" class="card-title collapse-toggle">Report&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.report ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+            </div>
+            <div *ngIf="!collapse.report" class="card-text">
+              <div *ngFor="let report of elmo.report">
+                <div>
+                  <b>Issue date:</b>&nbsp;{{report.issueDate | date : 'dd.MM.YYYY HH:mm'}}
+                </div>
+                <app-issuer [issuer]="report.issuer"></app-issuer>
+                <app-los *ngFor="let los of report.learningOpportunitySpecification" [los]="los"></app-los>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 	</div>
   <app-loading *ngIf="loading" [message]="i18n.preview.loading[lang]"></app-loading>
 </div>
