@@ -22,7 +22,6 @@ import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOp
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Level;
 import fi.csc.schemas.elmo.TokenWithOptionalLang;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
-import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -379,9 +378,6 @@ public class ElmoService {
     });
   }
 
-  public void postElmo(String elmoString, NcpRequestDto ncpRequestDto) {
-    // TODO
-  }
 
   /**
    * From some reason setting existing protected XMLGregorianCalendar

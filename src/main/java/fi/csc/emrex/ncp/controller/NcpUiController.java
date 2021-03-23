@@ -10,6 +10,7 @@ import fi.csc.emrex.ncp.controller.utils.NcpSessionAttributes;
 import fi.csc.emrex.ncp.dto.IssuerDto;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
 import fi.csc.emrex.ncp.dto.NcpRequestDto;
+import fi.csc.emrex.ncp.dto.NcpResponseDto;
 import fi.csc.emrex.ncp.elmo.XmlUtil;
 import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.emrex.ncp.service.DataSignService;
@@ -67,13 +68,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class NcpUiController extends NcpControllerBase {
 
   /**
-  * Redirect routes that are not recognized in Spring to Angular
-  */
+   * Redirect routes that are not recognized in Spring to Angular
+   */
   @Bean
-	public ErrorViewResolver customErrorViewResolver() {
-		final ModelAndView redirectToIndexHtml = new ModelAndView("forward:/index.html", Collections.emptyMap(), HttpStatus.OK);
-		return (request, status, model) -> status == HttpStatus.NOT_FOUND ? redirectToIndexHtml : null;
-	}
+  public ErrorViewResolver customErrorViewResolver() {
+    final ModelAndView redirectToIndexHtml = new ModelAndView("forward:/index.html", Collections.emptyMap(),
+        HttpStatus.OK);
+    return (request, status, model) -> status == HttpStatus.NOT_FOUND ? redirectToIndexHtml : null;
+  }
 
   @Autowired
   private HttpServletRequest context;
@@ -144,7 +146,6 @@ public class NcpUiController extends NcpControllerBase {
    */
   @RequestMapping(value = "/courses", method = RequestMethod.GET)
   public OpiskelijanKaikkiTiedotResponse getCourses(@ModelAttribute NcpRequestDto request) throws NcpException {
-
     HttpSession session = context.getSession();
 
     String personId = context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) != null
@@ -169,8 +170,6 @@ public class NcpUiController extends NcpControllerBase {
 
     OpiskelijanKaikkiTiedotResponse virtaXml = virtaClient.fetchStudiesAndLearnerDetails(virtaUserDto);
 
-    session.setAttribute(NcpSessionAttributes.SESSION_ID, request.getSessionId());
-    session.setAttribute(NcpSessionAttributes.RETURN_URL, request.getReturnUrl());
     session.setAttribute(NcpSessionAttributes.VIRTA_XML, virtaXml);
     session.setAttribute(NcpSessionAttributes.VIRTA_USER_DTO, virtaUserDto);
 
@@ -184,7 +183,7 @@ public class NcpUiController extends NcpControllerBase {
    * correct conversion is required here)
    */
   @RequestMapping(value = "/review", method = RequestMethod.GET)
-  public Elmo reviewCourses(@RequestParam(value = "courses") String[] courses) throws NcpException {
+  public NcpResponseDto reviewCourses(@RequestParam(value = "courses") String[] courses) throws NcpException {
 
     HttpSession session = context.getSession();
 
@@ -239,28 +238,26 @@ public class NcpUiController extends NcpControllerBase {
     learnerDetails.setFamilyName(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukunimi());
 
     Elmo elmoXml = elmoService.convertToElmoXml(filteredCourses, allCoursesFromSelectedIssuer, student, learnerDetails);
-    session.setAttribute(NcpSessionAttributes.ELMO_XML, elmoXml);
-    return elmoXml;
-  }
 
-  /**
-   * STEP 3: After user has reviewed and accepted course data from ELMO XML, post
-   * it to return URL.
-   *
-   * TODO: implement as endpoint for user accepting reviewed courses
-   */
-  @RequestMapping(value = "/accept", method = RequestMethod.POST)
-  public void acceptCourses() throws NcpException {
-    HttpSession session = context.getSession();
-    Elmo elmoXml = (Elmo) session.getAttribute(NcpSessionAttributes.ELMO_XML);
-    if (elmoXml == null) {
-      throw new NcpException("Elmo XML is not stored in session.");
-    }
     String elmoString = XmlUtil.toString(elmoXml);
-    log.info("ELMO XML pre sign:\n{}", elmoString);
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
-    elmoService.postElmo(elmoString, new NcpRequestDto((String) session.getAttribute(NcpSessionAttributes.SESSION_ID),
-        (String) session.getAttribute(NcpSessionAttributes.RETURN_URL)));
+
+    String sessionId = session.getAttribute(NcpSessionAttributes.SESSION_ID) != null
+    ? session.getAttribute(NcpSessionAttributes.SESSION_ID).toString()
+    : "";
+    String returnUrl = session.getAttribute(NcpSessionAttributes.RETURN_URL) != null
+    ? session.getAttribute(NcpSessionAttributes.RETURN_URL).toString()
+    : "";
+
+    NcpResponseDto ncpResponseDto = new NcpResponseDto();
+    ncpResponseDto.setSessionId(sessionId);
+    ncpResponseDto.setReturnCode("NCP_OK");
+    ncpResponseDto.setReturnMessage("");
+    ncpResponseDto.setReturnUrl(returnUrl);
+    ncpResponseDto.setElmo(elmoString);
+    ncpResponseDto.setElmoXml(elmoXml);
+
+    return ncpResponseDto;
   }
 
   // TODO: Should user logout and session invalidate also after sending ELMO
@@ -270,11 +267,5 @@ public class NcpUiController extends NcpControllerBase {
     HttpSession session = context.getSession();
     session.invalidate();
     return ResponseEntity.ok().build();
-  }
-
-  private void logSession(HttpSession session) {
-    log.info("Session attributes:");
-    session.getAttributeNames().asIterator()
-        .forEachRemaining(x -> log.info("name:{}, value:{}", x, session.getAttribute(x)));
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { I18nService } from 'src/i18n/i18n.service';
 import { CoursesService } from '../courses/courses.service';
 
@@ -8,6 +8,8 @@ import { CoursesService } from '../courses/courses.service';
   styleUrls: ['./preview.component.css'],
 })
 export class PreviewComponent implements OnInit {
+  @ViewChild('form') form: ElementRef;
+
   elmo = {};
   collapse = {
     elmo: true,
@@ -24,6 +26,8 @@ export class PreviewComponent implements OnInit {
   oid = '';
   lang$ = this.i18nService.langAction$;
   i18n = this.i18nService.i18n;
+  payload = {};
+  returnUrl = '';
 
   constructor(
     private coursesService: CoursesService,
@@ -33,25 +37,33 @@ export class PreviewComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     this.coursesService.getPreview().subscribe((data) => {
-      switch (data.learner.gender) {
+      switch (data.elmoXml.learner.gender) {
         case 1:
-          data.learner.gender = 'male';
+          data.elmoXml.learner.gender = 'male';
           break;
         case 2:
-          data.learner.gender = 'female';
+          data.elmoXml.learner.gender = 'female';
           break;
         case 0:
-          data.learner.gender = 'not known';
+          data.elmoXml.learner.gender = 'not known';
           break;
         case 9:
-          data.learner.gender = 'not applicable';
+          data.elmoXml.learner.gender = 'not applicable';
           break;
 
         default:
-          data.learner.gender = 'not known';
+          data.elmoXml.learner.gender = 'not known';
           break;
       }
-      this.elmo = data;
+      this.elmo = data.elmoXml;
+      this.returnUrl = data.returnUrl;
+      this.payload = {
+        sessionId: data.sessionId,
+        returnMessage: data.returnMessage,
+        returnCode: data.returnCode,
+        elmo: data.elmo,
+      };
+      this.loading = false;
       this.courses = this.coursesService.courses;
       this.coursesCount = this.coursesService.count;
       this.modulesCount = this.coursesService.courses.filter(
@@ -61,17 +73,18 @@ export class PreviewComponent implements OnInit {
         (c) => c.isDegree
       ).length;
       this.credits = this.coursesService.credits;
-      this.ssn = data.learner.identifier.filter(
+      this.ssn = data.elmoXml.learner.identifier.filter(
         (id) => id.type === 'nationalIdentifier'
       )[0]?.value;
-      this.oid = data.learner.identifier.filter(
+      this.oid = data.elmoXml.learner.identifier.filter(
         (id) => id.type === 'nationalLearnerId'
       )[0]?.value;
-      this.loading = false;
     });
   }
 
   sendReport(): void {
-    this.coursesService.sendReport();
+    // this.coursesService.sendReport();
+    // logout
+    this.form.nativeElement.submit();
   }
 }

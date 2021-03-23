@@ -33,7 +33,7 @@ public class NcpControllerIntegrationTest {
         .param("returnUrl", "TODO")
         .sessionAttrs(NcpUiControllerIntegrationTest.getShibbolethAuthenticationAttributes()))
         .andDo(print())
-        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
         .andReturn();
     // TODO: implement actual verification and parameters as specified in (https://emrex.eu/wp-content/uploads/2020/01/Technical-Guide-to-EMREX.pdf, page 7)
   }

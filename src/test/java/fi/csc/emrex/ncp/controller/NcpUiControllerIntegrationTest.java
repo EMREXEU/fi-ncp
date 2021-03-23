@@ -45,13 +45,13 @@ public class NcpUiControllerIntegrationTest {
     log.info("VIRTA XML in session:\n{}", XmlUtil.toString(virtaXml));
   }
 
-  @Test
+/*   @Test
   public void getCoursesAndReviewSelected() throws Exception {
 
     // First request will store data into session so must use same session in
     // following request
     MvcResult res = mockMvc
-        .perform(MockMvcRequestBuilders.get(NcpPaths.GET_COURSES).param("sessionId", "TODO").param("returnUrl", "TODO")
+        .perform(MockMvcRequestBuilders.get(NcpPaths.GET_COURSES)
             .requestAttr(SHIBBOLETH_KEYS.UNIQUE_ID, SHIBBOLETH_VALUES.UNIQUE_ID))
         .andDo(print()).andExpect(MockMvcResultMatchers.status().isOk())
         // .andExpect(MockMvcResultMatchers.content().string(NcpPages.NOREX))
@@ -63,10 +63,9 @@ public class NcpUiControllerIntegrationTest {
 
     mockMvc.perform(MockMvcRequestBuilders.get(NcpPaths.REVIEW_COURSES)
         // Expecting this existing course from VIRTA test service
-        .param("courses", "1451865").session((MockHttpSession) res.getRequest().getSession()).param("sessionId", "TODO")
-        .param("returnUrl", "TODO")).andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
+        .param("courses", "1451865").session((MockHttpSession) res.getRequest().getSession())).andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
   }
-
+ */
   public static Map<String, Object> getShibbolethAuthenticationAttributes() {
     return Map.of(SHIBBOLETH_KEYS.LEARNER_ID, SHIBBOLETH_VALUES.LEARNER_ID, SHIBBOLETH_KEYS.UNIQUE_ID,
         SHIBBOLETH_VALUES.UNIQUE_ID, SHIBBOLETH_KEYS.DATE_OF_BIRTH, SHIBBOLETH_VALUES.DATE_OF_BIRTH,

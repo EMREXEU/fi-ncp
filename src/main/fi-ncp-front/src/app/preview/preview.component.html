@@ -40,7 +40,13 @@
         </tbody>
       </table>
       <div class="primary-action">
-        <button class="btn btn-primary btn-default" (click)="sendReport()">{{i18n.preview.submit[lang]}}</button>
+        <form #form ngNoForm [action]="returnUrl" method="POST">
+          <input type="hidden" name="sessionId" [value]="payload.sessionId">
+          <input type="hidden" name="returnCode" [value]="payload.returnCode">
+          <input type="hidden" name="returnMessage" [value]="payload.returnMessage">
+          <input type="hidden" name="elmo" [value]="payload.elmo">
+         </form>
+         <button class="btn btn-primary btn-default" (click)="sendReport()">{{i18n.preview.submit[lang]}}</button>
       </div>
     </div>
     <div class="card" *ngIf="elmo">
