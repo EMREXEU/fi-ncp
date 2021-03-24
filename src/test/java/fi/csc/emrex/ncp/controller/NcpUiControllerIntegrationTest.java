@@ -45,7 +45,7 @@ public class NcpUiControllerIntegrationTest {
     log.info("VIRTA XML in session:\n{}", XmlUtil.toString(virtaXml));
   }
 
-/*   @Test
+  @Test
   public void getCoursesAndReviewSelected() throws Exception {
 
     // First request will store data into session so must use same session in
@@ -65,7 +65,7 @@ public class NcpUiControllerIntegrationTest {
         // Expecting this existing course from VIRTA test service
         .param("courses", "1451865").session((MockHttpSession) res.getRequest().getSession())).andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
   }
- */
+
   public static Map<String, Object> getShibbolethAuthenticationAttributes() {
     return Map.of(SHIBBOLETH_KEYS.LEARNER_ID, SHIBBOLETH_VALUES.LEARNER_ID, SHIBBOLETH_KEYS.UNIQUE_ID,
         SHIBBOLETH_VALUES.UNIQUE_ID, SHIBBOLETH_KEYS.DATE_OF_BIRTH, SHIBBOLETH_VALUES.DATE_OF_BIRTH,

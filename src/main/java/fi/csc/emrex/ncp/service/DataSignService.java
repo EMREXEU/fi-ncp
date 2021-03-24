@@ -142,8 +142,7 @@ public class DataSignService {
   }
 
   private String readFileContent(String path) throws Exception {
-    return environment.equalsIgnoreCase("dev") ? FileReader.getFileContent(path) :
-        new String(Files.readAllBytes(Paths.get(path)));
+    return new String(Files.readAllBytes(Paths.get(path)));
   }
 
   private static X509Certificate getCertificate(String certString)

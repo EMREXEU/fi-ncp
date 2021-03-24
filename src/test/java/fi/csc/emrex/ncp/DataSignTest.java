@@ -20,9 +20,8 @@ public class DataSignTest {
   @BeforeAll
   public static void setUp() throws Exception {
     instance = new DataSignService();
-    instance.setCertificatePath("csc-cert.crt");
-    instance.setEncryptionKeyPath("csc-privkey-pkcs8.key");
-    instance.setEnvironment("dev");
+    instance.setCertificatePath("certs/ncp_dev_cert.cer");
+    instance.setEncryptionKeyPath("certs/ncp.dev.key");
   }
 
   @Test

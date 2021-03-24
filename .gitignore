@@ -15,6 +15,7 @@ buildNumber.properties
 *.iml
 .DS_Store
 
+certs/
 
 # Angular-integration
 src/main/webapp/*
