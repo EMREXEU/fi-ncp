@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { combineLatest, Observable, of, pipe } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, of, pipe, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ICourseResponse } from './course';
 
@@ -169,10 +169,16 @@ export class CoursesService {
   }
 
   sendReport(): void {
-    this.http.post(environment.sendReportUrl, {}, {
-      withCredentials: true,
-    }).subscribe(_ => {
-      return;
-    });
+    this.http
+      .post(
+        environment.sendReportUrl,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .subscribe((_) => {
+        return;
+      });
   }
 }

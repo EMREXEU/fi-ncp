@@ -2,9 +2,16 @@
 	id="logo" src="assets/img/emrex-logo.png" alt="Emrex logo"/>
 	<h1>{{i18n.header.title[lang]}}</h1>
 	<div class="pull-right">
-		<div id="user-info" *ngIf="user$ | async as user">
-			<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{user.commonName}}&nbsp;&nbsp;<span aria-hidden="true">|</span>&nbsp;
+		<div id="user-info" *ngIf="session$ | async as session">
+			<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{session.commonName}}&nbsp;&nbsp;<span aria-hidden="true">|</span>&nbsp;
 			<button class="link-button" (click)="logout()">{{i18n.header.logout[lang]}}</button>
+      <a id="haka-logout" href="/Shibboleth.sso/Logout" target="_blank" aria-hidden="true" hidden></a>
+      <form #form ngNoForm [action]="session.returnUrl" method="POST">
+        <input type="hidden" name="sessionId" [value]="session.sessionId">
+        <input type="hidden" name="returnCode" [value]="returnCode">
+        <input type="hidden" name="returnMessage" [value]="returnMessage">
+        <input type="hidden" name="elmo" value="">
+       </form>
 		</div>
 		<div id="language-select">
 			<button *ngIf="lang != 'FI'" class="link-button" (click)="changeLang('FI')">{{i18n.header.lang.FI}}</button>

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  getUserUrl: 'http://localhost:9001/api/user',
+  getSessionUrl: 'http://localhost:9001/api/session',
+  getLogoutUrl: 'http://localhost:9001/api/logout',
   getIssuersUrl: 'http://localhost:9001/api/issuers',
   getAllCoursesUrl: 'http://localhost:9001/api/courses',
   getSelectedCoursesUrl: 'http://localhost:9001/api/review',

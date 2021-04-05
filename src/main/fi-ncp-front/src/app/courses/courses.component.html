@@ -1,4 +1,10 @@
 <div class="container" *ngIf="lang$ | async as lang">
+	<form *ngIf="session" #form ngNoForm [action]="session.returnUrl" method="POST">
+		<input type="hidden" name="sessionId" [value]="session.sessionId">
+		<input type="hidden" id="returnCode" name="returnCode" [value]="returnCode">
+		<input type="hidden" name="returnMessage" [value]="returnMessage">
+		<input type="hidden" name="elmo" value="">
+	</form>
 	<div class="courses-container" *ngIf="coursesByIssuer">
 		<div *ngIf="issuers.length > 1" id="issuer-select">
 			<p *ngIf="!selectedIssuer">{{i18n.courses.issuers.prompt[lang]}}</p>
@@ -8,7 +14,6 @@
 				<option *ngFor="let issuer of issuers" [value]="issuer">{{issuer}}</option>
 			</select>
 		</div>
-
 		<div id="courses-selected" *ngIf="selectedIssuer">
 			<span>{{calculateSize()}}
 				{{i18n.courses.coursesselected[lang]}}
@@ -44,5 +49,5 @@
 			</tbody>
 		</table>
 	</div>
-  <app-loading *ngIf="loading" [message]="i18n.courses.loading[lang]"></app-loading>
+	<app-loading *ngIf="loading" [message]="i18n.courses.loading[lang]"></app-loading>
 </div>

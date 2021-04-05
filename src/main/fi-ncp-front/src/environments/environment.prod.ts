@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  getUserUrl: 'api/user',
+  getSessionUrl: 'api/session',
+  getLogoutUrl: 'api/logout',
   getIssuersUrl: 'api/issuers',
   getAllCoursesUrl: 'api/courses',
   getSelectedCoursesUrl: 'api/review',

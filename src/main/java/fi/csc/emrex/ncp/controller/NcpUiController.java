@@ -87,44 +87,45 @@ public class NcpUiController extends NcpControllerBase {
   private ElmoService elmoService;
 
   /**
-   * @return Map of user related information from Shibboleth/Haka.
+   * @return Map of user related information from Shibboleth/Haka and sessionId &
+   *         returnUrl for handling error and cancel cases.
    */
-  @RequestMapping(value = "/user", method = RequestMethod.GET)
-  public Map<String, String> getUserInformation() {
-    Map<String, String> userAttributes = new HashMap<>();
+  @RequestMapping(value = "/session", method = RequestMethod.GET)
+  public Map<String, String> getSessionInformation() {
+    HttpSession session = context.getSession();
+    Map<String, String> sessionAttributes = new HashMap<>();
     try {
-      userAttributes.put("givenNames",
+      sessionAttributes.put("givenNames",
           context.getAttribute(SHIBBOLETH_KEYS.GIVEN_NAME) != null
               ? new String(context.getAttribute(SHIBBOLETH_KEYS.GIVEN_NAME).toString().getBytes("ISO-8859-1"), "UTF-8")
               : null);
 
-      userAttributes.put("surname",
+      sessionAttributes.put("surname",
           context.getAttribute(SHIBBOLETH_KEYS.SUR_NAME) != null
               ? new String(context.getAttribute(SHIBBOLETH_KEYS.SUR_NAME).toString().getBytes("ISO-8859-1"), "UTF-8")
               : null);
-      userAttributes.put("displayName",
+      sessionAttributes.put("displayName",
           context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME) != null
               ? new String(context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME).toString().getBytes("ISO-8859-1"),
                   "UTF-8")
               : null);
-      userAttributes.put("commonName",
+      sessionAttributes.put("commonName",
           context.getAttribute(SHIBBOLETH_KEYS.CN) != null
               ? new String(context.getAttribute(SHIBBOLETH_KEYS.CN).toString().getBytes("ISO-8859-1"), "UTF-8")
-              : null);
+              : "");
+      sessionAttributes.put(NcpSessionAttributes.SESSION_ID,
+          session.getAttribute(NcpSessionAttributes.SESSION_ID) != null
+              ? session.getAttribute(NcpSessionAttributes.SESSION_ID).toString()
+              : "");
+      sessionAttributes.put(NcpSessionAttributes.RETURN_URL,
+          session.getAttribute(NcpSessionAttributes.RETURN_URL) != null
+              ? session.getAttribute(NcpSessionAttributes.RETURN_URL).toString()
+              : "");
     } catch (UnsupportedEncodingException e1) {
     }
-    if (context.getAttribute(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN) != null) {
-      try {
-        IssuerDto issuer = (IssuerDto) elmoService
-            .issuerForDomain(context.getAttribute(SHIBBOLETH_KEYS.ORGANIZATION_DOMAIN).toString());
-        userAttributes.put("homeOrganization", issuer.getTitle());
-        userAttributes.put("homeOrganizationId", issuer.getCode());
-      } catch (NcpException e) {
-      }
-    }
-    // log.info("userAttributes:{}", userAttributes);
+    // log.info("sessionAttributes:{}", sessionAttributes);
 
-    return userAttributes;
+    return sessionAttributes;
   }
 
   /**
@@ -150,13 +151,14 @@ public class NcpUiController extends NcpControllerBase {
 
     String personId = context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) != null
         ? context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID).toString()
-        : null;
+        : null; //urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
     String learnerId = context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID) != null
         ? context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID).toString()
         : null;
 
     if (personId == null && learnerId == null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either Unique ID or Learner ID required");
+      throw new NcpException("Either Unique ID or Learner ID required");
+      //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either Unique ID or Learner ID required");
     }
 
     // Person id needs to be trimmed to match VIRTA.
@@ -214,7 +216,8 @@ public class NcpUiController extends NcpControllerBase {
     }
 
     List<OpintosuoritusTyyppi> allCoursesFromSelectedIssuer = new ArrayList<>();
-    allCoursesFromSelectedIssuer = allCourses.stream().filter(c -> c.getMyontaja().equals(issuer.getCode())).collect(Collectors.toList());
+    allCoursesFromSelectedIssuer = allCourses.stream().filter(c -> c.getMyontaja().equals(issuer.getCode()))
+        .collect(Collectors.toList());
 
     student.setOrg(issuer.getCode());
     OpiskelijanTiedotResponse virtaLearnerDetails = virtaClient.fetchLearnerDetails(student);
@@ -243,11 +246,11 @@ public class NcpUiController extends NcpControllerBase {
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
 
     String sessionId = session.getAttribute(NcpSessionAttributes.SESSION_ID) != null
-    ? session.getAttribute(NcpSessionAttributes.SESSION_ID).toString()
-    : "";
+        ? session.getAttribute(NcpSessionAttributes.SESSION_ID).toString()
+        : "";
     String returnUrl = session.getAttribute(NcpSessionAttributes.RETURN_URL) != null
-    ? session.getAttribute(NcpSessionAttributes.RETURN_URL).toString()
-    : "";
+        ? session.getAttribute(NcpSessionAttributes.RETURN_URL).toString()
+        : "";
 
     NcpResponseDto ncpResponseDto = new NcpResponseDto();
     ncpResponseDto.setSessionId(sessionId);
@@ -260,8 +263,6 @@ public class NcpUiController extends NcpControllerBase {
     return ncpResponseDto;
   }
 
-  // TODO: Should user logout and session invalidate also after sending ELMO
-  // response to client?
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
   public ResponseEntity logout() {
     HttpSession session = context.getSession();

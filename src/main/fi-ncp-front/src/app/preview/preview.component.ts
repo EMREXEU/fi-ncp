@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { I18nService } from 'src/i18n/i18n.service';
 import { CoursesService } from '../courses/courses.service';
+import { SessionService } from '../session/session.service';
 
 @Component({
   selector: 'app-preview',
@@ -31,7 +32,8 @@ export class PreviewComponent implements OnInit {
 
   constructor(
     private coursesService: CoursesService,
-    private i18nService: I18nService
+    private i18nService: I18nService,
+    private sessionService: SessionService
   ) {}
 
   ngOnInit(): void {
@@ -83,8 +85,9 @@ export class PreviewComponent implements OnInit {
   }
 
   sendReport(): void {
-    // this.coursesService.sendReport();
-    // logout
-    this.form.nativeElement.submit();
+    this.sessionService.logout().subscribe((_) => {
+      this.form.nativeElement.submit();
+      document.getElementById('haka-logout').click();
+    });
   }
 }

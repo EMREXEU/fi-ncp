@@ -1,21 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { I18nService } from 'src/i18n/i18n.service';
-import { UserService } from '../user/user.service';
+import { SessionService } from '../session/session.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-  user$ = this.userService.user$;
+  @ViewChild('form') form: ElementRef;
+  session$ = this.sessionService.session$;
   lang$ = this.i18nService.langAction$;
   i18n = this.i18nService.i18n;
+  returnCode = 'NCP_CANCEL';
+  returnMessage = '';
 
-  constructor(private userService: UserService, private i18nService: I18nService) { }
+  constructor(
+    private sessionService: SessionService,
+    private i18nService: I18nService
+  ) {}
 
   logout(): void {
-    window.location.href = '/Shibboleth.sso/Logout';
+    this.sessionService.logout().subscribe((_) => {
+      document.getElementById('haka-logout').click();
+      this.form.nativeElement.submit();
+    });
   }
 
   changeLang(lang: string): void {

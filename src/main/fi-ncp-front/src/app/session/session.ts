@@ -1,8 +1,8 @@
-export interface IUser {
+export interface ISession {
   commonName: string;
   surname: string;
   displayName: string;
   givenNames: string;
-  homeOrganizationId?: string;
-  homeOrganization?: string;
+  sessionId: string;
+  returnUrl: string;
   }
