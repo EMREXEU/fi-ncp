@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>fi.csc.emrex</groupId>
-  <artifactId>ncp</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <artifactId>fi-ncp</artifactId>
+  <version>1.0.RELEASE</version>
   <packaging>war</packaging>
 
   <name>fi-ncp</name>
@@ -205,6 +205,9 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <executable>true</executable>
+        </configuration>
       </plugin>
 
       <plugin>
