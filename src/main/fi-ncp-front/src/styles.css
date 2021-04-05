@@ -13,3 +13,8 @@ button.link-button {
   display: flow-root;
   min-height: calc(100vh - 155px);
 }
+
+.btn-primary {
+  background-color: #1a212d !important;
+  border-color: #1a212d !important;
+}
