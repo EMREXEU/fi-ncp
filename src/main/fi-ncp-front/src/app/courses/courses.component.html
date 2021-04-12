@@ -25,8 +25,8 @@
 		<table *ngIf="selectedIssuer" class="table table-striped">
 			<thead>
 				<th>
-					<input type="checkbox" [checked]="selectedCourses.size === coursesByIssuer[selectedIssuer].length" (click)="toggleSelectAll()" [title]="selectedCourses.size === coursesByIssuer[selectedIssuer].length ? i18n.courses.table.deselectall[lang] : i18n.courses.table.selectall[lang]">
-					<span class="checkbox-margin">{{i18n.courses.table.name[lang]}}</span>
+					  <input type="checkbox" id="select-all" [checked]="selectedCourses.size === coursesByIssuer[selectedIssuer].length" (click)="toggleSelectAll()" [title]="selectedCourses.size === coursesByIssuer[selectedIssuer].length ? i18n.courses.table.deselectall[lang] : i18n.courses.table.selectall[lang]">
+            <label for="select-all" class="checkbox-margin">{{i18n.courses.table.name[lang]}}</label>
 				</th>
 				<th>{{i18n.courses.table.credits[lang]}}</th>
 				<th>{{i18n.courses.organization[lang]}}</th>
@@ -36,10 +36,10 @@
 			<tbody>
 				<tr *ngFor="let opintosuoritus of coursesByIssuer[selectedIssuer]" role="row" (click)="selectCourse(opintosuoritus.avain)">
 					<td [class.partOfDegree]="opintosuoritus.isPartOfDegree" [class.partOfModule]="opintosuoritus.isPartOfModule">
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" [checked]="courseSelected(opintosuoritus.avain)" [disabled]="courseSelected(opintosuoritus.degree) || courseSelected(opintosuoritus.module)" [title]="courseSelected(opintosuoritus.avain) ? i18n.courses.table.deselect[lang] + ' ' + i18n.courses.type[opintosuoritus.type][lang] + ' ' + opintosuoritus.nimi[0].value : i18n.courses.table.select[lang] + ' ' + i18n.courses.type[opintosuoritus.type][lang] + ' ' + opintosuoritus.nimi[0].value">
-						</div>
-						<span class="checkbox-margin">{{opintosuoritus.nimi[0].value}}</span>
+            <div class="form-check">
+							  <input [id]="opintosuoritus.avain" class="form-check-input" type="checkbox" [checked]="courseSelected(opintosuoritus.avain)" [disabled]="courseSelected(opintosuoritus.degree) || courseSelected(opintosuoritus.module)" [title]="courseSelected(opintosuoritus.avain) ? i18n.courses.table.deselect[lang] + ' ' + i18n.courses.type[opintosuoritus.type][lang] + ' ' + opintosuoritus.nimi[0].value : i18n.courses.table.select[lang] + ' ' + i18n.courses.type[opintosuoritus.type][lang] + ' ' + opintosuoritus.nimi[0].value">
+                <label [for]="opintosuoritus.avain" class="checkbox-margin" (click)="e.preventDefault()">{{opintosuoritus.nimi[0].value}}</label>
+            </div>
 					</td>
 					<td>{{opintosuoritus.laajuus.opintopiste}}</td>
 					<td>{{opintosuoritus.myontaja}}</td>
