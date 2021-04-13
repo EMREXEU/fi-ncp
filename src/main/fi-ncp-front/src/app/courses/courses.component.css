@@ -18,7 +18,7 @@ th .checkbox-margin {
 }
 
 td .checkbox-margin {
-  margin-left: calc(1.75rem + 12.67px);
+  margin-left: calc(1.75rem - 8.67px);
 }
 
 .partOfDegree {
