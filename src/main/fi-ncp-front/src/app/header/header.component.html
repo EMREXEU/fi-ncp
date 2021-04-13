@@ -15,9 +15,9 @@
 		</div>
 		<div id="language-select">
 			<button *ngIf="lang != 'FI'" class="link-button" (click)="changeLang('FI')">{{i18n.header.lang.FI}}</button>
-			<!-- <span *ngIf="lang != 'FI'" aria-hidden="true">&nbsp;|&nbsp;</span>
+			<span *ngIf="lang != 'FI'" aria-hidden="true">&nbsp;|&nbsp;</span>
 			<button *ngIf="lang != 'SV'" class="link-button" (click)="changeLang('SV')">{{i18n.header.lang.SV}}</button>
-			<span *ngIf="lang != 'SV' && lang != 'EN'" aria-hidden="true">&nbsp;|&nbsp;</span> -->
+			<span *ngIf="lang != 'SV' && lang != 'EN'" aria-hidden="true">&nbsp;|&nbsp;</span>
 			<button *ngIf="lang != 'EN'" class="link-button" (click)="changeLang('EN')">{{i18n.header.lang.EN}}</button>
 		</div>
 	</div>
