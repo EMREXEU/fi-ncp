@@ -4,12 +4,12 @@ import static fi.csc.emrex.ncp.service.ElmoXmlDefaults.DEFAULT_LEARNER_ID_TYPE;
 
 import fi.csc.emrex.ncp.dto.IssuerDto;
 import fi.csc.emrex.ncp.dto.LearnerDetailsDto;
-import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOI;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS.TYPE;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
+import fi.csc.schemas.elmo.Attachment;
 import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.schemas.elmo.Elmo.Learner;
@@ -311,6 +311,22 @@ public class ElmoService {
     issuer.getTitle().add(createLocalizedToken(issuerDto.getCountryCode(), issuerDto.getTitle()));
     issuer.setUrl(issuerDto.getUrl());
     return issuer;
+  }
+
+  public void addAttachment(Elmo elmoXml, String PDFDataURI) {
+    Attachment attachment = new Attachment();
+    attachment.setType("EMREX transcript");
+    attachment.getContent().add(createTokenWithOptionalLang("en", PDFDataURI));
+    attachment.getTitle().add(createTokenWithOptionalLang("en", "Emrex transcript"));
+
+    elmoXml.getAttachment().add(attachment);
+  }
+
+  private TokenWithOptionalLang createTokenWithOptionalLang(String lang, String value) {
+    TokenWithOptionalLang token = new TokenWithOptionalLang();
+    token.setLang(lang);
+    token.setValue(value);
+    return token;
   }
 
   /**

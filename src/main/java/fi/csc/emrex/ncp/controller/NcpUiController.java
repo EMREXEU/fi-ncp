@@ -16,12 +16,14 @@ import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.emrex.ncp.service.DataSignService;
 import fi.csc.emrex.ncp.service.ElmoService;
 import fi.csc.emrex.ncp.util.FidUtil;
+import fi.csc.emrex.ncp.util.pdfUtil;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanTiedotResponse;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -35,10 +37,12 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.transform.TransformerException;
 
 import lombok.extern.slf4j.Slf4j;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
 
+import org.apache.fop.apps.FOPException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
@@ -158,7 +162,8 @@ public class NcpUiController extends NcpControllerBase {
 
     if (personId == null && learnerId == null) {
       throw new NcpException("Either Unique ID or Learner ID required");
-      //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either Unique ID or Learner ID required");
+      // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either Unique ID
+      // or Learner ID required");
     }
 
     // Person id needs to be trimmed to match VIRTA.
@@ -241,8 +246,21 @@ public class NcpUiController extends NcpControllerBase {
     learnerDetails.setFamilyName(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukunimi());
 
     Elmo elmoXml = elmoService.convertToElmoXml(filteredCourses, allCoursesFromSelectedIssuer, student, learnerDetails);
+    String PDFDataURI = "";
+
+    try {
+      PDFDataURI = pdfUtil.convertToPDFdataURI(XmlUtil.toString(elmoXml));
+    } catch (FOPException | IOException | TransformerException e) {
+      e.printStackTrace();
+    }
+
+    if (PDFDataURI != "") {
+      elmoService.addAttachment(elmoXml, PDFDataURI);
+    }
 
     String elmoString = XmlUtil.toString(elmoXml);
+    log.info("{}", elmoString);
+
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
 
     String sessionId = session.getAttribute(NcpSessionAttributes.SESSION_ID) != null
