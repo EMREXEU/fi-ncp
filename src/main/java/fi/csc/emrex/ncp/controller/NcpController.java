@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin()
 public class NcpController {
 
   @Autowired
