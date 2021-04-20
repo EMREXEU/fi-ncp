@@ -3,6 +3,7 @@ package fi.csc.emrex.ncp.util;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 
 import javax.xml.transform.Result;
@@ -19,27 +20,24 @@ import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class pdfUtil {
-    public static final String RESOURCES_DIR;
-    //public static final String OUTPUT_DIR;
-
-    static {
-        RESOURCES_DIR = "src//main//resources//";
-        //OUTPUT_DIR = "src//main//resources//output//";
-    }
 
     /**
-   * @return PDF data URI as string
-   */
+     * @return PDF data URI as string
+     */
     public static String convertToPDFdataURI(String xmlString) throws IOException, FOPException, TransformerException {
         xmlString = xmlString.replaceAll("<elmo.*>", "<elmo>");
         // log.info("{}", xmlString);
         // the XSL FO file
-        File xsltFile = new File(RESOURCES_DIR + "//elmo//xml-fo-template-simple.xsl");
+        Resource resource = new ClassPathResource("/elmo/xsl-fo-template-simple.xsl");
+        InputStream inputStream = resource.getInputStream();
+
         // the XML file which provides the input
         StreamSource xmlSource = new StreamSource(new StringReader(xmlString));
         // create an instance of fop factory
@@ -57,7 +55,7 @@ public class pdfUtil {
 
             // Setup XSLT
             TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer(new StreamSource(xsltFile));
+            Transformer transformer = factory.newTransformer(new StreamSource(inputStream));
 
             // Resulting SAX events (the generated FO) must be piped through to
             // FOP
@@ -72,9 +70,9 @@ public class pdfUtil {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("data:image/png;base64,");
+        sb.append("data:application/pdf;base64,");
         sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(out.toByteArray(), false)));
-        //log.info("{}", sb.toString());
+        // log.info("{}", sb.toString());
 
         return sb.toString();
     }

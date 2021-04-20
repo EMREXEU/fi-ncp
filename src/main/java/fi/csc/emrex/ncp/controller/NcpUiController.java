@@ -259,7 +259,7 @@ public class NcpUiController extends NcpControllerBase {
     }
 
     String elmoString = XmlUtil.toString(elmoXml);
-    log.info("{}", elmoString);
+    // log.info("{}", elmoString);
 
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
 
