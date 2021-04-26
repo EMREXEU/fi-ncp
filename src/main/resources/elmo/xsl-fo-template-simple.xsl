@@ -11,7 +11,7 @@
             </fo:layout-master-set>
             <fo:page-sequence master-reference="A4-portrail">
                 <fo:static-content flow-name="xsl-region-before">
-                    <fo:table table-layout="fixed" width="100%" font-size="10pt" border-color="black" border-width="0.4mm" border-style="solid">
+                    <fo:table table-layout="fixed" width="100%" font-size="10pt" border-color="black" border-width="1.2pt" border-style="solid">
                         <fo:table-column column-width="proportional-column-width(20)"/>
                         <fo:table-column column-width="proportional-column-width(45)"/>
                         <fo:table-column column-width="proportional-column-width(20)"/>
@@ -25,11 +25,13 @@
                                         </xsl:call-template>
                                     </fo:block>
                                 </fo:table-cell>
-                                <fo:table-cell text-align="center" display-align="center">
+                                <fo:table-cell margin-top="2mm" margin-bottom="2mm" text-align="center" display-align="center">
                                     <fo:block font-size="150%">
-                                        Emrex - Finnish National Contact Point
+                                        Emrex Finland
                                     </fo:block>
-                                    <fo:block space-before="2mm"/>
+                                    <fo:block font-size="120%">
+                                        <xsl:value-of select="learner/givenNames"/>&#x00A0;<xsl:value-of select="learner/familyName"/>
+                                    </fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell text-align="right" display-align="center" padding-right="2mm">
                                     <fo:block display-align="before" space-before="4mm">Page <fo:page-number/> of <fo:page-number-citation ref-id="end-of-document"/>
@@ -41,7 +43,7 @@
                 </fo:static-content>
                 <fo:flow flow-name="xsl-region-body" border-collapse="collapse" reference-orientation="0">
                     <fo:block>ELMO REPORT</fo:block>
-                    <fo:table table-layout="fixed" width="100%" font-size="10pt" border-color="black" border-width="0.35mm" border-style="solid" text-align="left" display-align="before" space-after="5mm">
+                    <fo:table table-layout="fixed" width="100%" border-collapse="separate" font-size="10pt" border-color="black" border-width="1.2pt" border-style="solid" text-align="left" display-align="before" space-after="5mm">
                         <fo:table-column column-width="proportional-column-width(18)"/>
                         <fo:table-column column-width="proportional-column-width(32)"/>
                         <fo:table-column column-width="proportional-column-width(18)"/>
@@ -112,20 +114,21 @@
                             </fo:table-row>
                         </fo:table-body>
                     </fo:table>
-                    <fo:table table-layout="fixed" width="100%" font-size="10pt" text-align="left" display-align="before" space-after="5mm">
+                    <fo:block text-align="end" font-size="85%">*Language of Instruction</fo:block>
+                    <fo:table table-layout="fixed" width="100%" font-size="10pt" text-align="left" display-align="before" space-after="2mm">
                         <fo:table-column column-width="proportional-column-width(22)"/>
-                        <fo:table-column column-width="proportional-column-width(22)"/>
+                        <fo:table-column column-width="proportional-column-width(26)"/>
                         <fo:table-column column-width="proportional-column-width(10)"/>
                         <fo:table-column column-width="proportional-column-width(8)"/>
-                        <fo:table-column column-width="proportional-column-width(10)"/>
+                        <fo:table-column column-width="proportional-column-width(6)"/>
                         <fo:table-column column-width="proportional-column-width(8)"/>
                         <fo:table-column column-width="proportional-column-width(8)"/>
                         <fo:table-column column-width="proportional-column-width(12)"/>
-                        <fo:table-header border-color="black" border-width="0.35mm" border-style="solid" >
+                        <fo:table-header border-color="black" border-width="1.2pt" border-style="solid" >
                             <fo:table-row>
                                 <fo:table-cell padding="2px">
                                     <fo:block font-weight="bold">Title</fo:block>
-                                    <fo:block><xsl:value-of select="report/learningOpportunitySpecification/title/@xml:lang" /></fo:block>
+                                    <fo:block>&#x00A0;</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell padding="2px">
                                     <fo:block font-weight="bold">Identifier</fo:block>
@@ -140,8 +143,8 @@
                                     <fo:block font-weight="bold">Code</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell padding="2px">
-                                    <fo:block font-weight="bold">Language of</fo:block>
-                                    <fo:block font-weight="bold">Instruction</fo:block>
+                                    <fo:block font-weight="bold">Lang*</fo:block>
+                                    <fo:block>&#x00A0;</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell padding="2px">
                                     <fo:block font-weight="bold">Result</fo:block>
@@ -256,7 +259,7 @@
 
     <xsl:template name="los1">
         <xsl:param name="los" />
-        <fo:table-row border-color="black" border-width="0.20mm" border-style="solid">
+        <fo:table-row border-color="black" border-width="1pt" border-style="solid">
             <xsl:call-template name="los">
                 <xsl:with-param name="los" select="."/>
             </xsl:call-template>
@@ -273,7 +276,7 @@
 
     <xsl:template name="los2">
         <xsl:param name="los" />
-        <fo:table-row margin-left="2mm" border-color="black" border-width="0.20mm" border-style="solid">
+        <fo:table-row margin-left="2mm" border-color="black" border-width="1pt" border-style="solid">
             <xsl:call-template name="los">
                 <xsl:with-param name="los" select="."/>
             </xsl:call-template>
@@ -290,7 +293,7 @@
 
     <xsl:template name="los3">
         <xsl:param name="los" />
-        <fo:table-row margin-left="4mm" border-color="black" border-width="0.20mm" border-style="solid">
+        <fo:table-row margin-left="4mm" border-color="black" border-width="1pt" border-style="solid">
             <xsl:call-template name="los">
                 <xsl:with-param name="los" select="."/>
             </xsl:call-template>
