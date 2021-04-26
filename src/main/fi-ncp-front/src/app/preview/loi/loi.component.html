@@ -15,7 +15,10 @@
       <div *ngFor="let credit of loi.credit">
         <span class="indented-1">
           <b>{{credit.scheme}}:</b>
-        </span>&nbsp;{{credit.value}} 
+        </span>&nbsp;{{credit.value}}
+      </div>
+      <div>
+        <b>Result:</b>&nbsp;{{loi.resultLabel}}
       </div>
       <div>
         <b>Language of instruction:</b>&nbsp;{{loi.languageOfInstruction}}
