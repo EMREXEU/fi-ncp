@@ -110,7 +110,7 @@ export class CoursesComponent
     ) {
       this.sessionService.logout().subscribe((_) => {
         this.form.nativeElement.submit();
-        document.getElementById('haka-logout').click();
+        // document.getElementById('haka-logout').click();
       });
     }
     if (

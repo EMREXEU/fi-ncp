@@ -22,7 +22,7 @@ export class HeaderComponent {
 
   logout(): void {
     this.sessionService.logout().subscribe((_) => {
-      document.getElementById('haka-logout').click();
+      // document.getElementById('haka-logout').click();
       this.form.nativeElement.submit();
     });
   }

@@ -87,7 +87,7 @@ export class PreviewComponent implements OnInit {
   sendReport(): void {
     this.sessionService.logout().subscribe((_) => {
       this.form.nativeElement.submit();
-      document.getElementById('haka-logout').click();
+      // document.getElementById('haka-logout').click();
     });
   }
 }
