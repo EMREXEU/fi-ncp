@@ -35,7 +35,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.TransformerException;
 
@@ -155,7 +157,7 @@ public class NcpUiController extends NcpControllerBase {
 
     String personId = context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) != null
         ? context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID).toString()
-        : null; //urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
+        : null; // urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
     String learnerId = context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID) != null
         ? context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID).toString()
         : null;
@@ -259,9 +261,17 @@ public class NcpUiController extends NcpControllerBase {
     }
 
     String elmoString = XmlUtil.toString(elmoXml);
-    // log.info("{}", elmoString);
+    // log.info("elmoString: {}", elmoString);
 
     elmoString = dataSignService.sign(elmoString.trim(), StandardCharsets.UTF_8);
+    // log.info("signed, gzipped, base64encoded: {}", elmoString);
+
+    /*
+     * log.info("Validate signature"); try { String s =
+     * dataSignService.decodeAndDecompress(elmoString); Boolean valid =
+     * dataSignService.verifySignature(s); log.info("XML Signature valid: {}",
+     * valid); } catch (Exception e) { e.printStackTrace(); }
+     */
 
     String sessionId = session.getAttribute(NcpSessionAttributes.SESSION_ID) != null
         ? session.getAttribute(NcpSessionAttributes.SESSION_ID).toString()
@@ -282,9 +292,17 @@ public class NcpUiController extends NcpControllerBase {
   }
 
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
-  public ResponseEntity logout() {
+  public ResponseEntity logout(HttpServletResponse response) {
     HttpSession session = context.getSession();
     session.invalidate();
+
+    Cookie[] cookies = context.getCookies();
+    for (Cookie cookie : cookies) {
+      cookie.setMaxAge(0);
+      cookie.setValue(null);
+      cookie.setPath("/");
+      response.addCookie(cookie);
+    }
     return ResponseEntity.ok().build();
   }
 }
