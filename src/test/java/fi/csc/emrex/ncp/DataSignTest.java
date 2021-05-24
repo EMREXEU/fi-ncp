@@ -29,7 +29,7 @@ public class DataSignTest {
 
     final String data = TestUtil.getFileContent("Example-elmo-Finland.xml");
 
-    System.out.println(data);
+    // System.out.println(data);
 
     final String result = instance.sign(data, StandardCharsets.UTF_8);
 
@@ -44,5 +44,13 @@ public class DataSignTest {
     assertTrue(s.contains(
         "<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\"><SignedInfo><CanonicalizationMethod Algorithm=\"http://www.w3.org/TR/2001/REC-xml-c14n-20010315\"/>"));
     assertTrue(s.endsWith("</X509Certificate></X509Data></KeyInfo></Signature></elmo>"));
+
+    /* System.out.println("Validate signature");
+    try {
+      Boolean valid = instance.verifySignature(s);
+      System.out.println("XML Signature valid: " + valid);
+      assertTrue(valid);
+    } catch (Exception e) {
+    } */
   }
 }

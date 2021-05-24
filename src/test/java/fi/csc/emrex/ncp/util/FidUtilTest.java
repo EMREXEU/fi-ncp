@@ -63,7 +63,7 @@ public class FidUtilTest {
   private OpiskelijanKaikkiTiedotResponse readFile() throws IOException, JAXBException {
     // This is manually chopped XML from actual VIRTA SOAP message.
     Path path = workingDir.resolve("virta_xml/OpiskelijanKaikkiTiedotResponse.xml");
-    log.info("XML file:\n{}", Files.readString(path));
+    // log.info("XML file:\n{}", Files.readString(path));
     JAXBContext ctx = JAXBContext.newInstance(OpiskelijanKaikkiTiedotResponse.class);
     Unmarshaller unmarshaller = ctx.createUnmarshaller();
     OpiskelijanKaikkiTiedotResponse OpiskelijanKaikkiTiedotResponse =

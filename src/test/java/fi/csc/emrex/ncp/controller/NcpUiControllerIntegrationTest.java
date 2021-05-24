@@ -42,7 +42,7 @@ public class NcpUiControllerIntegrationTest {
     OpiskelijanKaikkiTiedotResponse virtaXml = (OpiskelijanKaikkiTiedotResponse) res.getRequest().getSession()
         .getAttribute(NcpSessionAttributes.VIRTA_XML);
     Assert.notNull(virtaXml, "Elmo session attribute is null");
-    log.info("VIRTA XML in session:\n{}", XmlUtil.toString(virtaXml));
+    // log.info("VIRTA XML in session:\n{}", XmlUtil.toString(virtaXml));
   }
 
   @Test
