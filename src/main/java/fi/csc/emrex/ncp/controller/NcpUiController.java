@@ -170,9 +170,11 @@ public class NcpUiController extends NcpControllerBase {
 
     // Person id needs to be trimmed to match VIRTA.
     // Learner id is used as whole string.
-    String[] trimmedPersonIds = personId.split(":");
-    String trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
-
+    String trimmedPersonId = "";
+    if (personId != null) {
+      String[] trimmedPersonIds = personId.split(":");
+      trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
+    }
     // Since VirtaUser can have courses from multiple issuers/orgs, we'll fill that
     // in after the courses are selected in next step
     VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId, null);
