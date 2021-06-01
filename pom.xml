@@ -187,6 +187,10 @@
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis-ext</artifactId>
         </exclusion>
+        <exclusion>
+            <groupId>batik-ext</groupId>
+            <artifactId>batik-ext</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
