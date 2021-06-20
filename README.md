@@ -1,90 +1,87 @@
 # fi-ncp
 CSC National Contact Point application (NCP) for EMREX.
 
-## API documentation
-API provided by NPC is described here:<br> 
-https://confluence.csc.fi/display/EMREX/Implementation+details%3A+NCP
+Additional documentation: https://wiki.eduuni.fi/x/LsZnCw
 
 EMREX guide: https://emrex.eu/wp-content/uploads/2020/01/Technical-Guide-to-EMREX.pdf
 
 ## Requirements
-- maven 3+ 
+- maven 3+
 - java version 11
 - optional: docker, docker-compose
 - angular version 11
 - npm
 
+The dev env expects to find cert and private key for signing the xml documents as follows:
+path.certificate=certs/ncp_dev_cert.cer
+ncp.path.encryption.key=certs/ncp.dev.key
+
+You can generate your own with openssl:
+`openssl genrsa -out private-key.pem 3072`
+`openssl pkcs8 -topk8 -nocrypt -in private-key.pem -out ncp.dev.key`
+`openssl rsa -in private-key.pem -pubout -out public-key.pem`
+`openssl req -new -x509 -key private-key.pem -out ncp_dev_emrex_cert.cer -days 360`
+
+
 ## Project structure
-- Project root contains `./pom.xml` which builds and packages both front-end and back-end 
-- front-end is a separate folder inside project which can be run also locally as normal angular 
+- Project root contains `./pom.xml` which builds and packages both front-end and back-end
+- front-end is a separate folder inside project which can be run also locally as normal angular
   project:
   - `fi-ncp/src/main/fi-ncp-front`
 
 ## Compiling
-Maven project builds and packages both spring-boot back-end and angular front-end application 
+Maven project builds and packages both spring-boot back-end and angular front-end application
 into single war.
-`mvn clean install`
-
+`mvn clean install -Pdev`
+where -P is environment (defaults to dev without -P, -Pdev, -Ptest,-Pproduction)
 
 ## Running
 
 #### Java:
-`java -jar ./target/ncp-0.0.1-SNAPSHOT.war`
+`java -jar ./target/fi-ncp-1.0.RELEASE.war`
 
-#### Docker: 
+#### Docker:
 See script `run_docker.sh`
 
-#### Docker-compose: 
+#### Docker-compose:
 See project https://github.com/EMREXEU/fi-ncp-docker
 
 ### Option 1: Using application locally from war
-1) Compile all: `mvn clean install`
-2) Run war: `java -jar ./target/ncp-0.0.1-SNAPSHOT.war`
+1) Compile all: `mvn clean install -Pdev`
+2) Execute `fi.csc.emrex.ncp.FiNcpApplication` on your IDE of choice or run war: `java -jar ./target/fi-ncp-1.0.RELEASE.war`
 
 fi-ncp is running on `localhost:9001` on default
 
-1) Mock shibboleth authentication: http://localhost:9001/test/mock_shibbolet_auth/?sessionId=1234&returnUrl=234123&unique-id=urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213&SHIB_funetEduPersonLearnerId=1.2.246.562.24.17488477125&SHIB_schacHomeOrganization=oamk.fi&SHIB_schacHomeOrganizationId=02536 
-2) Access front-end from war with web browser: http://localhost:9001/ng/index.html
-   
+Access front-end from war with web browser: http://localhost:9001
+
 NOTE: front-end and back-end locally still uses configured VIRTA-TEST service.
 
 ### Option 2: Run back-end and front-end separately
-1) Change used port in back-end from relative 4200 to absolute path with port 9001 in
-   `src/main/fi-ncp-front/src/app/ncp-config.ts`  
-   <pre>
-   getAllCoursesUrl: "http://localhost:9001/api/courses/",
-   getSelectedCoursesUrl: "http://localhost:9001/api/review/"
-   </pre>
-2) Compile all: `mvn clean install` (you're only using the back-end from port 9001)
-3) Run war: `java -jar ./target/ncp-0.0.1-SNAPSHOT.war` or execute `fi.csc.emrex.ncp.FiNcpApplication` 
-   on your IDE of choice.
-4) Compile and serve front-end separately in `src/main/fi-ncp-front` in your IDE or shell:
+With the 2 steps from Option 1 done and the backend running
+3) Serve front-end separately in `src/main/fi-ncp-front` in your IDE or shell:
    - `cd src/main/fi-ncp-front`
-   - `ng build`
    - `ng serve`
 
-fi-ncp is running on `localhost:9001` but the front-end is also running locally in 
-`localhost:4200` 
-1) Mock shibboleth authentication: http://localhost:9001/test/mock_shibbolet_auth/?sessionId=1234&returnUrl=234123&unique-id=urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213&SHIB_funetEduPersonLearnerId=1.2.246.562.24.17488477125&SHIB_schacHomeOrganization=oamk.fi&SHIB_schacHomeOrganizationId=02536
-2) Access application root from angular project in your web browser directly: http://localhost:4200/index.html
-3) Editing angular code will compile and use hot deploy normally as with `ng serve`. It is 
-   recommended to use private browsing in browser so no javascript code is cached between reloads. 
+fi-ncp is running on `localhost:9001` but the front-end is also running locally in
+`localhost:4200`
+Access application root from angular project in your web browser directly: http://localhost:4200
+
+Editing angular code will compile and use hot deploy normally as with `ng serve`. It is
+recommended to use private browsing in browser so no javascript code is cached between reloads.
 
 ## Authentication
 Back-end and front-end do not provide authentication but rely on production configuration where both
-are fully protected by shibboleth SSO. Back-end expects session/request parameters provided by
-shibboleth authentication. When running locally without shibboleth, back-end TestController provides 
-end-point for mocking shibboleth authentication.  
+are fully protected by shibboleth SSO. Back-end expects Server Variables (https://wiki.shibboleth.net/confluence/display/SP3/AttributeAccess) provided by
+shibboleth authentication. When running locally without shibboleth, you can simply input the test ssn or learnedId into the code and restart backend for quick and dirty testing
 
 ## Configuration
-### front-end
-- Front-end uses back-end URIs from: 
-  - `src/main/fi-ncp-front/src/app/ncp-config.ts`
 
 ### back-end
-- `src/main/resources/application.properties`
-- `src/main/resources/application.yml`
-- `src/main/resources/data/issuers.txt`
+ - `src/main/resources/application.properties`
+ -- `src/main/resources/application-dev.properties`
+ -- `src/main/resources/application-test.properties`
+ -- `src/main/resources/application-production.properties`
+ - `src/main/resources/data/issuers.txt`
 
 ### docker
 - docker-compose
@@ -92,9 +89,10 @@ end-point for mocking shibboleth authentication.
 ## Documentation
 - https://emrex.eu/technical/
 - https://emrex.eu/wp-content/uploads/2020/01/Technical-Guide-to-EMREX.pdf
+- https://github.com/emrex-eu/elmo-schemas
 
 ## Coding conventions
-- Google style 
+- Google style
 - https://google.github.io/styleguide/
 - packages by layers
 
