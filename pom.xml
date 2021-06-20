@@ -17,6 +17,7 @@
         <id>dev</id>
         <properties>
             <activatedProperties>dev</activatedProperties>
+            <baseurl></baseurl>
         </properties>
         <activation>
             <activeByDefault>true</activeByDefault>
@@ -26,12 +27,14 @@
         <id>test</id>
         <properties>
             <activatedProperties>test</activatedProperties>
+            <baseurl>/ncp/</baseurl>
         </properties>
     </profile>
     <profile>
-        <id>prod</id>
+        <id>production</id>
         <properties>
             <activatedProperties>prod</activatedProperties>
+            <baseurl>/ncp/</baseurl>
         </properties>
     </profile>
   </profiles>
@@ -350,7 +353,7 @@
                 <argument>build</argument>
                 <argument>--prod</argument>
                 <argument>--base-href</argument>
-                <argument>/ncp/</argument>
+                <argument>${baseurl}</argument>
               </arguments>
             </configuration>
             <goals>

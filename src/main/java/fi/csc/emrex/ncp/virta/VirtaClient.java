@@ -13,7 +13,6 @@ import fi.csc.tietovaranto.luku.OpiskelijanTiedotResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanTiedotService;
 import java.net.MalformedURLException;
 import java.net.URL;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,8 +30,6 @@ public class VirtaClient {
   @Value("${ncp.virta.user}")
   private String TUNNUS;
 
-  // Setter only for test purposes: mock this member
-  @Setter
   private OpiskelijanTiedotService opiskelijanTiedotService;
 
   public OpintosuorituksetResponse fetchStudies(VirtaUserDto virtaUser) throws NcpException {
