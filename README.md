@@ -17,9 +17,13 @@ path.certificate=certs/ncp_dev_cert.cer
 ncp.path.encryption.key=certs/ncp.dev.key
 
 You can generate your own with openssl:
+
 `openssl genrsa -out private-key.pem 3072`
+
 `openssl pkcs8 -topk8 -nocrypt -in private-key.pem -out ncp.dev.key`
+
 `openssl rsa -in private-key.pem -pubout -out public-key.pem`
+
 `openssl req -new -x509 -key private-key.pem -out ncp_dev_emrex_cert.cer -days 360`
 
 
@@ -32,7 +36,9 @@ You can generate your own with openssl:
 ## Compiling
 Maven project builds and packages both spring-boot back-end and angular front-end application
 into single war.
+
 `mvn clean install -Pdev`
+
 where -P is environment (defaults to dev without -P, -Pdev, -Ptest,-Pproduction)
 
 ## Running
@@ -78,9 +84,9 @@ shibboleth authentication. When running locally without shibboleth, you can simp
 
 ### back-end
  - `src/main/resources/application.properties`
- -- `src/main/resources/application-dev.properties`
- -- `src/main/resources/application-test.properties`
- -- `src/main/resources/application-production.properties`
+     - `src/main/resources/application-dev.properties`
+     - `src/main/resources/application-test.properties`
+     - `src/main/resources/application-production.properties`
  - `src/main/resources/data/issuers.txt`
 
 ### docker
