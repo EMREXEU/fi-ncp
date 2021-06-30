@@ -33,7 +33,7 @@
     <profile>
         <id>production</id>
         <properties>
-            <activatedProperties>prod</activatedProperties>
+            <activatedProperties>production</activatedProperties>
             <baseurl>/ncp/</baseurl>
         </properties>
     </profile>

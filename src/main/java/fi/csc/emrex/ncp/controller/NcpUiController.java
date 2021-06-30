@@ -157,7 +157,7 @@ public class NcpUiController extends NcpControllerBase {
 
     String personId = context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) != null
         ? context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID).toString()
-        : "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213"; // urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
+        : null; // urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
     String learnerId = context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID) != null
         ? context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID).toString()
         : null;
