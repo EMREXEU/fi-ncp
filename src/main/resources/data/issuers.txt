@@ -29,8 +29,8 @@ Savonia-ammattikorkeakoulu;02537;savonia.fi
 Seinäjoen ammattikorkeakoulu;02472;seamk.fi
 Svenska handelhögskolan;01910;hanken.fi
 Taideyliopisto;10103;uniarts.fi
-Tampereen ammattikorkeakoulu;02630;tamk.fi
-Tampereen yliopisto;01905;tau.fi
+Tampereen ammattikorkeakoulu;02630;tuni.fi
+Tampereen yliopisto;10122;tuni.fi
 Turun ammattikorkeakoulu;02509;turkuamk.fi
 Turun yliopisto;10089;utu.fi
 Vaasan ammattikorkeakoulu;02627;vamk.fi
