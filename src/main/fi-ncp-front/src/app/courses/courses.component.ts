@@ -105,6 +105,7 @@ export class CoursesComponent
       environment.production &&
       this.form &&
       this.ready &&
+      this.session.returnUrl &&
       (document.getElementById('returnCode') as HTMLInputElement).value ===
         this.returnCode
     ) {
