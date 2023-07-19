@@ -58,6 +58,7 @@ export const i18n = {
   preview: {
     back: { FI: 'Takaisin', SV: 'Tillbaka', EN: 'Back' },
     loading: { FI: 'Tuotetaan esikatselua...', SV: 'Förhandsgranskning skapas...', EN: 'Generating preview...' },
+    consent: { FI: 'Suostun tietojen luovuttamiseen', SV: 'Suostun tietojen luovuttamiseen', EN: 'Suostun tietojen luovuttamiseen' },
     personalInfo: {
       title: { FI: 'Henkilötiedot', SV: 'Personuppgifter', EN: 'Personal information' },
       givenNames: { FI: 'Etunimet', SV: 'Förnamn', EN: 'Given names' },

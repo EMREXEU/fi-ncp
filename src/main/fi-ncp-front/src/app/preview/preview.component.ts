@@ -29,6 +29,7 @@ export class PreviewComponent implements OnInit {
   i18n = this.i18nService.i18n;
   payload = {};
   returnUrl = '';
+  consentGiven = false;
 
   constructor(
     private coursesService: CoursesService,

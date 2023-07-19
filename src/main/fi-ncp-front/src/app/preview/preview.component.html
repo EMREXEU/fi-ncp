@@ -46,7 +46,14 @@
           <input type="hidden" name="returnMessage" [value]="payload.returnMessage">
           <input type="hidden" name="elmo" [value]="payload.elmo">
          </form>
-         <button class="btn btn-primary btn-default" (click)="sendReport()">{{i18n.preview.submit[lang]}}</button>
+        <div id="consent-container">
+          <span>
+            <input type="checkbox" id="consent" [checked]="consentGiven" (change)="consentGiven = !consentGiven" name="consent">
+            <label for="consent"><span id="consent-spacer"></span>{{i18n.preview.consent[lang]}}</label>
+          </span>
+            <button class="btn btn-primary btn-default"  [disabled]="!consentGiven" (click)="sendReport()">{{i18n.preview.submit[lang]}}</button>
+        </div>
+
       </div>
     </div>
     <div class="card" *ngIf="elmo">

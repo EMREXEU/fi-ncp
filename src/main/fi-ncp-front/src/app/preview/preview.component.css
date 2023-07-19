@@ -57,3 +57,14 @@ h2 {
 .primary-action button {
   margin-left: auto;
 }
+
+#consent-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 100%;
+}
+
+#consent-spacer {
+  margin: 0 0.3rem;
+}

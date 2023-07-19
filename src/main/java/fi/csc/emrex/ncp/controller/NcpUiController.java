@@ -51,12 +51,7 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolve
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -307,6 +302,23 @@ public class NcpUiController extends NcpControllerBase {
       response.addCookie(cookie);
     }*/
 
+    return ResponseEntity.ok().build();
+  }
+
+  @RequestMapping(value = "/consent", method = RequestMethod.GET)
+  public ResponseEntity<String> consent() {
+    HttpSession session = context.getSession();
+
+    String learnerId = context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID) != null
+            ? context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID).toString()
+            : null;
+
+    String displayName = context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME) != null
+            ? new String(context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME).toString().getBytes(StandardCharsets.ISO_8859_1),
+            StandardCharsets.UTF_8)
+            : null;
+
+    log.info("Consent: learnerId: " + learnerId, ", displayName: " + displayName);
     return ResponseEntity.ok().build();
   }
 }
