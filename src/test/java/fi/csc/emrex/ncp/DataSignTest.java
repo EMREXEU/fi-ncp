@@ -7,7 +7,7 @@ import fi.csc.emrex.ncp.service.DataSignService;
 import fi.csc.emrex.ncp.util.GzipUtil;
 import fi.csc.emrex.ncp.util.TestUtil;
 import java.nio.charset.StandardCharsets;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.DatatypeConverter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

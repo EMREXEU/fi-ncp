@@ -35,10 +35,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import javax.xml.transform.TransformerException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -150,9 +150,7 @@ public class NcpUiController extends NcpControllerBase {
   public OpiskelijanKaikkiTiedotResponse getCourses(@ModelAttribute NcpRequestDto request) throws NcpException {
     HttpSession session = context.getSession();
 
-    String personId = context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) != null
-        ? context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID).toString()
-        : null; // urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
+    String personId = "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213";
     String learnerId = context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID) != null
         ? context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID).toString()
         : null;

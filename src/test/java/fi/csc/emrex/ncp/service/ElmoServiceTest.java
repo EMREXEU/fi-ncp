@@ -7,7 +7,6 @@ import fi.csc.emrex.ncp.util.FidUtil;
 import fi.csc.emrex.ncp.util.GzipUtil;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
-import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
@@ -18,23 +17,21 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -60,7 +57,7 @@ public class ElmoServiceTest {
   }
 
   @Test
-  public void convertToElmoXml() throws SAXException, NcpException, javax.xml.bind.JAXBException {
+  public void convertToElmoXml() throws SAXException, NcpException, jakarta.xml.bind.JAXBException {
 
     VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient.fetchStudiesAndLearnerDetails(student);
@@ -77,7 +74,7 @@ public class ElmoServiceTest {
   }
 
   @Test
-  public void convertToElmoXmlSignAndValidate() throws SAXException, NcpException, javax.xml.bind.JAXBException, IOException {
+  public void convertToElmoXmlSignAndValidate() throws SAXException, NcpException, jakarta.xml.bind.JAXBException, IOException {
 
     VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient.fetchStudiesAndLearnerDetails(student);
@@ -128,7 +125,7 @@ public class ElmoServiceTest {
 
   @Test
   public void convertToElmoXmlSelectOneReportUseFile()
-      throws SAXException, NcpException, javax.xml.bind.JAXBException, IOException {
+      throws SAXException, NcpException, jakarta.xml.bind.JAXBException, IOException {
 
     VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = readFile();
@@ -146,7 +143,7 @@ public class ElmoServiceTest {
 
   @Test
   public void convertToElmoXmlSelectOneReportUseVirtaClient()
-      throws SAXException, NcpException, javax.xml.bind.JAXBException {
+      throws SAXException, NcpException, jakarta.xml.bind.JAXBException {
 
     VirtaUserDto student = createStudent();
     OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient.fetchStudiesAndLearnerDetails(student);
@@ -172,14 +169,14 @@ public class ElmoServiceTest {
     return learnerDetails;
   }
 
-  private void validateElmoXml(Elmo elmoXml) throws SAXException, javax.xml.bind.JAXBException {
+  private void validateElmoXml(Elmo elmoXml) throws SAXException, jakarta.xml.bind.JAXBException {
     SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     Schema schema = sf.newSchema(workingDir.resolve("elmo_xml/schema.xsd").toFile());
     StringWriter writer = new StringWriter();
     // BE CAREFUL! Project has two JAXB modules. Use javax.xml.bind.
     JAXBContext jc = JAXBContext.newInstance(Elmo.class);
     Marshaller marshaller = jc.createMarshaller();
-    marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    marshaller.setProperty(jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, true);
     marshaller.setSchema(schema);
     marshaller.marshal(elmoXml, writer);
 

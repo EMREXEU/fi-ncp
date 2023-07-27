@@ -5,8 +5,8 @@ import fi.csc.emrex.ncp.dto.NcpRequestDto;
 import fi.csc.emrex.ncp.exception.NcpException;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;

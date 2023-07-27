@@ -1,7 +1,6 @@
 package fi.csc.emrex.ncp.service;
 
 import fi.csc.emrex.ncp.exception.NcpException;
-import fi.csc.emrex.ncp.util.FileReader;
 import fi.csc.emrex.ncp.util.GzipUtil;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.DatatypeConverter;
 import javax.xml.crypto.dsig.CanonicalizationMethod;
 import javax.xml.crypto.dsig.DigestMethod;
 import javax.xml.crypto.dsig.Reference;
