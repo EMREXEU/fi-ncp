@@ -6,11 +6,20 @@ Additional documentation: https://wiki.eduuni.fi/x/LsZnCw
 EMREX guide: https://emrex.eu/wp-content/uploads/2020/01/Technical-Guide-to-EMREX.pdf
 
 ## Requirements
-- maven 3+
-- java version 11
-- optional: docker, docker-compose
-- angular version 11
-- npm
+- Maven 3+ (tested with 3.9.1)
+- Java 17
+- Spring 3+
+  - Jakarta EE 9 or 10 compatible
+- Apache CXF
+    - Jakarta EE 9 compatible only
+    - cxf-codegen-plugin: wsdl2java
+    - cxf-xjc-plugin: xsdtojava
+- Angular: 16.1.5
+  - Angular CLI: 16.1.5
+  - Node: 16.14.2 (npm 8.5.0)
+- Optional Build Tools
+  - optional: docker, docker-compose
+
 
 The dev env expects to find cert and private key for signing the xml documents as follows:
 path.certificate=certs/ncp_dev_cert.cer
