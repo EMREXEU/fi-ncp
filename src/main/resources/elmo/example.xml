@@ -19,7 +19,7 @@ Important notes:
     xmlns="https://github.com/emrex-eu/elmo-schemas/tree/v1"
     xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="https://github.com/emrex-eu/elmo-schemas/tree/v1 schema.xsd"
+    xsi:schemaLocation="https://github.com/emrex-eu/elmo-schemas/tree/v1 ../../../../../../../Downloads/elmo-schemas-1.7.0 2/schema.xsd"
 >
     <generatedDate>2015-10-31T12:00:00+02:00</generatedDate>
     <learner>
