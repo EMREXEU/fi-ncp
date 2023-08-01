@@ -16,6 +16,7 @@ import { IssuerComponent } from './preview/issuer/issuer.component';
 import { LosComponent } from './preview/los/los.component';
 import { LoiComponent } from './preview/loi/loi.component';
 import { LoadingComponent } from './loading/loading.component';
+import { NotifierModule } from 'angular-notifier';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LoadingComponent } from './loading/loading.component';
     HttpClientModule,
     AppRoutingModule,
     NoopAnimationsModule,
-    FormsModule
+    FormsModule,
+    NotifierModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -58,7 +58,12 @@ export const i18n = {
   preview: {
     back: { FI: 'Takaisin', SV: 'Tillbaka', EN: 'Back' },
     loading: { FI: 'Tuotetaan esikatselua...', SV: 'Förhandsgranskning skapas...', EN: 'Generating preview...' },
-    consent: { FI: 'Suostun tietojen luovuttamiseen', SV: 'Suostun tietojen luovuttamiseen', EN: 'Suostun tietojen luovuttamiseen' },
+    consent: { FI: 'Suostu tietojen luovuttamiseen', SV: 'Agree to the transfer of information', EN: 'I agree to the transfer of information' },
+    consentError: {
+      FI: 'Tapahtui virhe, yritä uudestaan.',
+      SV: 'Ett fel uppstod men du kan försöka igen.',
+      EN: 'An error occurred, please try again.'
+    },
     personalInfo: {
       title: { FI: 'Henkilötiedot', SV: 'Personuppgifter', EN: 'Personal information' },
       givenNames: { FI: 'Etunimet', SV: 'Förnamn', EN: 'Given names' },

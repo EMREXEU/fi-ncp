@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -45,6 +44,8 @@ import lombok.extern.slf4j.Slf4j;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
 
 import org.apache.fop.apps.FOPException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
@@ -67,6 +68,8 @@ import org.springframework.web.servlet.ModelAndView;
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("/api")
 public class NcpUiController extends NcpControllerBase {
+
+  private static final Logger consentLogger = LoggerFactory.getLogger(NcpUiController.class.getName() + ".consent");
 
   /**
    * Redirect routes that are not recognized in Spring to Angular
@@ -303,20 +306,22 @@ public class NcpUiController extends NcpControllerBase {
     return ResponseEntity.ok().build();
   }
 
+  /**
+   * Log student consent for transferring data by logging oid or ssn.
+   * @return status 200 if oid or ssn was logged successfully, otherwise return error 500 without reason.
+   */
   @RequestMapping(value = "/consent", method = RequestMethod.GET)
   public ResponseEntity<String> consent() {
+    // Attempt to read student data from active session
     HttpSession session = context.getSession();
-
-    String learnerId = context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID) != null
-            ? context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID).toString()
-            : null;
-
-    String displayName = context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME) != null
-            ? new String(context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME).toString().getBytes(StandardCharsets.ISO_8859_1),
-            StandardCharsets.UTF_8)
-            : null;
-
-    log.info("Consent: learnerId: " + learnerId, ", displayName: " + displayName);
+    VirtaUserDto student = (VirtaUserDto) session.getAttribute(NcpSessionAttributes.VIRTA_USER_DTO);
+    // Session timeout, direct request without login or user has disabled session cookies
+    if (student == null || (!student.isOidSet() && !student.isSsnSet())) {
+      log.error("oid and ssn null");
+      return ResponseEntity.internalServerError().build();
+    }
+    // Consent must be logged in separate log, do not use default log
+    consentLogger.info(student.isOidSet() ? "oid: " + student.getOid() : "ssn: " + student.getSsn());
     return ResponseEntity.ok().build();
   }
 }

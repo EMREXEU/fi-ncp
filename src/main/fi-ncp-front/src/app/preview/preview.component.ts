@@ -2,6 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { I18nService } from 'src/i18n/i18n.service';
 import { CoursesService } from '../courses/courses.service';
 import { SessionService } from '../session/session.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-preview',
@@ -30,11 +33,14 @@ export class PreviewComponent implements OnInit {
   payload = {};
   returnUrl = '';
   consentGiven = false;
+  private currentLang: string;
 
   constructor(
     private coursesService: CoursesService,
     private i18nService: I18nService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private http: HttpClient,
+    private readonly notifier: NotifierService
   ) {}
 
   ngOnInit(): void {
@@ -83,12 +89,21 @@ export class PreviewComponent implements OnInit {
         (id) => id.type === 'nationalLearnerId'
       )[0]?.value;
     });
+
+    this.lang$.subscribe((newLang) => this.currentLang = newLang);
   }
 
   sendReport(): void {
-    this.sessionService.logout().subscribe((_) => {
-      this.form.nativeElement.submit();
-      // document.getElementById('haka-logout').click();
-    });
+    this.http.get(environment.consentUrl, {observe: 'response', withCredentials: true}).subscribe(
+      (res) => {
+        if (res.status === 200) {
+          this.sessionService.logout().subscribe((_) => {
+            this.form.nativeElement.submit();
+          });
+        }
+      }, () => {
+        this.notifier.notify('error', this.i18n.preview.consentError[this.currentLang]);
+      }
+    );
   }
 }

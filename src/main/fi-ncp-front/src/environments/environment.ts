@@ -10,6 +10,7 @@ export const environment = {
   getAllCoursesUrl: 'http://localhost:9001/api/courses',
   getSelectedCoursesUrl: 'http://localhost:9001/api/review',
   sendReportUrl: 'http://localhost:9001/api/accept',
+  consentUrl: 'http://localhost:9001/api/consent',
 };
 
 /*
