@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 @Configuration
-@ComponentScan
-@EnableAutoConfiguration
 public class FiNcpApplication {
 
   private static final String ELMO_XML_FIN = "src/main/resources/Example-elmo-Finland.xml";
