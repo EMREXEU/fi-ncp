@@ -4,13 +4,13 @@
 
 export const environment = {
   production: false,
-  getSessionUrl: 'http://localhost:9001/api/session',
-  getLogoutUrl: 'http://localhost:9001/api/logout',
-  getIssuersUrl: 'http://localhost:9001/api/issuers',
-  getAllCoursesUrl: 'http://localhost:9001/api/courses',
-  getSelectedCoursesUrl: 'http://localhost:9001/api/review',
-  sendReportUrl: 'http://localhost:9001/api/accept',
-  consentUrl: 'http://localhost:9001/api/consent',
+  getSessionUrl: 'api/session',
+  getLogoutUrl: 'api/logout',
+  getIssuersUrl: 'api/issuers',
+  getAllCoursesUrl: 'api/courses',
+  getSelectedCoursesUrl: 'api/review',
+  sendReportUrl: 'api/accept',
+  consentUrl: 'api/consent',
 };
 
 /*

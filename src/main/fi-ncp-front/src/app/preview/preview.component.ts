@@ -12,16 +12,14 @@ import { NotifierService } from 'angular-notifier';
   styleUrls: ['./preview.component.css'],
 })
 export class PreviewComponent implements OnInit {
-  @ViewChild('form') form: ElementRef;
-
-  elmo = {};
+  @ViewChild('form') form!: ElementRef;
   collapse = {
     elmo: true,
     generated: false,
     report: false,
   };
   loading = true;
-  courses = [];
+  courses: any = [];
   coursesCount = 0;
   modulesCount = 0;
   degreesCount = 0;
@@ -30,10 +28,11 @@ export class PreviewComponent implements OnInit {
   oid = '';
   lang$ = this.i18nService.langAction$;
   i18n = this.i18nService.i18n;
-  payload = {};
+  payload: any
   returnUrl = '';
   consentGiven = false;
-  private currentLang: string;
+  private currentLang: string = "";
+  elmo: any;
 
   constructor(
     private coursesService: CoursesService,
@@ -76,17 +75,17 @@ export class PreviewComponent implements OnInit {
       this.courses = this.coursesService.courses;
       this.coursesCount = this.coursesService.count;
       this.modulesCount = this.coursesService.courses.filter(
-        (c) => c.isModule
+        (c) => c["isModule"]
       ).length;
       this.degreesCount = this.coursesService.courses.filter(
-        (c) => c.isDegree
+        (c) => c["isDegree"]
       ).length;
       this.credits = this.coursesService.credits;
       this.ssn = data.elmoXml.learner.identifier.filter(
-        (id) => id.type === 'nationalIdentifier'
+        (id: any) => id.type === 'nationalIdentifier'
       )[0]?.value;
       this.oid = data.elmoXml.learner.identifier.filter(
-        (id) => id.type === 'nationalLearnerId'
+        (id: any) => id.type === 'nationalLearnerId'
       )[0]?.value;
     });
 

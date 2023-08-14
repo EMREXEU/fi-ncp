@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { combineLatest, Observable, of, pipe, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ICourseResponse } from './course';
+import {ICourseResponse, Opintosuoritus, Opiskelija, Sisaltyvyys} from './course';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +16,8 @@ export class CoursesService {
       withCredentials: true,
     })
     .pipe(
-      map((response) => {
-        let degrees = [];
+      map((response:ICourseResponse) => {
+        let degrees: Opintosuoritus[] = [];
         response.virta.opiskelija.forEach((HEI) => {
           HEI.opintosuoritukset.opintosuoritus = HEI.opintosuoritukset.opintosuoritus.filter(
             (suoritus) => +suoritus.laji === 1 || +suoritus.laji === 2
@@ -30,13 +30,14 @@ export class CoursesService {
               degree.isDegree = true;
               degree.type = 'degree';
               degree.hasPart = [];
-              degree.sisaltyvyys.forEach((sisaltyvyys) => {
+              degree.sisaltyvyys.forEach((sisaltyvyys: Sisaltyvyys) => {
+                // @ts-ignore
                 degree.hasPart.push(sisaltyvyys.sisaltyvaOpintosuoritusAvain);
               });
               HEI.opintosuoritukset.opintosuoritus.sort((a, b) =>
                 a.nimi[0].value.localeCompare(b.nimi[0].value)
               );
-              HEI.opintosuoritukset.opintosuoritus.forEach((suoritus, j) => {
+              HEI.opintosuoritukset.opintosuoritus.forEach((suoritus: Opintosuoritus, j) => {
                 if (+suoritus.laji === 2 && suoritus.sisaltyvyys.length > 0) {
                   suoritus.isModule = true;
                   suoritus.type = 'module';
@@ -51,6 +52,7 @@ export class CoursesService {
                       course.weight = i + 100 * (j + 1) + 1 * (k + 1);
                       course.module = suoritus.avain;
                       course.type = 'course';
+                      // @ts-ignore
                       suoritus.hasPart.push(course);
                     } else {
                       suoritus.isModule = false;
@@ -60,6 +62,7 @@ export class CoursesService {
                   });
                   suoritus.weight = i + 100 * (j + 1);
                 }
+                // @ts-ignore
                 if (degree.hasPart.includes(suoritus.avain)) {
                   suoritus.isPartOfDegree = true;
                   suoritus.degree = degree.avain;
@@ -74,6 +77,7 @@ export class CoursesService {
               HEI.opintosuoritukset.opintosuoritus
                 .filter((c) => c.isModule)
                 .forEach((m) =>
+                  // @ts-ignore
                   m.hasPart.forEach((c) => (c.degree = m.degree))
                 );
 
@@ -101,6 +105,7 @@ export class CoursesService {
                     course.weight = (i + 1) * 100 + (j + 1);
                     course.module = suoritus.avain;
                     course.type = 'course';
+                    // @ts-ignore
                     suoritus.hasPart.push(course);
                   } else {
                     suoritus.isModule = false;
@@ -115,6 +120,7 @@ export class CoursesService {
             });
           }
           HEI.opintosuoritukset.opintosuoritus.sort(
+            // @ts-ignore
             (a, b) => a.weight - b.weight
           );
         });
@@ -124,19 +130,21 @@ export class CoursesService {
 
   selectedCourses: string[] = [];
   selectedIssuer = '';
-  courses = [];
+  courses: Opintosuoritus[] = [];
   count = 0;
   credits = 0;
 
   coursesWithIssuers$ = combineLatest([this.issuers$, this.courses$]).pipe(
     map(([issuers, courses]) => {
-      const coursesByIssuer = {};
-      courses.virta.opiskelija.map((student) => {
+      const coursesByIssuer:any = {};
+      courses.virta.opiskelija.map((student: Opiskelija) => {
         const issuer =
+          // @ts-ignore
           issuers[student.opintosuoritukset.opintosuoritus[0].myontaja].title;
         coursesByIssuer[issuer] = student.opintosuoritukset.opintosuoritus.map(
-          (course) => ({
+          (course: Opintosuoritus) => ({
             ...course,
+            // @ts-ignore
             myontaja: issuers[course.myontaja].title,
           })
         );

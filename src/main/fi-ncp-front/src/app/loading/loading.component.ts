@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./loading.component.css']
 })
 export class LoadingComponent  {
-  @Input() message;
+  @Input() message: any;
 
   constructor() { }
 

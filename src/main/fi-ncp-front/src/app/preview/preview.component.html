@@ -29,13 +29,13 @@
         </thead>
         <tbody>
           <tr *ngFor="let opintosuoritus of courses" role="row">
-            <td [class.partOfDegree]="opintosuoritus.isPartOfDegree" [class.partOfModule]="opintosuoritus.isPartOfModule">
-              {{opintosuoritus.nimi[0].value}}
+            <td [class.partOfDegree]="opintosuoritus['isPartOfDegree']" [class.partOfModule]="opintosuoritus['isPartOfModule']">
+              {{opintosuoritus["nimi"][0].value}}
             </td>
-            <td>{{opintosuoritus.laajuus.opintopiste}}</td>
-            <td>{{opintosuoritus.myontaja}}</td>
-            <td>{{opintosuoritus.arvosana.viisiportainen}}</td>
-            <td>{{opintosuoritus.suoritusPvm | date : 'yyyy-MM-dd'}}</td>
+            <td>{{opintosuoritus["laajuus"]["opintopiste"]}}</td>
+            <td>{{opintosuoritus["myontaja"]}}</td>
+            <td>{{opintosuoritus["arvosana"]["viisiportainen"]}}</td>
+            <td>{{opintosuoritus["suoritusPvm"] | date : 'yyyy-MM-dd'}}</td>
           </tr>
         </tbody>
       </table>
@@ -74,10 +74,10 @@
             <div *ngIf="!collapse.report" class="card-text">
               <div *ngFor="let report of elmo.report">
                 <div>
-                  <b>Issue date:</b>&nbsp;{{report.issueDate | date : 'dd.MM.YYYY HH:mm'}}
+                  <b>Issue date:</b>&nbsp;{{report["issueDate"] | date : 'dd.MM.YYYY HH:mm'}}
                 </div>
                 <app-issuer [issuer]="report.issuer"></app-issuer>
-                <app-los *ngFor="let los of report.learningOpportunitySpecification" [los]="los"></app-los>
+                <app-los *ngFor="let los of report['learningOpportunitySpecification']" [los]="los"></app-los>
               </div>
             </div>
           </div>

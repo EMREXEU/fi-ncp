@@ -8,7 +8,7 @@ import { SessionService } from '../session/session.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-  @ViewChild('form') form: ElementRef;
+  @ViewChild('form') form!: ElementRef;
   session$ = this.sessionService.session$;
   lang$ = this.i18nService.langAction$;
   i18n = this.i18nService.i18n;

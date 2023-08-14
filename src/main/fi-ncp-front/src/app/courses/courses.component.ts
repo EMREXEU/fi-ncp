@@ -22,7 +22,7 @@ import { CoursesService } from './courses.service';
 })
 export class CoursesComponent
   implements OnDestroy, AfterViewInit, AfterContentChecked {
-  private form: ElementRef;
+  private form!: ElementRef;
   @ViewChild('form', { static: false }) set f(f: ElementRef) {
     if (f) {
       this.form = f;
@@ -35,13 +35,14 @@ export class CoursesComponent
   private sessionSub: any;
   private coursesSub: any;
 
+  // @ts-ignore
   coursesByIssuer: { [key: string]: Opintosuoritus[] };
   loading = true;
   issuers: string[] = [];
   selectedIssuer = '';
   selectedCourses: Set<string> = new Set();
   creditsCount = 0;
-  session;
+  session: any;
   returnCode = 'SOMETHING_ELSE';
   returnMessage = '';
   error = '';
@@ -141,7 +142,8 @@ export class CoursesComponent
     this.selectedCourses.clear();
   }
 
-  courseSelected(course: string): boolean {
+  courseSelected(course: string | undefined): boolean {
+    if (course === undefined) return false;
     return this.selectedCourses.has(course);
   }
 
@@ -149,9 +151,9 @@ export class CoursesComponent
     const selected = this.coursesByIssuer[this.selectedIssuer].find(
       (c) => c.avain === course
     );
-    if (
-      this.courseSelected(selected.degree) ||
-      this.courseSelected(selected.module)
+    if (selected &&
+      (this.courseSelected(selected.degree) ||
+      this.courseSelected(selected.module))
     ) {
       return;
     }
@@ -223,8 +225,8 @@ export class CoursesComponent
     ].filter(
       (course) =>
         courses.includes(course.avain) ||
-        courses.includes(course.degree) ||
-        courses.includes(course.module)
+        (course.degree && courses.includes(course.degree)) ||
+        (course.module && courses.includes(course.module))
     );
     this.coursesService.credits = this.creditsCount;
     this.coursesService.selectedIssuer = this.selectedIssuer;

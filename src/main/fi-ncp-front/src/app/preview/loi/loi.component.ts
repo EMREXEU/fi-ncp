@@ -6,6 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['../preview.component.css', './loi.component.css'],
 })
 export class LoiComponent {
-  @Input() loi;
+  @Input() loi: any;
   collapse = false;
 }

@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['../preview.component.css', './issuer.component.css'],
 })
 export class IssuerComponent implements OnInit {
-  @Input() issuer;
+  @Input() issuer: any;
   collapse = false;
 
   constructor() {}

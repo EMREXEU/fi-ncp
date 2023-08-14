@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['../preview.component.css', './identifiers.component.css']
 })
 export class IdentifiersComponent implements OnInit {
-  @Input() identifiers;
+  @Input() identifiers: any;
   constructor() { }
 
   ngOnInit(): void {
