@@ -16,6 +16,7 @@ describe('LoiComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoiComponent);
     component = fixture.componentInstance;
+    component.collapse = true;
     fixture.detectChanges();
   });
 
