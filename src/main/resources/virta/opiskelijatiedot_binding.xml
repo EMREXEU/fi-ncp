@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+        xmlns:jaxws="https://jakarta.ee/xml/ns/jaxws"
+        version="3.0">
+
+    <!-- Raise theEnumMemberSizeCap limit due big size of Elmo-schema -->
+    <jaxb:bindings >
+        <jaxb:globalBindings typesafeEnumMaxMembers="7000"/>
+    </jaxb:bindings>
+</jaxb:bindings>
