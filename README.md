@@ -41,6 +41,8 @@ You can generate your own with openssl:
 - front-end is a separate folder inside project which can be run also locally as normal angular
   project:
   - `fi-ncp/src/main/fi-ncp-front`
+  - building front-end will output files to `webapp` folder, and files are included in Spring Boot Jar.
+    - Normally executable should be jar but in this case war, because it's the simplest way to include Angular app inside Spring Boot app.
 
 ## Compiling
 Maven project builds and packages both spring-boot back-end and angular front-end application
@@ -71,7 +73,51 @@ Access front-end from war with web browser: http://localhost:9001
 
 NOTE: front-end and back-end locally still uses configured VIRTA-TEST service.
 
-### Option 2: Run back-end and front-end separately
+### Option 2: Run application behind Apache reverse proxy
+If you want to simulate test or production env locally.
+> Note: If you need to simulate full production env locally you should consider using test server.
+1) Install Apache
+2) Create new host entry /etc/hosts ex. `127.0.0.1 local.emrex.com`
+3) Create new Apache virtual host configuration ex.
+```
+<VirtualHost *:8080>
+    ServerAdmin webmaster@local.emrex.com
+    ServerName local.emrex.com
+    ErrorLog "/opt/homebrew/var/log/httpd/local.emrex.com-error_log"
+    CustomLog "/opt/homebrew/var/log/httpd/local.emrex.com-access_log" common
+
+    <Location />
+        RewriteEngine on
+        RewriteCond %{REQUEST_URI} ^/$
+        RewriteRule (.*) /fi-ncp/ [R=301]
+    </Location>
+
+    <Location /fi-ncp>
+        ProxyPreserveHost On
+        ProxyPass "http://localhost:9001"
+        ProxyPassReverse "http://localhost:9001"
+    </Location>
+
+     <Directory /fi-ncp>
+        RewriteEngine on
+
+        # Don't rewrite files or directories
+        RewriteCond %{REQUEST_FILENAME} -f [OR]
+        RewriteCond %{REQUEST_FILENAME} -d
+        RewriteRule ^ - [L]
+
+        # Rewrite everything else to index.html to allow html5 state links
+        RewriteRule ^ index.html [L]
+    </Directory>
+
+</VirtualHost>
+```
+> This basic reverse proxy configuration routes http traffic to Spring & Angular application, if you need more complex configuration, you should consult real server configuration.
+4) Open in browser: `local.emrex.com:8080`
+
+Now your Spring Boot/Angular application is running behind Apache Reverse Proxy.
+
+### Option 3: Run back-end and front-end separately
 With the 2 steps from Option 1 done and the backend running
 3) Serve front-end separately in `src/main/fi-ncp-front` in your IDE or shell:
    - `cd src/main/fi-ncp-front`
@@ -83,6 +129,7 @@ Access application root from angular project in your web browser directly: http:
 
 Editing angular code will compile and use hot deploy normally as with `ng serve`. It is
 recommended to use private browsing in browser so no javascript code is cached between reloads.
+> Warning this is not recommended configuration, Spring Boot application includes Angular Application and if you `ng serve` there may be problems with Angular router because you will have two Angular instances running one from inside Spring Boot application and another from `ng serve`.
 
 ## Authentication
 Back-end and front-end do not provide authentication but rely on production configuration where both
@@ -99,7 +146,7 @@ shibboleth authentication. When running locally without shibboleth, you can simp
  - `src/main/resources/data/issuers.txt`
 
 ### docker
-- docker-compose
+- docker-compose is not currently tested but may still work
 
 ## Documentation
 - https://emrex.eu/technical/

@@ -1,6 +1,6 @@
 # FiNcpFront
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
 
 ## Development server
 
@@ -12,7 +12,8 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory by default, but you may configure it in angular.json.
+> You may need to install `ng` first with command `npm i -g @angular/cli`.
 
 ## Running unit tests
 
@@ -20,7 +21,15 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+### History
+#### 2023
+* Protractor was deprecated and replaced it with Cypress. Added two basic e2e tests.
+* Angular 11 is deprecated and was upgraded to Angular 16.2.0.
+* Tslint is depracted and replaced it with Eslint.
+* Failing unit tests were fixed. Noted that they are not testing much of anything, probably default tests created by Angular 11.
+* npm packages upgraded to the latest working versions
 
 ## Further help
 
