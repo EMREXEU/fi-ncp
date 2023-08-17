@@ -7,7 +7,7 @@
   <groupId>fi.csc.emrex</groupId>
   <artifactId>fi-ncp</artifactId>
   <version>1.0.RELEASE</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
 
   <name>fi-ncp</name>
   <description>NCP</description>
