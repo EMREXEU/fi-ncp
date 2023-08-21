@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-<!-- Daily rollover pattern consent.%d{yyyy-MM-dd}.%i.log, maxHistory = 365 = 365 days,
- if you change fileNamePattern, it may change rollover pattern to something else, please see logback docs -->
+    <!-- Daily rollover pattern consent.%d{yyyy-MM-dd}.%i.log, maxHistory = 365 = 365 days,
+          if you change fileNamePattern, it may change rollover pattern to something else, please see logback docs -->
     <appender name="CONSENT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>consent.log</file>
+        <file>/var/log/ncp/consent.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>consent.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>/var/log/ncp/consent.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
             <maxHistory>365</maxHistory>
             <totalSizeCap>5120MB</totalSizeCap>
