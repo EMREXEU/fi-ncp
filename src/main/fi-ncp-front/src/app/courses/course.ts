@@ -182,3 +182,17 @@ export interface Opiskelija {
 export interface Virta {
   opiskelija: Opiskelija[];
 }
+
+export interface IssuerResponseData {
+  [key: string]: Issuer
+}
+
+interface Issuer {
+  code: string
+  countryCode: string
+  identifierType: string
+  identifier: string
+  title: string
+  domain: string
+  url: string
+}

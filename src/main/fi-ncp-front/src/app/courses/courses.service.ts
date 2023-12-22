@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 import { combineLatest, Observable, of, pipe, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import {ICourseResponse, Opintosuoritus, Opiskelija, Sisaltyvyys} from './course';
+import {ICourseResponse, Opintosuoritus, Opiskelija, Sisaltyvyys, IssuerResponseData} from './course';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoursesService {
-  issuers$ = this.http.get(environment.getIssuersUrl);
+  issuers$ = this.http.get<IssuerResponseData>(environment.getIssuersUrl);
   courses$ = this.http
     .get<ICourseResponse>(environment.getAllCoursesUrl, {
       withCredentials: true,
@@ -138,13 +138,19 @@ export class CoursesService {
     map(([issuers, courses]) => {
       const coursesByIssuer:any = {};
       courses.virta.opiskelija.map((student: Opiskelija) => {
-        const issuer =
-          // @ts-ignore
-          issuers[student.opintosuoritukset.opintosuoritus[0].myontaja].title;
-        coursesByIssuer[issuer] = student.opintosuoritukset.opintosuoritus.map(
+        console.log("Following Issuers available:");
+        console.log(issuers);
+        const myontaja: string = (student.opintosuoritukset.opintosuoritus && student.opintosuoritukset.opintosuoritus.length && student.opintosuoritukset.opintosuoritus[0].myontaja) || "";
+        console.log("issuer for opintosuoritus[0]: " + myontaja);
+        const issuerTitle: string =
+          issuers[myontaja].title
+        console.log("issuerTitle: " + issuerTitle);
+        if (!issuerTitle) {
+          console.error("no issuer found for myontaja: " + myontaja);
+        }
+        coursesByIssuer[issuerTitle] = student.opintosuoritukset.opintosuoritus.map(
           (course: Opintosuoritus) => ({
             ...course,
-            // @ts-ignore
             myontaja: issuers[course.myontaja].title,
           })
         );

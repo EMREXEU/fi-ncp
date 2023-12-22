@@ -68,9 +68,14 @@ export class CoursesComponent
             if (err.status === 500) {
               this.returnMessage = 'Internal Server Error';
             }
+            // Unknown error, won't be logged to the server logs because it may contain sensitive information.
+            if (!this.returnMessage) {
+              this.returnMessage = "Unknown Emrex Error, please check Emrex browser console log for more details."
+            }
             this.returnCode = 'NCP_ERROR';
             this.ready = true;
             this.loading = false;
+            console.error(err);
             return EMPTY;
           })
         )
@@ -122,6 +127,10 @@ export class CoursesComponent
       (document.getElementById('returnCode') as HTMLInputElement).value ===
         this.returnCode
     ) {
+      // this.sessionService.logout().subscribe((_) => {
+        // this.form.nativeElement.submit();
+        // document.getElementById('haka-logout').click();
+      // });
       console.log('no redirects in dev');
     }
   }
