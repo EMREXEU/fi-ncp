@@ -58,12 +58,7 @@ export const i18n = {
   preview: {
     back: { FI: 'Takaisin', SV: 'Tillbaka', EN: 'Back' },
     loading: { FI: 'Tuotetaan esikatselua...', SV: 'Förhandsgranskning skapas...', EN: 'Generating preview...' },
-    consent: { FI: 'Suostu tietojen luovuttamiseen', SV: 'Agree to the transfer of information', EN: 'I agree to the transfer of information' },
-    consentError: {
-      FI: 'Tapahtui virhe, yritä uudestaan.',
-      SV: 'Ett fel uppstod men du kan försöka igen.',
-      EN: 'An error occurred, please try again.'
-    },
+    consent: { FI: 'Siirrä opinto- ja henkilötietoni toiseen EMREX-palvelua käyttävään maahan/korkeakouluun. Maa/korkeakoulu voi sijaita EU/ETA-alueen ulkopuolella.', SV: 'Överför mina studie- och personuppgifter till ett annat land/en annan högskola med hjälp av EMREX-tjänsten. Landet/högskolan kan vara beläget utanför EU/EES-området.', EN: 'Transfer my study data and personal details to other country/institution by using EMREX. Institution/country may locate outside of EU/EEA area.'},
     personalInfo: {
       title: { FI: 'Henkilötiedot', SV: 'Personuppgifter', EN: 'Personal information' },
       givenNames: { FI: 'Etunimet', SV: 'Förnamn', EN: 'Given names' },
