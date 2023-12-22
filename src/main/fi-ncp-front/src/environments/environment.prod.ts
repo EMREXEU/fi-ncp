@@ -5,6 +5,5 @@ export const environment = {
   getIssuersUrl: 'api/issuers',
   getAllCoursesUrl: 'api/courses',
   getSelectedCoursesUrl: 'api/review',
-  sendReportUrl: 'api/accept',
-  consentUrl: 'api/consent',
+  sendReportUrl: 'api/accept'
 };

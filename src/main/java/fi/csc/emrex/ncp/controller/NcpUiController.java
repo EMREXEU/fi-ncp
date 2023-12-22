@@ -305,23 +305,4 @@ public class NcpUiController extends NcpControllerBase {
 
     return ResponseEntity.ok().build();
   }
-
-  /**
-   * Log student consent for transferring data by logging oid or ssn.
-   * @return status 200 if oid or ssn was logged successfully, otherwise return error 500 without reason.
-   */
-  @RequestMapping(value = "/consent", method = RequestMethod.GET)
-  public ResponseEntity<String> consent() {
-    // Attempt to read student data from active session
-    HttpSession session = context.getSession();
-    VirtaUserDto student = (VirtaUserDto) session.getAttribute(NcpSessionAttributes.VIRTA_USER_DTO);
-    // Session timeout, direct request without login or user has disabled session cookies
-    if (student == null || (!student.isOidSet() && !student.isSsnSet())) {
-      log.error("oid and ssn null");
-      return ResponseEntity.internalServerError().build();
-    }
-    // Consent must be logged in separate log, do not use default log
-    consentLogger.info(student.isOidSet() ? "oid: " + student.getOid() : "ssn: " + student.getSsn());
-    return ResponseEntity.ok().build();
-  }
 }

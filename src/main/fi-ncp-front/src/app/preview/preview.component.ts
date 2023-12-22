@@ -93,16 +93,8 @@ export class PreviewComponent implements OnInit {
   }
 
   sendReport(): void {
-    this.http.get(environment.consentUrl, {observe: 'response', withCredentials: true}).subscribe(
-      (res) => {
-        if (res.status === 200) {
-          this.sessionService.logout().subscribe((_) => {
-            this.form.nativeElement.submit();
-          });
-        }
-      }, () => {
-        this.notifier.notify('error', this.i18n.preview.consentError[this.currentLang]);
-      }
-    );
+    this.sessionService.logout().subscribe((_) => {
+      this.form.nativeElement.submit();
+    });
   }
 }
