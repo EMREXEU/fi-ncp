@@ -69,8 +69,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/api")
 public class NcpUiController extends NcpControllerBase {
 
-  private static final Logger consentLogger = LoggerFactory.getLogger(NcpUiController.class.getName() + ".consent");
-
   /**
    * Redirect routes that are not recognized in Spring to Angular
    */
@@ -153,7 +151,9 @@ public class NcpUiController extends NcpControllerBase {
   public OpiskelijanKaikkiTiedotResponse getCourses(@ModelAttribute NcpRequestDto request) throws NcpException {
     HttpSession session = context.getSession();
 
-    String personId = "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213";
+    String personId = context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) != null
+            ? context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID).toString()
+            : null; // urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
     String learnerId = context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID) != null
         ? context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID).toString()
         : null;
