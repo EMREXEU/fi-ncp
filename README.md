@@ -1,3 +1,5 @@
+>This branch is using old ELMO schema/codebase and has been deprecated.
+
 # fi-ncp
 CSC National Contact Point application (NCP) for EMREX.
 
