@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { combineLatest, Observable, of, pipe, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import {ICourseResponse, Opintosuoritus, Opiskelija, Sisaltyvyys, IssuerResponseData} from './course';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {combineLatest, Observable, of} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {environment} from 'src/environments/environment';
+import {ICourseResponse, IssuerResponseData, Opintosuoritus, Opiskelija, Sisaltyvyys} from './course';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,10 @@ export class CoursesService {
     .pipe(
       map((response:ICourseResponse) => {
         let degrees: Opintosuoritus[] = [];
+        // Find only relevant data and filter out everything else.
+        // Emrex assumes data must have opintosuoritukset-field.
+        response.virta.opiskelija = response.virta.opiskelija
+          .filter(opiskelija => opiskelija.hasOwnProperty("opintosuoritukset"));
         response.virta.opiskelija.forEach((HEI) => {
           HEI.opintosuoritukset.opintosuoritus = HEI.opintosuoritukset.opintosuoritus.filter(
             (suoritus) => +suoritus.laji === 1 || +suoritus.laji === 2
