@@ -44,8 +44,6 @@ import lombok.extern.slf4j.Slf4j;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
 
 import org.apache.fop.apps.FOPException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
@@ -207,7 +205,11 @@ public class NcpUiController extends NcpControllerBase {
     IssuerDto issuer;
     List<OpintosuoritusTyyppi> allCourses = new ArrayList<>();
     virtaXml.getVirta().getOpiskelija().forEach(HEI -> {
-      allCourses.addAll(HEI.getOpintosuoritukset().getOpintosuoritus());
+      // Find only relevant data and filter out everything else.
+      // Emrex assumes data must have opintosuoritukset-field.
+      if (HEI.getOpintosuoritukset() != null) {
+        allCourses.addAll(HEI.getOpintosuoritukset().getOpintosuoritus());
+      }
     });
     List<OpintosuoritusTyyppi> filteredCourses = new ArrayList<>();
     if (courses != null && courses.length > 0) {
