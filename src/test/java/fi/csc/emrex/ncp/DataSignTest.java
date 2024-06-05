@@ -11,8 +11,10 @@ import jakarta.xml.bind.DatatypeConverter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
+@ActiveProfiles("dev")
 public class DataSignTest {
 
   private static DataSignService instance;

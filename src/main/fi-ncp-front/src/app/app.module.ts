@@ -17,6 +17,7 @@ import { LosComponent } from './preview/los/los.component';
 import { LoiComponent } from './preview/loi/loi.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NotifierModule } from 'angular-notifier';
+import { ErrorModule } from "./error/error.module";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NotifierModule } from 'angular-notifier';
     AppRoutingModule,
     NoopAnimationsModule,
     FormsModule,
-    NotifierModule
+    NotifierModule,
+    ErrorModule
   ],
   providers: [],
   bootstrap: [AppComponent],

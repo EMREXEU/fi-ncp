@@ -142,16 +142,10 @@ export class CoursesService {
     map(([issuers, courses]) => {
       const coursesByIssuer:any = {};
       courses.virta.opiskelija.map((student: Opiskelija) => {
-        console.log("Following Issuers available:");
-        console.log(issuers);
         const myontaja: string = (student.opintosuoritukset.opintosuoritus && student.opintosuoritukset.opintosuoritus.length && student.opintosuoritukset.opintosuoritus[0].myontaja) || "";
         console.log("issuer for opintosuoritus[0]: " + myontaja);
         const issuerTitle: string =
           issuers[myontaja].title
-        console.log("issuerTitle: " + issuerTitle);
-        if (!issuerTitle) {
-          console.error("no issuer found for myontaja: " + myontaja);
-        }
         coursesByIssuer[issuerTitle] = student.opintosuoritukset.opintosuoritus.map(
           (course: Opintosuoritus) => ({
             ...course,

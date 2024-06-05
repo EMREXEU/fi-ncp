@@ -4,30 +4,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import fi.csc.emrex.ncp.controller.utils.NcpRequestFields.SHIBBOLETH_KEYS;
 import fi.csc.emrex.ncp.controller.utils.NcpSessionAttributes;
-import fi.csc.emrex.ncp.elmo.XmlUtil;
 import fi.csc.emrex.ncp.util.NcpPaths;
 import fi.csc.emrex.ncp.util.NcpTestConstants.SHIBBOLETH_VALUES;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Assert;
+import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
+@ActiveProfiles("dev")
 @AutoConfigureMockMvc
 @Slf4j
 public class NcpUiControllerIntegrationTest {
-
   @Autowired
+  private WebApplicationContext webApplicationContext;
+
   private MockMvc mockMvc;
+
+  @BeforeEach
+  public void setupBeforeEach() {
+    mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+            .build();
+  }
 
   @Test
   public void getCourses() throws Exception {
