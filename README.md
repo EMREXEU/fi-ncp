@@ -168,3 +168,23 @@ Plant UML can be viewed in  http://www.plantuml.com/plantuml/uml/
 - Use case: Internal student imports external courses to VIRTA via fi-ncp.
  [PlantUML model](./sequence_student_imports_external_courses_to_virta.puml)
 - internal/external is from fi-ncp point of view
+
+## Frontend Error Logging Documentation
+
+### Overview
+
+This document outlines the process for sending frontend error logs to the backend server, ensuring that only relevant error data is transmitted, encrypted, and securely logged.
+
+### Process Description
+
+#### Error Detection:
+The frontend application captures errors occurring during user interactions. These errors can include JavaScript exceptions, network failures, and other client-side issues.
+
+####    Log Collection:
+Only the relevant error information is collected. This includes the error message, stack trace, and any additional context necessary for debugging.
+
+####    Transmission:
+The frontend logs are sent to the backend server over a secure channel (HTTPS). This adds an additional layer of security by protecting the data from interception and unauthorized access.
+
+####    Encryption and Logging:
+Upon receipt, the backend server encrypts the log data. The encrypted logs are then processed and stored in a secure logging system for further analysis and monitoring.

@@ -219,7 +219,7 @@ public class ElmoService {
                 createLearningOpportunitySpecification(suoritus, opintosuoritukset));
             learningOpportunitySpecification.getHasPart().add(hasPart);
           } catch (NcpException e) {
-            // TODO: handle exception
+            log.error("Unknown Emrex error");
           }
 
         }

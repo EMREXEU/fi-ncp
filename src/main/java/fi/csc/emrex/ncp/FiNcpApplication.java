@@ -4,13 +4,9 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
-@Configuration
 public class FiNcpApplication {
 
   private static final String ELMO_XML_FIN = "src/main/resources/Example-elmo-Finland.xml";
