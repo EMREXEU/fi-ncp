@@ -17,7 +17,7 @@ public class KeyGen {
         PrivateKey privateKey = keyPair.getPrivate();
         String privateKeyBase64 = new String(Base64.getEncoder().encode(privateKey.getEncoded()), StandardCharsets.ISO_8859_1);
 
-        saveToFile("prod/publicKeyEmrex.pub", publicKey.getEncoded());
-        saveToFile("prod/privateKeyEmrex", privateKeyBase64);
+        saveToFile("publicKeyEmrex.pub", publicKey.getEncoded());
+        saveToFile("privateKeyEmrex", privateKeyBase64);
     }
 }
