@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
 public class EncryptUtil {
 
@@ -34,8 +35,9 @@ public class EncryptUtil {
     }
 
     public static PrivateKey loadRSAPrivateKey(String filePath) throws Exception {
-        byte[] keyBytes = loadFromFile(filePath);
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
+        byte[] keyBytesEncoded = loadFromFile(filePath);
+        byte[] keyBytesDecoded = Base64.getDecoder().decode(keyBytesEncoded);
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytesDecoded);
         KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
         return keyFactory.generatePrivate(spec);
     }
@@ -89,6 +91,11 @@ public class EncryptUtil {
     public static void saveToFile(String filePath, byte[] data) throws IOException {
         try (FileOutputStream fos = new FileOutputStream(filePath)) {
             fos.write(data);
+        }
+    }
+    public static void saveToFile(String filePath, String data) throws IOException {
+        try (FileOutputStream fos = new FileOutputStream(filePath)) {
+            fos.write(data.getBytes());
         }
     }
 }
