@@ -43,6 +43,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   /**
    * Post error to server.
+   * Never log personal data and make sure your server will encrypt the data.
    * @param errorContent
    */
   postError(errorContent: any) {

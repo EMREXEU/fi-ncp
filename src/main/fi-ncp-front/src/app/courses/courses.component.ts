@@ -62,19 +62,31 @@ export class CoursesComponent
       this.coursesSub = this.coursesService.coursesWithIssuers$
         .pipe(
           catchError((err) => {
+            // Error logging is number one priority
+            // Global error handler can't catch this error because it is explicitly handled here.
+            this.coursesService.postError(
+  `Source: ngAfterViewInit catchError handler\n
+              Name: ${err.name}\n
+              Message: ${err.message}\n
+              Error: ${err.error}\n
+              Status: ${err.status}\n
+              Stack:${err.stack}`
+            );
+
             if (err.error === 'Either Unique ID or Learner ID required') {
               this.returnMessage = err;
             }
             if (err.status === 500) {
               this.returnMessage = 'Internal Server Error';
             }
-            // Unknown error, won't be logged to the server logs because it may contain sensitive information.
+
             if (!this.returnMessage) {
               this.returnMessage = "Unknown Emrex Error, please check Emrex browser console log for more details."
             }
             this.returnCode = 'NCP_ERROR';
             this.ready = true;
             this.loading = false;
+            console.log("If you can read this please report this error:");
             console.error(err);
             return EMPTY;
           })

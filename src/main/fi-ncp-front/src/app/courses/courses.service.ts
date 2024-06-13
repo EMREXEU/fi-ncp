@@ -180,6 +180,19 @@ export class CoursesService {
     }
   }
 
+  /**
+   * Post error to server.
+   * Never log personal data and make sure your server will encrypt the data.
+   * @param errorContent
+   */
+  postError(errorContent: any) {
+    this.http.post("api/error", errorContent).subscribe({
+      error: errorRes => {
+        console.error("Logging failure", errorRes);
+      },
+    });
+  }
+
   sendReport(): void {
     this.http
       .post(

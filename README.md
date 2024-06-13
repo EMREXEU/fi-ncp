@@ -1,7 +1,9 @@
 # fi-ncp
-CSC National Contact Point application (NCP) for EMREX.
+CSC EMP Emrex Data Provider application (EMP) aka EMREX Data Access Point for EMREX. Previously known as NCP (National contact point).
+This is the point that the EMREX client contacts to fetch results.
 
-Additional documentation: https://wiki.eduuni.fi/x/LsZnCw
+Additional documentation: https://wiki.eduuni.fi/x/LsZnCw, https://github.com/emrex-eu
+
 
 EMREX guide: https://emrex.eu/wp-content/uploads/2020/01/Technical-Guide-to-EMREX.pdf
 
