@@ -34,6 +34,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import lombok.extern.slf4j.Slf4j;
+import mace.funet_fi.virta._2015._09._01.ArvosanaTyyppi;
 import mace.funet_fi.virta._2015._09._01.OpintosuorituksetTyyppi;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
 import org.springframework.beans.factory.annotation.Value;
@@ -273,7 +274,7 @@ public class ElmoService {
     learningOpportunityInstance.getIdentifier().add(createLoiIdentifier(LOI.ID_TYPE, opintosuoritus.getAvain()));
     learningOpportunityInstance.setDate(copyOf(opintosuoritus.getSuoritusPvm()));
     learningOpportunityInstance.setStatus(LOI.STATUS);
-    learningOpportunityInstance.setResultLabel(opintosuoritus.getArvosana().getViisiportainen());
+    learningOpportunityInstance.setResultLabel(createResultLabel(opintosuoritus));
     learningOpportunityInstance.getCredit().add(createCredit(opintosuoritus));
     learningOpportunityInstance.getLevel().add(createLevel(opintosuoritus));
     learningOpportunityInstance.setLanguageOfInstruction(opintosuoritus.getKieli());
@@ -286,6 +287,35 @@ public class ElmoService {
     identifier.setType(type);
     identifier.setValue(value);
     return identifier;
+  }
+
+  /**
+   * Parse and return Virta arvosana from Virta opintosuoritus. Conversion from Virta format to ELMO format.
+   * See <a href="https://github.com/CSCfi/VIRTA-Opintotietopalvelu/blob/master/XML-skeemat/Opintosuoritukset.xsd">Virta Opintosuoritukset Schema</a>
+   * See <a href="https://github.com/CSCfi/VIRTA-Opintotietopalvelu/blob/master/XML-skeemat/tyypit.xsd">Virta Tyypit Schema</a>
+   * See <a href="https://github.com/CSCfi/VIRTA-Opintotietopalvelu/blob/master/XML-skeemat/koodistot.xsd">Virta Koodistot Schema</a>
+   * @param opintosuoritus {@link OpintosuoritusTyyppi }
+   * @return resultLabel – Returned ELMO resultLabel is always String or null. See <a href="https://github.com/emrex-eu/elmo-schemas/blob/v1/schema.xsd">ELMO Schema</a>
+   */
+  private String createResultLabel(OpintosuoritusTyyppi opintosuoritus) {
+    String resultLabel = null;
+    ArvosanaTyyppi arvosanaTyyppi = opintosuoritus.getArvosana();
+    if (arvosanaTyyppi.getViisiportainen() != null) {
+      resultLabel = arvosanaTyyppi.getViisiportainen();
+    } else if (arvosanaTyyppi.getToinenKotimainen() != null) {
+      resultLabel = arvosanaTyyppi.getToinenKotimainen().value();
+    } else if (arvosanaTyyppi.getHyvaksytty() != null) {
+      resultLabel = arvosanaTyyppi.getHyvaksytty().value();
+    } else if (arvosanaTyyppi.getNaytetyo() != null) {
+      resultLabel = arvosanaTyyppi.getNaytetyo().value();
+    } else if (arvosanaTyyppi.getTutkielma() != null) {
+      resultLabel = arvosanaTyyppi.getTutkielma().value();
+    } else if (arvosanaTyyppi.getEiKaytossa() != null) {
+      resultLabel = arvosanaTyyppi.getEiKaytossa().value();
+    } else if (arvosanaTyyppi.getMuu() != null) {
+      log.error("ArvosanaAsteikkoMuuTyyppi not implemented yet!");
+    }
+    return resultLabel;
   }
 
   private Credit createCredit(OpintosuoritusTyyppi opintosuoritus) {
