@@ -48,9 +48,9 @@ public class ElmoService {
   @Value("classpath:data/issuers.txt")
   Resource issuerResourceFile;
 
-  // Line format: Korkeakoulu;TK-oppilaitoskoodi;Domain = schac
+  // Line format: Korkeakoulu;KorkeakouluSV;KorkeakouluEN;TK-oppilaitoskoodi;Domain = schac
   public enum ISSUER_FILE_COLUMN {
-    TITLE, CODE, DOMAIN
+    TITLE, TITLE_SV, TITLE_EN, CODE, DOMAIN
   }
 
   // Opintosuoritus.Myontaja is just a VIRTA code which needs to be mapped to
@@ -64,7 +64,7 @@ public class ElmoService {
   @PostConstruct
   public void init() throws IOException {
 
-    // Line format: Korkeakoulu;TK-oppilaitoskoodi;Domain = schac
+    // Line format: Korkeakoulu;KorkeakouluSV;KorkeakouluEN;TK-oppilaitoskoodi;Domain = schac
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(issuerResourceFile.getInputStream()))) {
       reader.lines().forEach(line -> {
         if (!line.isEmpty()) {
@@ -338,7 +338,9 @@ public class ElmoService {
     Issuer issuer = new Issuer();
     issuer.setCountry(issuerDto.getCountryCode());
     issuer.getIdentifier().add(createIdentifier(issuerDto.getIdentifierType(), issuerDto.getIdentifier()));
-    issuer.getTitle().add(createLocalizedToken(issuerDto.getCountryCode(), issuerDto.getTitle()));
+    issuer.getTitle().add(createLocalizedToken(CountryCode.FI, issuerDto.getTitle()));  //FI
+    issuer.getTitle().add(createLocalizedToken(CountryCode.SV, issuerDto.getTitleSv()));
+    issuer.getTitle().add(createLocalizedToken(CountryCode.US, issuerDto.getTitleEn()));
     issuer.setUrl(issuerDto.getUrl());
     return issuer;
   }

@@ -34,6 +34,8 @@ public class IssuerDto {
   private String identifierType;
   private String identifier;
   private String title;
+  private String titleSv;
+  private String titleEn;
   private String domain;
   private String url;
 
@@ -44,10 +46,12 @@ public class IssuerDto {
    */
   public IssuerDto(String[] args) {
     code = args[ISSUER_FILE_COLUMN.CODE.ordinal()];
-    countryCode = CountryCode.FI;
+    countryCode = CountryCode.FI;  // FIXME detect country
     identifierType = IDENTIFIER_TYPE;
     identifier = args[ISSUER_FILE_COLUMN.DOMAIN.ordinal()];
     title = args[ISSUER_FILE_COLUMN.TITLE.ordinal()];
+    titleSv = args[ISSUER_FILE_COLUMN.TITLE_SV.ordinal()];
+    titleEn = args[ISSUER_FILE_COLUMN.TITLE_EN.ordinal()];
     domain = args[ISSUER_FILE_COLUMN.DOMAIN.ordinal()];
     url = DOMAIN_PREFIX + args[ISSUER_FILE_COLUMN.DOMAIN.ordinal()];
   }
