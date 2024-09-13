@@ -21,6 +21,7 @@
 					{{i18n.courses.credits[lang]}})</span>
 			</span>
 			<button [disabled]="calculateSize() < 1" type="submit" class="btn btn-primary btn-default" (click)="reviewSelectedCourses()">{{i18n.courses.export[lang]}}</button>
+      <div>{{i18n.courses.timeoutinfo[lang]}}</div>
 		</div>
 		<table *ngIf="selectedIssuer" class="table table-striped">
 			<thead>

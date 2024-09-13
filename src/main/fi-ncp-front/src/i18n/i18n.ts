@@ -39,6 +39,11 @@ export const i18n = {
       SV: 'Sänd de valda prestationerna',
       EN: 'Send chosen credits',
     },
+    timeoutinfo: {
+      FI: 'Huom! Mikäli et siirry palvelussa eteenpäin 20 minuutissa, tiedonsiirto keskeytyy.',
+      SV: 'OBS! Ifall du inte fortsätter vidare i tjänsten inom 20 minuter, avbryts dataöverföringen.',
+      EN: 'Please note! If you don\'t transfer your studies in 20 minutes, the transfer will be cancelled.',
+    },
     table: {
       selectall: { FI: 'Valitse kaikki', SV: 'Välj alla', EN: 'Select all'},
       deselectall: { FI: 'Poista kaikki valinnat', SV: 'Radera alla val', EN: 'Deselect all'},
