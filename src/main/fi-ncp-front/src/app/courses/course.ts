@@ -81,13 +81,13 @@ export interface Laajuus2 {
 }
 
 export interface Arvosana {
-  viisiportainen: string;
-  toinenKotimainen?: any;
-  hyvaksytty: string;
-  naytetyo?: any;
-  tutkielma?: any;
-  eiKaytossa: string;
-  muu?: any;
+  viisiportainen?: string;
+  toinenKotimainen?: string;
+  hyvaksytty?: string;
+  naytetyo?: string;
+  tutkielma?: string;
+  eiKaytossa?: string;
+  muu?: any;  // Not implemented yet
 }
 
 export interface Nimi {

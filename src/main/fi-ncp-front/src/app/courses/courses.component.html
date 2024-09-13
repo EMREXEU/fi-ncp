@@ -43,7 +43,16 @@
 					</td>
 					<td>{{opintosuoritus.laajuus.opintopiste}}</td>
 					<td>{{opintosuoritus.myontaja}}</td>
-					<td>{{opintosuoritus.arvosana.viisiportainen}}</td>
+					<td>
+            {{
+              opintosuoritus.arvosana.viisiportainen ||
+              opintosuoritus.arvosana.toinenKotimainen ||
+              opintosuoritus.arvosana.hyvaksytty ||
+              opintosuoritus.arvosana.naytetyo ||
+              opintosuoritus.arvosana.tutkielma ||
+              opintosuoritus.arvosana.eiKaytossa
+            }}
+          </td>
 					<td>{{opintosuoritus.suoritusPvm | date : 'yyyy-MM-dd'}}</td>
 				</tr>
 			</tbody>
