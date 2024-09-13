@@ -7,7 +7,7 @@
 	</form>
 	<div class="courses-container" *ngIf="coursesByIssuer">
 		<div *ngIf="issuers.length > 1" id="issuer-select">
-			<p *ngIf="!selectedIssuer">{{i18n.courses.issuers.prompt[lang]}}</p>
+			<p *ngIf="!selectedIssuer">{{i18n.courses.issuers.prompt?.[lang]}}</p>
 			<label for="organizationSelect">{{i18n.courses.organization[lang]}}</label>
 			<select class="form-control" *ngIf="issuers" (change)="selectIssuer($event)" id="organizationSelect">
 				<option value="" disabled selected>{{i18n.courses.issuers.select[lang]}}</option>
