@@ -10,7 +10,6 @@ import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS.TYPE;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
 import fi.csc.schemas.elmo.Attachment;
-import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo;
 import fi.csc.schemas.elmo.Elmo.Learner;
 import fi.csc.schemas.elmo.Elmo.Report;
@@ -338,9 +337,9 @@ public class ElmoService {
     Issuer issuer = new Issuer();
     issuer.setCountry(issuerDto.getCountryCode());
     issuer.getIdentifier().add(createIdentifier(issuerDto.getIdentifierType(), issuerDto.getIdentifier()));
-    issuer.getTitle().add(createLocalizedToken(CountryCode.FI, issuerDto.getTitle()));  //FI
-    issuer.getTitle().add(createLocalizedToken(CountryCode.SV, issuerDto.getTitleSv()));
-    issuer.getTitle().add(createLocalizedToken(CountryCode.US, issuerDto.getTitleEn()));
+    issuer.getTitle().add(createLocalizedToken("fi", issuerDto.getTitle()));
+    issuer.getTitle().add(createLocalizedToken("sv", issuerDto.getTitleSv()));
+    issuer.getTitle().add(createLocalizedToken("en", issuerDto.getTitleEn()));
     issuer.setUrl(issuerDto.getUrl());
     return issuer;
   }
@@ -402,9 +401,9 @@ public class ElmoService {
     return identifier;
   }
 
-  private TokenWithOptionalLang createLocalizedToken(CountryCode countryCode, String tokenText) {
+  private TokenWithOptionalLang createLocalizedToken(String lang, String tokenText) {
     TokenWithOptionalLang token = new TokenWithOptionalLang();
-    token.setLang(countryCode.toString());
+    token.setLang(lang);
     token.setValue(tokenText);
     return token;
   }
