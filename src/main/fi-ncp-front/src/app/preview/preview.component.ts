@@ -5,6 +5,7 @@ import { SessionService } from '../session/session.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { NotifierService } from 'angular-notifier';
+import Utils from "../utils";
 
 @Component({
   selector: 'app-preview',
@@ -97,4 +98,6 @@ export class PreviewComponent implements OnInit {
       this.form.nativeElement.submit();
     });
   }
+
+  protected readonly Utils = Utils;
 }

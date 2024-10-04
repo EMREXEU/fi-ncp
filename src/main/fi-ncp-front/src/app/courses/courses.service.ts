@@ -22,10 +22,15 @@ export class CoursesService {
         // Emrex assumes data must have opintosuoritukset-field.
         response.virta.opiskelija = response.virta.opiskelija
           .filter(opiskelija => opiskelija.hasOwnProperty("opintosuoritukset"));
+        // FIXME this whole file is a bomb, potential NPEs left and right.
+        // START by removing @ts-ignores
+        // Had to add ignores after fixing interface to match virta spec
         response.virta.opiskelija.forEach((HEI) => {
+          // @ts-ignore
           HEI.opintosuoritukset.opintosuoritus = HEI.opintosuoritukset.opintosuoritus.filter(
             (suoritus) => +suoritus.laji === 1 || +suoritus.laji === 2
           );
+          // @ts-ignore
           degrees = HEI.opintosuoritukset.opintosuoritus.filter(
             (suoritus) => +suoritus.laji === 1
           );
@@ -34,19 +39,26 @@ export class CoursesService {
               degree.isDegree = true;
               degree.type = 'degree';
               degree.hasPart = [];
+              // @ts-ignore
               degree.sisaltyvyys.forEach((sisaltyvyys: Sisaltyvyys) => {
                 // @ts-ignore
                 degree.hasPart.push(sisaltyvyys.sisaltyvaOpintosuoritusAvain);
               });
+              // @ts-ignore
               HEI.opintosuoritukset.opintosuoritus.sort((a, b) =>
+                // @ts-ignore
                 a.nimi[0].value.localeCompare(b.nimi[0].value)
               );
+              // @ts-ignore
               HEI.opintosuoritukset.opintosuoritus.forEach((suoritus: Opintosuoritus, j) => {
+                // @ts-ignore
                 if (+suoritus.laji === 2 && suoritus.sisaltyvyys.length > 0) {
                   suoritus.isModule = true;
                   suoritus.type = 'module';
                   suoritus.hasPart = [];
+                  // @ts-ignore
                   suoritus.sisaltyvyys.forEach((sisaltyvyys, k) => {
+                    // @ts-ignore
                     const course = HEI.opintosuoritukset.opintosuoritus.find(
                       (c) =>
                         c.avain === sisaltyvyys.sisaltyvaOpintosuoritusAvain
@@ -66,6 +78,7 @@ export class CoursesService {
                   });
                   suoritus.weight = i + 100 * (j + 1);
                 }
+
                 // @ts-ignore
                 if (degree.hasPart.includes(suoritus.avain)) {
                   suoritus.isPartOfDegree = true;
@@ -78,6 +91,7 @@ export class CoursesService {
                   }
                 }
               });
+              // @ts-ignore
               HEI.opintosuoritukset.opintosuoritus
                 .filter((c) => c.isModule)
                 .forEach((m) =>
@@ -86,21 +100,28 @@ export class CoursesService {
                 );
 
               degree.weight = i * 100000;
+              // @ts-ignore
               degree.hasPart = HEI.opintosuoritukset.opintosuoritus.filter(
                 (c) => c.isPartOfDegree
               );
             });
           } else {
+            // @ts-ignore
             HEI.opintosuoritukset.opintosuoritus.sort((a, b) =>
+              // @ts-ignore
               a.nimi[0].value.localeCompare(b.nimi[0].value)
             );
+            // @ts-ignore
             HEI.opintosuoritukset.opintosuoritus.forEach((suoritus, i) => {
+              // @ts-ignore
               if (+suoritus.laji === 2 && suoritus.sisaltyvyys.length > 0) {
                 suoritus.isModule = true;
                 suoritus.type = 'module';
                 suoritus.hasPart = [];
                 suoritus.weight = (i + 1) * 100;
+                // @ts-ignore
                 suoritus.sisaltyvyys.forEach((sisaltyvyys, j) => {
+                  // @ts-ignore
                   const course = HEI.opintosuoritukset.opintosuoritus.find(
                     (c) => c.avain === sisaltyvyys.sisaltyvaOpintosuoritusAvain
                   );
@@ -123,6 +144,7 @@ export class CoursesService {
               }
             });
           }
+          // @ts-ignore
           HEI.opintosuoritukset.opintosuoritus.sort(
             // @ts-ignore
             (a, b) => a.weight - b.weight
@@ -142,10 +164,12 @@ export class CoursesService {
     map(([issuers, courses]) => {
       const coursesByIssuer:any = {};
       courses.virta.opiskelija.map((student: Opiskelija) => {
+        // @ts-ignore
         const myontaja: string = (student.opintosuoritukset.opintosuoritus && student.opintosuoritukset.opintosuoritus.length && student.opintosuoritukset.opintosuoritus[0].myontaja) || "";
         console.log("issuer for opintosuoritus[0]: " + myontaja);
         const issuerTitle: string =
           issuers[myontaja].title
+        // @ts-ignore
         coursesByIssuer[issuerTitle] = student.opintosuoritukset.opintosuoritus.map(
           (course: Opintosuoritus) => ({
             ...course,

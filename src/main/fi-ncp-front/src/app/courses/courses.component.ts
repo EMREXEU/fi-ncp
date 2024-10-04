@@ -14,6 +14,7 @@ import { I18nService } from 'src/i18n/i18n.service';
 import { SessionService } from '../session/session.service';
 import { Opintosuoritus } from './course';
 import { CoursesService } from './courses.service';
+import Utils from "../utils";
 
 @Component({
   selector: 'app-courses',
@@ -282,4 +283,32 @@ export class CoursesComponent
     );
     return courses.length;
   }
+
+  resolveCourseTitle(opintosuoritus: Opintosuoritus, lang: string): string {
+    if (!opintosuoritus || !opintosuoritus.nimi) {
+      return '';
+    } else if (!opintosuoritus.type) {
+      return this.courseSelected(opintosuoritus.avain) ?
+        this.i18n.courses.table.deselect[lang]  // Valitse <opintosuoritus>
+        + ' '
+        + Utils.resolveCourseLabel(opintosuoritus)
+        : this.i18n.courses.table.select[lang]  // Poista valinta <opintosuoritus>
+        + ' '
+        + Utils.resolveCourseLabel(opintosuoritus);
+    } else {
+      return this.courseSelected(opintosuoritus.avain) ?
+        this.i18n.courses.table.deselect[lang]  // Valitse <opintosuorituksen tyyppi> <opintosuoritus>
+        + ' '
+        + this.i18n.courses.type[opintosuoritus.type][lang]
+        + ' '
+        + Utils.resolveCourseLabel(opintosuoritus)
+        : this.i18n.courses.table.select[lang]  // Poista valinta <opintosuorituksen tyyppi> <opintosuoritus> -> Poista valinta tutkinto|moduuli|kurssi xyz.
+        + ' '
+        + this.i18n.courses.type[opintosuoritus.type][lang]
+        + ' '
+        + Utils.resolveCourseLabel(opintosuoritus);
+    }
+  }
+
+  protected readonly Utils = Utils;
 }

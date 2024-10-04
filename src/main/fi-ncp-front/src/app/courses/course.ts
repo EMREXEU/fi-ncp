@@ -11,12 +11,12 @@ export interface Tila {
 export interface Jakso {
   alkuPvm: Date;
   loppuPvm?: any;
-  koulutuskoodi: string;
+  koulutuskoodi?: string;
   koulutuskunta: string;
-  koulutuskieli: string;
-  rahoituslahde: string;
-  patevyys: any[];
-  luokittelu: any[];
+  koulutuskieli?: string;
+  rahoituslahde?: string;
+  patevyys?: any[];
+  luokittelu?: any[];
   koulutusmoduulitunniste: string;
   valtakunnallinenKoulutusmoduulitunniste?: any;
 }
@@ -43,13 +43,13 @@ export interface Opiskeluoikeus {
   tyyppi: string;
   myontaja: string;
   organisaatio: any[];
-  jakso: Jakso[];
+  jakso?: Jakso[];
   ensisijaisuus: Ensisijaisuus[];
-  koulutusala: Koulutusala;
+  koulutusala?: Koulutusala;
   erikoistumiskoulutus?: any;
   liittyvyys: any[];
   siirtoOpiskelija?: any;
-  laajuus: Laajuus;
+  laajuus?: Laajuus;
   avain: string;
   opiskelijaAvain: string;
 }
@@ -92,7 +92,7 @@ export interface Arvosana {
 
 export interface Nimi {
   value: string;
-  kieli: string;
+  kieli?: string;
 }
 
 export interface Koodi {
@@ -106,7 +106,7 @@ export interface Koulutusala2 {
 }
 
 export interface Sisaltyvyys {
-  opintopiste: number;
+  opintopiste?: number;
   sisaltyvaOpintosuoritusAvain: string;
 }
 
@@ -119,34 +119,36 @@ export interface TkilaajuusMuu {
   opintopiste: number;
   opintoviikko?: any;
 }
-
+// Opintosuoritukset#OpintosuorituksetTyyppi
+// Enhanced with custom properties not include in Virta xml schema spec.
+// FIXME Should not mix Virta Spec with Emrex specifics, instead create new interface for emrex specifics ex. type
 export interface Opintosuoritus {
   suoritusPvm: Date;
   laajuus: Laajuus2;
   arvosana: Arvosana;
   myontaja: string;
-  organisaatio: any[];
+  organisaatio?: any[];
   laji: string;
-  nimi: Nimi[];
-  kieli: string;
+  nimi?: Nimi[];
+  kieli?: string;
   koulutuskoodi?: any;
-  koulutusala: Koulutusala2[];
-  sisaltyvyys: Sisaltyvyys[];
+  koulutusala?: Koulutusala2[];
+  sisaltyvyys?: Sisaltyvyys[];
   hyvaksilukuPvm?: any;
   opetusharjoitteluTyyppi?: any;
   opinnaytetyo?: boolean;
   hankkeistettu?: boolean;
-  patevyys: string[];
-  luokittelu: string[];
-  julkinenLisatieto: any[];
+  patevyys?: string[];
+  luokittelu?: string[];
+  julkinenLisatieto?: any[];
   avain: string;
   opiskelijaAvain: string;
   koulutusmoduulitunniste: string;
   valtakunnallinenKoulutusmoduulitunniste?: any;
-  opiskeluoikeusAvain: string;
-  tkilaajuus: Tkilaajuus;
+  opiskeluoikeusAvain?: string;
+  tkilaajuus?: Tkilaajuus;
   tkilaajuusHarjoittelu?: any;
-  tkilaajuusMuu: TkilaajuusMuu;
+  tkilaajuusMuu?: TkilaajuusMuu;
   hasPart?: Opintosuoritus[];
   weight?: number;
   isDegree?: boolean;
@@ -155,7 +157,7 @@ export interface Opintosuoritus {
   isModule?: boolean;
   isPartOfModule?: boolean;
   module?: string;
-  type?: string;
+  type?: string;  // could be null due error, emrex only data not in spec
 }
 
 export interface Opintosuoritukset {
@@ -163,19 +165,19 @@ export interface Opintosuoritukset {
 }
 
 export interface Opiskelija {
-  henkilotunnus: string;
+  henkilotunnus?: string;
   sukunimi?: any;
   etunimet?: any;
   sukupuoli?: any;
-  kansalaisuus: any[];
+  kansalaisuus?: any[];
   aidinkieli?: any;
   asuinkunta?: any;
   kirjoihintuloPvm?: any;
   kansallinenOppijanumero?: any;
   avain: string;
-  opiskeluoikeudet: Opiskeluoikeudet;
-  lukukausiIlmoittautumiset: LukukausiIlmoittautumiset;
-  opintosuoritukset: Opintosuoritukset;
+  opiskeluoikeudet?: Opiskeluoikeudet;
+  lukukausiIlmoittautumiset?: LukukausiIlmoittautumiset;
+  opintosuoritukset?: Opintosuoritukset;
   liikkuvuusjaksot?: any;
 }
 

@@ -30,7 +30,7 @@
         <tbody>
           <tr *ngFor="let opintosuoritus of courses" role="row">
             <td [class.partOfDegree]="opintosuoritus['isPartOfDegree']" [class.partOfModule]="opintosuoritus['isPartOfModule']">
-              {{opintosuoritus["nimi"][0].value}}
+              {{Utils.resolveCourseLabel(opintosuoritus)}}
             </td>
             <td>{{opintosuoritus["laajuus"]["opintopiste"]}}</td>
             <td>{{opintosuoritus["myontaja"]}}</td>
