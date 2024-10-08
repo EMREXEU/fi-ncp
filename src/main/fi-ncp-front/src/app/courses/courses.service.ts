@@ -22,6 +22,18 @@ export class CoursesService {
         // Emrex assumes data must have opintosuoritukset-field.
         response.virta.opiskelija = response.virta.opiskelija
           .filter(opiskelija => opiskelija.hasOwnProperty("opintosuoritukset"));
+
+        // Quick and dirty way to filter out data. Should filter in backend instead.
+        // Opintosuoritukset is the only thing emrex need.
+        response.virta.opiskelija.forEach((HEI) => {
+          if (HEI.lukukausiIlmoittautumiset) {
+            delete HEI.lukukausiIlmoittautumiset;
+          } if (HEI.opiskeluoikeudet) {
+            delete HEI.opiskeluoikeudet;
+          } if (HEI.liikkuvuusjaksot) {
+            delete HEI.liikkuvuusjaksot;
+          }
+        });
         // FIXME this whole file is a bomb, potential NPEs left and right.
         // START by removing @ts-ignores
         // Had to add ignores after fixing interface to match virta spec
@@ -164,18 +176,16 @@ export class CoursesService {
     map(([issuers, courses]) => {
       const coursesByIssuer:any = {};
       courses.virta.opiskelija.map((student: Opiskelija) => {
-        // @ts-ignore
-        const myontaja: string = (student.opintosuoritukset.opintosuoritus && student.opintosuoritukset.opintosuoritus.length && student.opintosuoritukset.opintosuoritus[0].myontaja) || "";
+        const myontaja: string = (student.opintosuoritukset && student.opintosuoritukset.opintosuoritus && student.opintosuoritukset.opintosuoritus.length && student.opintosuoritukset.opintosuoritus[0].myontaja) || "";
         console.log("issuer for opintosuoritus[0]: " + myontaja);
         const issuerTitle: string =
           issuers[myontaja].title
-        // @ts-ignore
-        coursesByIssuer[issuerTitle] = student.opintosuoritukset.opintosuoritus.map(
+        coursesByIssuer[issuerTitle] = student.opintosuoritukset ? student.opintosuoritukset.opintosuoritus.map(
           (course: Opintosuoritus) => ({
             ...course,
             myontaja: issuers[course.myontaja].title,
           })
-        );
+        ) : "";
       });
 
       return coursesByIssuer;

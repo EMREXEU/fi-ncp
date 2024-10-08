@@ -54,6 +54,9 @@ into single war.
 
 where -P is environment (defaults to dev without -P, -Pdev, -Ptest,-Pproduction)
 
+### Frontend
+You can build frontend seperatly when needed ex. sourcemaps with `ng build -c development` see package.json scripts for more examples. `angular.json` has configurations for angular app. For develop mode for now you need to modify pom.xml ng build section and remove omit-dev and change prodcution -> development. This should be automated in the future.
+
 ## Running
 
 #### Java:

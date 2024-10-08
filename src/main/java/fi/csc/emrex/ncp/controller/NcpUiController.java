@@ -214,17 +214,24 @@ public class NcpUiController extends NcpControllerBase {
     List<OpintosuoritusTyyppi> filteredCourses = new ArrayList<>();
     if (courses != null && courses.length > 0) {
       List<String> courseList = Arrays.asList(courses);
-      String issuerCode = allCourses.stream().filter(c -> c.getAvain().equals(courseList.get(0))).findFirst()
-          .orElse(null).getMyontaja();
-      issuer = elmoService.issuerForCode(issuerCode);
+      OpintosuoritusTyyppi opintosuoritusTyyppi =
+              allCourses.stream().filter(
+                      c -> c.getAvain().equals(courseList.get(0))).findFirst()
+          .orElse(null);
+      if (opintosuoritusTyyppi == null) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No course match found for courseList[0]");
+      }
+
+      issuer = elmoService.issuerForCode(opintosuoritusTyyppi.getMyontaja());
       filteredCourses = elmoService.trimToSelectedCourses(allCourses, courseList);
     } else {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No courses selected");
     }
 
-    List<OpintosuoritusTyyppi> allCoursesFromSelectedIssuer = new ArrayList<>();
-    allCoursesFromSelectedIssuer = allCourses.stream().filter(c -> c.getMyontaja().equals(issuer.getCode()))
-        .collect(Collectors.toList());
+    List<OpintosuoritusTyyppi> allCoursesFromSelectedIssuer =
+            allCourses.stream().filter(
+                    c -> c.getMyontaja().equals(issuer.getCode()))
+                    .collect(Collectors.toList());
 
     student.setOrg(issuer.getCode());
     OpiskelijanTiedotResponse virtaLearnerDetails = virtaClient.fetchLearnerDetails(student);

@@ -30,7 +30,7 @@
         <id>dev</id>
         <properties>
             <activatedProperties>dev</activatedProperties>
-            <baseurl></baseurl>
+            <baseurl>/</baseurl>
         </properties>
         <activation>
             <activeByDefault>true</activeByDefault>
