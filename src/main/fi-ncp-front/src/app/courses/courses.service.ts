@@ -179,9 +179,9 @@ export class CoursesService {
         if (student.opintosuoritukset && student.opintosuoritukset.opintosuoritus && student.opintosuoritukset.opintosuoritus.length) {
           const myontaja: string = (student.opintosuoritukset.opintosuoritus[0].myontaja) || "";
           console.log("issuer for opintosuoritus[0]: " + myontaja);
-          if (myontaja) {
-            const issuerTitle: string =
-              issuers[myontaja].title
+          const issuerTitle: string = issuers[myontaja] ?
+            issuers[myontaja].title : "";
+          if (myontaja && issuerTitle) {
             coursesByIssuer[issuerTitle] = student.opintosuoritukset.opintosuoritus.map(
               (course: Opintosuoritus) => ({
                 ...course,
@@ -189,7 +189,7 @@ export class CoursesService {
               })
             );
           } else {
-            console.warn("myontaja is empty, skip processing!");
+            console.warn("myontaja or issuerTitle is empty, skip processing!");
             let myontajat = "";
             student.opintosuoritukset.opintosuoritus.forEach((opintosuoritus: Opintosuoritus) => {
               myontajat += opintosuoritus.myontaja + "\n";
