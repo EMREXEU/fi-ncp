@@ -99,6 +99,7 @@ export class CoursesComponent
             this.returnCode = 'NCP_NO_RESULTS';
             this.returnMessage = '';
             this.ready = true;
+            console.log("Courses not found...");
           }
           if (this.issuers.length === 1) {
             this.selectedIssuer = this.issuers[0];

@@ -176,16 +176,33 @@ export class CoursesService {
     map(([issuers, courses]) => {
       const coursesByIssuer:any = {};
       courses.virta.opiskelija.map((student: Opiskelija) => {
-        const myontaja: string = (student.opintosuoritukset && student.opintosuoritukset.opintosuoritus && student.opintosuoritukset.opintosuoritus.length && student.opintosuoritukset.opintosuoritus[0].myontaja) || "";
-        console.log("issuer for opintosuoritus[0]: " + myontaja);
-        const issuerTitle: string =
-          issuers[myontaja].title
-        coursesByIssuer[issuerTitle] = student.opintosuoritukset ? student.opintosuoritukset.opintosuoritus.map(
-          (course: Opintosuoritus) => ({
-            ...course,
-            myontaja: issuers[course.myontaja].title,
-          })
-        ) : "";
+        if (student.opintosuoritukset && student.opintosuoritukset.opintosuoritus && student.opintosuoritukset.opintosuoritus.length) {
+          const myontaja: string = (student.opintosuoritukset.opintosuoritus[0].myontaja) || "";
+          console.log("issuer for opintosuoritus[0]: " + myontaja);
+          if (myontaja) {
+            const issuerTitle: string =
+              issuers[myontaja].title
+            coursesByIssuer[issuerTitle] = student.opintosuoritukset.opintosuoritus.map(
+              (course: Opintosuoritus) => ({
+                ...course,
+                myontaja: issuers[course.myontaja].title,
+              })
+            );
+          } else {
+            console.warn("myontaja is empty, skip processing!");
+            let myontajat = "";
+            student.opintosuoritukset.opintosuoritus.forEach((opintosuoritus: Opintosuoritus) => {
+              myontajat += opintosuoritus.myontaja + "\n";
+            })
+            this.postError(
+              `Unrecoverable error: myontaja is empty, skip processing for student.opintosuoritukset.opintosuoritus!\n
+              Source: coursesWithIssuers$ handler\n
+              student.opintosuoritukset.opintosuoritus.length: ${student.opintosuoritukset.opintosuoritus.length} skipped!
+              Issuers from student.opintosuoritukset.opintosuoritus: \n
+              ${myontajat}\n`
+            );
+          }
+        }
       });
 
       return coursesByIssuer;

@@ -15,6 +15,8 @@ Run `ng generate component component-name` to generate a new component. You can 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory by default, but you may configure it in angular.json.
 > You may need to install `ng` first with command `npm i -g @angular/cli`.
 
+Default build configuration is for production, to build development version with source maps use `ng  build --configuration development`. See `angular.json` for more configurations.
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
