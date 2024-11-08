@@ -39,6 +39,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     Message: ${error.message}\n
     Stack:${error.stack}`;
     this.postError(errorContent);
+    console.log(errorContent);
   }
 
   /**
