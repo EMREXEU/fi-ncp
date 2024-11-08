@@ -2,6 +2,7 @@ package fi.csc.emrex.ncp.util;
 
 import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
@@ -47,6 +48,9 @@ public class FidUtil {
       } else if (virtaXml != null) {
         // OpiskelijanKaikkiTiedotResponse.Virta.Opiskelija.Henkilotunnus
         String fid = virtaXml.getVirta().getOpiskelija().get(0).getHenkilotunnus();
+        if (fid == null || fid.isEmpty()) {
+          throw new NcpException("henkilotunnus is null or empty");  // possible foreign student without hetu or virtaxml incomplete
+        }
         day = Integer.parseInt(fid.substring(0, 2));
         month = Integer.parseInt(fid.substring(2, 4));
         year = resolveYearFromFid(fid);
@@ -69,20 +73,28 @@ public class FidUtil {
     char centuryChar = fid.charAt(6);
     String yearPreStr;
     String yearPostStr = fid.substring(4, 6);
-    switch (centuryChar) {
-      case '+':
-        yearPreStr = "18";
-        break;
-      case '-':
-        yearPreStr = "19";
-        break;
-      case 'A':
-        yearPreStr = "20";
-        break;
-      default:
-        throw new NcpException(
-            "Parsing birth date failed: cannot resolve century from fid character:" + centuryChar);
-    }
+      if (centuryChar == '+') {
+          yearPreStr = "18";
+      } else if (
+              centuryChar == '-' ||
+              centuryChar == 'Y' ||
+              centuryChar == 'X' ||
+              centuryChar == 'W' ||
+              centuryChar == 'V' ||
+              centuryChar == 'U') {
+          yearPreStr = "19";
+      } else if (
+              centuryChar == 'A' ||
+              centuryChar == 'B' ||
+              centuryChar == 'C' ||
+              centuryChar == 'D' ||
+              centuryChar == 'E' ||
+              centuryChar == 'F') {
+          yearPreStr = "20";
+      } else {
+          throw new NcpException(
+                  "Parsing birth date failed: cannot resolve century from fid character:" + centuryChar);
+      }
     return Integer.parseInt(yearPreStr + yearPostStr);
   }
 
