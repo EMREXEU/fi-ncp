@@ -27,19 +27,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import javax.xml.transform.TransformerException;
-
 import lombok.extern.slf4j.Slf4j;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
 
@@ -122,6 +116,7 @@ public class NcpUiController extends NcpControllerBase {
               ? session.getAttribute(NcpSessionAttributes.RETURN_URL).toString()
               : "");
     } catch (UnsupportedEncodingException e1) {
+      log.error("UnsupportedEncodingException", e1);
     }
     // log.info("sessionAttributes:{}", sessionAttributes);
 
@@ -235,6 +230,10 @@ public class NcpUiController extends NcpControllerBase {
 
     student.setOrg(issuer.getCode());
     OpiskelijanTiedotResponse virtaLearnerDetails = virtaClient.fetchLearnerDetails(student);
+    if (virtaLearnerDetails.getOpiskelijat().getOpiskelija().isEmpty()) {
+      log.error("Opiskelija not found: got empty response");
+      throw new NcpException("Student not found.");
+    }
 
     // Default to ISO/IEC 5218 0 = Not known if virta data doesn't have gender
     String gender = virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukupuoli() != null
@@ -249,10 +248,16 @@ public class NcpUiController extends NcpControllerBase {
         : "";
 
     LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
-    learnerDetails.setBday(FidUtil.resolveBirthDate(schacBday, personId, virtaXml));
+    // Optional bday element, see Elmo schema for more info
+    try {
+      learnerDetails.setBday(FidUtil.resolveBirthDate(schacBday, personId, virtaXml));
+    } catch (IndexOutOfBoundsException|NcpException e) {
+        log.warn("Birthday resolve failed: {}", e.getMessage());
+    }
     learnerDetails.setGender(new BigInteger(gender));
-    learnerDetails.setGivenNames(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getEtunimet());
-    learnerDetails.setFamilyName(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukunimi());
+    // Emrex must provide empty string if etunimet is null according elmo spec
+    learnerDetails.setGivenNames(Optional.ofNullable(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getEtunimet()).orElse(""));
+    learnerDetails.setFamilyName(Optional.ofNullable(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukunimi()).orElse(""));
 
     Elmo elmoXml = elmoService.convertToElmoXml(filteredCourses, allCoursesFromSelectedIssuer, student, learnerDetails);
     String PDFDataURI = "";
@@ -260,10 +265,10 @@ public class NcpUiController extends NcpControllerBase {
     try {
       PDFDataURI = pdfUtil.convertToPDFdataURI(XmlUtil.toString(elmoXml));
     } catch (FOPException | IOException | TransformerException e) {
-      e.printStackTrace();
+      log.error("convertToPDFdataURI failed", e);
     }
 
-    if (PDFDataURI != "") {
+    if (!PDFDataURI.isEmpty()) {
       elmoService.addAttachment(elmoXml, PDFDataURI);
     }
 
@@ -302,16 +307,6 @@ public class NcpUiController extends NcpControllerBase {
   public ResponseEntity logout(HttpServletResponse response) {
     HttpSession session = context.getSession();
     session.invalidate();
-
-    /*
-    Cookie[] cookies = context.getCookies();
-    for (Cookie cookie : cookies) {
-      cookie.setMaxAge(0);
-      cookie.setValue(null);
-      cookie.setPath("/");
-      response.addCookie(cookie);
-    }*/
-
     return ResponseEntity.ok().build();
   }
 }
