@@ -16,8 +16,9 @@ export class CoursesService {
       withCredentials: true,
     })
     .pipe(
-      map((response:ICourseResponse) => {
+      map((response: ICourseResponse) => {
         let degrees: Opintosuoritus[] = [];
+
         // Find only relevant data and filter out everything else.
         // Emrex assumes data must have opintosuoritukset-field.
         response.virta.opiskelija = response.virta.opiskelija
@@ -28,9 +29,11 @@ export class CoursesService {
         response.virta.opiskelija.forEach((HEI) => {
           if (HEI.lukukausiIlmoittautumiset) {
             delete HEI.lukukausiIlmoittautumiset;
-          } if (HEI.opiskeluoikeudet) {
+          }
+          if (HEI.opiskeluoikeudet) {
             delete HEI.opiskeluoikeudet;
-          } if (HEI.liikkuvuusjaksot) {
+          }
+          if (HEI.liikkuvuusjaksot) {
             delete HEI.liikkuvuusjaksot;
           }
         });
@@ -172,36 +175,52 @@ export class CoursesService {
   count = 0;
   credits = 0;
 
+  /**
+   * Group courses by issuer example data: const coursesByIssuer = {
+   *   "issuerTitle1": [
+   *     { ...course1, myontaja: "issuerTitle1key" },
+   *     { ...course2, myontaja: "issuerTitle1key" },
+   *     // other courses with issuerTitle1
+   *   ],
+   *   "issuerTitle2": [
+   *     { ...course3, myontaja: "issuerTitle2key" },
+   *     // other courses with issuerTitle2
+   *   ],
+   *   // additional issuers and their grouped courses
+   * }
+   */
   coursesWithIssuers$ = combineLatest([this.issuers$, this.courses$]).pipe(
     map(([issuers, courses]) => {
-      const coursesByIssuer:any = {};
+      const coursesByIssuer: { [key: string]: Opintosuoritus[] } = {};
       courses.virta.opiskelija.map((student: Opiskelija) => {
-        if (student.opintosuoritukset && student.opintosuoritukset.opintosuoritus && student.opintosuoritukset.opintosuoritus.length) {
-          const myontaja: string = (student.opintosuoritukset.opintosuoritus[0].myontaja) || "";
-          console.log("issuer for opintosuoritus[0]: " + myontaja);
-          const issuerTitle: string = issuers[myontaja] ?
-            issuers[myontaja].title : "";
-          if (myontaja && issuerTitle) {
-            coursesByIssuer[issuerTitle] = student.opintosuoritukset.opintosuoritus.map(
-              (course: Opintosuoritus) => ({
-                ...course,
-                myontaja: issuers[course.myontaja].title,
-              })
-            );
-          } else {
-            console.warn("myontaja or issuerTitle is empty, skip processing!");
-            let myontajat = "";
-            student.opintosuoritukset.opintosuoritus.forEach((opintosuoritus: Opintosuoritus) => {
-              myontajat += opintosuoritus.myontaja + "\n";
-            })
-            this.postError(
-              `Unrecoverable error: myontaja is empty, skip processing for student.opintosuoritukset.opintosuoritus!\n
-              Source: coursesWithIssuers$ handler\n
-              student.opintosuoritukset.opintosuoritus.length: ${student.opintosuoritukset.opintosuoritus.length} skipped!
-              Issuers from student.opintosuoritukset.opintosuoritus: \n
-              ${myontajat}\n`
-            );
-          }
+        // Filter out everything that is not opintosuoritukset(course data).
+        if (student.opintosuoritukset
+          && student.opintosuoritukset.opintosuoritus
+          && student.opintosuoritukset.opintosuoritus.length) {
+
+          student.opintosuoritukset.opintosuoritus.forEach((course: Opintosuoritus) => {
+            // This could be null when course.myontaja is empty or course.myontaja does not match any issuer.
+            // When course.myontaja is empty, possible cause could due bug or incomplete source data.
+            // When course.myontaja does not match any issuer, then EMREX issuers data could be incomplete.
+            const issuerTitle = course.myontaja ? issuers[course.myontaja]?.title || null : null;
+
+            // Skip processing for this course because course MUST have issuer.
+            if (!issuerTitle) {
+              console.log(`Unrecoverable error: incomplete data: issuerTitle for course key: ${course.avain} is empty. Skip processing for this course. Course data is not displayed in the user interface.\n`, course);
+              this.postError(`Unrecoverable error: incomplete data: issuerTitle for course key: ${course.avain} is empty\n. Skip processing for this course. Course data is not displayed in the user interface.`);
+              return;
+            }
+
+            // Group courses by issuer title string
+            if (!coursesByIssuer[issuerTitle]) {
+              coursesByIssuer[issuerTitle] = [];
+            }
+
+            coursesByIssuer[issuerTitle].push({
+              ...course,
+              myontaja: issuerTitle,
+            });
+          });
         }
       });
 
@@ -219,8 +238,8 @@ export class CoursesService {
     if (this.selectedCourses && this.selectedCourses.length > 0) {
       return this.http.get(
         environment.getSelectedCoursesUrl +
-          '?courses=' +
-          this.selectedCourses.toString(),
+        '?courses=' +
+        this.selectedCourses.toString(),
         {
           withCredentials: true,
         }
