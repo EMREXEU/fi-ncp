@@ -8,6 +8,6 @@
 
     <!-- Raise theEnumMemberSizeCap limit due big size of Elmo-schema -->
     <jaxb:bindings >
-        <jaxb:globalBindings typesafeEnumMaxMembers="7000"/>
+        <jaxb:globalBindings typesafeEnumMaxMembers="9000"/>
     </jaxb:bindings>
 </jaxb:bindings>
