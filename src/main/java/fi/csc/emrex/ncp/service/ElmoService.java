@@ -24,15 +24,14 @@ import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import jakarta.annotation.PostConstruct;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import lombok.extern.slf4j.Slf4j;
+import mace.funet_fi.virta._2015._09._01.ArvosanaAsteikkoMuuTyyppi;
 import mace.funet_fi.virta._2015._09._01.ArvosanaTyyppi;
 import mace.funet_fi.virta._2015._09._01.OpintosuorituksetTyyppi;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
@@ -159,7 +158,9 @@ public class ElmoService {
       learner.getIdentifier().add(nationalLearnerId);
     }
 
-    learner.setBday(copyOf(details.getBday()));
+    if (details.getBday() != null) {
+      learner.setBday(copyOf(details.getBday()));
+    }
     learner.setGender(details.getGender());
     learner.setGivenNames(details.getGivenNames());
     learner.setFamilyName(details.getFamilyName());
@@ -179,6 +180,10 @@ public class ElmoService {
     // ELMO: report.issuer
     // ELMO: report.learningOpportunitySpecification
     Elmo.Report report = new Elmo.Report();
+
+    if (selectedCourses.stream().findFirst().isEmpty()) {
+      log.error("No selected courses found.");
+    }
 
     // Only single issuer should exist for all courses
     IssuerDto issuerDto = issuerForCode(selectedCourses.stream().findFirst().get().getMyontaja());
@@ -219,11 +224,9 @@ public class ElmoService {
                 createLearningOpportunitySpecification(suoritus, opintosuoritukset));
             learningOpportunitySpecification.getHasPart().add(hasPart);
           } catch (NcpException e) {
-            log.error("Unknown Emrex error");
+            log.error("Unknown Emrex error", e);
           }
-
         }
-
       });
     }
     return learningOpportunitySpecification;
@@ -312,7 +315,16 @@ public class ElmoService {
     } else if (arvosanaTyyppi.getEiKaytossa() != null) {
       resultLabel = arvosanaTyyppi.getEiKaytossa().value();
     } else if (arvosanaTyyppi.getMuu() != null) {
-      log.error("ArvosanaAsteikkoMuuTyyppi not implemented yet!");
+      resultLabel = "";
+      String koodi = arvosanaTyyppi.getMuu().getKoodi();
+      if (koodi != null) {
+        Optional<ArvosanaAsteikkoMuuTyyppi.Asteikko.AsteikkoArvosana> a = arvosanaTyyppi.getMuu().getAsteikko().getAsteikkoArvosana()
+                .stream().filter(asteikkoArvosana
+                        -> asteikkoArvosana.getAvain().equals(koodi)).findAny();  // avain == koodi in this case
+        if (a.isPresent()) {
+          resultLabel = a.get().getNimi();  // arvosana
+        }
+      }
     }
     return resultLabel;
   }
