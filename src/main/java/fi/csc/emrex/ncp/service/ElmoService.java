@@ -20,7 +20,7 @@ import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOp
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Credit;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Level;
 import fi.csc.schemas.elmo.TokenWithOptionalLang;
-import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -91,45 +91,12 @@ public class ElmoService {
     return opintosuorituksetTyyppi.getOpintosuoritus();
   }
 
-  public OpintosuorituksetResponse _trimToSelectedCourses(OpintosuorituksetResponse virtaXml, List<String> courseKeys) {
-
-    List<OpintosuoritusTyyppi> opintosuoritukset = virtaXml.getOpintosuoritukset().getOpintosuoritus();
-    OpintosuorituksetTyyppi opintosuorituksetTyyppi = new OpintosuorituksetTyyppi();
-    // Initializes to empty array
-    opintosuorituksetTyyppi.getOpintosuoritus();
-    opintosuoritukset.forEach(course -> {
-      if (courseKeys.contains(course.getAvain())) {
-        opintosuorituksetTyyppi.getOpintosuoritus().add(course);
-      }
-    });
-    virtaXml.setOpintosuoritukset(opintosuorituksetTyyppi);
-    return virtaXml;
-  }
-
   public Elmo convertToElmoXml(List<OpintosuoritusTyyppi> filteredCourses,
       List<OpintosuoritusTyyppi> allCoursesFromSelectedIssuer, VirtaUserDto student, LearnerDetailsDto learnerDetails)
       throws NcpException {
     try {
       Elmo elmo = new Elmo();
 
-      elmo.setLearner(createLearner(student, learnerDetails));
-      elmo.setGeneratedDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
-      List<Elmo.Report> reports = elmo.getReport();
-
-      reports.add(createReport(filteredCourses, allCoursesFromSelectedIssuer, learnerDetails));
-
-      return elmo;
-    } catch (DatatypeConfigurationException e) {
-      throw new NcpException("Creating XMLGregorianCalendar failed.", e);
-    }
-  }
-
-  public Elmo _convertToElmoXml(List<OpintosuoritusTyyppi> filteredCourses,
-      List<OpintosuoritusTyyppi> allCoursesFromSelectedIssuer, VirtaUserDto student, LearnerDetailsDto learnerDetails)
-      throws NcpException {
-
-    try {
-      Elmo elmo = new Elmo();
       elmo.setLearner(createLearner(student, learnerDetails));
       elmo.setGeneratedDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
       List<Elmo.Report> reports = elmo.getReport();
@@ -359,15 +326,15 @@ public class ElmoService {
   public void addAttachment(Elmo elmoXml, String PDFDataURI) {
     Attachment attachment = new Attachment();
     attachment.setType("EMREX transcript");
-    attachment.getContent().add(createTokenWithOptionalLang("en", PDFDataURI));
-    attachment.getTitle().add(createTokenWithOptionalLang("en", "Emrex transcript"));
+    attachment.getContent().add(createTokenWithOptionalLang(PDFDataURI));
+    attachment.getTitle().add(createTokenWithOptionalLang("Emrex transcript"));
 
     elmoXml.getAttachment().add(attachment);
   }
 
-  private TokenWithOptionalLang createTokenWithOptionalLang(String lang, String value) {
+  private TokenWithOptionalLang createTokenWithOptionalLang(String value) {
     TokenWithOptionalLang token = new TokenWithOptionalLang();
-    token.setLang(lang);
+    token.setLang("en");
     token.setValue(value);
     return token;
   }
@@ -381,19 +348,6 @@ public class ElmoService {
     IssuerDto issuer = virtaIssuerCodeToIssuer.get(issuerCode);
     if (issuer == null) {
       throw new NcpException(String.format("Issuer not found for issuer code:%s", issuerCode));
-    }
-    return issuer;
-  }
-
-  /**
-   * @param issuerDomain SHIBBOLETH: SHIB_schacHomeOrganization
-   * @return cached Issuer details
-   * @throws NcpException No issuer found for key
-   */
-  public IssuerDto issuerForDomain(String issuerDomain) throws NcpException {
-    IssuerDto issuer = shibDomainToIssuer.get(issuerDomain);
-    if (issuer == null) {
-      throw new NcpException(String.format("Issuer not found for issuer code:%s", issuerDomain));
     }
     return issuer;
   }

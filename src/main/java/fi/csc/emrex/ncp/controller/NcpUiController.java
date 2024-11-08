@@ -50,7 +50,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Controller providing REST-style endpoints used by fi-ncp fornt-end.
- *
  * NOTE: Actual public EMREX entry point is in NcpController.
  */
 @EnableAutoConfiguration(exclude = {
@@ -88,24 +87,23 @@ public class NcpUiController extends NcpControllerBase {
   public Map<String, String> getSessionInformation() {
     HttpSession session = context.getSession();
     Map<String, String> sessionAttributes = new HashMap<>();
-    try {
       sessionAttributes.put("givenNames",
           context.getAttribute(SHIBBOLETH_KEYS.GIVEN_NAME) != null
-              ? new String(context.getAttribute(SHIBBOLETH_KEYS.GIVEN_NAME).toString().getBytes("ISO-8859-1"), "UTF-8")
+              ? new String(context.getAttribute(SHIBBOLETH_KEYS.GIVEN_NAME).toString().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8)
               : null);
 
       sessionAttributes.put("surname",
           context.getAttribute(SHIBBOLETH_KEYS.SUR_NAME) != null
-              ? new String(context.getAttribute(SHIBBOLETH_KEYS.SUR_NAME).toString().getBytes("ISO-8859-1"), "UTF-8")
+              ? new String(context.getAttribute(SHIBBOLETH_KEYS.SUR_NAME).toString().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8)
               : null);
       sessionAttributes.put("displayName",
           context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME) != null
-              ? new String(context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME).toString().getBytes("ISO-8859-1"),
-                  "UTF-8")
+              ? new String(context.getAttribute(SHIBBOLETH_KEYS.DISPLAY_NAME).toString().getBytes(StandardCharsets.ISO_8859_1),
+                  StandardCharsets.UTF_8)
               : null);
       sessionAttributes.put("commonName",
           context.getAttribute(SHIBBOLETH_KEYS.CN) != null
-              ? new String(context.getAttribute(SHIBBOLETH_KEYS.CN).toString().getBytes("ISO-8859-1"), "UTF-8")
+              ? new String(context.getAttribute(SHIBBOLETH_KEYS.CN).toString().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8)
               : "");
       sessionAttributes.put(NcpSessionAttributes.SESSION_ID,
           session.getAttribute(NcpSessionAttributes.SESSION_ID) != null
@@ -115,10 +113,6 @@ public class NcpUiController extends NcpControllerBase {
           session.getAttribute(NcpSessionAttributes.RETURN_URL) != null
               ? session.getAttribute(NcpSessionAttributes.RETURN_URL).toString()
               : "");
-    } catch (UnsupportedEncodingException e1) {
-      log.error("UnsupportedEncodingException", e1);
-    }
-    // log.info("sessionAttributes:{}", sessionAttributes);
 
     return sessionAttributes;
   }
@@ -206,7 +200,7 @@ public class NcpUiController extends NcpControllerBase {
         allCourses.addAll(HEI.getOpintosuoritukset().getOpintosuoritus());
       }
     });
-    List<OpintosuoritusTyyppi> filteredCourses = new ArrayList<>();
+    List<OpintosuoritusTyyppi> filteredCourses;
     if (courses != null && courses.length > 0) {
       List<String> courseList = Arrays.asList(courses);
       OpintosuoritusTyyppi opintosuoritusTyyppi =

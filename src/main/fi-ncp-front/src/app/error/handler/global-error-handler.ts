@@ -16,7 +16,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     // Catch JS errors
     window.addEventListener("error", (error) => {
       console.log("Window handler fired!");
-      let errorContent: string = "";
+      let errorContent: string;
 
       errorContent =
         `Source: JS\n
