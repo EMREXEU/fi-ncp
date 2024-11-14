@@ -1,5 +1,6 @@
 package fi.csc.emrex.ncp.virta;
 
+import com.sun.xml.ws.fault.ServerSOAPFaultException;
 import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.tietovaranto.luku.HakuEhdotOrganisaatioVapaa;
 import fi.csc.tietovaranto.luku.Kutsuja;
@@ -44,12 +45,24 @@ public class VirtaClient {
     try {
       OpiskelijanKaikkiTiedotResponse response = getService().getOpiskelijanTiedotSoap11().opiskelijanKaikkiTiedot(createAllDetailsRequest(virtaUser, false));
       // If no results found with SSN, retry with LearnerId
-      if (response.getVirta().getOpiskelija().size() == 0 && virtaUser.isOidSet()) {
+      if (response.getVirta().getOpiskelija().isEmpty() && virtaUser.isOidSet()) {
         response = getService().getOpiskelijanTiedotSoap11().opiskelijanKaikkiTiedot(createAllDetailsRequest(virtaUser, true));
       }
       return response;
     } catch (MalformedURLException e) {
       throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
+    } catch (ServerSOAPFaultException e) {
+        log.error("SOAP Fault Code: {}", e.getFault().getFaultCode());
+        log.error("SOAP Fault String: {}", e.getFault().getFaultString());
+
+        Throwable cause = e.getCause();
+        if (cause != null) {
+          log.error("Cause: ", cause);
+        }
+
+        throw new NcpException("SOAP fault", e);
+    } catch (Exception e) {
+      throw new NcpException("Unexpected exception", e);
     }
   }
 
@@ -112,6 +125,9 @@ public class VirtaClient {
       hakuehdot.setHenkilotunnus(virtaUser.getSsn());
     } else {
       hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
+    }
+    if (hakuehdot.getKansallinenOppijanumero().isEmpty() && hakuehdot.getHenkilotunnus().isEmpty()) {
+      log.error("Oppijanumero and hetu is empty. Request will fail.");
     }
     return hakuehdot;
   }

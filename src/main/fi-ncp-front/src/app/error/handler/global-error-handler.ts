@@ -20,7 +20,11 @@ export class GlobalErrorHandler implements ErrorHandler {
 
       errorContent =
         `Source: JS\n
-        Message: ${error.message}\n`;
+        Message: ${error.message}\n
+        Filename ${error.filename}\n
+        Lineno ${error.lineno}\n
+        Colno ${error.colno}\n`;
+      console.log(error);
       this.postError(errorContent);
     });
   }
