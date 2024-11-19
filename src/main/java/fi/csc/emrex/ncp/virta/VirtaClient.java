@@ -126,7 +126,7 @@ public class VirtaClient {
     } else {
       hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
     }
-    if (hakuehdot.getKansallinenOppijanumero().isEmpty() && hakuehdot.getHenkilotunnus().isEmpty()) {
+    if ((hakuehdot.getKansallinenOppijanumero() == null || hakuehdot.getKansallinenOppijanumero().isEmpty()) && (hakuehdot.getHenkilotunnus() == null || hakuehdot.getHenkilotunnus().isEmpty())) {
       log.error("Oppijanumero and hetu is empty. Request will fail.");
     }
     return hakuehdot;
