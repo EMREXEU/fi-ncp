@@ -137,7 +137,11 @@ public class FidUtil {
       return false;
     }
     // Validate control char
-    return fid.charAt(10) == calculateControlCharacter(Integer.parseInt(fid.substring(0, 6) + fid.substring(7, 10)));
+    try {
+      return fid.charAt(10) == calculateControlCharacter(Integer.parseInt(fid.substring(0, 6) + fid.substring(7, 10)));
+    } catch (NumberFormatException|ArithmeticException|IndexOutOfBoundsException e) {
+      return false;
+    }
   }
 
   private static boolean validateBday(String fid) {
