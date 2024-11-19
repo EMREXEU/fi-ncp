@@ -24,7 +24,6 @@ import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanTiedotResponse;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -47,6 +46,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
+
+import static fi.csc.emrex.ncp.util.FidUtil.getFid;
+import static fi.csc.emrex.ncp.util.FidUtil.isValid;
 
 /**
  * Controller providing REST-style endpoints used by fi-ncp fornt-end.
@@ -153,14 +155,18 @@ public class NcpUiController extends NcpControllerBase {
 
     // Person id needs to be trimmed to match VIRTA.
     // Learner id is used as whole string.
-    String trimmedPersonId = "";
+    String fid = "";
     if (personId != null) {
-      String[] trimmedPersonIds = personId.split(":");
-      trimmedPersonId = trimmedPersonIds[trimmedPersonIds.length - 1];
+      fid = getFid(personId);
+
+      if (!isValid(fid)) {
+        log.warn("/api/courses Invalid person ID");
+      }
     }
+
     // Since VirtaUser can have courses from multiple issuers/orgs, we'll fill that
     // in after the courses are selected in next step
-    VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, trimmedPersonId, null);
+    VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, fid, null);
 
     OpiskelijanKaikkiTiedotResponse virtaXml = virtaClient.fetchStudiesAndLearnerDetails(virtaUserDto);
 
@@ -241,11 +247,17 @@ public class NcpUiController extends NcpControllerBase {
         ? context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID).toString()
         : "";
 
+    if (personId != null) {
+      if (!isValid(getFid(personId))) {
+        log.warn("/api/review Invalid person ID");
+      }
+    }
+
     LearnerDetailsDto learnerDetails = new LearnerDetailsDto();
     // Optional bday element, see Elmo schema for more info
     try {
       learnerDetails.setBday(FidUtil.resolveBirthDate(schacBday, personId, virtaXml));
-    } catch (IndexOutOfBoundsException|NcpException e) {
+    } catch (IndexOutOfBoundsException|NcpException|NumberFormatException e) {
         log.warn("Birthday resolve failed: {}", e.getMessage());
     }
     learnerDetails.setGender(new BigInteger(gender));
