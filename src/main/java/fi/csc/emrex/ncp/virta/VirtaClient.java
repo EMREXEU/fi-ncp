@@ -4,8 +4,6 @@ import com.sun.xml.ws.fault.ServerSOAPFaultException;
 import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.tietovaranto.luku.HakuEhdotOrganisaatioVapaa;
 import fi.csc.tietovaranto.luku.Kutsuja;
-import fi.csc.tietovaranto.luku.OpintosuorituksetRequest;
-import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotRequest;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanTiedotRequest;
@@ -33,22 +31,16 @@ public class VirtaClient {
 
   private OpiskelijanTiedotService opiskelijanTiedotService;
 
-  public OpintosuorituksetResponse fetchStudies(VirtaUserDto virtaUser) throws NcpException {
-    try {
-      return getService().getOpiskelijanTiedotSoap11().opintosuoritukset(createRequest(virtaUser, false));
-    } catch (MalformedURLException e) {
-      throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
-    }
-  }
-
+  /**
+   * Fetch all details from VIRTA.
+   * Create request using either virtaUser.ssn or virtaUser.oid in that order.
+   * @param virtaUser should have either ssn or oid set and data should be validated before call
+   * @return VIRTA studies and learner details
+   * @throws NcpException Virta or other error
+   */
   public OpiskelijanKaikkiTiedotResponse fetchStudiesAndLearnerDetails(VirtaUserDto virtaUser) throws NcpException {
     try {
-      OpiskelijanKaikkiTiedotResponse response = getService().getOpiskelijanTiedotSoap11().opiskelijanKaikkiTiedot(createAllDetailsRequest(virtaUser, false));
-      // If no results found with SSN, retry with LearnerId
-      if (response.getVirta().getOpiskelija().isEmpty() && virtaUser.isOidSet()) {
-        response = getService().getOpiskelijanTiedotSoap11().opiskelijanKaikkiTiedot(createAllDetailsRequest(virtaUser, true));
-      }
-      return response;
+      return getService().getOpiskelijanTiedotSoap11().opiskelijanKaikkiTiedot(createAllDetailsRequest(virtaUser));
     } catch (MalformedURLException e) {
       throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     } catch (ServerSOAPFaultException e) {
@@ -68,25 +60,22 @@ public class VirtaClient {
 
   public OpiskelijanTiedotResponse fetchLearnerDetails(VirtaUserDto virtaUser) throws NcpException {
     try {
-      return getService().getOpiskelijanTiedotSoap11().opiskelijanTiedot(createLearnerDetailsRequest(virtaUser, false));
+      return getService().getOpiskelijanTiedotSoap11().opiskelijanTiedot(createLearnerDetailsRequest(virtaUser));
     } catch (MalformedURLException e) {
       throw new NcpException("Fetching studies from VIRTA failed, virta URL:" + virtaUrl, e);
     }
   }
 
-  private OpiskelijanTiedotRequest createLearnerDetailsRequest(VirtaUserDto virtaUser, Boolean override) {
+  private OpiskelijanTiedotRequest createLearnerDetailsRequest(VirtaUserDto virtaUser) {
     OpiskelijanTiedotRequest request = new OpiskelijanTiedotRequest();
     request.setKutsuja(createKutsuja());
-    request.setHakuehdot(createLearnerDetailsHakuehdot(virtaUser, override));
+    request.setHakuehdot(createLearnerDetailsHakuehdot(virtaUser));
     return request;
   }
 
-  private Hakuehdot createLearnerDetailsHakuehdot(VirtaUserDto virtaUser, Boolean override) {
+  private Hakuehdot createLearnerDetailsHakuehdot(VirtaUserDto virtaUser) {
     Hakuehdot hakuehdot = new Hakuehdot();
-    if (override && virtaUser.isOidSet()) {
-      hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
-    }
-    else if (virtaUser.isSsnSet()) {
+    if (virtaUser.isSsnSet()) {
       hakuehdot.setHenkilotunnus(virtaUser.getSsn());
     } else {
       hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
@@ -102,26 +91,21 @@ public class VirtaClient {
     return opiskelijanTiedotService;
   }
 
-  private OpintosuorituksetRequest createRequest(VirtaUserDto virtaUser, Boolean override) {
-    OpintosuorituksetRequest request = new OpintosuorituksetRequest();
-    request.setKutsuja(createKutsuja());
-    request.setHakuehdot(createHakuehdot(virtaUser, override));
-    return request;
-  }
-
-  private OpiskelijanKaikkiTiedotRequest createAllDetailsRequest(VirtaUserDto virtaUser, Boolean override) {
+  private OpiskelijanKaikkiTiedotRequest createAllDetailsRequest(VirtaUserDto virtaUser) {
     OpiskelijanKaikkiTiedotRequest request = new OpiskelijanKaikkiTiedotRequest();
     request.setKutsuja(createKutsuja());
-    request.setHakuehdot(createHakuehdot(virtaUser, override));
+    request.setHakuehdot(createHakuehdot(virtaUser));
     return request;
   }
 
-  private HakuEhdotOrganisaatioVapaa createHakuehdot(VirtaUserDto virtaUser, Boolean override) {
+  /**
+   * Create VIRTA hakuehdot. Attempt to use ssn if set, otherwise fallback to oppijanumero.
+   * @param virtaUser should have either ssn or oid set and data should be validated before call
+   * @return VIRTA hakuehdot
+   */
+  private HakuEhdotOrganisaatioVapaa createHakuehdot(VirtaUserDto virtaUser) {
     HakuEhdotOrganisaatioVapaa hakuehdot = new HakuEhdotOrganisaatioVapaa();
-    if (override && virtaUser.isOidSet()) {
-      hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());
-    }
-    else if (virtaUser.isSsnSet()) {
+    if (virtaUser.isSsnSet()) {
       hakuehdot.setHenkilotunnus(virtaUser.getSsn());
     } else {
       hakuehdot.setKansallinenOppijanumero(virtaUser.getOid());

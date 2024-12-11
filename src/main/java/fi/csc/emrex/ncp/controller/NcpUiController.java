@@ -38,6 +38,7 @@ import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
 
 import org.apache.fop.apps.FOPException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.context.annotation.Bean;
@@ -80,6 +81,8 @@ public class NcpUiController extends NcpControllerBase {
   private DataSignService dataSignService;
   @Autowired
   private ElmoService elmoService;
+  @Value("${emrex.fid.validation.enabled:true}")
+  private boolean fidValidationEnabled;
 
   /**
    * @return Map of user related information from Shibboleth/Haka and sessionId &
@@ -149,8 +152,6 @@ public class NcpUiController extends NcpControllerBase {
 
     if (personId == null && learnerId == null) {
       throw new NcpException("Either Unique ID or Learner ID required");
-      // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either Unique ID
-      // or Learner ID required");
     }
 
     // Person id needs to be trimmed to match VIRTA.
@@ -159,16 +160,35 @@ public class NcpUiController extends NcpControllerBase {
     if (personId != null) {
       fid = getFid(personId);
 
-      if (!isValid(fid)) {
+      if (!isValid(fid) && fidValidationEnabled) {
         log.warn("/api/courses Invalid person ID");
+        fid = null;  // Filter out trash data from request
       }
     }
 
+    // This could happen when fid is received, but it is invalid, and we do not have learnerid.
+    if (fid == null && learnerId == null) {
+      throw new NcpException("Validation error: Either Valid Unique ID or Learner ID required");
+    }
+
     // Since VirtaUser can have courses from multiple issuers/orgs, we'll fill that
-    // in after the courses are selected in next step
+    // in after the courses are selected in next step.
     VirtaUserDto virtaUserDto = new VirtaUserDto(learnerId, fid, null);
 
+    // Fetch using either fid or learner id.
     OpiskelijanKaikkiTiedotResponse virtaXml = virtaClient.fetchStudiesAndLearnerDetails(virtaUserDto);
+
+    // Try again with learner id, this could happen if we have valid fid according emrex but virta response is empty for some reason.
+    if (virtaXml.getVirta().getOpiskelija().isEmpty() && virtaUserDto.isOidSet() && fid != null) {
+      log.warn("Got empty response from VIRTA, is fid invalid? Trying with learner id");
+      virtaUserDto.setSsn(null);  // remove fid from VIRTA request and use learner id.
+      virtaXml = virtaClient.fetchStudiesAndLearnerDetails(virtaUserDto);
+    }
+
+    // This should not happen unless something is seriously broken. Probably input fid and/or learner id is invalid.
+    if (virtaXml.getVirta().getOpiskelija().isEmpty()) {
+      throw new NcpException("Failed to fetch data: got empty response from VIRTA. Check VIRTA data, is fid/learnerid invalid?");
+    }
 
     session.setAttribute(NcpSessionAttributes.VIRTA_XML, virtaXml);
     session.setAttribute(NcpSessionAttributes.VIRTA_USER_DTO, virtaUserDto);

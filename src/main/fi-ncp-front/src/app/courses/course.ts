@@ -87,7 +87,7 @@ export interface Arvosana {
   naytetyo?: string;
   tutkielma?: string;
   eiKaytossa?: string;
-  muu?: any;  // Not implemented yet
+  muu?: any;
 }
 
 export interface Nimi {
