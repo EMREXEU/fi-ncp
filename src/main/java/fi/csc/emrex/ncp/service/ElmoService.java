@@ -125,7 +125,6 @@ public class ElmoService {
     }
 
     if (details.getBday() != null) {
-//        learner.setBday(resolveNewBdayInstance(details));
       learner.setBday(details.getBday());
     }
     learner.setGender(details.getGender());
