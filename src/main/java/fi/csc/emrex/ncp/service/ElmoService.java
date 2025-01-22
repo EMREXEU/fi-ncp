@@ -29,7 +29,6 @@ import java.util.*;
 import jakarta.annotation.PostConstruct;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import lombok.extern.slf4j.Slf4j;
 import mace.funet_fi.virta._2015._09._01.ArvosanaAsteikkoMuuTyyppi;
 import mace.funet_fi.virta._2015._09._01.ArvosanaTyyppi;
@@ -126,7 +125,8 @@ public class ElmoService {
     }
 
     if (details.getBday() != null) {
-      learner.setBday(copyOf(details.getBday()));
+//        learner.setBday(resolveNewBdayInstance(details));
+      learner.setBday(details.getBday());
     }
     learner.setGender(details.getGender());
     learner.setGivenNames(details.getGivenNames());
@@ -241,7 +241,7 @@ public class ElmoService {
       throws NcpException {
     LearningOpportunityInstance learningOpportunityInstance = new LearningOpportunityInstance();
     learningOpportunityInstance.getIdentifier().add(createLoiIdentifier(LOI.ID_TYPE, opintosuoritus.getAvain()));
-    learningOpportunityInstance.setDate(copyOf(opintosuoritus.getSuoritusPvm()));
+    learningOpportunityInstance.setDate(opintosuoritus.getSuoritusPvm());
     learningOpportunityInstance.setStatus(LOI.STATUS);
     learningOpportunityInstance.setResultLabel(createResultLabel(opintosuoritus));
     learningOpportunityInstance.getCredit().add(createCredit(opintosuoritus));
@@ -389,27 +389,6 @@ public class ElmoService {
       token.setValue(name.getValue());
       target.getTitle().add(token);
     });
-  }
-
-
-  /**
-   * From some reason setting existing protected XMLGregorianCalendar
-   * copyOf(XMLGregorianCalendar source) throws NcpException { entry to target XML
-   * will be empty -> create copy instead
-   *
-   * @param source original XML entry which will not exist afterwards
-   * @return copy of source or null if source null
-   */
-  protected XMLGregorianCalendar copyOf(XMLGregorianCalendar source) throws NcpException {
-    try {
-      XMLGregorianCalendar cal = null;
-      if (source != null) {
-        cal = DatatypeFactory.newInstance().newXMLGregorianCalendar(source.toGregorianCalendar());
-      }
-      return cal;
-    } catch (DatatypeConfigurationException e) {
-      throw new NcpException("Creating XMLGregorianCalendar failed.", e);
-    }
   }
 
   public Map<String, IssuerDto> getVirtaIssuerCodeToIssuer() {

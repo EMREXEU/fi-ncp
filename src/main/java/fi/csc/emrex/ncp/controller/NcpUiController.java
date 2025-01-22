@@ -32,6 +32,8 @@ import java.util.stream.Collectors;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.transform.TransformerException;
 import lombok.extern.slf4j.Slf4j;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
@@ -40,6 +42,7 @@ import org.apache.fop.apps.FOPException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -56,7 +59,7 @@ import static fi.csc.emrex.ncp.util.FidUtil.isValid;
  * NOTE: Actual public EMREX entry point is in NcpController.
  */
 @EnableAutoConfiguration(exclude = {
-    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class })
+    SecurityAutoConfiguration.class })
 @RestController
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
@@ -203,7 +206,7 @@ public class NcpUiController extends NcpControllerBase {
    * correct conversion is required here)
    */
   @RequestMapping(value = "/review", method = RequestMethod.GET)
-  public NcpResponseDto reviewCourses(@RequestParam(value = "courses") String[] courses) throws NcpException {
+  public NcpResponseDto reviewCourses(@RequestParam(value = "courses") String[] courses) throws NcpException, DatatypeConfigurationException {
 
     HttpSession session = context.getSession();
 
@@ -268,8 +271,9 @@ public class NcpUiController extends NcpControllerBase {
         : "";
 
     if (personId != null) {
-      if (!isValid(getFid(personId))) {
+      if (!isValid(getFid(personId)) && fidValidationEnabled) {
         log.warn("/api/review Invalid person ID");
+        personId = null;
       }
     }
 

@@ -4,10 +4,12 @@ import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.Month;
+
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
-import javax.xml.datatype.XMLGregorianCalendar;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -35,11 +37,11 @@ public class FidUtilTest {
     String shibBday = "19660718";
     String shibUid = "";
     OpiskelijanKaikkiTiedotResponse virtaXml = null;
-    XMLGregorianCalendar cal = FidUtil.resolveBirthDate(shibBday, shibUid, virtaXml);
+    LocalDate cal = FidUtil.resolveBirthDate(shibBday, shibUid, virtaXml);
 
     Assertions.assertEquals(1966, cal.getYear());
-    Assertions.assertEquals(7, cal.getMonth());
-    Assertions.assertEquals(18, cal.getDay());
+    Assertions.assertEquals(Month.JULY, cal.getMonth());
+    Assertions.assertEquals(18, cal.getDayOfMonth());
   }
 
   @Test
@@ -47,11 +49,11 @@ public class FidUtilTest {
     String shibBday = "";
     String shibUid = "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213";
     OpiskelijanKaikkiTiedotResponse virtaXml = null;
-    XMLGregorianCalendar cal = FidUtil.resolveBirthDate(shibBday, shibUid, virtaXml);
+    LocalDate cal = FidUtil.resolveBirthDate(shibBday, shibUid, virtaXml);
 
     Assertions.assertEquals(1966, cal.getYear());
-    Assertions.assertEquals(7, cal.getMonth());
-    Assertions.assertEquals(18, cal.getDay());
+    Assertions.assertEquals(Month.JULY, cal.getMonth());
+    Assertions.assertEquals(18, cal.getDayOfMonth());
   }
 
   @Test
@@ -59,11 +61,11 @@ public class FidUtilTest {
     String shibBday = "";
     String shibUid = "";
     OpiskelijanKaikkiTiedotResponse virtaXml = (readFile());
-    XMLGregorianCalendar cal = FidUtil.resolveBirthDate(shibBday, shibUid, virtaXml);
+    LocalDate cal = FidUtil.resolveBirthDate(shibBday, shibUid, virtaXml);
 
     Assertions.assertEquals(1966, cal.getYear());
-    Assertions.assertEquals(7, cal.getMonth());
-    Assertions.assertEquals(18, cal.getDay());
+    Assertions.assertEquals(Month.JULY, cal.getMonth());
+    Assertions.assertEquals(18, cal.getDayOfMonth());
   }
 
   @Test

@@ -95,18 +95,18 @@
       <version>4.0.1</version>
     </dependency>
 
-    <!-- JAXB API, Jakarta EE 9 -->
+    <!-- JAXB API, Jakarta EE 10 -->
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
-      <version>3.0.0</version>
+      <version>4.0.2</version>
     </dependency>
 
     <!-- JAXB Implementation -->
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
-      <version>4.0.3</version>
+      <version>4.0.5</version>
       <scope>runtime</scope>
     </dependency>
 
@@ -126,7 +126,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.28</version>
+      <version>1.18.36</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/fop -->
@@ -201,7 +201,7 @@
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-codegen-plugin</artifactId>
-        <version>4.0.2</version>
+        <version>4.1.0</version>
         <executions>
           <execution>
             <id>generate-sources</id>
@@ -229,7 +229,7 @@
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-xjc-plugin</artifactId>
-        <version>4.0.0</version>
+        <version>4.1.0</version>
         <executions>
           <execution>
             <id>xjc</id>
@@ -243,8 +243,13 @@
                 <xsdOption>
                   <xsd>${basedir}/src/main/resources/elmo/schema.xsd</xsd>
                   <packagename>fi.csc.schemas.elmo</packagename>
+                  <extension>true</extension>
+                  <bindingFiles>
+                    <bindingFile>${basedir}/src/main/resources/elmo/elmo_binding.xjb</bindingFile>
+                  </bindingFiles>
                 </xsdOption>
               </xsdOptions>
+              <additionalJvmArgs>-Djavax.xml.accessExternalDTD=all</additionalJvmArgs>
             </configuration>
           </execution>
         </executions>

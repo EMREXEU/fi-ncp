@@ -3,10 +3,6 @@ package fi.csc.emrex.ncp.util;
 import fi.csc.emrex.ncp.exception.NcpException;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DateTimeException;
@@ -31,7 +27,7 @@ public class FidUtil {
    * @param virtaXml tertiary source (VIRTA XML)
    * @return Date of birth parsed from one of the sources in precedence order.
    */
-  public static XMLGregorianCalendar resolveBirthDate(
+  public static LocalDate resolveBirthDate(
       String shibBday,
       String shibUid,
       OpiskelijanKaikkiTiedotResponse virtaXml) throws NcpException {
@@ -62,9 +58,8 @@ public class FidUtil {
         throw new NcpException("Parsing birth date failed: no source date available.");
       }
 
-      return DatatypeFactory.newInstance()
-          .newXMLGregorianCalendarDate(year, month, day, DatatypeConstants.FIELD_UNDEFINED);
-    } catch (DatatypeConfigurationException e) {
+      return LocalDate.of(year, month, day);
+    } catch (Exception e) {
       throw new NcpException("Parsing birth date failed.", e);
     }
   }

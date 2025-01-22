@@ -7,7 +7,7 @@
       <div><b>{{i18n.preview.personalInfo.familyName[lang]}}:</b>&nbsp;{{elmo.learner.familyName}}</div>
       <div *ngIf="ssn"><b>{{i18n.preview.personalInfo.ssn[lang]}}:</b>&nbsp;{{ssn}}</div>
       <div *ngIf="oid"><b>{{i18n.preview.personalInfo.oid[lang]}}:</b>&nbsp;{{oid}}</div>
-      <div><b>{{i18n.preview.personalInfo.bday[lang]}}:</b>&nbsp;{{elmo.learner.bday | date : 'dd.MM.YYYY'}}</div>
+      <div><b>{{i18n.preview.personalInfo.bday[lang]}}:</b>&nbsp;{{elmo.learner.bday | date : 'dd.MM.yyyy'}}</div>
       <div><b>{{i18n.preview.personalInfo.gender[lang]}}:</b>&nbsp;{{i18n.preview.personalInfo[elmo.learner.gender][lang]}}</div>
       <h2>{{i18n.preview.achievements.title[lang]}}:</h2>
       <div>

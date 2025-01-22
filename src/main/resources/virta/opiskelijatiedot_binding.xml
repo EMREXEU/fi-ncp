@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <jaxb:bindings
-        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
-        xmlns:jaxws="https://jakarta.ee/xml/ns/jaxws"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
         version="3.0">
 
     <!-- Raise theEnumMemberSizeCap limit due big size of Elmo-schema -->
     <jaxb:bindings >
-        <jaxb:globalBindings typesafeEnumMaxMembers="9000"/>
+        <jaxb:globalBindings typesafeEnumMaxMembers="9000">
+            <xjc:javaType name="java.time.LocalDate"
+                           xmlType="xs:date"
+                           adapter="fi.csc.emrex.ncp.xml.bind.adapters.LocalDateAdapter"/>
+        </jaxb:globalBindings>
     </jaxb:bindings>
 </jaxb:bindings>

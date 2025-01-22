@@ -60,7 +60,7 @@ You can build frontend seperatly when needed ex. sourcemaps with `ng build -c de
 ## Running
 
 #### Java:
-`java -jar ./target/fi-ncp-1.0.RELEASE.war`
+`java -jar ./target/fi-ncp-2.0.RELEASE.war`
 
 #### Docker:
 See script `run_docker.sh`

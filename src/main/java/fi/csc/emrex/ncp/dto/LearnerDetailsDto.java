@@ -1,11 +1,9 @@
 package fi.csc.emrex.ncp.dto;
 
-// import fi.csc.schemas.elmo.CountryCode;
 import fi.csc.schemas.elmo.Elmo.Learner.Identifier;
-// import fi.csc.schemas.elmo.FlexibleAddress;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.List;
-import javax.xml.datatype.XMLGregorianCalendar;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,14 +16,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class LearnerDetailsDto {
-  // private CountryCode citizenship;
   private List<Identifier> identifier;
   private String givenNames;
   private String familyName;
-  private XMLGregorianCalendar bday;
-  // private String placeOfBirth;
-  // private String birthName;
-  // private FlexibleAddress currentAddress;
+  private LocalDate bday;
   private BigInteger gender;
 
 }
