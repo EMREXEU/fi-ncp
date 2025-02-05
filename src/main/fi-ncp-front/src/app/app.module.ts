@@ -18,6 +18,8 @@ import { LoiComponent } from './preview/loi/loi.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NotifierModule } from 'angular-notifier';
 import { ErrorModule } from "./error/error.module";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,11 @@ import { ErrorModule } from "./error/error.module";
     NoopAnimationsModule,
     FormsModule,
     NotifierModule,
-    ErrorModule
+    ErrorModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      disableTimeOut: true
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],

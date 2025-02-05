@@ -174,6 +174,7 @@ export class CoursesService {
   courses: Opintosuoritus[] = [];
   count = 0;
   credits = 0;
+  errors: string[] = [];
 
   /**
    * Group courses by issuer example data: const coursesByIssuer = {
@@ -206,8 +207,11 @@ export class CoursesService {
 
             // Skip processing for this course because course MUST have issuer.
             if (!issuerTitle) {
-              console.log(`Unrecoverable error: incomplete data: issuerTitle for course key: ${course.avain} is empty. Skip processing for this course. Course data is not displayed in the user interface.\n`, course);
-              this.postError(`Unrecoverable error: incomplete data: issuerTitle for course key: ${course.avain} is empty\n. Skip processing for this course. Course data is not displayed in the user interface.`);
+              console.log(`Unrecoverable error: incomplete data: course.nimi:${course.nimi}, course.avain:${course.avain}, course.myontaja:${course.myontaja}.\n`, course);
+              this.postError(`Unrecoverable error: incomplete data: course.nimi:${course.nimi}, course.avain:${course.avain}, course.myontaja:${course.myontaja}.`);
+              if (this.errors.length < 3) {
+                this.errors.push(`Course data: ${course.nimi}|${course.avain}|${course.myontaja} cannot be displayed.`);
+              }
               return;
             }
 
@@ -223,7 +227,6 @@ export class CoursesService {
           });
         }
       });
-
       return coursesByIssuer;
     })
   );

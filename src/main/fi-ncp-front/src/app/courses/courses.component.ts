@@ -15,6 +15,7 @@ import { SessionService } from '../session/session.service';
 import { Opintosuoritus } from './course';
 import { CoursesService } from './courses.service';
 import Utils from "../utils";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-courses',
@@ -53,7 +54,8 @@ export class CoursesComponent
     private coursesService: CoursesService,
     private router: Router,
     private i18nService: I18nService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private toastr: ToastrService
   ) {}
 
   ngAfterViewInit(): void {
@@ -89,17 +91,23 @@ export class CoursesComponent
             this.loading = false;
             console.log("If you can read this please report this error:");
             console.error(err);
+            this.toastr.error(err.message);
+            this.toastr.error(err.error);
+            this.showServiceErrors();
             return EMPTY;
           })
         )
         .subscribe((coursesByIssuer) => {
           this.coursesByIssuer = coursesByIssuer;
           this.issuers = Object.keys(coursesByIssuer);
+          this.showServiceErrors();
+
           if (this.issuers.length === 0) {
             this.returnCode = 'NCP_NO_RESULTS';
             this.returnMessage = '';
             this.ready = true;
             console.log("Courses not found...");
+            this.toastr.error("Courses not found.");
           }
           if (this.issuers.length === 1) {
             this.selectedIssuer = this.issuers[0];
@@ -308,6 +316,15 @@ export class CoursesComponent
         + this.i18n.courses.type[opintosuoritus.type][lang]
         + ' '
         + Utils.resolveCourseLabel(opintosuoritus);
+    }
+  }
+
+  showServiceErrors() {
+    if (this.coursesService.errors.length > 0) {
+      this.coursesService.errors.forEach((err) => {
+        this.toastr.error(err);
+      })
+      this.coursesService.errors = [];
     }
   }
 
