@@ -28,7 +28,7 @@ Satakunnan ammattikorkeakoulu;Satakunnan ammattikorkeakoulu;Satakunta University
 Savonia-ammattikorkeakoulu;Savonia-ammattikorkeakoulu;Savonia University of Applied Sciences;02537;savonia.fi
 Seinäjoen ammattikorkeakoulu;Seinäjoen ammattikorkeakoulu;Seinäjoki University of Applied Sciences;02472;seamk.fi
 Svenska handelhögskolan;Hanken svenska handelshögskolan;Hanken School of Economics;01910;hanken.fi
-Taideyliopisto;10103;Konstuniversitetet;University of the Arts Helsinki;uniarts.fi
+Taideyliopisto;Konstuniversitetet;University of the Arts Helsinki;10103;uniarts.fi
 Tampereen ammattikorkeakoulu;Tampereen ammattikorkeakoulu;Tampere University of Applied Sciences;02630;tuni.fi
 Tampereen yliopisto;Tammerfors universitet;Tampere University;10122;tuni.fi
 Turun ammattikorkeakoulu;Turun ammattikorkeakoulu;Turku University of Applied Sciences;02509;turkuamk.fi
