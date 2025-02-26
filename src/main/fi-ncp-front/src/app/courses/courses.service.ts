@@ -207,10 +207,10 @@ export class CoursesService {
 
             // Skip processing for this course because course MUST have issuer.
             if (!issuerTitle) {
-              console.log(`Unrecoverable error: incomplete data: course.nimi:${course.nimi}, course.avain:${course.avain}, course.myontaja:${course.myontaja}.\n`, course);
-              this.postError(`Unrecoverable error: incomplete data: course.nimi:${course.nimi}, course.avain:${course.avain}, course.myontaja:${course.myontaja}.`);
+              console.log(`Unrecoverable error: incomplete data: course.nimi:${course.nimi?.[0]?.value ?? ''}, course.avain:${course.avain}, course.myontaja:${course.myontaja}.\n`, course);
+              this.postError(`Unrecoverable error: incomplete data: course.nimi:${course.nimi?.[0]?.value ?? ''}, course.avain:${course.avain}, course.myontaja:${course.myontaja}.`);
               if (this.errors.length < 3) {
-                this.errors.push(`Course data: ${course.nimi}|${course.avain}|${course.myontaja} cannot be displayed.`);
+                this.errors.push(`Course data: ${course.nimi?.[0]?.value ?? ''}|${course.avain}|${course.myontaja} cannot be displayed.`);
               }
               return;
             }
