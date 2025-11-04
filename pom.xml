@@ -92,21 +92,21 @@
     <dependency>
       <groupId>com.sun.xml.ws</groupId>
       <artifactId>jaxws-rt</artifactId>
-      <version>4.0.1</version>
+      <version>4.0.3</version>
     </dependency>
 
     <!-- JAXB API, Jakarta EE 10 -->
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
-      <version>4.0.2</version>
+      <version>4.0.4</version>
     </dependency>
 
     <!-- JAXB Implementation -->
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
-      <version>4.0.5</version>
+      <version>4.0.6</version>
       <scope>runtime</scope>
     </dependency>
 
@@ -120,7 +120,7 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.13.0</version>
+      <version>2.14.0</version>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -201,7 +201,7 @@
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-codegen-plugin</artifactId>
-        <version>4.1.0</version>
+        <version>4.1.3</version>
         <executions>
           <execution>
             <id>generate-sources</id>
@@ -244,6 +244,7 @@
                   <xsd>${basedir}/src/main/resources/elmo/schema.xsd</xsd>
                   <packagename>fi.csc.schemas.elmo</packagename>
                   <extension>true</extension>
+                  <catalog>${basedir}/src/main/resources/xjc/catalog.xml</catalog>
                   <bindingFiles>
                     <bindingFile>${basedir}/src/main/resources/elmo/elmo_binding.xjb</bindingFile>
                   </bindingFiles>
@@ -258,7 +259,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.14.1</version>
         <configuration>
           <verbose>true</verbose>
           <executable><!-- path-to-javac --></executable>
@@ -274,7 +275,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.2</version>
         <configuration>
           <excludes>
             <exclude>fi-ncp-front/**</exclude>
@@ -285,7 +286,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <id>exec-npm-install</id>

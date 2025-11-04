@@ -167,6 +167,7 @@ public class ElmoServiceTest {
     // learnerDetails.setCitizenship(CountryCode.FI);
     learnerDetails.setGivenNames("Teppo");
     learnerDetails.setFamilyName("Testaaja");
+    learnerDetails.setAlternateName("Teppo Testaaja");
     learnerDetails.setBday(FidUtil.resolveBirthDate(null, null, opintosuorituksetResponse));
     return learnerDetails;
   }

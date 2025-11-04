@@ -10,7 +10,10 @@
         <b>Family name:</b>&nbsp;{{learner.familyName}}
       </div>
       <div>
-        <b>Date of birth:</b>&nbsp;{{learner.bday | date : 'dd.MM.YYYY'}}
+        <b>Alternative name:</b>&nbsp;{{learner?.alternativeName?.value || '—'}}
+      </div>
+      <div>
+        <b>Date of birth:</b>&nbsp;{{learner.dateOfBirth | date : 'dd.MM.YYYY'}}
       </div>
       <div>
         <b>Gender:</b>&nbsp;{{learner.gender}}

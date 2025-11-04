@@ -19,6 +19,7 @@ public class LearnerDetailsDto {
   private List<Identifier> identifier;
   private String givenNames;
   private String familyName;
+  private String alternateName;
   private LocalDate bday;
   private BigInteger gender;
 

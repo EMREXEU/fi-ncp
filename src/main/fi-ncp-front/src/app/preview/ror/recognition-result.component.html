@@ -1,0 +1,15 @@
+<div *ngIf="rr">
+  <div>
+    <div (click)="collapse.rr = !collapse.rr" class="collapse-toggle">
+      <b>Recognition Result</b>&nbsp;&nbsp;&nbsp;&nbsp;
+      <i class="fa" [ngClass]="collapse.rr ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+    </div>
+    <div class="indented-1" *ngIf="!collapse.rr">
+      <!-- Spec says a RecognitionResult contains an LOS -->
+      <app-los
+        *ngIf="rr?.learningOpportunitySpecification"
+        [los]="rr.learningOpportunitySpecification">
+      </app-los>
+    </div>
+  </div>
+</div>

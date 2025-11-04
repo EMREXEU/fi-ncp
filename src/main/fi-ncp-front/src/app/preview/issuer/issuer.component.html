@@ -4,7 +4,7 @@
   </div>
   <div *ngIf="!collapse" class="indented-1 ">
     <div>
-      <b>Country:</b>&nbsp;{{issuer.country}}
+      <b>Country:</b>&nbsp;{{ issuer?.country?.value || '—' }}
     </div>
     <div>
       <b>Title:</b>&nbsp;

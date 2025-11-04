@@ -20,6 +20,8 @@ import { NotifierModule } from 'angular-notifier';
 import { ErrorModule } from "./error/error.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import {ResultOfRecognitionComponent} from "./preview/ror/result-of-recognition.component";
+import {RecognitionResultComponent} from "./preview/ror/recognition-result.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { ToastrModule } from 'ngx-toastr';
     IssuerComponent,
     LosComponent,
     LoiComponent,
-    LoadingComponent,
+    ResultOfRecognitionComponent,
+    RecognitionResultComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

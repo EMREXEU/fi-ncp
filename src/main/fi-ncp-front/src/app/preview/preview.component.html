@@ -80,6 +80,7 @@
                 </div>
                 <app-issuer [issuer]="report.issuer"></app-issuer>
                 <app-los *ngFor="let los of report['learningOpportunitySpecification']" [los]="los"></app-los>
+                <app-result-of-recognition *ngFor="let ror of report['resultOfRecognition']" [ror]="ror"></app-result-of-recognition>
               </div>
             </div>
           </div>

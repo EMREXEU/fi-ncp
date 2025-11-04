@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri name="https://www.w3.org/2001/03/xml.xsd" uri="classpath:/xsd/xml.xsd"/>
+    <uri name="http://www.w3.org/2001/03/xml.xsd"  uri="classpath:/xsd/xml.xsd"/>
+    <uri name="http://www.w3.org/2001/xml.xsd"     uri="classpath:/xsd/xml.xsd"/>
+    <uri name="https://raw.githubusercontent.com/emrex-eu/elmo-schemas/v2/references/EUROPASS_ISOCountries_V1.1.xsd" uri="classpath:/xsd/xml.xsd" />
+    <uri name="https://raw.githubusercontent.com/emrex-eu/elmo-schemas/v2/references/xmldsig-core-schema.xsd"        uri="classpath:/xsd/xmldsig-core-schema.xsd" />
+    <uri name="https://raw.githubusercontent.com/erasmus-without-paper/ewp-specs-types-address/stable-v1/schema.xsd" uri="classpath:/xsd/ewp-specs-types-address/stable-v1/schema.xsd" />
+</catalog>

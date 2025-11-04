@@ -9,17 +9,13 @@ import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOI;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS;
 import fi.csc.emrex.ncp.service.ElmoXmlDefaults.LOS.TYPE;
 import fi.csc.emrex.ncp.virta.VirtaUserDto;
-import fi.csc.schemas.elmo.Attachment;
-import fi.csc.schemas.elmo.Elmo;
+import fi.csc.schemas.elmo.*;
 import fi.csc.schemas.elmo.Elmo.Learner;
 import fi.csc.schemas.elmo.Elmo.Report;
-import fi.csc.schemas.elmo.Elmo.Report.Issuer;
-import fi.csc.schemas.elmo.LearningOpportunitySpecification;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Credit;
 import fi.csc.schemas.elmo.LearningOpportunitySpecification.Specifies.LearningOpportunityInstance.Level;
-import fi.csc.schemas.elmo.TokenWithOptionalLang;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -126,10 +122,18 @@ public class ElmoService {
 
     if (details.getBday() != null) {
       learner.setBday(details.getBday());
+      learner.setDateOfBirth(details.getBday());  // DateOfBirth replaces Bday in the future Elmo-schemas.
     }
     learner.setGender(details.getGender());
     learner.setGivenNames(details.getGivenNames());
     learner.setFamilyName(details.getFamilyName());
+
+    Learner.AlternativeName alternativeName = new Learner.AlternativeName();
+    // lang is optional, skip it for now.
+    // alternativeName.setLang(...);
+    alternativeName.setValue(details.getAlternateName());
+
+    learner.setAlternativeName(alternativeName);
 
     return learner;
   }
@@ -162,6 +166,29 @@ public class ElmoService {
     for (OpintosuoritusTyyppi course : selectedCourses) {
       report.getLearningOpportunitySpecification()
           .add(createLearningOpportunitySpecification(course, allCoursesFromSelectedIssuer));
+
+      // Add ResultOfRecognition if this course was recognized (Hyväksiluku)
+      try {
+        // VIRTA field: HyvaksilukuPvm (recognition decision date)
+        if (course.getHyvaksilukuPvm() != null) {
+          ResultOfRecognition ror = new ResultOfRecognition();
+
+          // Minimal viable mapping
+          ror.setDecisionDate(course.getHyvaksilukuPvm());
+          ror.setStatus("Positive"); // enum in schema
+
+          ResultOfRecognition.RecognitionResult rr = new ResultOfRecognition.RecognitionResult();
+          rr.setLearningOpportunitySpecification(
+                  createLearningOpportunitySpecification(course, allCoursesFromSelectedIssuer)
+          );
+          ror.getRecognitionResult().add(rr);
+
+          report.getResultOfRecognition().add(ror);
+        }
+      } catch (Exception ex) {
+        // If HyvaksilukuPvm is absent or the binding differs, skip recognition for this course, and log the failure.
+        log.error("ResultOfRecognition creation failure: {}", ex.getMessage());
+      }
     }
 
     return report;
@@ -313,7 +340,12 @@ public class ElmoService {
    */
   private Issuer createIssuer(IssuerDto issuerDto) {
     Issuer issuer = new Issuer();
-    issuer.setCountry(issuerDto.getCountryCode());
+
+    Issuer.Country country = new Issuer.Country();
+    country.setType("ISO"); // per schema: ISO or URI
+    country.setValue(issuerDto.getCountryCode().value()); // e.g., "FI"
+    issuer.setCountry(country);
+
     issuer.getIdentifier().add(createIdentifier(issuerDto.getIdentifierType(), issuerDto.getIdentifier()));
     issuer.getTitle().add(createLocalizedToken("fi", issuerDto.getTitle()));
     issuer.getTitle().add(createLocalizedToken("sv", issuerDto.getTitleSv()));
@@ -352,7 +384,7 @@ public class ElmoService {
   }
 
   private Issuer.Identifier createIdentifier(String type, String value) {
-    Elmo.Report.Issuer.Identifier identifier = new Issuer.Identifier();
+    Issuer.Identifier identifier = new Issuer.Identifier();
     identifier.setType(type);
     identifier.setValue(value);
     return identifier;

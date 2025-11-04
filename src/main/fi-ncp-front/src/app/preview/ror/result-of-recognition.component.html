@@ -1,0 +1,37 @@
+<div *ngIf="ror">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div (click)="collapse.ror = !collapse.ror" class="collapse-toggle">
+        <b>Result of Recognition</b>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa" [ngClass]="collapse.ror ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+      </div>
+
+      <div class="indented-1" *ngIf="!collapse.ror">
+        <div *ngIf="ror?.title?.length">
+          <b>Title:</b>
+          <div *ngFor="let t of ror.title">
+            <span class="indented-1"><b>{{t?.lang || '—'}}:</b></span>&nbsp;{{t?.value}}
+          </div>
+        </div>
+
+        <div *ngIf="ror?.subjectArea"><b>Subject area:</b>&nbsp;{{ror.subjectArea}}</div>
+        <div *ngIf="ror?.iscedCode"><b>ISCED code:</b>&nbsp;{{ror.iscedCode}}</div>
+        <div *ngIf="ror?.status"><b>Status:</b>&nbsp;{{ror.status}}</div>
+        <div *ngIf="ror?.decisionDate"><b>Decision date:</b>&nbsp;{{ror.decisionDate | date:'yyyy-MM-dd'}}</div>
+
+        <!-- Recognition results (each has a LOS) -->
+        <div *ngIf="ror?.recognitionResult?.length">
+          <div (click)="collapse.results = !collapse.results" class="collapse-toggle">
+            <b>Recognition results:</b>&nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="fa" [ngClass]="collapse.results ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+          </div>
+          <div class="indented-1" *ngIf="!collapse.results">
+            <app-recognition-result
+              *ngFor="let rr of ror.recognitionResult"
+              [rr]="rr">
+            </app-recognition-result>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

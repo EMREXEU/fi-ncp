@@ -289,6 +289,9 @@ public class NcpUiController extends NcpControllerBase {
     learnerDetails.setGivenNames(Optional.ofNullable(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getEtunimet()).orElse(""));
     learnerDetails.setFamilyName(Optional.ofNullable(virtaLearnerDetails.getOpiskelijat().getOpiskelija().get(0).getSukunimi()).orElse(""));
 
+    String alternativeName = String.format("%s %s", learnerDetails.getGivenNames(), learnerDetails.getFamilyName());
+    learnerDetails.setAlternateName(alternativeName);
+
     Elmo elmoXml = elmoService.convertToElmoXml(filteredCourses, allCoursesFromSelectedIssuer, student, learnerDetails);
     String PDFDataURI = "";
 
