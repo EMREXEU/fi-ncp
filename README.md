@@ -2,6 +2,8 @@
 CSC EMP Emrex Data Provider application (EMP) aka EMREX Data Access Point for EMREX. Previously known as NCP (National contact point).
 This is the point that the EMREX client contacts to fetch results.
 
+Emrex retrieves the student's achievement data from the VIRTA service in the VIRTA schema format, converts it into ELMO XML, and then sends it onwards to the EMC-defined return endpoint.
+
 Additional documentation: https://wiki.eduuni.fi/x/LsZnCw, https://github.com/emrex-eu
 
 
