@@ -204,11 +204,12 @@ export class CoursesService {
 
         // Modules (not linked with degree)
         modules.forEach(module => {
-          sortedStudy.push(module)
+          if (!sortedStudy.includes(module)) {
+            sortedStudy.push(module)
 
-          module.hasPart?.forEach(course => sortedStudy.push(course))
+            module.hasPart?.forEach(course => sortedStudy.push(course))
+          }
         })
-
 
         // Set new sorted array to response
         if (student.opintosuoritukset && sortedStudy.length > 0) {
