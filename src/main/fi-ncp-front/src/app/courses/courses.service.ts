@@ -188,7 +188,7 @@ export class CoursesService {
 
         const degrees = all.filter(o => o.isDegree);
         const modules = all.filter(o => o.isModule);
-        // const courses = all.filter(o => o.type === 'course');
+        const courses = all.filter(o => o.type === 'course');
 
         // Degrees
         degrees.forEach(degree => {
@@ -208,6 +208,13 @@ export class CoursesService {
             sortedStudy.push(module)
 
             module.hasPart?.forEach(course => sortedStudy.push(course))
+          }
+        })
+
+        // Courses (not linked with module)
+        courses.forEach(course => {
+          if (!sortedStudy.includes(course)) {
+            sortedStudy.push(course)
           }
         })
 
