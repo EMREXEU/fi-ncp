@@ -193,9 +193,11 @@ export class CoursesService {
         // Degrees
         degrees.forEach(degree => {
           sortedStudy.push(degree)
+          this.sortAlphabetically(degree.hasPart)
 
           degree.hasPart?.forEach(module => {
             sortedStudy.push(module)
+            this.sortAlphabetically(module.hasPart)
 
             module.hasPart?.forEach(course => sortedStudy.push(course))
           });
@@ -206,6 +208,7 @@ export class CoursesService {
         modules.forEach(module => {
           if (!sortedStudy.includes(module)) {
             sortedStudy.push(module)
+            this.sortAlphabetically(module.hasPart)
 
             module.hasPart?.forEach(course => sortedStudy.push(course))
           }
@@ -330,5 +333,16 @@ export class CoursesService {
       .subscribe((_) => {
         return;
       });
+  }
+
+  /**
+   * Helper for sorting degrees / modules / courses alphabetically
+   */
+  sortAlphabetically(array: Opintosuoritus[] | undefined) {
+    if (array == undefined) {
+      return
+    }
+
+    return array.sort((a, b) => (a.nimi?.[0]?.value ?? '').localeCompare(b.nimi?.[0]?.value ?? ''))
   }
 }
