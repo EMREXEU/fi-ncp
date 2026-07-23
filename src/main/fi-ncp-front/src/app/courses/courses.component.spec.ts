@@ -4,6 +4,7 @@ import { CoursesComponent } from './courses.component';
 import {provideHttpClient} from "@angular/common/http";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {Component, Input} from "@angular/core";
+import {ToastrModule} from "ngx-toastr";
 
 @Component({
   selector: 'app-loading',
@@ -20,6 +21,9 @@ describe('CoursesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CoursesComponent, MockAppLoading ],
+      imports: [
+        ToastrModule.forRoot(),
+      ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
