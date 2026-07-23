@@ -120,6 +120,14 @@ export class CoursesService {
                 (c) => c.isPartOfDegree
               );
             });
+            // A course that is not part of any module and not directly linked to any
+            // degree never gets a `type` assigned above, so it would otherwise be
+            // silently dropped by sortedCourses$'s `type === 'course'` filter.
+            // @ts-ignore
+            HEI.opintosuoritukset.opintosuoritus
+              // @ts-ignore
+              .filter((c) => +c.laji === 2 && !c.type)
+              .forEach((c) => (c.type = 'course'));
           } else {
             // @ts-ignore
             HEI.opintosuoritukset.opintosuoritus.sort((a, b) =>
