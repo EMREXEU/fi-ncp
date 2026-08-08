@@ -1,10 +1,10 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {combineLatest, Observable, of} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {environment} from 'src/environments/environment';
-import {ICourseResponse, IssuerResponseData, Opintosuoritus, Opiskelija, Sisaltyvyys} from './course';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { ICourseResponse, IssuerResponseData, Opintosuoritus, Opiskelija, Sisaltyvyys } from './course';
 
 @Injectable({
   providedIn: 'root',
@@ -120,6 +120,14 @@ export class CoursesService {
                 (c) => c.isPartOfDegree
               );
             });
+            // A course that is not part of any module and not directly linked to any
+            // degree never gets a `type` assigned above, so it would otherwise be
+            // silently dropped by sortedCourses$'s `type === 'course'` filter.
+            // @ts-ignore
+            HEI.opintosuoritukset.opintosuoritus
+              // @ts-ignore
+              .filter((c) => +c.laji === 2 && !c.type)
+              .forEach((c) => (c.type = 'course'));
           } else {
             // @ts-ignore
             HEI.opintosuoritukset.opintosuoritus.sort((a, b) =>
@@ -159,11 +167,6 @@ export class CoursesService {
               }
             });
           }
-          // @ts-ignore
-          HEI.opintosuoritukset.opintosuoritus.sort(
-            // @ts-ignore
-            (a, b) => a.weight - b.weight
-          );
         });
         return response;
       })
@@ -175,6 +178,66 @@ export class CoursesService {
   count = 0;
   credits = 0;
   errors: string[] = [];
+
+  // The sort in courses$ was not working properly between different browsers so we try to separate the sorting logic here
+  // Otherwise the degrees -> modules -> courses classification in courses$ seem to work so we'll utilize it here (degrees.hasParts has all modules related to that degree etc...)
+  // NOTE: not all modules are "linked" to a degree (at least such is the case with the test user), not sure if all courses are linked to a module but this needs to be handled just in case
+  sortedCourses$ = this.courses$.pipe(
+    map(response => {
+      const result: Opintosuoritus[] = [];
+
+      // First we go through degrees -> modules -> courses
+      // After that modules (without degree) -> courses
+      // And finally courses (without module)
+
+      response.virta.opiskelija.forEach(student => {
+        const sortedStudy: Opintosuoritus[] = [];
+        const all = student.opintosuoritukset?.opintosuoritus ?? [];
+
+        const degrees = all.filter(o => o.isDegree);
+        const modules = all.filter(o => o.isModule);
+        const courses = all.filter(o => o.type === 'course');
+
+        // Degrees
+        degrees.forEach(degree => {
+          sortedStudy.push(degree)
+          this.sortAlphabetically(degree.hasPart)
+
+          degree.hasPart?.forEach(module => {
+            sortedStudy.push(module)
+            this.sortAlphabetically(module.hasPart)
+
+            module.hasPart?.forEach(course => sortedStudy.push(course))
+          });
+        })
+
+
+        // Modules (not linked with degree)
+        modules.forEach(module => {
+          if (!sortedStudy.includes(module)) {
+            sortedStudy.push(module)
+            this.sortAlphabetically(module.hasPart)
+
+            module.hasPart?.forEach(course => sortedStudy.push(course))
+          }
+        })
+
+        // Courses (not linked with module)
+        courses.forEach(course => {
+          if (!sortedStudy.includes(course)) {
+            sortedStudy.push(course)
+          }
+        })
+
+        // Set new sorted array to response
+        if (student.opintosuoritukset && sortedStudy.length > 0) {
+          student.opintosuoritukset.opintosuoritus = sortedStudy;
+        }
+      })
+
+      return response;
+    })
+  )
 
   /**
    * Group courses by issuer example data: const coursesByIssuer = {
@@ -190,7 +253,7 @@ export class CoursesService {
    *   // additional issuers and their grouped courses
    * }
    */
-  coursesWithIssuers$ = combineLatest([this.issuers$, this.courses$]).pipe(
+  coursesWithIssuers$ = combineLatest([this.issuers$, this.sortedCourses$]).pipe(
     map(([issuers, courses]) => {
       const coursesByIssuer: { [key: string]: Opintosuoritus[] } = {};
       courses.virta.opiskelija.map((student: Opiskelija) => {
@@ -278,5 +341,16 @@ export class CoursesService {
       .subscribe((_) => {
         return;
       });
+  }
+
+  /**
+   * Helper for sorting degrees / modules / courses alphabetically
+   */
+  sortAlphabetically(array: Opintosuoritus[] | undefined) {
+    if (array == undefined) {
+      return
+    }
+
+    return array.sort((a, b) => (a.nimi?.[0]?.value ?? '').localeCompare(b.nimi?.[0]?.value ?? ''))
   }
 }
