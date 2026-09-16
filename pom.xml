@@ -22,7 +22,6 @@
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <start-class>fi.csc.emrex.ncp.FiNcpApplication</start-class>
-    <project.build.finalName>ncp</project.build.finalName>
   </properties>
 
   <profiles>
@@ -176,6 +175,31 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <executable>true</executable>
+          <finalName>fi-ncp-${project.version}-${git.commit.id.abbrev}-${activatedProperties}</finalName>
+        </configuration>
+      </plugin>
+
+      <!-- Exposes ${git.commit.id.abbrev}, used below by the war/spring-boot plugins' finalName/warName.
+           Bound here (rather than via a <properties> entry) because plugin <configuration> values are
+           resolved live at execution time, while <properties> get baked in during early POM interpolation,
+           before this plugin has had a chance to run and set the property. -->
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+        <version>7.0.0</version>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <generateGitPropertiesFile>false</generateGitPropertiesFile>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+          <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
         </configuration>
       </plugin>
 
@@ -280,6 +304,14 @@
           <excludes>
             <exclude>fi-ncp-front/**</exclude>
           </excludes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warName>fi-ncp-${project.version}-${git.commit.id.abbrev}-${activatedProperties}</warName>
         </configuration>
       </plugin>
 

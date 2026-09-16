@@ -12,7 +12,10 @@ import fi.csc.tietovaranto.luku.OpintosuorituksetResponse;
 import fi.csc.tietovaranto.luku.OpiskelijanKaikkiTiedotResponse;
 import mace.funet_fi.virta._2015._09._01.OpintosuoritusTyyppi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -73,6 +76,17 @@ public class ElmoServiceTest {
 
     // log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
+
+    assertNotNull(elmoXml.getLearner());
+    assertEquals("Teppo", elmoXml.getLearner().getGivenNames());
+    assertEquals("Testaaja", elmoXml.getLearner().getFamilyName());
+    assertNotNull(elmoXml.getLearner().getAlternativeName());
+    assertEquals("Teppo Testaaja", elmoXml.getLearner().getAlternativeName().getValue());
+    assertFalse(elmoXml.getLearner().getIdentifier().isEmpty());
+
+    assertEquals(1, elmoXml.getReport().size());
+    assertNotNull(elmoXml.getReport().get(0).getIssuer());
+    assertEquals(courses.size(), elmoXml.getReport().get(0).getLearningOpportunitySpecification().size());
   }
 
   @Test
@@ -92,16 +106,23 @@ public class ElmoServiceTest {
     instance.setEncryptionKeyPath("certs/ncp.dev.key");
 
     final String result = instance.sign(XmlUtil.toString(elmoXml).trim(), StandardCharsets.UTF_8);
+    assertFalse(result.isBlank());
 
     final byte[] decoded = DatatypeConverter.parseBase64Binary(result);
     assertNotNull(decoded);
+    assertTrue(decoded.length > 0);
 
     final byte[] decompressed = GzipUtil.gzipDecompressBytes(decoded);
     assertNotNull(decompressed);
+    assertTrue(decompressed.length > 0);
 
     final String s = new String(decompressed);
 
     log.info("{}", s);
+
+    // The signed and gzip-round-tripped payload should still carry the learner data and a signature.
+    assertTrue(s.contains(elmoXml.getLearner().getGivenNames()));
+    assertTrue(s.contains("<Signature"));
 
     /* //Parser that produces DOM object trees from XML content
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -137,10 +158,17 @@ public class ElmoServiceTest {
     List<OpintosuoritusTyyppi> filtered = elmoService.trimToSelectedCourses(courses, Arrays.asList("TUTKINTO-39525"));
     // log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
+    assertEquals(1, filtered.size());
+    assertEquals("TUTKINTO-39525", filtered.get(0).getAvain());
+    assertTrue(filtered.size() < courses.size());
+
     Elmo elmoXml = elmoService.convertToElmoXml(filtered, courses, student,
         createLearnerDetails(opintosuorituksetResponse));
     // log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
+
+    assertEquals(1, elmoXml.getReport().size());
+    assertEquals(filtered.size(), elmoXml.getReport().get(0).getLearningOpportunitySpecification().size());
   }
 
   @Test
@@ -154,10 +182,76 @@ public class ElmoServiceTest {
     List<OpintosuoritusTyyppi> filtered = elmoService.trimToSelectedCourses(courses, Arrays.asList("1451865"));
     // log.info("VIRTA XML:\n{}", XmlUtil.toString(opintosuorituksetResponse));
 
+    assertFalse(filtered.isEmpty());
+    filtered.forEach(course -> assertEquals("1451865", course.getAvain()));
+    assertTrue(filtered.size() < courses.size());
+
     Elmo elmoXml = elmoService.convertToElmoXml(filtered, courses, student,
         createLearnerDetails(opintosuorituksetResponse));
     // log.info("ELMO XML:\n{}", XmlUtil.toString(elmoXml));
     validateElmoXml(elmoXml);
+
+    assertEquals(1, elmoXml.getReport().size());
+    assertEquals(filtered.size(), elmoXml.getReport().get(0).getLearningOpportunitySpecification().size());
+  }
+
+  /**
+   * Schema change under test (this branch): Learner/alternativeName went from required to
+   * {@code minOccurs="0"}. A document that omits it must still validate against schema.xsd.
+   */
+  @Test
+  public void schemaAllowsMissingLearnerAlternativeName()
+      throws SAXException, NcpException, jakarta.xml.bind.JAXBException {
+
+    VirtaUserDto student = createStudent();
+    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient.fetchStudiesAndLearnerDetails(student);
+    List<OpintosuoritusTyyppi> courses = opintosuorituksetResponse.getVirta().getOpiskelija().get(0)
+        .getOpintosuoritukset().getOpintosuoritus();
+
+    Elmo elmoXml = elmoService.convertToElmoXml(courses, courses, student,
+        createLearnerDetails(opintosuorituksetResponse));
+
+    elmoXml.getLearner().setAlternativeName(null);
+    assertFalse(elementIsPresent(XmlUtil.toString(elmoXml), "alternativeName"));
+
+    // Would throw org.xml.sax.SAXParseException against the pre-branch schema, where this element was required.
+    validateElmoXml(elmoXml);
+  }
+
+  /**
+   * Schema change under test (this branch): Issuer/country/@type dropped {@code use="required"} -
+   * an absent type now defaults to ISO-3166-alpha-2. A document that omits it must still validate.
+   */
+  @Test
+  public void schemaAllowsMissingIssuerCountryType()
+      throws SAXException, NcpException, jakarta.xml.bind.JAXBException {
+
+    VirtaUserDto student = createStudent();
+    OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse = virtaClient.fetchStudiesAndLearnerDetails(student);
+    List<OpintosuoritusTyyppi> courses = opintosuorituksetResponse.getVirta().getOpiskelija().get(0)
+        .getOpintosuoritukset().getOpintosuoritus();
+
+    Elmo elmoXml = elmoService.convertToElmoXml(courses, courses, student,
+        createLearnerDetails(opintosuorituksetResponse));
+
+    elmoXml.getReport().get(0).getIssuer().getCountry().setType(null);
+    assertFalse(attributeIsPresent(XmlUtil.toString(elmoXml), "country", "type"));
+
+    // Would throw org.xml.sax.SAXParseException against the pre-branch schema, where type was use="required".
+    validateElmoXml(elmoXml);
+  }
+
+  /** True if the marshalled XML contains an opening tag for {@code elementName} (self- or non-self-closing). */
+  private boolean elementIsPresent(String xml, String elementName) {
+    return xml.matches("(?s).*<" + elementName + "(\\s[^>]*)?/?>.*");
+  }
+
+  /** True if {@code elementName}'s opening tag in the marshalled XML carries an {@code attributeName} attribute. */
+  private boolean attributeIsPresent(String xml, String elementName, String attributeName) {
+    int start = xml.indexOf("<" + elementName);
+    assertTrue(start >= 0, "<" + elementName + "> not found in marshalled XML");
+    int end = xml.indexOf('>', start);
+    return xml.substring(start, end).contains(attributeName + "=");
   }
 
   private LearnerDetailsDto createLearnerDetails(OpiskelijanKaikkiTiedotResponse opintosuorituksetResponse)
@@ -174,7 +268,7 @@ public class ElmoServiceTest {
 
   private void validateElmoXml(Elmo elmoXml) throws SAXException, jakarta.xml.bind.JAXBException {
     SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    Schema schema = sf.newSchema(workingDir.resolve("elmo_xml/schema.xsd").toFile());
+    Schema schema = sf.newSchema(Path.of("", "src/main/resources/elmo/schema.xsd").toFile());
     StringWriter writer = new StringWriter();
     // BE CAREFUL! Project has two JAXB modules. Use javax.xml.bind.
     JAXBContext jc = JAXBContext.newInstance(Elmo.class);
