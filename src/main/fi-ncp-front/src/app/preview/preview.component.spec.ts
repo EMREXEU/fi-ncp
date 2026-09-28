@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { PreviewComponent } from './preview.component';
 import {provideHttpClientTesting} from "@angular/common/http/testing";
@@ -21,6 +22,9 @@ describe('PreviewComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ PreviewComponent, MockAppLoading ],
+      imports: [
+        RouterTestingModule,
+      ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
