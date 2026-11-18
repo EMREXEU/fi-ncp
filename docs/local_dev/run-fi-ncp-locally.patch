@@ -1,0 +1,19 @@
+diff --git a/src/main/java/fi/csc/emrex/ncp/controller/NcpUiController.java b/src/main/java/fi/csc/emrex/ncp/controller/NcpUiController.java
+index b7124af..b8b9264 100644
+--- a/src/main/java/fi/csc/emrex/ncp/controller/NcpUiController.java
++++ b/src/main/java/fi/csc/emrex/ncp/controller/NcpUiController.java
+@@ -146,9 +146,11 @@ public class NcpUiController extends NcpControllerBase {
+   public OpiskelijanKaikkiTiedotResponse getCourses(@ModelAttribute NcpRequestDto request) throws NcpException {
+     HttpSession session = context.getSession();
+ 
+-    String personId = context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) != null
+-            ? context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID).toString()
+-            : null; // urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
++//    String personId = context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID) != null
++//            ? context.getAttribute(SHIBBOLETH_KEYS.UNIQUE_ID).toString()
++//            : null; // urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213
++    // use hard-coded test personId
++    String personId = "urn:mace:terena.org:schac:personalUniqueID:fi:FIC:180766-2213";
+     String learnerId = context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID) != null
+         ? context.getAttribute(SHIBBOLETH_KEYS.LEARNER_ID).toString()
+         : null;
