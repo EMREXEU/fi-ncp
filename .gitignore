@@ -19,3 +19,6 @@ certs/
 
 # Angular-integration
 src/main/webapp/*
+
+# Logs
+*.log
